@@ -1,4 +1,4 @@
-maydesk-base
+maydesk
 ============
 
 The base MayDesk framework
