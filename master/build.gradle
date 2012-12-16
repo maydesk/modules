@@ -1,0 +1,73 @@
+subprojects  {
+	apply plugin: 'java'
+	apply plugin: 'maven'
+	apply plugin: 'war'
+	
+	sourceCompatibility = 1.6
+	version = '1.0'
+	def srcJava = 'src/main/java'
+	def srcDelomboked = 'build/src-delomboked'
+	
+	configurations { 
+		replacer
+		ajc
+		aspects
+		ajInpath
+	}
+	
+	repositories {
+	    mavenCentral()
+	    mavenLocal()
+		mavenRepo url: "https://repository.jboss.org/nexus/content/groups/public/"
+	}
+	
+	dependencies {
+	    ajc "org.aspectj:aspectjtools:1.+"
+		compile "org.projectlombok:lombok:0.11.+"
+		compile files('lib/lombok_soplet.jar')
+	}
+
+	task delombok {
+		// delombok task may depend on other projects already being compiled
+		dependsOn configurations.compile.getTaskDependencyFromProjectDependency(true, "compileJava")
+		
+		// Set up incremental build, must be made in the configuration phase (not doLast)
+		inputs.files file(srcJava)
+		outputs.dir file(srcDelomboked)
+		
+		doLast {
+			FileCollection collection = files(configurations.compile)
+			FileCollection sumTree = collection + fileTree(dir: 'bin')
+		
+		    ant.taskdef(name: 'delombok', classname: 'lombok.delombok.ant.DelombokTask', classpath: configurations.compile.asPath)
+			ant.delombok(from:srcJava, to:srcDelomboked, classpath: sumTree.asPath)
+	    }
+	}
+	
+	jar {
+		manifest.attributes provider: 'gradle'
+	}
+	
+	task compileJava(dependsOn: JavaPlugin.PROCESS_RESOURCES_TASK_NAME, overwrite: true)  {
+		dependsOn configurations.compile.getTaskDependencyFromProjectDependency(true, "jar")
+	
+		// Set up incremental build and dependency to delombok task
+		inputs.files delombok.outputs.files 
+   		inputs.properties(["sourceCompatibility":sourceCompatibility, "targetCompatibility":targetCompatibility])
+		outputs.dir sourceSets.main.output.classesDir
+		
+		doLast {
+			ant.taskdef(resource:"org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties", classpath: configurations.ajc.asPath)
+			ant.iajc(source:sourceCompatibility, 
+					target:targetCompatibility, 
+					destDir:sourceSets.main.output.classesDir.absolutePath, 
+					maxmem:"512m", 
+					fork:"true", 
+					aspectPath:configurations.aspects.asPath, 
+					inpath:configurations.ajInpath.asPath, 
+					forkclasspath:configurations.ajc.asPath,
+					srcdir:file(srcDelomboked),
+					classpath:configurations.compile.asPath)
+		}
+	}
+}

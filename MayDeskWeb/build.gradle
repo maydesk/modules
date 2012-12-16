@@ -1,0 +1,25 @@
+configurations { 
+	deployerJars 
+}
+
+dependencies {
+	compile project(':MayDeskBase')
+	compile project(':MayDeskSocial')
+}
+
+jar {
+	manifest.attributes provider: 'gradle'
+}
+	
+war {
+  classpath = jar.outputs.files + configurations.runtime - configurations.providedRuntime
+}
+
+task doDeploy(type: Copy) {
+	from(war)
+	into('C:/apache-tomcat-7.0.29/webapps')
+	include('*.war')
+	rename { String fileName ->
+	    fileName.replace('-1.0', '')
+	}
+}
