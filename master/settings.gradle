@@ -1,1 +1,1 @@
-includeFlat 'MayDeskBase', 'MayDeskSocial', 'MayDesk'
+includeFlat 'MayDeskBase', 'MayDeskSocial', 'MayDeskWeb'

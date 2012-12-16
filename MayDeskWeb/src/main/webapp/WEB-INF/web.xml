@@ -7,12 +7,12 @@
 	<display-name>DVR CloudDesk</display-name>
 
     <servlet>
-      <servlet-name>DVRServlet</servlet-name>
-      <servlet-class>com.maydesk.dvratio.DVRServlet</servlet-class>
+      <servlet-name>MDServlet</servlet-name>
+      <servlet-class>com.maydesk.web.MDServlet</servlet-class>
     </servlet>
     
 	<servlet-mapping>
-      <servlet-name>DVRServlet</servlet-name>
+      <servlet-name>MDServlet</servlet-name>
       <url-pattern>/</url-pattern>
     </servlet-mapping>
 	

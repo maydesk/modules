@@ -493,11 +493,9 @@ public class PDUtil {
 		// value="A:/workspaceFrietec2/FTFrontend/config/demo.properties"/>
 		// </Context>
 		//
-		// Otherwise you may define the MAYDESK_CONFIG variable in the system
-		// environment
+		// Otherwise you may define the MAYDESK_CONFIG variable in the system environment
 		// This is useful especially for the run-jetty-run plugin
-		// In that case use the Environment tab for defining the variable and
-		// its value
+		// In that case use the Environment tab for defining the variable and its value
 		// ********************************************************************************************
 
 		String path = context.getInitParameter(MAYDESK_CONFIG);
