@@ -88,17 +88,19 @@ public class CledaConnector {
 		
 		// registering model
 		registerModels(config, "com.maydesk.base.model");
-		registerModels(config, PDUtil.getProperty("model.path"));
-		if (!PDUtil.isEmpty(PDUtil.getProperty("model.path2"))) {
-			registerModels(config, PDUtil.getProperty("model.path2"));
-		}
-		String s3 = PDUtil.getProperty("model.path3");
-		if (!PDUtil.isEmpty(s3)) {
-			registerModels(config, s3);
-		}
-		if (!PDUtil.isEmpty(PDUtil.getProperty("model.path4"))) {
-			registerModels(config, PDUtil.getProperty("model.path4"));
-		}
+		registerModels(config, "com.maydesk.social.model");
+				
+//		registerModels(config, PDUtil.getProperty("model.path"));
+//		if (!PDUtil.isEmpty(PDUtil.getProperty("model.path2"))) {
+//			registerModels(config, PDUtil.getProperty("model.path2"));
+//		}
+//		String s3 = PDUtil.getProperty("model.path3");
+//		if (!PDUtil.isEmpty(s3)) {
+//			registerModels(config, s3);
+//		}
+//		if (!PDUtil.isEmpty(PDUtil.getProperty("model.path4"))) {
+//			registerModels(config, PDUtil.getProperty("model.path4"));
+//		}
 		
 		ServiceRegistryBuilder serviceRegistryBuilder = new ServiceRegistryBuilder();
 
