@@ -20,8 +20,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.Entity;
+import javax.sql.DataSource;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.FlushMode;
@@ -109,47 +109,47 @@ public class CledaConnector {
 	}
 
 	// Create the Tomcat JDBC Connection Pool Datasource
-	private DataSource getDataSource() {
-		PoolProperties poolProps = new PoolProperties();
-
-		// database connection
-		String host = PDUtil.getProperty("db.host");
-		if (PDUtil.isEmpty(host)) {
-			host = "localhost";
-		}
-		
-		poolProps.setUrl("jdbc:mysql://" + host + "/" + PDUtil.getProperty("db.database"));
-		poolProps.setDriverClassName("com.mysql.jdbc.Driver");
-		
-		poolProps.setUsername(PDUtil.getProperty("db.username"));
-		poolProps.setPassword(PDUtil.getProperty("db.password"));
-
-		poolProps.setJmxEnabled(true);
-		poolProps.setTestWhileIdle(false);
-		poolProps.setTestOnBorrow(true);
-		poolProps.setValidationQuery("SELECT 1");
-		poolProps.setTestOnReturn(false);
-		poolProps.setValidationInterval(30000);
-		poolProps.setTimeBetweenEvictionRunsMillis(30000);
-
-		poolProps.setMaxActive(75);
-		poolProps.setMaxIdle(25);
-		poolProps.setInitialSize(3);
-		poolProps.setMaxWait(10000);
-		poolProps.setRemoveAbandonedTimeout(60);
-		poolProps.setMinEvictableIdleTimeMillis(30000);
-		poolProps.setMinIdle(10);
-
-		poolProps.setLogAbandoned(true);
-		poolProps.setRemoveAbandoned(true);
-
-		poolProps.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"
-				+ "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
-
-		DataSource dataSource = new DataSource();
-		dataSource.setPoolProperties(poolProps);
-		return dataSource;
-	}
+//	private DataSource getDataSource() {
+//		PoolProperties poolProps = new PoolProperties();
+//
+//		// database connection
+//		String host = PDUtil.getProperty("db.host");
+//		if (PDUtil.isEmpty(host)) {
+//			host = "localhost";
+//		}
+//		
+//		poolProps.setUrl("jdbc:mysql://" + host + "/" + PDUtil.getProperty("db.database"));
+//		poolProps.setDriverClassName("com.mysql.jdbc.Driver");
+//		
+//		poolProps.setUsername(PDUtil.getProperty("db.username"));
+//		poolProps.setPassword(PDUtil.getProperty("db.password"));
+//
+//		poolProps.setJmxEnabled(true);
+//		poolProps.setTestWhileIdle(false);
+//		poolProps.setTestOnBorrow(true);
+//		poolProps.setValidationQuery("SELECT 1");
+//		poolProps.setTestOnReturn(false);
+//		poolProps.setValidationInterval(30000);
+//		poolProps.setTimeBetweenEvictionRunsMillis(30000);
+//
+//		poolProps.setMaxActive(75);
+//		poolProps.setMaxIdle(25);
+//		poolProps.setInitialSize(3);
+//		poolProps.setMaxWait(10000);
+//		poolProps.setRemoveAbandonedTimeout(60);
+//		poolProps.setMinEvictableIdleTimeMillis(30000);
+//		poolProps.setMinIdle(10);
+//
+//		poolProps.setLogAbandoned(true);
+//		poolProps.setRemoveAbandoned(true);
+//
+//		poolProps.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"
+//				+ "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
+//
+//		DataSource dataSource = new DataSource();
+//		dataSource.setPoolProperties(poolProps);
+//		return dataSource;
+//	}
 
 	
 	
