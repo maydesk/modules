@@ -6,13 +6,17 @@
 package com.maydesk.base;
 
 
+import java.io.Serializable;
+
 import org.hibernate.Session;
 
 import com.maydesk.base.util.CledaConnector;
 
-public class PDHibernateMasterFactory {
+public class PDHibernateMasterFactory implements Serializable {
 
-	private Session hibernateSession;	
+	private static final long serialVersionUID = 1L;
+	
+	private transient Session hibernateSession;	
 
 	public Session getSession() {
 		if (hibernateSession == null) {
