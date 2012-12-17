@@ -16,6 +16,9 @@ import java.util.Vector;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.Entity;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -30,7 +33,6 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.hibernate.type.Type;
 
-import com.maydesk.base.model.CledaNamingStrategy;
 import com.maydesk.base.model.MBaseWithTitle;
 
 /**
@@ -56,7 +58,17 @@ public class CledaConnector {
 	private void createSessionFactory() {
 		Properties props = new Properties();
 
-		props.put("hibernate.connection.datasource", getDataSource());
+		
+		Context ctx;
+		try {
+			ctx = new InitialContext();
+			DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/maydesk_dev");
+			props.put("hibernate.connection.datasource", ds);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		
+		//props.put("hibernate.connection.datasource", getDataSource());
 		
 		props.put("hibernate.cglib.use_reflection_optimizer", true);
 		props.put("hibernate.show_sql", false);

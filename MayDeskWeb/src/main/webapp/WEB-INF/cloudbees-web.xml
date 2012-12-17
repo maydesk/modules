@@ -1,0 +1,6 @@
+
+<resource name="jdbc/maydesk_dev" auth="Container" type="javax.sql.DataSource">
+	<param name="username" value="maydesk_dev" />
+	<param name="password" value="sa003" />
+	<param name="url" value="jdbc:cloudbees://maydesk_dev" />
+</resource>
