@@ -26,11 +26,10 @@ import com.maydesk.base.widgets.PDLabel;
 import com.maydesk.base.widgets.PDNumericField;
 import com.maydesk.base.widgets.PDTextField;
 
-/** 
+/**
  * A dialog to set the server mail settings
  * 
- * @author Daniel
- * Created on Jun 20, 2007
+ * @author Daniel Created on Jun 20, 2007
  */
 public class DlgMailSettings extends PDOkCancelDialog {
 
@@ -46,7 +45,6 @@ public class DlgMailSettings extends PDOkCancelDialog {
 	private PDTextField txtTestRecipient;
 	private PDNumericField txtPort;
 	private PDTextField txtServerName;
-	
 
 	public DlgMailSettings() {
 		super(PDBeanTerms.Mail_Setup, 350, 410);
@@ -66,12 +64,12 @@ public class DlgMailSettings extends PDOkCancelDialog {
 		PDHibernateFactory.getSession().saveOrUpdate(mailSettings);
 		return true;
 	}
-	
+
 	private void btnTestClicked() {
 		try {
 			updateDataFromGUI();
 			PDHibernateFactory.getSession().saveOrUpdate(mailSettings);
-						
+
 			PDMailBean mailBean = new PDMailBean();
 			mailBean.sendMail(mailSettings.getTestRecipient(), "Test", "Testmail", null);
 		} catch (AuthenticationFailedException afe) {
@@ -108,6 +106,7 @@ public class DlgMailSettings extends PDOkCancelDialog {
 		grid.add(new PDLabel(PDBeanTerms.Enable£));
 		chkEnabled = new CheckBox();
 		chkEnabled.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				enableGUI();
 			}
@@ -158,18 +157,19 @@ public class DlgMailSettings extends PDOkCancelDialog {
 		grid.add(new Label(""));
 		PDButton btnTest = new PDButton("Test Mail");
 		btnTest.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnTestClicked();
 			}
 		});
 		grid.add(btnTest);
-		
+
 		grid.add(new Label(""));
 		PDButton btnException = new PDButton("Test Exception");
 		btnException.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				//test exception handler, a dialog should appear,
-				//and an email sent to the admin
+				// test exception handler, a dialog should appear, and an email sent to the admin
 				throw new IllegalArgumentException("Test exception");
 			}
 		});
@@ -177,7 +177,7 @@ public class DlgMailSettings extends PDOkCancelDialog {
 	}
 
 	private void loadData() {
-		mailSettings = (MMailSettings)PDHibernateFactory.getSession().createCriteria(MMailSettings.class).uniqueResult();
+		mailSettings = (MMailSettings) PDHibernateFactory.getSession().createCriteria(MMailSettings.class).uniqueResult();
 		if (mailSettings == null) {
 			mailSettings = new MMailSettings();
 		}

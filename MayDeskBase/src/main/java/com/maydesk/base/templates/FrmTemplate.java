@@ -16,36 +16,38 @@ import com.maydesk.base.model.MBase;
 import com.maydesk.base.model.MUser;
 import com.maydesk.base.table.PDPageableFactory;
 
+/**
+ * @author chrismay
+ */
 public class FrmTemplate extends PDMasterDataView {
 
-	
 	public FrmTemplate() {
 		super(true, PDMasterDataView.DISPLAY_MODE.SIDE_SCROLL, MUser.class);
 	}
 
 	@Override
 	protected void initGUI2() {
-//		setWidth(new Extent(660));
-//		setHeight(new Extent(500));
-//		setResizable(false);
+		// setWidth(new Extent(660));
+		// setHeight(new Extent(500));
+		// setResizable(false);
 		splitListAndDetails.setSeparatorPosition(new Extent(200));
-		
-//		addToolButton("Test Button", "tango16/actions/list-add.png", "btnTest").addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				btnNewClicked();				
-//            }			
-//		});
+
+		// addToolButton("Test Button", "tango16/actions/list-add.png", "btnTest").addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent arg0) {
+		// btnNewClicked();
+		// }
+		// });
 	}
-	
+
 	private void btnNewClicked() {
-//		MUser user = new MUser();
-//		HibernateFactory.getSession().save(user);
-//		addNewItem(user);
-//		readFromModel();
+		// MUser user = new MUser();
+		// HibernateFactory.getSession().save(user);
+		// addNewItem(user);
+		// readFromModel();
 	}
 
 	@Override
-	protected PDPageableFactory getFactory(PDMasterDataView masterDataView) {		
+	protected PDPageableFactory getFactory(PDMasterDataView masterDataView) {
 		return new PDPageableFactory(masterDataView, MUser.class) {
 
 			@Override
@@ -53,5 +55,5 @@ public class FrmTemplate extends PDMasterDataView {
 				return PDHibernateFactory.getSession().createCriteria(MBase.class);
 			}
 		};
-	}	
+	}
 }

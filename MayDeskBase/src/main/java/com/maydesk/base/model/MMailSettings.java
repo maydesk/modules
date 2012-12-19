@@ -10,7 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 /**
- * @author Alejandro Salas Created on Jul 3, 2006
+ * @author Alejandro Salas <br>
+ *         Created on Jul 3, 2006
  */
 @Entity
 @Table(name = "t_pdw_mail_settings")

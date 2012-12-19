@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * @author chrismay
+ */
 @Entity
 @Table(name = "t_pdw_mnemonic")
 public class MMnemonic extends MBase {
@@ -16,14 +19,14 @@ public class MMnemonic extends MBase {
 	private int position;
 	private int serialId;
 	private MUser userRef;
-	
+
 	public int getPosition() {
-    	return position;
-    }
+		return position;
+	}
 
 	public int getSerialId() {
-    	return serialId;
-    }
+		return serialId;
+	}
 
 	@ManyToOne(targetEntity = MUser.class, optional = false)
 	public MUser getUserRef() {
@@ -31,14 +34,14 @@ public class MMnemonic extends MBase {
 	}
 
 	public void setPosition(int position) {
-    	this.position = position;
-    }
-	
+		this.position = position;
+	}
+
 	public void setSerialId(int serialId) {
-    	this.serialId = serialId;
-    }
-	
+		this.serialId = serialId;
+	}
+
 	public void setUserRef(MUser userRef) {
 		this.userRef = userRef;
-	}	
+	}
 }

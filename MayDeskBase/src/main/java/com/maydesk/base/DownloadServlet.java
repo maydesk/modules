@@ -13,10 +13,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author chrismay
+ */
 public class DownloadServlet extends HttpServlet {
 
 	private static Hashtable<String, Document> documents = new Hashtable<String, Document>();
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String docId = request.getParameter("docId"); //$NON-NLS-1$
 		if (docId == null) {
@@ -31,9 +35,10 @@ public class DownloadServlet extends HttpServlet {
 				response.setContentLength(doc.getContentLength());
 				response.getOutputStream().write(doc.getContents());
 			}
-			
-			//delete from cache after 1 minute
+
+			// delete from cache after 1 minute
 			Thread t = new Thread() {
+				@Override
 				public void run() {
 					try {
 						Thread.sleep(60 * 1000);
@@ -41,7 +46,8 @@ public class DownloadServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 					documents.remove(docId);
-					//System.out.println("Doc " + docId + " removed. Docs in cache: " + documents.size());
+					// System.out.println("Doc " + docId +
+					// " removed. Docs in cache: " + documents.size());
 				}
 			};
 			t.start();

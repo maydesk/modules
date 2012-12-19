@@ -10,17 +10,20 @@ import com.maydesk.base.widgets.PDTextArea;
 import com.maydesk.social.model.MAnnouncement;
 import com.maydesk.social.sop.SopAnnouncement;
 
+/**
+ * @author chrismay
+ */
 public class FrmShowNews extends PDSimpleDialog {
 
 	private PDGrid grd;
 	private MAnnouncement intraNews;
-	
+
 	public FrmShowNews(MAnnouncement intraNews) {
 		super(intraNews.getTitle(), 400, 250);
 		this.intraNews = intraNews;
 		init2();
 	}
-	
+
 	private void init2() {
 		grd.addLabel(SopAnnouncement.title);
 		grd.add(new PDLabel(intraNews.getTitle(), PDLabel.STYLE.FIELD_VALUE));

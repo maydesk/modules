@@ -10,9 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.EventListener;
 
-import com.maydesk.base.sop.enums.EImage16;
-import com.maydesk.base.util.PDFormat;
-
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Column;
@@ -23,6 +20,12 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.EventListenerList;
 
+import com.maydesk.base.sop.enums.EImage16;
+import com.maydesk.base.util.PDFormat;
+
+/**
+ * @author Alejandro Salas
+ */
 public class PDTimeSpinner extends Row {
 
 	private static final DateFormat DATE_FORMAT = PDFormat.getDefaultTimeOnlyFormat();
@@ -90,6 +93,7 @@ public class PDTimeSpinner extends Row {
 
 		btnUp = new Button(EImage16.spin_up.getImage());
 		btnUp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				spnHourUpClicked();
 			}
@@ -101,6 +105,7 @@ public class PDTimeSpinner extends Row {
 
 		btnDown = new Button(EImage16.spin_down.getImage());
 		btnDown.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				spnHourDownClicked();
 			}
@@ -115,6 +120,7 @@ public class PDTimeSpinner extends Row {
 		txtValue.setWidth(new Extent(40));
 		txtValue.setKeyAction(true);
 		txtValue.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				txtValueChanged();
 			}
@@ -126,6 +132,7 @@ public class PDTimeSpinner extends Row {
 
 		btnUp = new Button(EImage16.spin_up.getImage());
 		btnUp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				spnMinsUpClicked();
 			}
@@ -137,6 +144,7 @@ public class PDTimeSpinner extends Row {
 
 		btnDown = new Button(EImage16.spin_down.getImage());
 		btnDown.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				spnMinsDownClicked();
 			}
@@ -218,8 +226,7 @@ public class PDTimeSpinner extends Row {
 			fireActionEvent(new ActionEvent(this, null));
 		} catch (Exception e) {
 			// do nothing, the model stays at the previous value
-			// just display what was before
-			//displayHour();
+			// just display what was before displayHour();
 			model = null;
 		}
 	}

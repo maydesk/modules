@@ -4,15 +4,16 @@ import lombok.soplets.Sop;
 
 import com.maydesk.base.aspects.Translatable;
 
-@Sop(aspects=Translatable.class)  
+/**
+ * @author chrismay
+ */
+@Sop(aspects = Translatable.class)
 public enum SopRoles {
 
-	@Soplet(
-		textEN="User")		
+	@Soplet(textEN = "User")
 	user,
 
-	@Soplet(
-		textEN="Admin")
+	@Soplet(textEN = "Admin")
 	admin,
 
 	;

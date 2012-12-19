@@ -10,7 +10,9 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.layout.GridLayoutData;
 import nextapp.echo.app.table.TableCellRenderer;
 
-
+/**
+ * @author Alejandro Salas
+ */
 public abstract class PDCellRenderer implements TableCellRenderer {
 
 	protected void setBackground(Component c, int row) {
@@ -19,5 +21,5 @@ public abstract class PDCellRenderer implements TableCellRenderer {
 			gld.setBackground(new Color(232, 232, 232));
 			c.setLayoutData(gld);
 		}
-    }
+	}
 }

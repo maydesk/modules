@@ -20,8 +20,11 @@ import com.maydesk.base.sop.enums.ECountry;
 import com.maydesk.base.sop.enums.SopGender;
 import com.maydesk.base.util.PDUtil;
 
+/**
+ * @author chrismay
+ */
 @Entity
-@Table(name = "t_pdw_user", uniqueConstraints = @UniqueConstraint(columnNames={"jabberId"}))
+@Table(name = "t_pdw_user", uniqueConstraints = @UniqueConstraint(columnNames = { "jabberId" }))
 public class MUser extends MBaseWithTitle {
 
 	private Integer colorShade;
@@ -29,13 +32,13 @@ public class MUser extends MBaseWithTitle {
 	protected String displayName;
 	protected String email;
 	private SopGender gender;
-	protected String jabberId; 
+	protected String jabberId;
 	protected Locale locale = Locale.ENGLISH;
 
 	public MUser() {
 		// Empty
 	}
-	
+
 	@Override
 	public String createCachedTitle() {
 		return toString();
@@ -45,17 +48,17 @@ public class MUser extends MBaseWithTitle {
 		if (colorShade == null) {
 			colorShade = Color.BLUE.getRgb();
 		}
-    	return colorShade;
-    }
+		return colorShade;
+	}
 
 	@Enumerated(javax.persistence.EnumType.STRING)
 	public ECountry getCountry() {
-    	return country;
-    }
+		return country;
+	}
 
 	public String getDisplayName() {
-    	return displayName;
-    }
+		return displayName;
+	}
 
 	public String getEmail() {
 		return email;
@@ -63,12 +66,12 @@ public class MUser extends MBaseWithTitle {
 
 	@Enumerated(EnumType.STRING)
 	public SopGender getGender() {
-    	return gender;
-    }
+		return gender;
+	}
 
 	public String getJabberId() {
-    	return jabberId;
-    }
+		return jabberId;
+	}
 
 	@Transient
 	public Locale getLocale() {
@@ -76,33 +79,33 @@ public class MUser extends MBaseWithTitle {
 	}
 
 	public void setColorShade(Integer colorShade) {
-    	this.colorShade = colorShade;
-    }
-	
+		this.colorShade = colorShade;
+	}
+
 	public void setCountry(ECountry country) {
-    	this.country = country;
-    }
+		this.country = country;
+	}
 
 	public void setDisplayName(String displayName) {
-    	this.displayName = displayName;
-    }
+		this.displayName = displayName;
+	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	public void setGender(SopGender gender) {
-    	this.gender = gender;
-    }
+		this.gender = gender;
+	}
 
 	public void setJabberId(String jabberId) {
-    	this.jabberId = jabberId;
-    }
+		this.jabberId = jabberId;
+	}
 
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
-	
+
 	@Override
 	public String toString() {
 		if (!PDUtil.isEmpty(displayName)) {

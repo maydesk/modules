@@ -14,6 +14,7 @@ import nextapp.echo.app.Table;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.list.DefaultListSelectionModel;
+import nextapp.echo.app.list.ListSelectionModel;
 import nextapp.echo.app.table.DefaultTableColumnModel;
 import nextapp.echo.app.table.TableCellRenderer;
 import nextapp.echo.app.table.TableColumn;
@@ -39,8 +40,8 @@ import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.base.widgets.PDTextField;
 
 /**
- * @author Alejandro Salas
- * </br> Created on Oct 11, 2012
+ * @author Alejandro Salas <br>
+ *         Created on Oct 11, 2012
  */
 public class DlgAddFriend extends PDOkCancelDialog {
 
@@ -49,83 +50,83 @@ public class DlgAddFriend extends PDOkCancelDialog {
 	private PDTextField txtLastName;
 	private PDButton btnSearch;
 	private PDTable tblFriends;
-	
+
 	public DlgAddFriend() {
 		super(PDBeanTerms.Add_friend, 350, 410);
 		initGUI();
 	}
-	
+
 	private void initGUI() {
 		PDGrid grid = new PDGrid(2);
 		pnlMainContainer.add(grid);
-		
+
 		ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 				btnSearchClicked();
 			}
 		};
-		
+
 		grid.addLabel(SopUser.jabberId);
 		txtJabberId = new PDTextField();
 		PDApplicationInstance.getActivePD().setFocusedComponent(txtJabberId);
 		txtJabberId.addActionListener(listener);
 		grid.addFill(txtJabberId);
-		
+
 		grid.addLabel(SopUser.firstName);
 		txtFirstName = new PDTextField();
 		txtFirstName.addActionListener(listener);
 		grid.addFill(txtFirstName);
-		
+
 		grid.addLabel(SopUser.lastName);
 		txtLastName = new PDTextField();
 		txtLastName.addActionListener(listener);
 		grid.addFill(txtLastName);
-		
+
 		grid.addLabel("");
 		btnSearch = new PDButton(nls(PDBeanTerms.Search));
 		btnSearch.addActionListener(listener);
 		grid.addFill(btnSearch);
-		
+
 		UserTableModel userTableModel = new UserTableModel();
 		tblFriends = new PDTable(userTableModel, userTableModel.getColumnModel());
 		tblFriends.setSelectionEnabled(true);
-		
+
 		DefaultListSelectionModel selectionModel = new DefaultListSelectionModel();
-		selectionModel.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+		selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tblFriends.setSelectionModel(selectionModel);
 		pnlMainContainer.add(tblFriends);
 	}
-	
+
 	@Override
 	protected Component getMainContainer() {
 		SplitPane splitPane = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 		splitPane.setSeparatorPosition(new Extent(100));
 		return splitPane;
 	}
-	
+
 	private void btnSearchClicked() {
 		Criteria criteria = PDHibernateFactory.getSession().createCriteria(MUser.class);
-		
+
 		if (!PDUtil.isEmpty(txtJabberId.getText())) {
 			criteria.add(Restrictions.like("jabberId", ("%" + txtJabberId.getText() + "%")));
 		}
-		
+
 		List<MUser> userList = criteria.list();
 		List<UserEntry> entryList = new ArrayList<UserEntry>();
 		for (MUser user : userList) {
 			VCard vCard = PDUserSession.getInstance().getVCard(user.getJabberId());
-			
+
 			String txt = txtFirstName.getText();
 			if (!PDUtil.isEmpty(txt) && !vCard.getFirstName().contains(txt)) {
 				continue;
 			}
-			
+
 			txt = txtLastName.getText();
 			if (!PDUtil.isEmpty(txt) && !vCard.getLastName().contains(txt)) {
 				continue;
 			}
-			
+
 			entryList.add(new UserEntry(user, vCard));
 		}
 		((UserTableModel) tblFriends.getModel()).setItemList(entryList);
@@ -136,10 +137,10 @@ public class DlgAddFriend extends PDOkCancelDialog {
 		if (tblFriends.getSelectionModel().isSelectionEmpty()) {
 			return true;
 		}
-		
+
 		int selectedIndex = tblFriends.getSelectionModel().getMinSelectedIndex();
 		UserEntry entry = ((UserTableModel) tblFriends.getModel()).getItem(selectedIndex);
-		
+
 		MAvatar avatar = new MAvatar();
 		avatar.setPositionX(350);
 		avatar.setPositionY(40);
@@ -147,10 +148,10 @@ public class DlgAddFriend extends PDOkCancelDialog {
 		avatar.setOwner(PDUserSession.getInstance().getUser());
 		PDHibernateFactory.getSession().save(avatar);
 		PDDesktop.getInstance().addPerson(avatar);
-		
+
 		return true;
 	}
-	
+
 	class UserEntry {
 		private MUser user;
 		private VCard vCard;
@@ -174,7 +175,7 @@ public class DlgAddFriend extends PDOkCancelDialog {
 			column.setHeaderValue("");
 			column.setWidth(new Extent(100, Extent.PERCENT));
 			column.setCellRenderer(new TableCellRenderer() {
-				
+
 				@Override
 				public Component getTableCellRendererComponent(Table arg0, Object obj, int arg2, int arg3) {
 					VCard vCard = ((UserEntry) obj).vCard;
@@ -186,7 +187,7 @@ public class DlgAddFriend extends PDOkCancelDialog {
 						txt += !PDUtil.isEmpty(vCard.getLastName()) ? " " + vCard.getLastName() : "";
 						txt += !PDUtil.isEmpty(vCard.getJabberId()) ? "/" + vCard.getJabberId() : "";
 					}
-					
+
 					ImageReference img = PDUserSession.getInstance().getImage(vCard, vCard.getJabberId(), 60);
 					return new Label(txt, img);
 				}

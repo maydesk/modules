@@ -10,14 +10,13 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
- * 
+ * @author chrismay
  */
 @Entity
-@Table(name = "t_pdw_task_assign"/*
-		uniqueConstraints = @UniqueConstraint(columnNames={"user_ref", "task"})*/)
+@Table(name = "t_pdw_task_assign"
+/* uniqueConstraints = @UniqueConstraint(columnNames={"user_ref", "task"}) */)
 public class MTaskAssign extends MBase {
 
 	private MUser userRef;
@@ -26,35 +25,35 @@ public class MTaskAssign extends MBase {
 	private String comment;
 
 	public String getComment() {
-    	return comment;
-    }
+		return comment;
+	}
 
 	public void setComment(String comment) {
-    	this.comment = comment;
-    }
+		this.comment = comment;
+	}
 
 	public Date getExecuteTill() {
-    	return executeTill;
-    }
+		return executeTill;
+	}
 
 	public void setExecuteTill(Date executeTill) {
-    	this.executeTill = executeTill;
-    }
-	
+		this.executeTill = executeTill;
+	}
+
 	@ManyToOne(targetEntity = MUser.class, optional = true)
 	public MUser getUserRef() {
 		return userRef;
 	}
-	
+
 	public void setUserRef(MUser userRef) {
 		this.userRef = userRef;
 	}
-	
+
 	@ManyToOne(targetEntity = MTask.class, optional = false)
 	public MTask getTask() {
 		return task;
 	}
-	
+
 	public void setTask(MTask task) {
 		this.task = task;
 	}

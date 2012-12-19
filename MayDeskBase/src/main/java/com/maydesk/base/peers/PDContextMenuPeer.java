@@ -12,18 +12,18 @@ import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDContextMenu;
 
 /**
- * @author Alejandro Salas
- * </br> Created on Sep 27, 2012
+ * @author Alejandro Salas <br>
+ *         Created on Sep 27, 2012
  */
 public class PDContextMenuPeer extends AbstractComponentSynchronizePeer {
 
 	private static final String PD_CONTEXT_PANE = "PDContextMenu";
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(
-				JavaScriptService.forResource(PD_CONTEXT_PANE, PDUtil.BASE_PATH + "js/PDContextMenu.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_CONTEXT_PANE, PDUtil.BASE_PATH + "js/PDContextMenu.js"));
 	}
 
+	@Override
 	public void init(Context context, Component component) {
 		super.init(context, component);
 		ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
@@ -34,6 +34,7 @@ public class PDContextMenuPeer extends AbstractComponentSynchronizePeer {
 	/**
 	 * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#getClientComponentType(boolean)
 	 */
+	@Override
 	public String getClientComponentType(boolean shortType) {
 		return PD_CONTEXT_PANE;
 	}

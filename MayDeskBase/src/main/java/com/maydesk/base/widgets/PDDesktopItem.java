@@ -8,6 +8,9 @@ package com.maydesk.base.widgets;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 
+/**
+ * @author chrismay
+ */
 public abstract class PDDesktopItem extends Component {
 
 	public static final String PROPERTY_POSITION_X = "positionX";
@@ -22,7 +25,7 @@ public abstract class PDDesktopItem extends Component {
 
 	@Override
 	public boolean isValidParent(Component parent) {
-		return true; //parent instanceof ContentPane;
+		return true; // parent instanceof ContentPane;
 	}
 
 }

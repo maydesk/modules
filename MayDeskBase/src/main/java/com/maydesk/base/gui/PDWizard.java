@@ -10,13 +10,6 @@ import static com.maydesk.base.util.SopletsResourceBundle.nls;
 import java.util.List;
 import java.util.Vector;
 
-import com.maydesk.base.PDApplicationInstance;
-import com.maydesk.base.aspects.Translatable;
-import com.maydesk.base.internal.PDFooterButton;
-import com.maydesk.base.model.MTask;
-import com.maydesk.base.sop.gui.StandardTerms;
-import com.maydesk.base.util.PDLookAndFeel;
-
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.ContentPane;
@@ -30,12 +23,18 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.SplitPaneLayoutData;
 import nextapp.echo.extras.app.TransitionPane;
 
-
+import com.maydesk.base.PDApplicationInstance;
+import com.maydesk.base.aspects.Translatable;
+import com.maydesk.base.internal.PDFooterButton;
+import com.maydesk.base.model.MTask;
+import com.maydesk.base.sop.gui.StandardTerms;
+import com.maydesk.base.util.PDLookAndFeel;
 
 /**
- * A wizard-like window, where the user can accomplish tasks step-by-step
- * in a guide way
+ * A wizard-like window, where the user can accomplish tasks step-by-step in a
+ * guide way
  * 
+ * @author chrismay
  */
 public class PDWizard extends PDWindowPane {
 
@@ -47,7 +46,7 @@ public class PDWizard extends PDWindowPane {
 	protected MTask originTask;
 	protected TransitionPane footerTransitionPane;
 	protected SplitPane footerSplit;
-	
+
 	public PDWizard() {
 		this(null);
 	}
@@ -74,7 +73,7 @@ public class PDWizard extends PDWindowPane {
 		footerSplit.setSeparatorPosition(new Extent(170));
 		footerSplit.setBackground(PDLookAndFeel.BACKGROUND_COLOR);
 		split.add(footerSplit);
-		
+
 		Row footerRow = new Row();
 		footerRow.setAlignment(new Alignment(Alignment.RIGHT, Alignment.DEFAULT));
 		footerRow.setCellSpacing(new Extent(6));
@@ -86,11 +85,12 @@ public class PDWizard extends PDWindowPane {
 		footerSplit.add(footerRow);
 
 		footerTransitionPane = new TransitionPane();
-		footerTransitionPane.setType(TransitionPane.TYPE_CAMERA_PAN_LEFT);		
+		footerTransitionPane.setType(TransitionPane.TYPE_CAMERA_PAN_LEFT);
 		footerSplit.add(footerTransitionPane);
 
 		btnBack = new PDFooterButton(StandardTerms.Back);
 		btnBack.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				btnBackClicked();
 			}
@@ -99,6 +99,7 @@ public class PDWizard extends PDWindowPane {
 
 		btnNext = new PDFooterButton(StandardTerms.Next);
 		btnNext.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				btnNextClicked();
 			}
@@ -106,18 +107,18 @@ public class PDWizard extends PDWindowPane {
 		footerRow.add(btnNext);
 
 		container = new ContentPane();
-		((ContentPane)container).setInsets(new Insets(6, 9, 3, 6));
+		container.setInsets(new Insets(6, 9, 3, 6));
 		split.add(container);
 	}
 
 	protected void btnNextClicked() {
-			
+
 		IWizardPanel page = panels.get(pageIndex);
 
 		if (!page.doNextAction()) {
 			return;
 		}
-		
+
 		page.applyToModel();
 		Translatable error = page.getError();
 		if (error != null) {
@@ -137,8 +138,9 @@ public class PDWizard extends PDWindowPane {
 	}
 
 	protected void btnBackClicked() {
-		if (!panels.get(pageIndex).doBackAction()) return;
-		
+		if (!panels.get(pageIndex).doBackAction())
+			return;
+
 		while (--pageIndex >= 0) {
 			if (panels.get(pageIndex).isApplicable()) {
 				break;
@@ -156,12 +158,12 @@ public class PDWizard extends PDWindowPane {
 
 		footerTransitionPane.removeAll();
 		footerTransitionPane.add(new Label());
-		
+
 		IWizardPanel page = panels.get(pageIndex);
-		while (!page.isApplicable()){
+		while (!page.isApplicable()) {
 			page = panels.get(++pageIndex);
 		}
-			
+
 		if (readFromModel) {
 			page.readFromModel();
 		}
@@ -181,7 +183,7 @@ public class PDWizard extends PDWindowPane {
 			btnBack.setText(page.getBackCaption());
 			btnBack.setWidth(new Extent(page.getBackButtonWidth()));
 		}
-		
+
 		if (page.getFocusComponent() != null) {
 			PDApplicationInstance.getActivePD().setFocusedComponent(page.getFocusComponent());
 		}
@@ -194,7 +196,7 @@ public class PDWizard extends PDWindowPane {
 		lblError.setFormatWhitespace(true);
 		footerTransitionPane.add(lblError);
 	}
-	
+
 	public void setTitle(Translatable title) {
 		super.setTitle(nls(title));
 	}

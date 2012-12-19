@@ -9,14 +9,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import nextapp.echo.app.list.DefaultListModel;
+
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.util.SopletsResourceBundle;
 
-import nextapp.echo.app.list.DefaultListModel;
-
+/**
+ * @author Alejandro Salas
+ */
 public class PDComboModel<T> extends DefaultListModel {
 
-	public PDComboModel() {		
+	public PDComboModel() {
 	}
 
 	public PDComboModel(T[] values) {
@@ -40,64 +43,67 @@ public class PDComboModel<T> extends DefaultListModel {
 			entry.value = null;
 			entry.caption = o.toString();
 		} else {
-			entry.value = (T)o;
+			entry.value = (T) o;
 			entry.caption = entry.value.toString();
 		}
 		super.add(entry);
 	}
-	
+
 	class MyListEntry implements Comparable<MyListEntry> {
 		T value;
 		String caption;
-		
+
+		@Override
 		public String toString() {
 			return caption;
 		}
 
+		@Override
 		public int compareTo(MyListEntry other) {
-			if (caption == null) return 0;
-	        return caption.compareTo(other.caption);
-        }
+			if (caption == null)
+				return 0;
+			return caption.compareTo(other.caption);
+		}
 	}
 
 	public MyListEntry getEntryIndex(Object item) {
-        if (item != null) {
-            for (int i = 0; i < size(); i++) {
-            	MyListEntry thisEntry = (MyListEntry)get(i);
-            	if (item.equals(thisEntry.value)) {
-                    return thisEntry;
-                }
-            }
-        }
+		if (item != null) {
+			for (int i = 0; i < size(); i++) {
+				MyListEntry thisEntry = (MyListEntry) get(i);
+				if (item.equals(thisEntry.value)) {
+					return thisEntry;
+				}
+			}
+		}
 		return null;
 	}
 
 	public void setValues(List<T> allValues, boolean doSort) {
 		setValues(allValues, null, doSort);
 	}
-	
+
 	public void setValues(List<T> allValues, String emptyEntry, boolean doSort) {
 		removeAll();
 		if (emptyEntry != null) {
 			add(emptyEntry + " ", null);
 		}
-		List<MyListEntry> sortedEntries = new Vector<MyListEntry>(); 
-        for (T value : allValues) {
-    		MyListEntry entry = new MyListEntry();
-    		entry.value = value;
+		List<MyListEntry> sortedEntries = new Vector<MyListEntry>();
+		for (T value : allValues) {
+			MyListEntry entry = new MyListEntry();
+			entry.value = value;
 			if (value instanceof Translatable) {
-				Translatable translatable = (Translatable)value;
+				Translatable translatable = (Translatable) value;
 				entry.caption = SopletsResourceBundle.nls(translatable);
 			} else {
 				entry.caption = entry.value.toString();
 			}
-    		sortedEntries.add(entry);
-        }
-        if (doSort) {
-        	Collections.sort(sortedEntries);
-        }
-        for (MyListEntry entry : sortedEntries) {
-    		super.add(entry);
-        }
+			sortedEntries.add(entry);
+		}
+		if (doSort) {
+			Collections.sort(sortedEntries);
+		}
+		for (MyListEntry entry : sortedEntries) {
+			super.add(entry);
+		}
 	}
 }

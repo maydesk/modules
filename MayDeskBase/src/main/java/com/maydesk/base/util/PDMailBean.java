@@ -25,7 +25,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -110,15 +109,14 @@ public class PDMailBean {
 	public static void main(String[] args) {
 		PDMailBean b = new PDMailBean();
 		try {
-	        b.sendMail("mail@chrismay.de", "Test", "test", null);
-        } catch (Exception e) {
-	        e.printStackTrace();
-        }
-		
+			b.sendMail("mail@chrismay.de", "Test", "test", null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
-	
-	
-	//	 ----------------------------------------
+
+	// ----------------------------------------
 	public void sendMail(String rcpt, String subj, String mess, List<Attachment> attachments) throws Exception {
 
 		Session session = PDHibernateFactory.getSession();
@@ -126,7 +124,6 @@ public class PDMailBean {
 		String hql = MessageFormat.format("FROM {0}", new Object[] { MMailSettings.class.getName() });
 		Query query = session.createQuery(hql);
 		MMailSettings mailSettings = (MMailSettings) query.uniqueResult();
-		
 
 		if (mailSettings == null) {
 			throw new Exception("Mail settings do not exist");
@@ -141,6 +138,7 @@ public class PDMailBean {
 		javax.mail.Session mailSession;
 		if (mailSettings.isAuth()) {
 			Authenticator loAuthenticator = new Authenticator() {
+				@Override
 				public PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication(authUser, authPassword);
 				}
@@ -160,13 +158,13 @@ public class PDMailBean {
 
 		MimeBodyPart bodyPart = new MimeBodyPart();
 		bodyPart.setContent(mess, "text/plain;CHARSET=iso-8859-1");
-		
+
 		MimeMultipart multiPart = new MimeMultipart();
 		multiPart.addBodyPart(bodyPart);
 
 		if (attachments != null) {
 			for (Attachment attachment : attachments) {
-				DataSource source = new MyByteArrayDataSource(attachment.getLabel(), attachment.getData(), "application/octet-stream");  //"application/pdf";?
+				DataSource source = new MyByteArrayDataSource(attachment.getLabel(), attachment.getData(), "application/octet-stream"); // "application/pdf";?
 				MimeBodyPart mimeBodyPart = new MimeBodyPart();
 				mimeBodyPart.setDataHandler(new DataHandler(source));
 				mimeBodyPart.setFileName(attachment.getLabel());
@@ -174,8 +172,8 @@ public class PDMailBean {
 			}
 		}
 
-		msg.setContent(multiPart); //, "text/plain;CHARSET=iso-8859-1");
-		
+		msg.setContent(multiPart); // , "text/plain;CHARSET=iso-8859-1");
+
 		Transport.send(msg);
 	}
 
@@ -190,18 +188,22 @@ public class PDMailBean {
 			this.contentType = contentType;
 		}
 
+		@Override
 		public String getContentType() {
 			return contentType;
 		}
 
+		@Override
 		public InputStream getInputStream() {
 			return new ByteArrayInputStream(bytes);
 		}
 
+		@Override
 		public String getName() {
 			return name;
 		}
 
+		@Override
 		public OutputStream getOutputStream() throws IOException {
 			throw new FileNotFoundException();
 		}

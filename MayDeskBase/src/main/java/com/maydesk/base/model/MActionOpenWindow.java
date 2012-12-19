@@ -9,27 +9,29 @@ import javax.persistence.Entity;
 
 import nextapp.echo.app.WindowPane;
 
-
+/**
+ * @author chrismay
+ */
 @Entity
 public class MActionOpenWindow extends MAction {
 
 	private WindowPane window;
-	
-	@Override
-    public void redoAction() {
-		window.setVisible(true);
-		//PDDesktop.getDesktop().addWindow(window);
-    }
 
 	@Override
-    public void undoAction() {
+	public void redoAction() {
+		window.setVisible(true);
+		// PDDesktop.getDesktop().addWindow(window);
+	}
+
+	@Override
+	public void undoAction() {
 		window.userClose();
-    }
+	}
 
 	public void setWindow(WindowPane window) {
-    	this.window = window;
-    }
-	
+		this.window = window;
+	}
+
 	@Override
 	public String toString() {
 		return "Fenster geöffnet";

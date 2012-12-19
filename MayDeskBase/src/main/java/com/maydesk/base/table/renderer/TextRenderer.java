@@ -5,11 +5,6 @@
  */
 package com.maydesk.base.table.renderer;
 
-import com.maydesk.base.table.PDTableModel;
-import com.maydesk.base.widgets.PDLabel;
-import com.maydesk.base.widgets.PDNumericField;
-import com.maydesk.base.widgets.PDTextField;
-
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Table;
@@ -18,9 +13,14 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.table.TableCellRenderer;
 
+import com.maydesk.base.table.PDTableModel;
+import com.maydesk.base.widgets.PDLabel;
+import com.maydesk.base.widgets.PDNumericField;
+import com.maydesk.base.widgets.PDTextField;
+
 /**
- * @author Alejandro Salas
- * <br> Created on Feb 5, 2007
+ * @author Alejandro Salas <br>
+ *         Created on Feb 5, 2007
  */
 public class TextRenderer implements TableCellRenderer {
 
@@ -57,6 +57,7 @@ public class TextRenderer implements TableCellRenderer {
 		this.usedByClass = usedByClass;
 	}
 
+	@Override
 	public Component getTableCellRendererComponent(Table table, Object value, final int col, final int row) {
 		final PDTableModel tableModel = (PDTableModel) table.getModel();
 
@@ -70,16 +71,17 @@ public class TextRenderer implements TableCellRenderer {
 				} else {
 					txt = new PDNumericField();
 				}
-				((PDNumericField) txt).setNumber(((Number)value).doubleValue());
+				((PDNumericField) txt).setNumber(((Number) value).doubleValue());
 			} else {
-				txt = new PDTextField();				
+				txt = new PDTextField();
 				txt.setText(strValue);
 			}
-			txt.setRenderId(usedByClass.getSimpleName() + col + "x" + row);				
+			txt.setRenderId(usedByClass.getSimpleName() + col + "x" + row);
 			txt.setWidth(width);
 			txt.setMaximumLength(maxLength);
 			txt.setKeyAction(true);
 			txt.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent evt) {
 					txtChanged(txt, col, row, tableModel);
 				}
@@ -93,14 +95,13 @@ public class TextRenderer implements TableCellRenderer {
 
 		PDLabel ret = new PDLabel(strValue, bold ? PDLabel.STYLE.HEADER_3 : PDLabel.STYLE.FIELD_LABEL);
 		if (isNumber) {
-			//ret.setTextAlignment(new Alignment(Alignment.RIGHT, Alignment.DEFAULT));
+//			ret.setTextAlignment(new Alignment(Alignment.RIGHT, Alignment.DEFAULT));
 		}
 		return ret;
 	}
 
 	protected boolean isValid(String value, int col, int row) {
-		// Override if needed. Return true to
-		// keep the value, false to drop it
+		// Override if needed. Return true to keep the value, false to drop it
 		return true;
 	}
 

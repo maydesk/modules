@@ -11,16 +11,18 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * @author chrismay
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "t_pwd_tenant_assignment")
 public class MTenantAssignment extends MBase {
-	
+
 	private MUser userRef;
 	private MTenant tenant;
 	private boolean owner;
 	private boolean isAssignmentActive;
-
 
 	public boolean isAssignmentActive() {
 		return isAssignmentActive;
@@ -29,8 +31,8 @@ public class MTenantAssignment extends MBase {
 	public void setAssignmentActive(boolean isAssignmentActive) {
 		this.isAssignmentActive = isAssignmentActive;
 	}
-	
-	@ManyToOne(targetEntity = MUser.class) 
+
+	@ManyToOne(targetEntity = MUser.class)
 	public MUser getUserRef() {
 		return userRef;
 	}

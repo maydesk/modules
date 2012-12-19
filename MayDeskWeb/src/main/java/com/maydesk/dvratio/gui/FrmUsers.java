@@ -26,6 +26,9 @@ import com.maydesk.base.util.HeaderValue;
 import com.maydesk.base.util.IPlugTarget;
 import com.maydesk.web.MDUserRoleFactory;
 
+/**
+ * @author chrismay
+ */
 public class FrmUsers extends PDMasterDataView<MUser> implements IPlugTarget {
 
 	public FrmUsers() {
@@ -33,37 +36,40 @@ public class FrmUsers extends PDMasterDataView<MUser> implements IPlugTarget {
 		setWidth(new Extent(700));
 		setHeight(new Extent(450));
 		addToolButton("Neuer User", EImage16.add, true, "").addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				btnNewUserClicked();				
-        	}			
+				btnNewUserClicked();
+			}
 		});
-		
+
 		addEditor("User", new PnlUserForWizard());
 		addEditor("Image", new PnlUserMoods());
 		addEditor("Roles", new PnlUserRoles(MDUserRoleFactory.class));
 	}
 
-	protected void assignBaseModel(Object baseModel) {		
-		//factoryClass = (Class)baseModel;
+	protected void assignBaseModel(Object baseModel) {
+		// factoryClass = (Class)baseModel;
 	}
-	
+
 	private void btnNewUserClicked() {
 		MUser user = new MUser();
 		PDHibernateFactory.getSession().save(user);
 		addNewItem(user);
 		readFromModel();
 	}
-	
+
 	protected class MyTitleBar extends PDTitleBar {
 		public MyTitleBar(HeaderValue headerValues) {
 			super(FrmUsers.this, headerValues, true);
 		}
+
+		@Override
 		protected void addCommands() {
 		}
 	}
 
 	@Override
-    protected PDPageableFactory getFactory(final PDMasterDataView masterDataView) {
+	protected PDPageableFactory getFactory(final PDMasterDataView masterDataView) {
 		return new PDPageableFactory(masterDataView, MUser.class) {
 
 			@Override
@@ -71,13 +77,14 @@ public class FrmUsers extends PDMasterDataView<MUser> implements IPlugTarget {
 				return session.createCriteria(MUser.class);
 			}
 
+			@Override
 			public PDTitleBar getHeaderComponent(HeaderValue headerValues) {
-				 return new MyTitleBar(headerValues);
+				return new MyTitleBar(headerValues);
 			}
 		};
-    }
+	}
 
 	@Override
-    public void initWire(MWire parentWire) {
-    }
+	public void initWire(MWire parentWire) {
+	}
 }

@@ -7,6 +7,9 @@ package com.maydesk.base.model;
 
 import javax.persistence.MappedSuperclass;
 
+/**
+ * @author chrismay
+ */
 @MappedSuperclass
 public abstract class MOverlay extends MBaseWithTitle {
 
@@ -15,36 +18,45 @@ public abstract class MOverlay extends MBaseWithTitle {
 	protected int height = 100;
 	protected int width = 100;
 	protected String name;
-	
+
 	public String getName() {
-    	return name;
-    }
+		return name;
+	}
+
 	public void setName(String name) {
-    	this.name = name;
-    }
+		this.name = name;
+	}
+
 	public int getHeight() {
-    	return height;
-    }
+		return height;
+	}
+
 	public void setHeight(int height) {
-    	this.height = height;
-    }
+		this.height = height;
+	}
+
 	public int getPositionX() {
-    	return positionX;
-    }
+		return positionX;
+	}
+
 	public void setPositionX(int positionX) {
-    	this.positionX = positionX;
-    }
+		this.positionX = positionX;
+	}
+
 	public int getPositionY() {
-    	return positionY;
-    }
+		return positionY;
+	}
+
 	public void setPositionY(int positionY) {
-    	this.positionY = positionY;
-    }
+		this.positionY = positionY;
+	}
+
 	public int getWidth() {
-    	return width;
-    }
+		return width;
+	}
+
 	public void setWidth(int width) {
-    	this.width = width;
-    }
-	
+		this.width = width;
+	}
+
 }

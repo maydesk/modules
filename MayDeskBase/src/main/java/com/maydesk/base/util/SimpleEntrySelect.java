@@ -2,12 +2,15 @@ package com.maydesk.base.util;
 
 import echopoint.model.AutoLookupSelectModel.EntrySelect;
 
+/**
+ * @author chrismay
+ */
 public class SimpleEntrySelect implements EntrySelect {
 
 	String idAsString;
 	String value;
 	String searchVal;
-	
+
 	public SimpleEntrySelect(String idAsString, String value, String searchVal) {
 		this.idAsString = idAsString;
 		this.value = value;
@@ -28,5 +31,5 @@ public class SimpleEntrySelect implements EntrySelect {
 	public String getValue() {
 		return value;
 	}
-	
+
 }

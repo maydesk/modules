@@ -5,17 +5,17 @@
  */
 package com.maydesk.base.table.renderer;
 
-import com.maydesk.base.table.PDTableModel3;
-
 import nextapp.echo.app.CheckBox;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Table;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-/** 
- * @author Alejandro Salas 
- * Created on Jul 5, 2007
+import com.maydesk.base.table.PDTableModel3;
+
+/**
+ * @author Alejandro Salas <br>
+ *         Created on Jul 5, 2007
  */
 public class BooleanRenderer extends PDCellRenderer {
 
@@ -31,12 +31,14 @@ public class BooleanRenderer extends PDCellRenderer {
 		this.isHeader = isHeader;
 	}
 
+	@Override
 	public Component getTableCellRendererComponent(final Table table, Object value, final int col, final int row) {
 		final PDTableModel3 model = (PDTableModel3) table.getModel();
 
 		final CheckBox checkBox = new CheckBox();
 		checkBox.setVisible(isEnable(row));
 		checkBox.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				setSelected(table, model, checkBox.isSelected(), col, row);
 			}

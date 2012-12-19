@@ -3,6 +3,11 @@ package com.maydesk.base.gui;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import lombok.soplets.Beanable;
+import lombok.soplets.SopBean;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
+
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.model.MBase;
 import com.maydesk.base.model.MDataLink;
@@ -16,13 +21,10 @@ import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.base.widgets.PDIntegerSpinner;
 import com.maydesk.base.widgets.PDTextField;
 
-import lombok.soplets.Beanable;
-import lombok.soplets.SopBean;
-import nextapp.echo.app.Component;
-import nextapp.echo.app.Extent;
-
-
-public class EdtGeneric extends PDGrid implements ICrudWithBinding<MBase>, ShowWithEmptyData{
+/**
+ * @author chrismay
+ */
+public class EdtGeneric extends PDGrid implements ICrudWithBinding<MBase>, ShowWithEmptyData {
 
 	protected PDBinding binding;
 	protected Class<? extends MBase> modelClass;
@@ -37,23 +39,23 @@ public class EdtGeneric extends PDGrid implements ICrudWithBinding<MBase>, ShowW
 		this.modelClass = modelClass;
 		initGUI();
 	}
-	
+
 	protected void initGUI() {
-		SopBean sopBean = (SopBean)modelClass.getAnnotation(SopBean.class);
+		SopBean sopBean = modelClass.getAnnotation(SopBean.class);
 		Class<? extends Enum> sopClass = sopBean.sopRef();
 		for (Field f : sopClass.getFields()) {
 			try {
-				Enum<?> soplet =  Enum.valueOf(sopClass, f.getName());
-				
-				//create label
+				Enum<?> soplet = Enum.valueOf(sopClass, f.getName());
+
+				// create label
 				if (soplet instanceof Translatable) {
-					addLabel(((Translatable)soplet));					
+					addLabel(((Translatable) soplet));
 				} else {
 					addLabel(f.getName());
 				}
-								
+
 				if (soplet instanceof Beanable) {
-					Class<?> javaType = ((Beanable)soplet).javaType();
+					Class<?> javaType = ((Beanable) soplet).javaType();
 					IChangeSupportable component = null;
 					if (javaType == Integer.class) {
 						component = new PDIntegerSpinner();
@@ -61,26 +63,27 @@ public class EdtGeneric extends PDGrid implements ICrudWithBinding<MBase>, ShowW
 						component = new PDCheckBox();
 					} else if (javaType.getSimpleName().startsWith("Sop")) {
 						Method valuesMethod = javaType.getMethod("values");
-						Object[] values = (Object[])valuesMethod.invoke(null);
+						Object[] values = (Object[]) valuesMethod.invoke(null);
 						component = new PDCombo(values, StandardTerms.EMPTY, false);
-						((PDCombo)component).setWidth(new Extent(150));
+						((PDCombo) component).setWidth(new Extent(150));
 					} else {
 						component = new PDTextField();
 					}
-					binding.register(component, (Beanable)soplet, false); 
-					add((Component)component);
+					binding.register(component, (Beanable) soplet, false);
+					add((Component) component);
 				} else {
 					addLabel("(not available)");
-				}				
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}		
+		}
 	}
 
+	@Override
 	public Component getFocusComponent() {
-	    return null;
-    }
+		return null;
+	}
 
 	@Override
 	public PDBinding getBinding() {
@@ -94,6 +97,6 @@ public class EdtGeneric extends PDGrid implements ICrudWithBinding<MBase>, ShowW
 
 	@Override
 	public void setDataObject(MBase model) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
 	}
 }

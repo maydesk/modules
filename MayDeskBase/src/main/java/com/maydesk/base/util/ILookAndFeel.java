@@ -7,6 +7,9 @@ package com.maydesk.base.util;
 
 import nextapp.echo.app.Color;
 
+/**
+ * @author chrismay
+ */
 public interface ILookAndFeel {
 
 	public Color getHighlight();
@@ -20,7 +23,7 @@ public interface ILookAndFeel {
 	public IImage getFooterFillImage();
 
 	public String getVersionInfo();
-	
+
 	public String getLogo();
 
 	public IImage getProfideskIcon();

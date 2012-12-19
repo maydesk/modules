@@ -5,6 +5,7 @@
  */
 package com.maydesk.base.internal;
 
+import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.FillImage;
@@ -16,12 +17,9 @@ import nextapp.echo.app.TextField;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.extras.app.ContextMenu;
-import nextapp.echo.extras.app.TransitionPane;
 
-import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.PDUserSession;
-import com.maydesk.base.gui.user.FrmAvatar;
 import com.maydesk.base.gui.user.WzdNewUser;
 import com.maydesk.base.gui.user.WzdPasswordForgotten;
 import com.maydesk.base.sop.gui.PDBeanTerms;
@@ -47,7 +45,7 @@ public class PnlLogin extends ContainerEx {
 	private PasswordField txtPassword;
 	private PDStatusLabel lblMessage;
 	private boolean flipFlag;
-	
+
 	public PnlLogin() {
 		setPosition(Positionable.ABSOLUTE);
 		setHeight(new Extent(189));
@@ -61,15 +59,16 @@ public class PnlLogin extends ContainerEx {
 		lblLogin.setTop(new Extent(5));
 		lblLogin.setLeft(new Extent(75));
 		add(lblLogin);
-				
+
 		add(new Strut(0, 8));
-		
-		PDGrid grid = new PDGrid(3); 
+
+		PDGrid grid = new PDGrid(3);
 		add(grid);
-		
+
 		grid.addLabel(PDBeanTerms.Jabber_ID);
 		txtLogin = new TextField();
 		txtLogin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnterClicked();
 			}
@@ -84,6 +83,7 @@ public class PnlLogin extends ContainerEx {
 		txtPassword.setMaximumLength(15);
 		txtPassword.setHeight(new Extent(13));
 		txtPassword.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnterClicked();
 			}
@@ -93,28 +93,30 @@ public class PnlLogin extends ContainerEx {
 		grid.addEmpty();
 		PushButton btnEnter = new PushButton("Login");
 		btnEnter.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				btnEnterClicked();
 			}
 		});
 		grid.add(btnEnter);
-		
+
 		lblMessage = new PDStatusLabel();
 		lblMessage.setFont(new Font(Font.VERDANA, Font.BOLD, new Extent(9)));
 		lblMessage.setLineWrap(false);
 		lblMessage.setForeground(Color.WHITE);
 		grid.add(lblMessage);
-		
+
 		grid.addFill(new Separator());
-		
-		//WORK_AROUND this is just for loading the Extras library...
+
+		// WORK_AROUND this is just for loading the Extras library...
 		ContextMenu tnpDummy = new ContextMenu(new Label(""));
 		grid.addFill(tnpDummy);
-		//grid.addFill(new Label());
-		
+		// grid.addFill(new Label());
+
 		grid.addLabel("New to CloudDesk?");
 		PDButton btnRegister = new PDButton("REGISTER NOW!", PDButton.STYLE.TRANSPARENT);
 		btnRegister.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnRegisterClicked();
 			}
@@ -124,31 +126,32 @@ public class PnlLogin extends ContainerEx {
 		grid.addLabel("Lost password?");
 		PDButton btnPassword = new PDButton("Recover password", PDButton.STYLE.TRANSPARENT);
 		btnPassword.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnPasswordClicked();
 			}
 		});
 		grid.addFill(btnPassword);
-		
+
 	}
 
 	private void btnRegisterClicked() {
 		WzdNewUser wzd = new WzdNewUser();
-		PDDesktop.getInstance().addWindow(wzd);	
+		PDDesktop.getInstance().addWindow(wzd);
 	}
-		
+
 	private void btnPasswordClicked() {
 		WzdPasswordForgotten wzd = new WzdPasswordForgotten();
-		PDDesktop.getInstance().addWindow(wzd);		
+		PDDesktop.getInstance().addWindow(wzd);
 	}
 
 	private void btnEnterClicked() {
 		PDUserSession userSession = PDUserSession.getInstance();
 		try {
 			userSession.doLogin(txtLogin.getText(), txtPassword.getText());
-		} catch (Exception e) {	
+		} catch (Exception e) {
 			e.printStackTrace();
-			PDApplicationInstance.getActive().setFocusedComponent(txtPassword);
+			ApplicationInstance.getActive().setFocusedComponent(txtPassword);
 			txtPassword.setText("");
 			lblMessage.setText(e.getMessage() + (flipFlag ? "" : " "));
 			flipFlag = !flipFlag;
@@ -158,10 +161,10 @@ public class PnlLogin extends ContainerEx {
 	public void initialize() {
 		String cookie = PDUserSession.getInstance().getCookie(PDUserSession.LOGIN_COOKIE_NAME);
 		if (PDUtil.isEmpty(cookie)) {
-			PDApplicationInstance.getActive().setFocusedComponent(txtLogin);
+			ApplicationInstance.getActive().setFocusedComponent(txtLogin);
 		} else {
 			txtLogin.setText(cookie);
-			PDApplicationInstance.getActive().setFocusedComponent(txtPassword);
+			ApplicationInstance.getActive().setFocusedComponent(txtPassword);
 		}
-    }
+	}
 }

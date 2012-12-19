@@ -6,23 +6,22 @@
 package com.maydesk.base.gui;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
+import nextapp.echo.app.Label;
+import nextapp.echo.app.ResourceImageReference;
 
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.sop.gui.PDBeanTerms;
 import com.maydesk.base.sop.gui.StandardTerms;
 
-import nextapp.echo.app.Label;
-import nextapp.echo.app.ResourceImageReference;
-
-
 /**
  * A model box displaying a simple message
  * 
+ * @author Alejandro Salas
  */
 public class PDMessageBox extends PDOkCancelDialog {
 
-	public static PDMessageBox confirmDeletion(String objectDescription) {		
+	public static PDMessageBox confirmDeletion(String objectDescription) {
 		return confirmMsgBox(PDBeanTerms.Really_delete_object_x, objectDescription);
 	}
 
@@ -43,7 +42,7 @@ public class PDMessageBox extends PDOkCancelDialog {
 	@Deprecated
 	public static PDMessageBox msgBox(String title, String text, int w, int h) {
 		try {
-			PDMessageBox box = new PDMessageBox(title, text, w, h);		
+			PDMessageBox box = new PDMessageBox(title, text, w, h);
 			box.btnCancel.setVisible(false);
 			PDDesktop.getInstance().addWindow(box);
 			return box;
@@ -59,7 +58,7 @@ public class PDMessageBox extends PDOkCancelDialog {
 		super("Info", 400, 200);
 		setModal(true);
 	}
-	
+
 	@Deprecated
 	public PDMessageBox(String title, String text, int w, int h) {
 		super(title, w, h);
@@ -84,10 +83,10 @@ public class PDMessageBox extends PDOkCancelDialog {
 	}
 
 	@Override
-    protected boolean onOkClicked() {
-	    return true;
-    }
-	
+	protected boolean onOkClicked() {
+		return true;
+	}
+
 	public void info(String text) {
 		msg = text;
 		Label lblText = new Label(msg);

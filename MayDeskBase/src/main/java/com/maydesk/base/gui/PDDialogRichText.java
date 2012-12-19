@@ -11,6 +11,7 @@ import nextapp.echo.extras.app.RichTextArea;
 /**
  * A modal editor for rich text
  * 
+ * @author chrismay
  */
 public class PDDialogRichText extends PDOkCancelDialog {
 
@@ -24,11 +25,12 @@ public class PDDialogRichText extends PDOkCancelDialog {
 		initGUI();
 	}
 
+	@Override
 	protected Component getMainContainer() {
 		richTextArea = new RichTextArea();
 		return richTextArea;
 	}
-	
+
 	public String getText() {
 		return newText;
 	}
@@ -46,10 +48,10 @@ public class PDDialogRichText extends PDOkCancelDialog {
 	}
 
 	@Override
-    protected boolean onOkClicked() {
+	protected boolean onOkClicked() {
 		if (editable) {
 			newText = richTextArea.getText();
 		}
-	    return true;
-    }
+		return true;
+	}
 }

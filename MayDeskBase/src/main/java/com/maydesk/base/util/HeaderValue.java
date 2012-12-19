@@ -5,11 +5,14 @@
  */
 package com.maydesk.base.util;
 
+/**
+ * @author Alejandro Salas
+ */
 public class HeaderValue {
-	
+
 	public int id;
 	public String title;
 	public String description;
-	public int rowIndex;  //needed for renderId
+	public int rowIndex; // needed for renderId
 	public Object tag;
 }

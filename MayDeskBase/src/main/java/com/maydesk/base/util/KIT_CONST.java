@@ -1,10 +1,12 @@
 package com.maydesk.base.util;
 
-
+/**
+ * @author chrismay
+ */
 public enum KIT_CONST {
 
 	Comma(","),
-	
+
 	Star("*"),
 
 	Space(" "),
@@ -15,21 +17,20 @@ public enum KIT_CONST {
 
 	AS("' "),
 
-	CRLF("\n"), 
-	
-	UNDERSCORE("_"), 
-	
+	CRLF("\n"),
+
+	UNDERSCORE("_"),
+
 	EMPTY(""),
-	
+
 	Colon(":");
-	
-	
+
 	private String text;
-	
+
 	private KIT_CONST(String text) {
 		this.text = text;
 	}
-	
+
 	@Override
 	public String toString() {
 		return text;
@@ -39,6 +40,6 @@ public enum KIT_CONST {
 	 * short form of toString()
 	 */
 	public String s() {
-	    return text;
-    }
+		return text;
+	}
 }

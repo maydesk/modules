@@ -4,7 +4,9 @@ import static com.maydesk.base.util.SopletsResourceBundle.nls;
 
 import com.maydesk.base.sop.gui.StandardTerms;
 
-
+/**
+ * @author Alejandro Salas
+ */
 public class PDSimpleDialog extends PDOkCancelDialog {
 
 	public PDSimpleDialog(String title, int w, int h) {
@@ -15,7 +17,7 @@ public class PDSimpleDialog extends PDOkCancelDialog {
 	}
 
 	@Override
-    protected boolean onOkClicked() {
+	protected boolean onOkClicked() {
 		return true;
-    }
+	}
 }

@@ -32,19 +32,17 @@ public class MTask<T> extends MBaseWithTitle {
 	protected Date doneDate;
 	protected int modelId;
 	protected MTenant tenant;
-	
 
 	public MTask() {
 		// Empty
 	}
 
-
 	public void executeTask() {
 		executeTaskInternal();
 	}
 
-	protected void executeTaskInternal(){}
-
+	protected void executeTaskInternal() {
+	}
 
 	@ManyToOne(targetEntity = MUser.class, optional = false)
 	public MUser getCreatedBy() {
@@ -88,7 +86,7 @@ public class MTask<T> extends MBaseWithTitle {
 		this.modelId = modelId;
 	}
 
-	@ManyToOne(targetEntity = MTenant.class) 
+	@ManyToOne(targetEntity = MTenant.class)
 	public MTenant getTenant() {
 		return tenant;
 	}
@@ -98,16 +96,19 @@ public class MTask<T> extends MBaseWithTitle {
 	}
 
 	@Transient
-	public String getName(){return null;}
-	
-	@Transient
-	public String getDescription(){return null;}
+	public String getName() {
+		return null;
+	}
 
+	@Transient
+	public String getDescription() {
+		return null;
+	}
 
 	@Override
-    public String createCachedTitle() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	public String createCachedTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

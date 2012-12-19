@@ -1,167 +1,113 @@
 package com.maydesk.base.sop.gui;
 
-import com.maydesk.base.aspects.Translatable;
-
 import lombok.soplets.Sop;
 
+import com.maydesk.base.aspects.Translatable;
 
-@Sop(aspects=Translatable.class)
+/**
+ * @author chrismay
+ */
+@Sop(aspects = Translatable.class)
 public enum StandardTerms {
 
-	@Soplet(
-		textEN = "Back",
-		textDE = "Zurück")
+	@Soplet(textEN = "Back", textDE = "Zurück")
 	Back,
 
 	/**
-	 * @ english			Cancel
-	 * @ german				Abbrechen
-	 * @ context			Standard Cancel button for modal dialogs; Cancel means the dialog
-	 * 						is closed without considering changes might have done
-	 * 						Always to be used in combination with BTN.OK
-	 * @comment				Do not use for non-dialog windows, use BTN.Close instead
-	 * 						See also BTN.Abort for comparison
-	 * @usability			If you consider important data might got lost when applying
-	 * 						this button then you should ask for user confirmation 
-	 * 						(see: MSG.Data_have_changed_really_cancel)
-	 * 						Please make sure the buttons are placed in this order (if applicable):
-	 * 						[Save/Apply]- [OK]- [Cancel]
-	 * @hotkey				&-letter or [Esc] button	
+	 * @ english Cancel @ german Abbrechen @ context Standard Cancel button for
+	 * modal dialogs; Cancel means the dialog is closed without considering
+	 * changes might have done Always to be used in combination with BTN.OK
+	 * 
+	 * @comment Do not use for non-dialog windows, use BTN.Close instead See
+	 *          also BTN.Abort for comparison
+	 * @usability If you consider important data might got lost when applying
+	 *            this button then you should ask for user confirmation (see:
+	 *            MSG.Data_have_changed_really_cancel) Please make sure the
+	 *            buttons are placed in this order (if applicable):
+	 *            [Save/Apply]- [OK]- [Cancel]
+	 * @hotkey &-letter or [Esc] button
 	 */
-	@Soplet(
-		textEN = "Cancel",
-		textDE = "Abbrechen")
+	@Soplet(textEN = "Cancel", textDE = "Abbrechen")
 	Cancel,
 
-	@Soplet(
-		textEN = "Close",
-		textDE = "Schliessen")
+	@Soplet(textEN = "Close", textDE = "Schliessen")
 	Close,
 
-	@Soplet(
-		textEN = "Context")
+	@Soplet(textEN = "Context")
 	Context,
 
-	@Soplet(
-		textDE = "Beschreibung",
-		textEN = "Description")
+	@Soplet(textDE = "Beschreibung", textEN = "Description")
 	Description,
 
-	@Soplet(
-		textDE = "Fertig",
-		textEN = "Done")
+	@Soplet(textDE = "Fertig", textEN = "Done")
 	Done,
 
-	@Soplet(
-		textDE = " ",
-		textEN = " ")
+	@Soplet(textDE = " ", textEN = " ")
 	EMPTY,
 
-	@Soplet(
-		textDE = "Filter",
-		textEN = "Filter")
+	@Soplet(textDE = "Filter", textEN = "Filter")
 	Filter,
 
-	@Soplet(
-		textEN = "Finish",
-		textDE = "Beenden")
+	@Soplet(textEN = "Finish", textDE = "Beenden")
 	Finish,
 
-	@Soplet(
-		textEN = "Login",
-		textDE = "Login")
+	@Soplet(textEN = "Login", textDE = "Login")
 	Login,
 
-	@Soplet(
-		textDE = "Nachricht",
-		textEN = "Message")
+	@Soplet(textDE = "Nachricht", textEN = "Message")
 	Message,
 
-	@Soplet(
-		textDE = "Weiter",
-		textEN = "Next")
+	@Soplet(textDE = "Weiter", textEN = "Next")
 	Next,
 
-	@Soplet(
-		textDE = "Kein Eintrag ausgewählt!", 
-		textEN = "No items selected!")
+	@Soplet(textDE = "Kein Eintrag ausgewählt!", textEN = "No items selected!")
 	No_items_selected,
 
-	@Soplet(
-		textEN = "OK",
-		textDE = "OK")
+	@Soplet(textEN = "OK", textDE = "OK")
 	OK,
 
-	@Soplet(
-		textDE = "Passwort",
-		textEN = "Password")
+	@Soplet(textDE = "Passwort", textEN = "Password")
 	Password,
 
-	@Soplet(
-		textDE = "Vorschau", 
-		textEN = "Preview")
+	@Soplet(textDE = "Vorschau", textEN = "Preview")
 	Preview,
 
-	@Soplet(
-		textDE = "Projekt",
-		textEN = "Project")
+	@Soplet(textDE = "Projekt", textEN = "Project")
 	Project,
 
-	@Soplet(
-		textDE = "Betreff",
-		textEN = "Subject")
+	@Soplet(textDE = "Betreff", textEN = "Subject")
 	Subject,
 
-	@Soplet(
-		textEN = "User",
-		textDE = "Benutzer")
+	@Soplet(textEN = "User", textDE = "Benutzer")
 	User,
 
-	@Soplet(
-		textDE = "Benutzer",
-		textEN = "Users")
+	@Soplet(textDE = "Benutzer", textEN = "Users")
 	Users,
 
-	@Soplet(
-		textEN = "Warning",
-		textDE = "Warnung")
+	@Soplet(textEN = "Warning", textDE = "Warnung")
 	Warning,
 
-	@Soplet(
-		textDE = "Willkommen",
-		textEN = "Welcome")
+	@Soplet(textDE = "Willkommen", textEN = "Welcome")
 	Welcome,
-	
-	@Soplet(
-		textDE = "Weiter",
-		textEN = "Continue")
+
+	@Soplet(textDE = "Weiter", textEN = "Continue")
 	Continue,
-	
-	@Soplet(
-		textDE = "Rolle",
-		textEN = "Role")
-	Role, 
-	
-	@Soplet(
-		textDE = "Lizenz",
-		textEN = "License")
+
+	@Soplet(textDE = "Rolle", textEN = "Role")
+	Role,
+
+	@Soplet(textDE = "Lizenz", textEN = "License")
 	License,
 
-	@Soplet(
-		textDE = "Wollen Sie die Änderungen speichern?",
-		textEN = "Do you want to save changes?")
+	@Soplet(textDE = "Wollen Sie die Änderungen speichern?", textEN = "Do you want to save changes?")
 	doYouWantToSaveChanges,
 
-	@Soplet(
-		textEN = "Email")
-	Email, 
-	
-	@Soplet(
-		textDE = "Nein",
-		textEN = "No")
+	@Soplet(textEN = "Email")
+	Email,
+
+	@Soplet(textDE = "Nein", textEN = "No")
 	No,
-	
-	@Soplet(
-		textEN = "Accept Now!")
+
+	@Soplet(textEN = "Accept Now!")
 	Accept;
 }

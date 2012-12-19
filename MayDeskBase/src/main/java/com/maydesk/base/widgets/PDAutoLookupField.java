@@ -7,39 +7,45 @@ import com.maydesk.base.util.PDBinding;
 
 import echopoint.AutoLookupSelectField;
 
-
-
+/**
+ * @author chrismay
+ */
 public class PDAutoLookupField<T extends MBase> extends AutoLookupSelectField implements IChangeSupportableWithAction<T> {
 
 	private PDBinding changeSupport;
 	private Class modelClazz;
-	
+
 	public PDAutoLookupField(Class<T> modelClazz) {
 		this.modelClazz = modelClazz;
 	}
-	
+
+	@Override
 	public void setValue(T value) {
 		setKey(value.getIdAsString());
 		setText(value.toString());
-    }
+	}
 
+	@Override
 	public T getValue() {
-		String idAsString = (String)super.getKey();
+		String idAsString = super.getKey();
 		if (idAsString == null) {
 			return null;
 		}
-	    return (T)PDHibernateFactory.getSession().load(modelClazz, Integer.parseInt(idAsString));
-    }
+		return (T) PDHibernateFactory.getSession().load(modelClazz, Integer.parseInt(idAsString));
+	}
 
+	@Override
 	public String getPropertyName() {
-	    return "key";
-    }
+		return "key";
+	}
 
+	@Override
 	public void setChangeSupport(PDBinding changeSupport) {
-	    this.changeSupport = changeSupport;
-    }
+		this.changeSupport = changeSupport;
+	}
 
+	@Override
 	public PDBinding getChangeSupport() {
-	    return changeSupport;
-    }
+		return changeSupport;
+	}
 }

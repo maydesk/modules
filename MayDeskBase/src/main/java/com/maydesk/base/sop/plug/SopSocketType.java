@@ -4,41 +4,36 @@ import lombok.soplets.Sop;
 
 import com.maydesk.base.aspects.Translatable;
 
-@Sop(aspects={Translatable.class})
+/**
+ * @author chrismay
+ */
+@Sop(aspects = { Translatable.class })
 public enum SopSocketType {
 
-	@Soplet(
-		textEN = "Base") 
+	@Soplet(textEN = "Base")
 	base,
-	
-	@Soplet(
-		textEN = "Menu Entry") 
+
+	@Soplet(textEN = "Menu Entry")
 	menu,
-	
-	@Soplet(
-		textEN = "Panel")
+
+	@Soplet(textEN = "Panel")
 	panel,
-	
-	@Soplet(
-		textEN = "Action")
+
+	@Soplet(textEN = "Action")
 	action,
-	
-	@Soplet(
-		textEN = "Floating Form")
+
+	@Soplet(textEN = "Floating Form")
 	form,
-	
-	@Soplet(
-		textEN = "Tab")
+
+	@Soplet(textEN = "Tab")
 	tab,
-	
-	@Soplet(
-		textEN = "Desktop (internal)")
-	desktop, 
-			
-	@Soplet(
-		textEN = "Login Panel (internal)")
+
+	@Soplet(textEN = "Desktop (internal)")
+	desktop,
+
+	@Soplet(textEN = "Login Panel (internal)")
 	loginPanel;
-	
+
 	@Override
 	public String toString() {
 		return textEN();

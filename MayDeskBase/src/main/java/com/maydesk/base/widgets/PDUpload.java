@@ -6,10 +6,6 @@ import java.util.Locale;
 import java.util.Vector;
 
 import nextapp.echo.app.ApplicationInstance;
-import nextapp.echo.app.Color;
-import nextapp.echo.app.Extent;
-import nextapp.echo.app.FillImage;
-import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.TaskQueueHandle;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -24,8 +20,10 @@ import com.maydesk.base.sop.gui.PDBeanTerms;
 import com.maydesk.base.sop.gui.StandardTerms;
 
 import echopoint.ContainerEx;
-import echopoint.able.Scrollable;
 
+/**
+ * @author Alejandro Salas
+ */
 public class PDUpload extends ContainerEx {
 
 	private UploadSelect uploadSelect;
@@ -33,19 +31,20 @@ public class PDUpload extends ContainerEx {
 	private ApplicationInstance appInstance;
 	private MMediaFile file;
 	private List<ActionListener> listeners = new Vector<ActionListener>();
-	
+
 	public PDUpload() {
 		appInstance = ApplicationInstance.getActive();
 		taskQueueHandle = appInstance.createTaskQueue();
-		
+
 		initGUI();
 	}
-	
+
 	private void initGUI() {
 		uploadSelect = new UploadSelect();
 		uploadSelect.setLocale(Locale.ENGLISH);
-		
+
 		uploadSelect.addUploadListener(new UploadListener() {
+			@Override
 			public void uploadComplete(UploadEvent e) {
 				appInstance.enqueueTask(taskQueueHandle, new MyUploadFinished(e));
 			}
@@ -55,11 +54,12 @@ public class PDUpload extends ContainerEx {
 
 	class MyUploadFinished implements Runnable {
 		private Upload upload;
-		
+
 		MyUploadFinished(UploadEvent uploadEvent) {
 			upload = uploadEvent.getUpload();
 		}
-			
+
+		@Override
 		public void run() {
 			try {
 				if (!isValidFile(upload.getFileName())) {
@@ -68,17 +68,18 @@ public class PDUpload extends ContainerEx {
 					initGUI();
 					return;
 				}
-				byte[] b = new byte[(int)upload.getSize()];
+				byte[] b = new byte[(int) upload.getSize()];
 
 				file = null;
 				try {
-					upload.getInputStream().read(b, 0, (int)upload.getSize());
+					upload.getInputStream().read(b, 0, (int) upload.getSize());
 					file = new MMediaFile();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				if (file == null) return;
-				
+				if (file == null)
+					return;
+
 				file.setFileBytes(b);
 				file.setFileName(upload.getFileName());
 				file.setContentType(upload.getContentType());
@@ -90,13 +91,13 @@ public class PDUpload extends ContainerEx {
 					if (upload.getInputStream() != null) {
 						upload.getInputStream().close();
 					}
-	            } catch (IOException e) {
-		            e.printStackTrace();
-	            }	
-	            removeAll();
-	            initGUI();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				removeAll();
+				initGUI();
 			}
-			
+
 			ActionEvent e = new ActionEvent(this, "");
 			for (ActionListener l : listeners) {
 				l.actionPerformed(e);
@@ -107,10 +108,10 @@ public class PDUpload extends ContainerEx {
 	public MMediaFile getFile() {
 		return file;
 	}
-	
+
 	public void addActionListener(ActionListener listener) {
 		listeners.add(listener);
-    }
+	}
 
 	protected boolean isValidFile(String fileName) {
 		return true;

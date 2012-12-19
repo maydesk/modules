@@ -13,7 +13,9 @@ import static com.maydesk.base.util.SopletsResourceBundle.nls;
 import java.util.List;
 import java.util.Vector;
 
-import com.maydesk.base.PDDesktop;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
+
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.dao.DaoUser;
 import com.maydesk.base.gui.PDWizard;
@@ -27,75 +29,73 @@ import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.base.widgets.PDTextField;
 
-import nextapp.echo.app.Component;
-import nextapp.echo.app.Extent;
-
-
 /**
+ * @author chrismay
  */
 public class WzdPasswordForgotten extends PDWizard {
 
 	private List<MUser> users = new Vector<MUser>();
-	
+
 	public WzdPasswordForgotten() {
 		super();
 		setHeight(new Extent(250));
 		setWidth(new Extent(400));
 		setTitle(nls(PDBeanTerms.Recover_Password));
-		
+
 		addPanel(new Panel2());
 		addPanel(new Panel4());
 		showPage(true);
 	}
 
 	class Panel2 extends PDWizardPanel {
-		
+
 		private PDTextField txtEmail;
-		
+
 		public Panel2() {
 			super(null, StandardTerms.Next);
 			setInfo(PDBeanTerms.Please_specify_your_email_or_login);
-			
+
 			PDGrid grid = new PDGrid(2);
 			add(grid);
-			
+
 			grid.addLabel(SopUser.email);
 			txtEmail = new PDTextField();
 			grid.add(txtEmail);
 		}
-		
+
 		@Override
 		public Component getFocusComponent() {
 			return txtEmail;
 		}
-		
+
 		@Override
 		public void applyToModel() {
 			users = DaoUser.findUsersByEmail(txtEmail.getText());
-			if (users.size() == 0) return;
+			if (users.size() == 0)
+				return;
 			if (PDUtil.isEmpty(txtEmail.getText())) {
 				return;
 			}
 			String emailAdresss = txtEmail.getText();
-			
+
 			PDMailBean mailBean = new PDMailBean();
 			StringBuffer message = new StringBuffer();
-			
+
 			message.append(nls(PDBeanTerms.Hello) + Space + users.get(0).getJabberId() + Comma + CRLF + CRLF);
 			message.append(nls(PDBeanTerms.your_login_data_are_as_follows) + CRLF + CRLF);
 			for (MUser user : users) {
 				message.append(nls(PDBeanTerms.Login$) + user.getJabberId() + CRLF);
-				//message.append(nls(PDBeanTerms.Password$) + user.getPassword() + CRLF + CRLF);				
+				// message.append(nls(PDBeanTerms.Password$) + user.getPassword() + CRLF + CRLF);
 			}
-			
+
 			try {
-				//String project = PDDesktop.getInstance().getLookAndFeel().getApplicationName();
-	            mailBean.sendMail(emailAdresss, nls(PDBeanTerms.Password_recovery, "CloudDesk"), message.toString(), null);
-            } catch (Exception e) {
-	            e.printStackTrace();
-            }
+				// String project = PDDesktop.getInstance().getLookAndFeel().getApplicationName();
+				mailBean.sendMail(emailAdresss, nls(PDBeanTerms.Password_recovery, "CloudDesk"), message.toString(), null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
+
 		@Override
 		public Translatable getError() {
 			if (PDUtil.isEmpty(txtEmail.getText())) {
@@ -107,11 +107,11 @@ public class WzdPasswordForgotten extends PDWizard {
 			return null;
 		}
 	}
-	
+
 	class Panel4 extends PDWizardPanel {
 		public Panel4() {
 			super(null, StandardTerms.Done);
 			setInfo(PDBeanTerms.Password_has_been_sent_to_your_email_address);
-		}		
-	}	
+		}
+	}
 }

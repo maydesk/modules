@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * 
+ * @author chrismay
  */
 @Entity
 @Table(name = "t_pdw_browser_session")

@@ -5,6 +5,9 @@ import com.maydesk.base.model.MUserRole;
 import com.maydesk.base.util.IRoleEditor;
 import com.maydesk.dvratio.sop.SopRoles;
 
+/**
+ * @author chrismay
+ */
 public class DlgSelectRole extends PDOkCancelDialog implements IRoleEditor {
 
 	public DlgSelectRole() {

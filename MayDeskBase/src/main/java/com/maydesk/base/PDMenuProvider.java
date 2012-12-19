@@ -13,10 +13,12 @@ import nextapp.echo.extras.app.menu.MenuModel;
 /**
  * An abstract implementation for providing a perspective Extends this class to
  * provide a personalized view of your desktop
+ * 
+ * @author chrismay
  */
 public abstract class PDMenuProvider implements ActionListener {
 
-	public PDMenuProvider() {		
+	public PDMenuProvider() {
 	}
 
 	public ItemModel getMenuItem(String name, String actionId) {
@@ -29,6 +31,6 @@ public abstract class PDMenuProvider implements ActionListener {
 	public abstract MenuModel updateMenu();
 
 	protected void loggingOut() {
-		//Empty
+		// Empty
 	}
 }

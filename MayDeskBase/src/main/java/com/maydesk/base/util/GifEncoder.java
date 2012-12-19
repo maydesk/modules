@@ -1,9 +1,11 @@
 package com.maydesk.base.util;
 
-import java.util.*;
-import java.io.*;
 import java.awt.Image;
-import java.awt.image.*;
+import java.awt.image.ColorModel;
+import java.awt.image.IndexColorModel;
+import java.awt.image.PixelGrabber;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * GifEncoder - writes out an image as a GIF.
@@ -33,6 +35,8 @@ import java.awt.image.*;
  * 
  * Visit the ACME Labs Java page for up-to-date versions of this and other fine
  * Java utilities: http://www.acme.com/java/
+
+ * @author Jef Poskanzer <jef@acme.com>. All rights reserved.
  */
 
 public class GifEncoder {
@@ -269,7 +273,7 @@ public class GifEncoder {
 		if (pixelIndex == numPixels)
 			return EOF;
 		else
-			return ((byte[]) pixels)[pixelIndex++] & 0xff;
+			return pixels[pixelIndex++] & 0xff;
 	}
 
 	// Write out a word to the GIF file

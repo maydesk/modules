@@ -6,9 +6,10 @@
 package com.maydesk.base.dao;
 
 /**
- * Interface indicating that the implementing class is a DAO (Data Access Object) class
- * This is required when using AOP inspection/statistics
+ * Interface indicating that the implementing class is a DAO (Data Access
+ * Object) class This is required when using AOP inspection/statistics
  * 
+ * @author chrismay
  */
 public interface IDAO {
 

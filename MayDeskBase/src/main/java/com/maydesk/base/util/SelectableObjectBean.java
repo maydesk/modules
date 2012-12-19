@@ -11,19 +11,20 @@ import java.util.Vector;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
-/** 
- * @author Alejandro Salas 
- * <br> Created on Jul 6, 2007
+/**
+ * @author Alejandro Salas <br>
+ *         Created on Jul 6, 2007
  */
 public class SelectableObjectBean<T> {
 
 	private boolean selected;
 	private T object;
 	private List<ActionListener> listeners = new Vector<ActionListener>();
+
 	public SelectableObjectBean(T object) {
 		this.object = object;
 	}
-	
+
 	public T getObject() {
 		return object;
 	}
@@ -45,6 +46,6 @@ public class SelectableObjectBean<T> {
 	}
 
 	public void addActionListener(ActionListener l) {
-		listeners.add(l);	    
-    }
+		listeners.add(l);
+	}
 }

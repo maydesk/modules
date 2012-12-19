@@ -24,10 +24,11 @@ import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDCombo;
 import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.base.widgets.PDLabel;
-import com.maydesk.base.widgets.PDLabel.STYLE;
 import com.maydesk.base.widgets.PDTextField;
 
-
+/**
+ * @author chrismay
+ */
 public class PnlUserForWizard extends PDGrid implements ICrud<MUser> {
 
 	private PDTextField txtJabberId;
@@ -40,7 +41,7 @@ public class PnlUserForWizard extends PDGrid implements ICrud<MUser> {
 	private PDTextField txtEmail;
 	private VCard vcard;
 	private boolean editable;
-	
+
 	public PnlUserForWizard() {
 		this(true);
 	}
@@ -58,12 +59,12 @@ public class PnlUserForWizard extends PDGrid implements ICrud<MUser> {
 		txtJabberId = new PDTextField();
 		txtJabberId.setEnabled(false);
 		addFill(txtJabberId);
-		
+
 		lbl = addLabel(SopUser.firstName);
 		lbl.setText(lbl.getText());
 		txtFirstName = new PDTextField();
 		addFill(txtFirstName);
-		
+
 		lbl = addLabel(SopUser.lastName);
 		lbl.setText(lbl.getText());
 		txtLastName = new PDTextField();
@@ -71,32 +72,32 @@ public class PnlUserForWizard extends PDGrid implements ICrud<MUser> {
 
 		addLabel(SopUser.organization);
 		addFill(txtOrganization = new PDTextField());
-		
+
 		addLabel(SopUser.zipCode);
 		txtZipCode = new PDTextField();
 		txtZipCode.setMaximumLength(5);
 		txtZipCode.setWidth(new Extent(100));
 		add(txtZipCode);
-		
+
 		addLabel(SopUser.city);
 		txtCity = new PDTextField();
 		addFill(txtCity);
 
 		addLabel(SopUser.country);
-		cboCountry = new PDCombo<ECountry>(ECountry.values(), StandardTerms.EMPTY, false);		
+		cboCountry = new PDCombo<ECountry>(ECountry.values(), StandardTerms.EMPTY, false);
 		addFill(cboCountry);
-				
+
 		lbl = addLabel(SopUser.email);
 		txtEmail = new PDTextField();
 		addFill(txtEmail);
-		
+
 		if (editable) {
 			lbl.setText(lbl.getText() + "*"); // email is mandatory
 			lbl = new PDLabel(PDBeanTerms.Star_is_mandatory, PDLabel.STYLE.ANNOTATION);
 			addFill(lbl);
 		}
 	}
-	
+
 	public VCard createVCard() {
 		if (vcard == null) {
 			vcard = new VCard();
@@ -113,9 +114,10 @@ public class PnlUserForWizard extends PDGrid implements ICrud<MUser> {
 		return vcard;
 	}
 
+	@Override
 	public Component getFocusComponent() {
-	    return txtFirstName;
-    }
+		return txtFirstName;
+	}
 
 	public Translatable getError() {
 		if (PDUtil.isEmpty(txtEmail.getText())) {
@@ -125,16 +127,16 @@ public class PnlUserForWizard extends PDGrid implements ICrud<MUser> {
 			return PDBeanTerms.Invalid_email_address;
 		}
 		return null;
-    }
+	}
 
 	@Override
-    public void readFromModel(MBase model) {
+	public void readFromModel(MBase model) {
 		MUser user = null;
 		if (model instanceof MDataLink) {
-			MDataLink dl = (MDataLink)model;
-			user = MUser.loadById(MUser.class, dl.getTargetId());
+			MDataLink dl = (MDataLink) model;
+			user = MBase.loadById(MUser.class, dl.getTargetId());
 		} else {
-			user = (MUser)model;
+			user = (MUser) model;
 		}
 		vcard = PDUserSession.getInstance().getVCard(user.getJabberId());
 		txtJabberId.setText(user.getJabberId());
@@ -154,7 +156,7 @@ public class PnlUserForWizard extends PDGrid implements ICrud<MUser> {
 			}
 		}
 		txtEmail.setText(vcard.getEmailHome());
-    }
+	}
 
 	public void setEditing(boolean isEditing) {
 		txtFirstName.setEnabled(isEditing);
@@ -165,9 +167,9 @@ public class PnlUserForWizard extends PDGrid implements ICrud<MUser> {
 		txtCity.setEnabled(isEditing);
 		txtEmail.setEnabled(isEditing);
 	}
-	
+
 	@Override
-    public Class getModelClass() {
-	    return MUser.class;
-    }
+	public Class getModelClass() {
+		return MUser.class;
+	}
 }

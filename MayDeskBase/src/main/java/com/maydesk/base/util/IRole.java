@@ -5,8 +5,11 @@
  */
 package com.maydesk.base.util;
 
+/**
+ * @author chrismay
+ */
 public interface IRole {
-	
+
 	public String name();
 
 	public boolean hasPrivilege(Enum privilegeName);

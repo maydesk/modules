@@ -14,7 +14,9 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
+/**
+ * @author chrismay
+ */
 @Entity
 @Table(name = "t_pdw_media_file")
 public class MMediaFile extends MBase {
@@ -27,7 +29,7 @@ public class MMediaFile extends MBase {
 	private byte[] previewData;
 	private String parentClass;
 	private int parentId;
-	
+
 	public MMediaFile() {
 	}
 
@@ -62,7 +64,6 @@ public class MMediaFile extends MBase {
 		this.date = date;
 	}
 
-
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
@@ -70,7 +71,7 @@ public class MMediaFile extends MBase {
 	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
-	
+
 	@Override
 	public String toString() {
 		return fileName;
@@ -80,34 +81,34 @@ public class MMediaFile extends MBase {
 	public byte[] getFileBytes() {
 		return data;
 	}
-	
+
 	public void setFileBytes(byte[] data) {
 		this.data = data;
 	}
-	
+
 	@Lob
 	public byte[] getPreviewBytes() {
 		return previewData;
 	}
-	
+
 	public void setPreviewBytes(byte[] data) {
 		this.previewData = data;
 	}
 
 	public String getParentClass() {
-    	return parentClass;
-    }
+		return parentClass;
+	}
 
 	public void setParentClass(String parentClass) {
-    	this.parentClass = parentClass;
-    }
+		this.parentClass = parentClass;
+	}
 
 	public int getParentId() {
-    	return parentId;
-    }
+		return parentId;
+	}
 
 	public void setParentId(int parentId) {
-    	this.parentId = parentId;
-    }
+		this.parentId = parentId;
+	}
 
 }

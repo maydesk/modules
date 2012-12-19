@@ -16,7 +16,9 @@ import com.maydesk.base.model.MUser;
 import com.maydesk.base.util.ICrud;
 import com.maydesk.base.util.PnlImages;
 
-
+/**
+ * @author chrismay
+ */
 public class PnlUserMoods extends Column implements ICrud {
 
 	private PnlImages pnlImages;
@@ -31,14 +33,15 @@ public class PnlUserMoods extends Column implements ICrud {
 			@Override
 			protected void onAddImage(MMediaFile file) {
 				file.setParentClass(MUser.class.getName());
-				file.setParentId(userId);	
+				file.setParentId(userId);
 			}
 		};
 		add(pnlImages);
 	}
 
+	@Override
 	public void readFromModel(MBase model) {
-		userId = ((MDataLink)model).getTargetId();
+		userId = ((MDataLink) model).getTargetId();
 		Criteria criteria = PDHibernateFactory.getSession().createCriteria(MMediaFile.class);
 		criteria.add(Restrictions.eq("parentClass", MUser.class.getName()));
 		criteria.add(Restrictions.eq("parentId", userId));
@@ -49,12 +52,13 @@ public class PnlUserMoods extends Column implements ICrud {
 		}
 	}
 
+	@Override
 	public Component getFocusComponent() {
 		return null;
 	}
 
 	@Override
-    public Class getModelClass() {
-	    return MUser.class;
-    }
+	public Class getModelClass() {
+		return MUser.class;
+	}
 }

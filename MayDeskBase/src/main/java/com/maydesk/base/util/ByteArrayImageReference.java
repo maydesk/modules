@@ -15,19 +15,22 @@ import nextapp.echo.app.StreamImageReference;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * @author Alejandro Salas
+ */
 public class ByteArrayImageReference extends StreamImageReference {
 
 	private byte[] data;
 	private String contentType;
 	private String id = ApplicationInstance.generateSystemId();
 	private int size;
-		
+
 	public ByteArrayImageReference(byte[] data, String contentType, int size) {
 		this.data = data;
 		this.contentType = contentType;
 		this.size = size;
 	}
-		
+
 	@Override
 	public String getContentType() {
 		return contentType;
@@ -36,23 +39,26 @@ public class ByteArrayImageReference extends StreamImageReference {
 	@Override
 	public void render(OutputStream out) throws IOException {
 		try {
-			IOUtils.copy(new ByteArrayInputStream(data), out);	
-			out.flush(); 
+			IOUtils.copy(new ByteArrayInputStream(data), out);
+			out.flush();
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	@Override
 	public String getRenderId() {
 		return id;
 	}
-	
+
+	@Override
 	public Extent getHeight() {
 		return new Extent(size);
 	}
 
+	@Override
 	public Extent getWidth() {
 		return new Extent(size);
-	}	
+	}
 }

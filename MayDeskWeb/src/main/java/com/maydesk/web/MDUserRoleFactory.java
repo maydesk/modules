@@ -11,6 +11,9 @@ import com.maydesk.base.util.IRoleEditor;
 import com.maydesk.base.util.IUserRoleFactory;
 import com.maydesk.dvratio.sop.SopRoles;
 
+/**
+ * @author chrismay
+ */
 public class MDUserRoleFactory implements IUserRoleFactory {
 
 	@Override
@@ -19,7 +22,7 @@ public class MDUserRoleFactory implements IUserRoleFactory {
 		for (SopRoles role : SopRoles.values()) {
 			roles.add(role);
 		}
-		return roles;		
+		return roles;
 	}
 
 	@Override
@@ -34,7 +37,7 @@ public class MDUserRoleFactory implements IUserRoleFactory {
 
 	@Override
 	public String getContextDescription(MUserRole userRole) {
-		return "C"  + userRole.getRoleName();
+		return "C" + userRole.getRoleName();
 	}
 
 	@Override

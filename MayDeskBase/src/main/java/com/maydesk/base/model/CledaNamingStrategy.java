@@ -8,6 +8,9 @@ package com.maydesk.base.model;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 
+/**
+ * @author Demian Guitierrez
+ */
 public class CledaNamingStrategy extends ImprovedNamingStrategy {
 
 	protected Configuration configuration;
@@ -16,6 +19,7 @@ public class CledaNamingStrategy extends ImprovedNamingStrategy {
 		this.configuration = configuration;
 	}
 
+	@Override
 	public String tableName(String tableName) {
 		String url = (String) configuration.getProperties().get("hibernate.connection.url");
 

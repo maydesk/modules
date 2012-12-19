@@ -10,6 +10,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author chrismay
+ */
 @Entity
 @Table(name = "t_pdw_presence_acknowledge")
 public class MPresenceAcknowledge extends MBase {

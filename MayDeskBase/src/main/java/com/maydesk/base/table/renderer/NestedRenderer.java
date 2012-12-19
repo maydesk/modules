@@ -14,6 +14,9 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.Table;
 import nextapp.echo.app.table.TableCellRenderer;
 
+/**
+ * @author Alejandro Salas
+ */
 public class NestedRenderer implements TableCellRenderer {
 
 	protected List<TableCellRenderer> tableCellRendererList = new ArrayList<TableCellRenderer>();
@@ -22,6 +25,7 @@ public class NestedRenderer implements TableCellRenderer {
 		// Empty
 	}
 
+	@Override
 	public Component getTableCellRendererComponent(final Table table, final Object object, final int col, final int row) {
 		Row ret = new Row();
 		ret.setCellSpacing(new Extent(5));

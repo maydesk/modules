@@ -8,18 +8,19 @@ package com.maydesk.base.gui;
 import nextapp.echo.app.Component;
 
 /**
- * A gereral purpose floating window 
+ * A gereral purpose floating window
  * 
+ * @author chrismay
  */
 public class PDSvgImage extends Component {
 
-    public static final String PROPERTY_SVG_DATA = "svg_data";
+	public static final String PROPERTY_SVG_DATA = "svg_data";
 
 	public PDSvgImage() {
 	}
-	
+
 	public byte[] getSvgData() {
-		return (byte[])get(PROPERTY_SVG_DATA);
+		return (byte[]) get(PROPERTY_SVG_DATA);
 	}
 
 	public void setSvgData(byte[] data) {

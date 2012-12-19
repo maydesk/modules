@@ -4,14 +4,15 @@ import lombok.soplets.Sop;
 
 import com.maydesk.base.aspects.Translatable;
 
-@Sop(aspects=Translatable.class)
+/**
+ * @author chrismay
+ */
+@Sop(aspects = Translatable.class)
 public enum SopGender {
 
-	@Soplet(
-		textEN = "Male")
+	@Soplet(textEN = "Male")
 	male,
-	
-	@Soplet(
-		textEN = "Female")
+
+	@Soplet(textEN = "Female")
 	female;
 }

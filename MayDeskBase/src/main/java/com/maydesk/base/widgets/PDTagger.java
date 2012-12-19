@@ -5,7 +5,9 @@
  */
 package com.maydesk.base.widgets;
 
-
+/**
+ * @author chrismay
+ */
 public class PDTagger extends PDDesktopItem {
 
 	public PDTagger(String title, int posX, int posY) {

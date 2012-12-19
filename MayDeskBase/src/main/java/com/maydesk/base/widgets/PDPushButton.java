@@ -9,13 +9,15 @@ import static com.maydesk.base.util.SopletsResourceBundle.nls;
 
 import com.maydesk.base.aspects.Translatable;
 
-
 import echopoint.PushButton;
 
+/**
+ * @author chrismay
+ */
 public class PDPushButton extends PushButton {
-	
+
 	public PDPushButton(Translatable term) {
 		setText(nls(term));
 	}
-	
+
 }

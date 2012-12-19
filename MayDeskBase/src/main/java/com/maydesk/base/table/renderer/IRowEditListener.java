@@ -9,6 +9,9 @@ import java.util.EventListener;
 
 import nextapp.echo.app.event.ActionEvent;
 
+/**
+ * @author Alejandro Salas
+ */
 public interface IRowEditListener extends EventListener {
 
 	void btnEditClicked(ActionEvent event);

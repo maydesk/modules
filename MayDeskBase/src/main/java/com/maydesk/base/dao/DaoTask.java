@@ -7,7 +7,6 @@ package com.maydesk.base.dao;
 
 import java.util.List;
 
-
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -24,16 +23,15 @@ import com.maydesk.base.model.MTask;
 import com.maydesk.base.model.MTaskAssign;
 import com.maydesk.base.model.MUser;
 
-
 /**
  * The DAO to find/load/save MUser instances
  * 
+ * @author chrismay
  */
 public class DaoTask implements IDAO {
 
-	
 	public static void assignUser(Session session, MTask task, MUser user) {
-		//assign the task to the project admin(s)
+		// assign the task to the project admin(s)
 		MTaskAssign ut = new MTaskAssign();
 		ut.setUserRef(user);
 		ut.setTask(task);
@@ -44,7 +42,7 @@ public class DaoTask implements IDAO {
 		Session session = PDHibernateFactory.getSession();
 		Criteria criteria = session.createCriteria(MTaskAssign.class);
 		criteria.add(Restrictions.eq("userRef", user));
-		//criteria.setProjection(Projections.property("task"));
+		// criteria.setProjection(Projections.property("task"));
 		List<MTaskAssign> list = criteria.list();
 		return list;
 	}
@@ -91,28 +89,28 @@ public class DaoTask implements IDAO {
 			criteria.add(Restrictions.isNotNull("doneDate"));
 			break;
 		}
-		
-//		//limit to reachable tasks
-//		DetachedCriteria assignments = DetachedCriteria.forClass(MTenantAssignment.class, "ta");
-//		assignments.add(Restrictions.eq("user", PDDesktop.getCurrentUser()));
-//		assignments.add(Restrictions.eq("owner", true));
-//		assignments.setProjection(Projections.property("ta.tenant"));
-//		criteria.add(Subqueries.propertyIn("tenant", assignments));
-		
+
+		// //limit to reachable tasks
+		// DetachedCriteria assignments =
+		// DetachedCriteria.forClass(MTenantAssignment.class, "ta");
+		// assignments.add(Restrictions.eq("user", PDDesktop.getCurrentUser()));
+		// assignments.add(Restrictions.eq("owner", true));
+		// assignments.setProjection(Projections.property("ta.tenant"));
+		// criteria.add(Subqueries.propertyIn("tenant", assignments));
+
 		criteria.addOrder(Order.asc("id"));
 		List<MTask> list = criteria.list();
 		return list;
 	}
-	
+
 	public static boolean hasUnassignedTasks() {
 		Session session = PDHibernateFactory.getSession();
-		String hql = "select count(task) from MTask task where task not in (select task from MUserTask) " +
-				"and task.tenant in (select tenant from MTenantAssignment pa where pa.userRef = :user and owner = true) " +
-				"and doneDate is null";
+		String hql = "select count(task) from MTask task where task not in (select task from MUserTask) "
+				+ "and task.tenant in (select tenant from MTenantAssignment pa where pa.userRef = :user and owner = true) " + "and doneDate is null";
 		Query query = session.createQuery(hql);
 		query.setEntity("user", PDUserSession.getInstance().getUser());
-		Long i = (Long)query.uniqueResult();
-		return i > 0;		
+		Long i = (Long) query.uniqueResult();
+		return i > 0;
 	}
 
 	public static List<MTaskAssign> findUserTasks(MTask task) {
@@ -120,5 +118,5 @@ public class DaoTask implements IDAO {
 		Criteria criteria = session.createCriteria(MTaskAssign.class);
 		criteria.add(Restrictions.eq("task", task));
 		return criteria.list();
-    }
+	}
 }

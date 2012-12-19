@@ -5,14 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.maydesk.base.PDDesktop;
-import com.maydesk.base.PDHibernateFactory;
-import com.maydesk.base.gui.DlgImageViewer;
-import com.maydesk.base.model.MMediaFile;
-import com.maydesk.base.sop.enums.SopMood;
-import com.maydesk.base.widgets.PDCombo;
-import com.maydesk.base.widgets.PDUpload;
-
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Column;
@@ -23,8 +15,20 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.ColumnLayoutData;
 import nextapp.echo.app.layout.RowLayoutData;
+
+import com.maydesk.base.PDDesktop;
+import com.maydesk.base.PDHibernateFactory;
+import com.maydesk.base.gui.DlgImageViewer;
+import com.maydesk.base.model.MMediaFile;
+import com.maydesk.base.sop.enums.SopMood;
+import com.maydesk.base.widgets.PDCombo;
+import com.maydesk.base.widgets.PDUpload;
+
 import echopoint.Strut;
 
+/**
+ * @author Alejandro Salas
+ */
 public class PnlImages extends Column {
 
 	private PDUpload uploadSelect;
@@ -46,6 +50,7 @@ public class PnlImages extends Column {
 
 		if (showFileSelector) {
 			uploadSelect = new PDUpload() {
+				@Override
 				protected boolean isValidFile(String fileName) {
 					String ext = fileName.substring(fileName.length() - 3, fileName.length());
 					ext = ext.toUpperCase();
@@ -53,6 +58,7 @@ public class PnlImages extends Column {
 				}
 			};
 			uploadSelect.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					MMediaFile file = uploadSelect.getFile();
 					if (file == null)
@@ -81,12 +87,13 @@ public class PnlImages extends Column {
 	}
 
 	private void addIcon(final MMediaFile mediaFile) throws IOException, SQLException {
-		
+
 		Column col = new Column();
 		rowIcons.add(col);
-		
+
 		Button lbl2 = new Button();
 		lbl2.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				DlgImageViewer dlg = new DlgImageViewer(mediaFile);
 				PDDesktop.getInstance().addWindow(dlg);
@@ -94,7 +101,7 @@ public class PnlImages extends Column {
 		});
 		lbl2.setIcon(new ByteArrayImageReference(mediaFile.getPreviewBytes(), mediaFile.getContentType(), 48));
 		col.add(lbl2);
-		
+
 		final PDCombo<SopMood> cboMood = new PDCombo<SopMood>(SopMood.values());
 		cboMood.setWidth(new Extent(80));
 		cboMood.addActionListener(new ActionListener() {
@@ -109,12 +116,13 @@ public class PnlImages extends Column {
 			cboMood.setSelectedItem(mood);
 		} catch (Exception e) {
 		}
-		
+
 		col.add(cboMood);
 
 		if (showFileSelector) {
 			Button btnDelete = new Button(PDUtil.getImg("img/DefaultCloseButton.gif"));
 			btnDelete.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					btnDeleteClicked(mediaFile);
 				}
@@ -155,7 +163,7 @@ public class PnlImages extends Column {
 	}
 
 	protected void onAddImage(MMediaFile file) {
-		//override to store image
+		// override to store image
 	}
 
 	private void fillFields() {

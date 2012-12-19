@@ -19,6 +19,9 @@ import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDButton;
 import com.maydesk.base.widgets.PDCombo;
 
+/**
+ * @author chrismay
+ */
 public class PnlUserStatus extends Row implements IPlugTarget, ActionListener {
 
 	private TextField txtText;
@@ -37,11 +40,11 @@ public class PnlUserStatus extends Row implements IPlugTarget, ActionListener {
 		txtText.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				 btnFinishClicked();
+				btnFinishClicked();
 			}
 		});
 		add(txtText);
-		
+
 		btnStart = new PDButton("", PDButton.STYLE.TRANSPARENT);
 		btnStart.setForeground(Color.WHITE);
 		btnStart.addActionListener(new ActionListener() {
@@ -54,8 +57,8 @@ public class PnlUserStatus extends Row implements IPlugTarget, ActionListener {
 		btnStart.setText(PDUtil.null2dots(txtText.getText()));
 		btnStart.setWidth(new Extent(220));
 		btnStart.setToolTipText("Show your current status to other users");
-		add(btnStart);	
-		
+		add(btnStart);
+
 		btnFinish = new PDButton("Go");
 		btnFinish.addActionListener(new ActionListener() {
 			@Override
@@ -63,12 +66,12 @@ public class PnlUserStatus extends Row implements IPlugTarget, ActionListener {
 				btnFinishClicked();
 			}
 		});
-		add(btnFinish);		
+		add(btnFinish);
 		setEditing(false);
-		
+
 		cboStatus = new PDCombo<StatusMode>(StatusMode.values());
 		StatusMode statusMode = StatusMode.findByPresence(PDUserSession.getInstance().getCurrentPresence());
-		cboStatus.setSelectedItem(statusMode);		
+		cboStatus.setSelectedItem(statusMode);
 		cboStatus.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -77,17 +80,17 @@ public class PnlUserStatus extends Row implements IPlugTarget, ActionListener {
 		});
 		add(cboStatus);
 	}
-	
+
 	private void btnFinishClicked() {
 		PDUserSession.getInstance().setCurrentStatus(txtText.getText());
 		setEditing(false);
 		btnStart.setText(PDUtil.null2dots(txtText.getText()));
 	}
-	
+
 	private void cboClicked() {
 		PDUserSession.getInstance().setStatusMode(cboStatus.getSelectedItem().getMode());
 	}
-	
+
 	private void setEditing(boolean editing) {
 		txtText.setVisible(editing);
 		btnStart.setVisible(!editing);
@@ -99,7 +102,7 @@ public class PnlUserStatus extends Row implements IPlugTarget, ActionListener {
 		// XXX: Ugly! To update status at login time
 		PDUserSession.getInstance().setLoginPresenceListener(this);
 	}
-	
+
 	@Override
 	public void actionPerformed(final ActionEvent evt) {
 		Presence presence = (Presence) evt.getSource();

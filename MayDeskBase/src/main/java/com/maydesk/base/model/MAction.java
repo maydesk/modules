@@ -14,7 +14,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
+/**
+ * @author chrismay
+ */
 @Entity
 @Table(name = "t_pdw_action")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -33,71 +35,70 @@ public abstract class MAction extends MBase {
 
 	public abstract void undoAction();
 
-
 	@ManyToOne
 	public MUser getUser() {
-    	return user;
-    }
+		return user;
+	}
 
 	public void setUser(MUser user) {
-    	this.user = user;
-    }
+		this.user = user;
+	}
 
-	@Column(length=2000)
+	@Column(length = 2000)
 	public String getNewStringValue() {
-    	return newStringValue;
-    }
+		return newStringValue;
+	}
 
 	public void setNewStringValue(String newStringValue) {
-    	this.newStringValue = newStringValue;
-    }
+		this.newStringValue = newStringValue;
+	}
 
-	@Column(length=2000)
+	@Column(length = 2000)
 	public String getOldStringValue() {
-    	return oldStringValue;
-    }
+		return oldStringValue;
+	}
 
 	public void setOldStringValue(String oldStringValue) {
-    	this.oldStringValue = oldStringValue;
-    }
+		this.oldStringValue = oldStringValue;
+	}
 
 	public double getNewDoubleValue() {
-    	return newDoubleValue;
-    }
+		return newDoubleValue;
+	}
 
 	public void setNewDoubleValue(double newDoubleValue) {
-    	this.newDoubleValue = newDoubleValue;
-    }
+		this.newDoubleValue = newDoubleValue;
+	}
 
 	public int getNewIntValue() {
-    	return newIntValue;
-    }
+		return newIntValue;
+	}
 
 	public void setNewIntValue(int newIntValue) {
-    	this.newIntValue = newIntValue;
-    }
+		this.newIntValue = newIntValue;
+	}
 
 	public double getOldDoubleValue() {
-    	return oldDoubleValue;
-    }
+		return oldDoubleValue;
+	}
 
 	public void setOldDoubleValue(double oldDoubleValue) {
-    	this.oldDoubleValue = oldDoubleValue;
-    }
+		this.oldDoubleValue = oldDoubleValue;
+	}
 
 	public int getOldIntValue() {
-    	return oldIntValue;
-    }
+		return oldIntValue;
+	}
 
 	public void setOldIntValue(int oldIntValue) {
-    	this.oldIntValue = oldIntValue;
-    }
+		this.oldIntValue = oldIntValue;
+	}
 
 	public Date getDatum() {
-    	return datum;
-    }
+		return datum;
+	}
 
 	public void setDatum(Date datum) {
-    	this.datum = datum;
-    }
+		this.datum = datum;
+	}
 }

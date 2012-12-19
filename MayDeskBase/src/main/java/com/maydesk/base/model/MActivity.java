@@ -15,9 +15,9 @@ import javax.persistence.Transient;
 
 import com.maydesk.base.util.PDFormat;
 
-
 /**
- * @author Alejandro Salas Created on Feb 7, 2007
+ * @author Alejandro Salas <br>
+ *         Created on Feb 7, 2007
  */
 @Entity
 @Table(name = "t_pdw_activity2")
@@ -127,7 +127,7 @@ public class MActivity extends MBase {
 		this.browserSession = browserSession;
 	}
 
-	@Column(name="user_ref")
+	@Column(name = "user_ref")
 	public int getUserId() {
 		return userId;
 	}

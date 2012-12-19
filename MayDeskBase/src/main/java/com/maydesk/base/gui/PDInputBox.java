@@ -5,22 +5,22 @@
  */
 package com.maydesk.base.gui;
 
-import com.maydesk.base.PDDesktop;
-
 import nextapp.echo.app.TextField;
+
+import com.maydesk.base.PDDesktop;
 
 /**
  * A model box displaying a simple message
  * 
+ * @author Alejandro Salas
  */
 public class PDInputBox extends PDOkCancelDialog {
 
 	public static PDInputBox inputBox(String title, String msg) {
-		PDInputBox box = new PDInputBox(title, msg, 300, 150);		
+		PDInputBox box = new PDInputBox(title, msg, 300, 150);
 		PDDesktop.getInstance().addWindow(box);
 		return box;
-    }
-
+	}
 
 	private String value;
 	private TextField txt;
@@ -31,19 +31,19 @@ public class PDInputBox extends PDOkCancelDialog {
 
 		txt = new TextField();
 		addMainComponent(txt);
-	}		
-		
+	}
+
 	public void setValue(String value) {
 		txt.setText(value);
-    }
+	}
 
 	public String getValue() {
 		return value;
 	}
 
 	@Override
-    protected boolean onOkClicked() {
+	protected boolean onOkClicked() {
 		value = txt.getText();
-	    return true;
-    }
+		return true;
+	}
 }

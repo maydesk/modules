@@ -9,15 +9,16 @@ import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.model.MUser;
 import com.maydesk.social.model.MAnnouncement;
 
-@Sop(aspects={Translatable.class, Beanable.class})
+/**
+ * @author chrismay
+ */
+@Sop(aspects = { Translatable.class, Beanable.class })
 public enum SopAnnouncementUser {
-	@ManyToOne(targetEntity=MUser.class)
-	@Soplet(
-		javaType=MUser.class)
+	@ManyToOne(targetEntity = MUser.class)
+	@Soplet(javaType = MUser.class)
 	targetUser,
 
-	@ManyToOne(targetEntity=MAnnouncement.class)
-	@Soplet(
-		javaType=MAnnouncement.class)
+	@ManyToOne(targetEntity = MAnnouncement.class)
+	@Soplet(javaType = MAnnouncement.class)
 	announcement;
 }

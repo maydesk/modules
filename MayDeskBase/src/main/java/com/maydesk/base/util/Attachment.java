@@ -5,14 +5,17 @@
  */
 package com.maydesk.base.util;
 
+/**
+ * @author chrismay
+ */
 public class Attachment {
 
 	private byte[] data;
 	private String label;
-	
+
 	public Attachment() {
 	}
-	
+
 	public byte[] getData() {
 		return data;
 	}
@@ -20,11 +23,11 @@ public class Attachment {
 	public String getLabel() {
 		return label;
 	}
-	
+
 	public void setData(byte[] data) {
 		this.data = data;
 	}
-	
+
 	public void setLabel(String label) {
 		this.label = label;
 	}

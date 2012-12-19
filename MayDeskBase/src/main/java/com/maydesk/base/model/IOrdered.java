@@ -6,7 +6,7 @@
 package com.maydesk.base.model;
 
 /**
- * 
+ * @author chrismay
  */
 public interface IOrdered extends Comparable<IOrdered> {
 

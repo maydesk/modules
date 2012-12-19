@@ -7,16 +7,17 @@ package com.maydesk.base.model;
 
 import javax.persistence.Entity;
 
-
+/**
+ * @author chrismay
+ */
 @Entity
 public class MActionGeneric extends MAction {
 
-	
 	@Override
-    public void redoAction() {
-    }
+	public void redoAction() {
+	}
 
 	@Override
-    public void undoAction() {
-    }
+	public void undoAction() {
+	}
 }

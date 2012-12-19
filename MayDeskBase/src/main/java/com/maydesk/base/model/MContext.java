@@ -8,6 +8,9 @@ package com.maydesk.base.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author chrismay
+ */
 @Entity
 @Table(name = "t_pdw_context")
 public class MContext extends MBase {
@@ -18,7 +21,6 @@ public class MContext extends MBase {
 	private int positionX;
 	private int positionY;
 	private int width;
-	
 
 	public MContext() {
 		// Empty
@@ -28,13 +30,14 @@ public class MContext extends MBase {
 		executeTaskInternal();
 	}
 
-	protected void executeTaskInternal(){}
+	protected void executeTaskInternal() {
+	}
 
 	public int getHeight() {
-    	return height;
-    }
+		return height;
+	}
 
-	public String getIcon(){
+	public String getIcon() {
 		return icon;
 	}
 
@@ -47,20 +50,20 @@ public class MContext extends MBase {
 	}
 
 	public String getTitle() {
-	    return title;
-    };
+		return title;
+	};
 
 	public int getWidth() {
-    	return width;
-    }
+		return width;
+	}
 
 	public void setHeight(int height) {
-    	this.height = height;
-    }
+		this.height = height;
+	}
 
 	public void setIcon(String icon) {
-    	this.icon = icon;
-    }
+		this.icon = icon;
+	}
 
 	public void setPositionX(int positionX) {
 		this.positionX = positionX;
@@ -71,10 +74,10 @@ public class MContext extends MBase {
 	}
 
 	public void setWidth(int width) {
-    	this.width = width;
-    }
+		this.width = width;
+	}
 
 	public void setTitle(String title) {
-    	this.title = title;
-    }
+		this.title = title;
+	}
 }

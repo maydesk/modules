@@ -3,12 +3,6 @@ package com.maydesk.base.table;
 import java.util.List;
 import java.util.Vector;
 
-import com.maydesk.base.gui.PDCheckBox;
-import com.maydesk.base.table.renderer.PDCellRenderer;
-import com.maydesk.base.util.PDUtil;
-import com.maydesk.base.util.SelectableObjectBean;
-import com.maydesk.base.widgets.PDLabel;
-
 import nextapp.echo.app.CheckBox;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
@@ -20,12 +14,21 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.table.TableCellRenderer;
 
+import com.maydesk.base.gui.PDCheckBox;
+import com.maydesk.base.table.renderer.PDCellRenderer;
+import com.maydesk.base.util.PDUtil;
+import com.maydesk.base.util.SelectableObjectBean;
+import com.maydesk.base.widgets.PDLabel;
+
+/**
+ * @author chrismay
+ */
 public class PDTableSelectable extends PDTable {
-	
+
 	private boolean masterSelected = false;
 	private PDTableModel3<? extends SelectableObjectBean<?>> tableModel;
 	private List<ActionListener> listeners = new Vector<ActionListener>();
-	
+
 	public PDTableSelectable(PDTableModel3<? extends SelectableObjectBean<?>> model) {
 		setModel(model);
 		this.tableModel = model;
@@ -36,9 +39,10 @@ public class PDTableSelectable extends PDTable {
 	}
 
 	class MyCellRenderer extends PDCellRenderer {
+		@Override
 		public Component getTableCellRendererComponent(Table table, Object value, int col, int row) {
 			if (col == 0 && value instanceof SelectableObjectBean<?>) {
-				final SelectableObjectBean<?> bean = (SelectableObjectBean<?>)value;
+				final SelectableObjectBean<?> bean = (SelectableObjectBean<?>) value;
 				final CheckBox chk = new CheckBox();
 				chk.setSelected(bean.isSelected());
 				String text = bean.getObject() + "";
@@ -49,33 +53,37 @@ public class PDTableSelectable extends PDTable {
 				chk.setWidth(new Extent(200));
 				chk.setForeground(Color.DARKGRAY);
 				chk.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						bean.setSelected(chk.isSelected());
 						fireSelectionEvent();
-	                }						
+					}
 				});
 				setBackground(chk, row);
-	            return chk;
+				return chk;
 			} else {
 				PDLabel lbl = new PDLabel(PDLabel.STYLE.FIELD_LABEL);
 				if (value instanceof ImageReference) {
-					lbl.setIcon((ImageReference)value);
+					lbl.setIcon((ImageReference) value);
 				} else {
-					if (value == null) value = "";
+					if (value == null)
+						value = "";
 					lbl.setText(value + "");
 				}
 				setBackground(lbl, row);
 				return lbl;
-			}			
-        }				
+			}
+		}
 	}
 
 	class MyHeaderRenderer implements TableCellRenderer {
+		@Override
 		public Component getTableCellRendererComponent(Table table, Object value, int column, int row) {
 			if (column == 0) {
 				final PDCheckBox chk = new PDCheckBox(value + "");
 				chk.setSelected(masterSelected);
 				chk.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						masterSelected = chk.isSelected();
 						for (SelectableObjectBean st : tableModel.getValues()) {
@@ -83,18 +91,18 @@ public class PDTableSelectable extends PDTable {
 						}
 						fireSelectionEvent();
 						tableModel.fireTableDataChanged();
-	                }
+					}
 				});
 				return chk;
 			} else {
 				return new PDLabel(value + "", PDLabel.STYLE.FIELD_LABEL);
 			}
-		}		
+		}
 	}
-	
+
 	public void setMasterSelected(boolean masterSelected) {
-    	this.masterSelected = masterSelected;
-    }
+		this.masterSelected = masterSelected;
+	}
 
 	private void fireSelectionEvent() {
 		ActionEvent e = new ActionEvent(this, null);
@@ -102,7 +110,7 @@ public class PDTableSelectable extends PDTable {
 			l.actionPerformed(e);
 		}
 	}
-	
+
 	public void addSelectionListener(ActionListener l) {
 		listeners.add(l);
 	}

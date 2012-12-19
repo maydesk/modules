@@ -5,9 +5,11 @@
  */
 package com.maydesk.base.widgets;
 
-
+/**
+ * @author chrismay
+ */
 public class PDPort extends PDDesktopItem {
-	
+
 	public PDPort(String title, int posX) {
 		super(title, posX, 0);
 	}

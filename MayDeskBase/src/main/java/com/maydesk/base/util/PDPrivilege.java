@@ -1,8 +1,9 @@
 package com.maydesk.base.util;
 
-import com.maydesk.base.util.IPrivilege;
-
+/**
+ * @author chrismay
+ */
 public enum PDPrivilege implements IPrivilege {
-	
+
 	SEND_BACKOFFICE_INVITATION;
 }

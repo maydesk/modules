@@ -8,15 +8,14 @@ package com.maydesk.base.gui.user;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.jivesoftware.smackx.packet.VCard;
-
 import nextapp.echo.app.CheckBox;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.ResourceImageReference;
-import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+
+import org.jivesoftware.smackx.packet.VCard;
 
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.PDHibernateFactory;
@@ -42,8 +41,10 @@ import echopoint.HtmlLabel;
 import echopoint.Strut;
 
 /**
- * A wizard where a user can register to the system and/or complete his registration
+ * A wizard where a user can register to the system and/or complete his
+ * registration
  * 
+ * @author chrismay
  */
 public class WzdNewUser extends PDWizard {
 
@@ -54,27 +55,25 @@ public class WzdNewUser extends PDWizard {
 	private PDCheckBox chkAvatar;
 	private VCard vcard;
 	private PDPasswordField txtPassword1;
-	
+
 	public WzdNewUser() {
 		this(new MUser());
 	}
 
 	public WzdNewUser(MUser user) {
-		this(user,
-			"Follow the next steps in order to register to Jabber and CloudDesk in one single operation", 
-			"Congratulations, you have succesfully registered to CloudDesk!");
-    }
+		this(user, "Follow the next steps in order to register to Jabber and CloudDesk in one single operation", "Congratulations, you have succesfully registered to CloudDesk!");
+	}
 
 	public WzdNewUser(MUser user, String textWelcome, String textFinished) {
 		super(null);
 		this.user = user;
-    	this.textWelcome = textWelcome;
-    	this.textFinished = textFinished;
+		this.textWelcome = textWelcome;
+		this.textFinished = textFinished;
 		setHeight(new Extent(380));
 		setWidth(new Extent(400));
 		setTitle("New User Registration");
 		licenseText = getLicenseText();
-		
+
 		addPanel(new Panel1());
 		if (licenseText != null) {
 			addPanel(new Panel1b());
@@ -93,23 +92,23 @@ public class WzdNewUser extends PDWizard {
 	}
 
 	class Panel1b extends PDWizardPanel {
-		
+
 		private CheckBox chkAgree;
-		
+
 		public Panel1b() {
 			super(StandardTerms.License, StandardTerms.Back, StandardTerms.Next);
-			
+
 			add(new PDLabel("(You need to scroll down and click on the 'I agree to the terms' checkbox)", PDLabel.STYLE.ANNOTATION));
-			
+
 			HtmlLabel txtLicense = new HtmlLabel();
 			txtLicense.setText(licenseText);
 			txtLicense.setHeight(new Extent(150));
 			add(txtLicense);
-			
+
 			chkAgree = new CheckBox("I agree to the terms");
 			add(chkAgree);
 		}
-		
+
 		@Override
 		public Translatable getError() {
 			if (!chkAgree.isSelected()) {
@@ -121,27 +120,27 @@ public class WzdNewUser extends PDWizard {
 
 	class Panel2 extends PDWizardPanel {
 		private PnlUserForWizard pnlUser;
-		
+
 		public Panel2() {
 			super(StandardTerms.Back, StandardTerms.Next);
 
 			String s = "Personal data";
 			setInfo(s);
-			
+
 			pnlUser = new PnlUserForWizard();
 			add(pnlUser);
 		}
-		
+
 		@Override
 		public Component getFocusComponent() {
 			return pnlUser.getFocusComponent();
 		}
-		
+
 		@Override
 		public void applyToModel() {
 			vcard = pnlUser.createVCard();
 		}
-		
+
 		@Override
 		public Translatable getError() {
 			return pnlUser.getError();
@@ -155,17 +154,17 @@ public class WzdNewUser extends PDWizard {
 		private PDPasswordField txtPassword2;
 		private PDCombo<String> cboServer;
 		private PDLabel lblJabberId;
-		
+
 		public Panel3() {
 			super(StandardTerms.Back, PDBeanTerms.Register_Now);
 
 			setInfo(PDBeanTerms.Please_select_a_login_and_a_password);
-			
+
 			grid = new PDGrid(2);
 			add(grid);
-			
+
 			grid.addLabel("User Name");
-			
+
 			txtLogin = new PDTextField();
 			txtLogin.addActionListener(new ActionListener() {
 				@Override
@@ -176,10 +175,7 @@ public class WzdNewUser extends PDWizard {
 			grid.add(txtLogin);
 
 			grid.addLabel("Jabber Server");
-			String[] servers = new String[]{
-					"jabber.de",
-					"xmpp-hosting.de",
-					"xabber.de"};	
+			String[] servers = new String[] { "jabber.de", "xmpp-hosting.de", "xabber.de" };
 			cboServer = new PDCombo<String>(servers);
 			cboServer.addActionListener(new ActionListener() {
 				@Override
@@ -192,14 +188,14 @@ public class WzdNewUser extends PDWizard {
 			grid.addLabel(PDBeanTerms.Your_Jabber_ID);
 			lblJabberId = new PDLabel("@jabber.org", PDLabel.STYLE.FIELD_BORDERED);
 			grid.add(lblJabberId);
-			
+
 			grid.addLabel(StandardTerms.Password);
 			txtPassword1 = new PDPasswordField();
 			txtPassword1.setMaximumLength(15);
 			grid.add(txtPassword1);
 
 			grid.addLabel(PDBeanTerms.Password_repeat);
-			txtPassword2 = new PDPasswordField();			
+			txtPassword2 = new PDPasswordField();
 			txtPassword2.setMaximumLength(15);
 			grid.add(txtPassword2);
 		}
@@ -234,7 +230,7 @@ public class WzdNewUser extends PDWizard {
 			user.setCachedTitle(user.getJabberId());
 			PDHibernateFactory.getSession().save(user);
 		}
-		
+
 		@Override
 		public Translatable getError() {
 			if (PDUtil.isEmpty(txtPassword1.getText())) {
@@ -243,10 +239,10 @@ public class WzdNewUser extends PDWizard {
 			if (!txtPassword1.getText().equals(txtPassword2.getText())) {
 				return PDBeanTerms.Passwords_do_not_match;
 			}
-			
+
 			Translatable error = PDUserSession.getInstance().registerUser(txtLogin.getText(), cboServer.getSelectedItem(), txtPassword1.getText(), vcard);
 			return error;
-		}	
+		}
 	}
 
 	class Panel4 extends PDWizardPanel {
@@ -255,9 +251,9 @@ public class WzdNewUser extends PDWizard {
 			super(null, StandardTerms.Done);
 			String s = textFinished;
 			setInfo(s);
-			
+
 			add(new Strut(0, 16));
-			
+
 			chkAvatar = new PDCheckBox("Upload Avatar image now");
 			chkAvatar.setSelected(true);
 			add(chkAvatar);
@@ -292,11 +288,11 @@ public class WzdNewUser extends PDWizard {
 			file.setFileName(SopMood.normal.name());
 			file.setParentId(user.getId());
 			PDHibernateFactory.getSession().save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public String getLicenseText() {
 		return null;
 	}

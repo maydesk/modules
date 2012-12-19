@@ -7,18 +7,14 @@ package com.maydesk.base.internal;
 
 import static nextapp.echo.app.Alignment.CENTER;
 import static nextapp.echo.app.Alignment.DEFAULT;
+import nextapp.echo.app.Alignment;
+import nextapp.echo.app.Extent;
 
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.widgets.PDPushButton;
 
-import nextapp.echo.app.Alignment;
-import nextapp.echo.app.Extent;
-
-
-
 /**
- * 
- * 
+ * @author chrismay
  */
 public class PDFooterButton extends PDPushButton {
 

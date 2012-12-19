@@ -5,8 +5,11 @@ import com.maydesk.base.PDServlet;
 import com.maydesk.base.util.ILookAndFeel;
 import com.maydesk.base.util.PDUtil;
 
+/**
+ * @author chrismay
+ */
 public class MDServlet extends PDServlet {
-	
+
 	@Override
 	protected ILookAndFeel getLookAndFeel() {
 		return new MDLookAndFeel();
@@ -16,7 +19,7 @@ public class MDServlet extends PDServlet {
 	protected PDMenuProvider getPerspective() {
 		PDUtil.initConfig(super.getServletContext());
 		MDInit.resetAll();
-		
+
 		return new MDPerspective();
-	}	
+	}
 }

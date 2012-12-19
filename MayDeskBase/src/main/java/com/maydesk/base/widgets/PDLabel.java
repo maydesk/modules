@@ -5,13 +5,7 @@
  */
 package com.maydesk.base.widgets;
 
-import com.maydesk.base.aspects.Translatable;
-import com.maydesk.base.util.PDLookAndFeel;
-import com.maydesk.base.util.PDUtil;
-import com.maydesk.base.util.SopletsResourceBundle;
-
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.Border;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Font;
@@ -20,25 +14,32 @@ import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.Label;
 import nextapp.echo.app.layout.GridLayoutData;
+
+import com.maydesk.base.aspects.Translatable;
+import com.maydesk.base.util.PDLookAndFeel;
+import com.maydesk.base.util.PDUtil;
+import com.maydesk.base.util.SopletsResourceBundle;
+
 import echopoint.ContainerEx;
 
-
+/**
+ * @author chrismay
+ */
 public class PDLabel extends ContainerEx {
 
 	public enum STYLE {
-		FIELD_LABEL, FIELD_VALUE, ANNOTATION, WHITE_BIG, HEADER_1, HEADER_3, SMALL, FIELD_BORDERED;		
+		FIELD_LABEL, FIELD_VALUE, ANNOTATION, WHITE_BIG, HEADER_1, HEADER_3, SMALL, FIELD_BORDERED;
 	}
 
 	private Label label;
 
-	
 	public PDLabel(Translatable term, Object... params) {
 		this(term, STYLE.FIELD_LABEL, params);
-    }
+	}
 
 	public PDLabel(Translatable term, STYLE style, Object... params) {
 		this(SopletsResourceBundle.nls(term), style, false);
-    }
+	}
 
 	public PDLabel(STYLE style) {
 		this(null, style, false);
@@ -63,7 +64,7 @@ public class PDLabel extends ContainerEx {
 		switch (style) {
 		case FIELD_LABEL:
 			setInsets(new Insets(5, 0));
-			label.setFont(new Font(new Typeface("Arial"), Font.BOLD, new Extent(12)));			
+			label.setFont(new Font(new Typeface("Arial"), Font.BOLD, new Extent(12)));
 			break;
 		case FIELD_BORDERED:
 			setBorder(PDUtil.getGreyBorder());
@@ -95,7 +96,7 @@ public class PDLabel extends ContainerEx {
 		case WHITE_BIG:
 			label.setFont(new Font(Font.MONOSPACE, Font.BOLD, new Extent(32)));
 			label.setForeground(Color.WHITE);
-			
+
 		}
 
 		if (alignRight) {
@@ -112,18 +113,19 @@ public class PDLabel extends ContainerEx {
 	}
 
 	public String getText() {
-	    return label.getText();
-    }
+		return label.getText();
+	}
 
 	public Label getLabel() {
-	    return label;
-    }
+		return label;
+	}
 
 	public void setIcon(ImageReference resourceImageReference) {
-	   label.setIcon(resourceImageReference);
-    }
+		label.setIcon(resourceImageReference);
+	}
 
+	@Override
 	public void setToolTipText(String description) {
-	    label.setToolTipText(description);
-    }
+		label.setToolTipText(description);
+	}
 }

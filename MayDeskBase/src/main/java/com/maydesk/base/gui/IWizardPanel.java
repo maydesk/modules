@@ -5,13 +5,14 @@
  */
 package com.maydesk.base.gui;
 
+import nextapp.echo.app.Component;
+
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.util.ICrud;
 
-import nextapp.echo.app.Component;
-
-
-
+/**
+ * @author chrismay
+ */
 public interface IWizardPanel extends ICrud {
 
 	public String getNextCaption();
@@ -21,11 +22,11 @@ public interface IWizardPanel extends ICrud {
 	public boolean doBackAction();
 
 	public void applyToModel2();
-	
+
 	public Translatable getError();
-	
+
 	public boolean isApplicable();
-	
+
 	public int getNextButtonWidth();
 
 	public int getBackButtonWidth();
@@ -33,7 +34,7 @@ public interface IWizardPanel extends ICrud {
 	public void readFromModel();
 
 	public boolean doNextAction();
-	
+
 	public void applyToModel();
 
 	public Component getComponent();

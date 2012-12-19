@@ -7,19 +7,22 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import echopoint.tree.DefaultMutableTreeNode;
 
-
+/**
+ * @author Alejandro Salas
+ */
 public class SelectableTreeNode<T> extends DefaultMutableTreeNode<T> {
 
 	private SelectableTreeNodeComponent component;
-	
+
 	public SelectableTreeNode(T base) {
 		super(base);
 		allowsChildren = true;
 		component = new SelectableTreeNodeComponent(this, base.toString());
 		component.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				selectionToggled(SelectableTreeNode.this);
-            }			
+			}
 		});
 	}
 
@@ -31,7 +34,7 @@ public class SelectableTreeNode<T> extends DefaultMutableTreeNode<T> {
 			selectionToggled(childNode);
 		}
 	}
-	
+
 	public boolean isSelected() {
 		return component.isSelected();
 	}
@@ -45,6 +48,6 @@ public class SelectableTreeNode<T> extends DefaultMutableTreeNode<T> {
 	}
 
 	public Component getComponent() {
-	    return component;
-    }
+		return component;
+	}
 }

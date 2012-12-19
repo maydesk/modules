@@ -7,13 +7,15 @@ package com.maydesk.base.widgets;
 
 import java.text.NumberFormat;
 
-import com.maydesk.base.util.PDFormat;
-
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Extent;
 
-public class PDNumericField extends PDTextField {
+import com.maydesk.base.util.PDFormat;
 
+/**
+ * @author Alejandro Salas
+ */
+public class PDNumericField extends PDTextField {
 
 	protected NumberFormat nf;
 
@@ -32,22 +34,24 @@ public class PDNumericField extends PDTextField {
 	}
 
 	public double getNumber() {
-	    try {
-	        return nf.parse(getText()).doubleValue();
-        } catch (Exception e) {
-        	return 0.0;
-        }
-    }
+		try {
+			return nf.parse(getText()).doubleValue();
+		} catch (Exception e) {
+			return 0.0;
+		}
+	}
 
 	public void setNumber(double value) {
 		setText(nf.format(value));
-    }
-	
+	}
+
+	@Override
 	public Object getValue() {
 		return getNumber();
-    }
-	
+	}
+
+	@Override
 	public void setValue(Object value) {
-		setNumber((Double)value);
-    }
+		setNumber((Double) value);
+	}
 }

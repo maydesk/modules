@@ -7,6 +7,9 @@ package com.maydesk.base.util;
 
 import java.util.Vector;
 
+/**
+ * @author chrismay
+ */
 public class Countries {
 
 	public final static Vector<String> COUNTRIES = new Vector<String>();

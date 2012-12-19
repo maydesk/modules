@@ -5,14 +5,16 @@
  */
 package com.maydesk.base.internal;
 
-import com.maydesk.base.model.MTask;
-
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.Insets;
+
+import com.maydesk.base.model.MTask;
+
 import echopoint.ContainerEx;
 
 /**
+ * @author chrismay
  */
 public class PDTaskMenu extends ContainerEx {
 
@@ -33,6 +35,7 @@ public class PDTaskMenu extends ContainerEx {
 		return te;
 	}
 
+	@Override
 	public void clear() {
 		colMenu.removeAll();
 	}

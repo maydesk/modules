@@ -5,21 +5,23 @@
  */
 package com.maydesk.base.util;
 
+import nextapp.echo.app.Component;
+
 import com.maydesk.base.model.MBase;
 import com.maydesk.base.model.MDataLink;
 
-import nextapp.echo.app.Component;
-
-
+/**
+ * @author chrismay
+ */
 public interface ICrudWithBinding<T extends MBase> extends IBindable {
-	
+
 	public void readFromModel(MDataLink dataLinks);
-	
+
 	public Component getFocusComponent();
 
-	//for setting the datalink
+	// for setting the datalink
 	public void setDataObject(MBase model);
 
-	//public Component getComponent();
-	
+	// public Component getComponent();
+
 }

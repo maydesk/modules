@@ -11,6 +11,9 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.EventListenerList;
 
+/**
+ * @author Alejandro Salas
+ */
 public class SelectableTreeNodeComponent extends Row {
 
 	private ToggleButton toggleBtn;
@@ -29,6 +32,7 @@ public class SelectableTreeNodeComponent extends Row {
 
 		toggleBtn = new CheckBox(text);
 		toggleBtn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				toggleStateChanged();
 			}

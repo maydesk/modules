@@ -11,30 +11,25 @@ import javax.swing.JLabel;
 
 import com.maydesk.base.aspects.Translatable;
 
-
 /**
  * A JLabel with built-in NLS support
+ * 
+ * @author chrismay
  */
 public class MyLabel extends JLabel {
 
 	/**
-	 * The preferred, NLS-way of initializing a Label 
+	 * The preferred, NLS-way of initializing a Label
 	 */
 	public MyLabel(Translatable term, Object... params) {
 		super(nls(term, params));
-    }
-	
+	}
+
 	/**
-	 * This constructor should be avoided, use the NLS constructor instead 
+	 * This constructor should be avoided, use the NLS constructor instead
 	 */
 	@Deprecated
 	public MyLabel(String caption) {
 		super(caption);
 	}
 }
-
-
-
-
-
-

@@ -20,11 +20,14 @@ import com.maydesk.base.internal.PDTitleBar;
 import com.maydesk.base.util.HeaderValue;
 import com.maydesk.base.util.PDUtil;
 
+/**
+ * @author chrismay
+ */
 public abstract class PDPageableFactory {
 
 	private Class modelClass;
 	private IDeleteMaster parentForm;
-	
+
 	public PDPageableFactory(IDeleteMaster parentForm, Class modelClass) {
 		this.modelClass = modelClass;
 		this.parentForm = parentForm;
@@ -39,26 +42,26 @@ public abstract class PDPageableFactory {
 		PDTitleBar titleBar = new PDTitleBar(parentForm, headerValues, true);
 		return titleBar;
 	}
-	
+
 	public abstract Criteria getCriteria(Session session);
 
 	public Projection getProjectionList() {
 		ProjectionList projectionList = Projections.projectionList();
 		projectionList.add(Projections.id(), "id");
-		projectionList.add(Projections.property("cachedTitle"),  "title");  //Model must be of type MBaseWithTitle!
-		projectionList.add(Projections.property("cachedDescription"),  "description");  //Model must be of type MBaseWithTitle!
+		projectionList.add(Projections.property("cachedTitle"), "title"); // Model must be of type MBaseWithTitle!
+		projectionList.add(Projections.property("cachedDescription"), "description"); // Model must be of type MBaseWithTitle!
 		return Projections.distinct(projectionList);
-	}	
+	}
 
-	//Override if applicable
+	// Override if applicable
 	public HeaderValue createHeaderValue(Object[] data) {
 		HeaderValue headerValues = new HeaderValue();
-		headerValues.id = (Integer)(data)[0];
-		headerValues.title = (String)(data)[1];
-		headerValues.description = (String)(data)[2];
+		headerValues.id = (Integer) (data)[0];
+		headerValues.title = (String) (data)[1];
+		headerValues.description = (String) (data)[2];
 		return headerValues;
 	}
-	
+
 	public Class getModelClass() {
 		return modelClass;
 	}
@@ -68,10 +71,10 @@ public abstract class PDPageableFactory {
 	}
 
 	public int getRowsPerPage() {
-	    return 20;
-    }
+		return 20;
+	}
 
 	public void addOrder(Criteria criteria) {
 		criteria.addOrder(Order.asc("cachedTitle"));
-    }
+	}
 }

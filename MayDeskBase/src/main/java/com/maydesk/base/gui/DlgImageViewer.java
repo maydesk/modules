@@ -13,16 +13,19 @@ import com.maydesk.base.util.ByteArrayImageReference;
 
 import echopoint.ImageIcon;
 
+/**
+ * @author Alejandro Salas
+ */
 public class DlgImageViewer extends PDSimpleDialog {
 
 	private MMediaFile mediaFile;
-	
+
 	public DlgImageViewer(MMediaFile mediaFile) {
 		super(nls(PDBeanTerms.Image_Viewer), 700, 700);
 		this.mediaFile = mediaFile;
 		initGUI2();
 	}
-	
+
 	private void initGUI2() {
 		ImageIcon lbl = new ImageIcon();
 		try {

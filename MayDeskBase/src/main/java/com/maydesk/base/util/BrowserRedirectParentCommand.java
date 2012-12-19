@@ -7,6 +7,9 @@ package com.maydesk.base.util;
 
 import nextapp.echo.app.Command;
 
+/**
+ * @author Alejandro Salas
+ */
 public class BrowserRedirectParentCommand implements Command {
 
 	private String uri;

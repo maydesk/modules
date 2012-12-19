@@ -5,14 +5,17 @@
  */
 package com.maydesk.base.util;
 
-import com.maydesk.base.model.MBase;
-
 import nextapp.echo.app.Component;
 
+import com.maydesk.base.model.MBase;
+
+/**
+ * @author chrismay
+ */
 public interface ICrud<T extends MBase> {
 
 	public void readFromModel(MBase model);
-	
+
 	public Component getFocusComponent();
 
 	public Class getModelClass();

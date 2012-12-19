@@ -5,10 +5,13 @@
  */
 package com.maydesk.base.util;
 
-import com.maydesk.base.sop.enums.EImage16;
-
 import nextapp.echo.app.Color;
 
+import com.maydesk.base.sop.enums.EImage16;
+
+/**
+ * @author chrismay
+ */
 public abstract class PDLookAndFeel implements ILookAndFeel {
 
 	public static final Color HIGHLIGHT_COLOR = new Color(255, 243, 194);
@@ -19,22 +22,27 @@ public abstract class PDLookAndFeel implements ILookAndFeel {
 	public static final Color DISABLED_FOREGROUND = new Color(60, 60, 60);
 	public static final Color EXP_SECTION_BACKROUND = new Color(180, 210, 225);
 
+	@Override
 	public Color getBackgroundClear() {
 		return LIGHT_BACKGROUND_COLOR;
 	}
 
+	@Override
 	public Color getBackgroundDark() {
 		return BACKGROUND_COLOR;
 	}
 
+	@Override
 	public Color getBackgroundDark2() {
 		return ROLLOVER_COLOR;
 	}
 
+	@Override
 	public Color getHighlight() {
 		return HIGHLIGHT_COLOR;
 	}
 
+	@Override
 	public IImage getFooterFillImage() {
 		return EImage16.footerBackground;
 	}
@@ -43,15 +51,17 @@ public abstract class PDLookAndFeel implements ILookAndFeel {
 		return EImage16.profideskFooter2;
 	}
 
+	@Override
 	public IImage getProfideskIcon() {
-	    return EImage16.profideskFooter2;
-    }
-	
+		return EImage16.profideskFooter2;
+	}
+
+	@Override
 	public Color getForeground() {
 		return Color.WHITE;
-    }
+	}
 
 	public String getBackgroundImage() {
-		return "img/CloudDeskBackground.jpg"; 
+		return "img/CloudDeskBackground.jpg";
 	}
 }

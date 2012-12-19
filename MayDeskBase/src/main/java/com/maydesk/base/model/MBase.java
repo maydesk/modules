@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-
 import org.hibernate.CallbackException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
@@ -24,11 +23,9 @@ import org.hibernate.classic.Lifecycle;
 
 import com.maydesk.base.PDHibernateFactory;
 
-
 //@org.hibernate.annotations.Entity(
 //        selectBeforeUpdate = true,
 //dynamicInsert = true, dynamicUpdate = true)
-
 
 //Could not synchronize database state with session
 //org.hibernate.StaleStateException: Batch update returned unexpected
@@ -38,7 +35,6 @@ import com.maydesk.base.PDHibernateFactory;
 //		  sql="INSERT INTO accounts (abalance, bid, filler, aid)VALUES (?, ?, ?, ?)", 
 //		check=ResultCheckStyle.NONE)
 
-
 /**
  * @author Alejandro Salas
  */
@@ -46,14 +42,14 @@ import com.maydesk.base.PDHibernateFactory;
 public abstract class MBase implements Lifecycle {
 
 	protected int id;
-	private boolean markForDelete = false; 
+	private boolean markForDelete = false;
 
 	public MBase() {
 	}
 
 	@Id
-	//@GeneratedValue(generator="increment")
-	//@GenericGenerator(name="increment", strategy = "increment")
+	// @GeneratedValue(generator="increment")
+	// @GenericGenerator(name="increment", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getId() {
 		return id;
@@ -63,18 +59,22 @@ public abstract class MBase implements Lifecycle {
 		this.id = id;
 	}
 
+	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		return false;
 	}
 
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		return false;
 	}
 
+	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		return false;
 	}
 
+	@Override
 	public void onLoad(Session session, Serializable id) {
 		// Empty
 	}
@@ -116,7 +116,7 @@ public abstract class MBase implements Lifecycle {
 	public void setMarkForDelete(boolean markForDelete) {
 		this.markForDelete = markForDelete;
 	}
-	
+
 	@Deprecated
 	public MBase reload() throws ObjectNotFoundException {
 		if (id != 0) {
@@ -126,24 +126,25 @@ public abstract class MBase implements Lifecycle {
 		return this;
 	}
 
-	public static MBase loadByDataLink(MDataLink dataLink)  {
-		if (dataLink.getTargetClass() == null) return null;
-        try {
-    		Class clazz = Class.forName(dataLink.getTargetClass());
-    		if (dataLink.getTargetId() == 0) {
-    			return (MBase)clazz.newInstance();
-    		}
+	public static MBase loadByDataLink(MDataLink dataLink) {
+		if (dataLink.getTargetClass() == null)
+			return null;
+		try {
+			Class clazz = Class.forName(dataLink.getTargetClass());
+			if (dataLink.getTargetId() == 0) {
+				return (MBase) clazz.newInstance();
+			}
 			return loadByField(clazz, "id", dataLink.getTargetId() + "");
-        } catch (Exception e) {
-	        e.printStackTrace();
-        }
-        return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-	
+
 	@Deprecated
 	public static <T extends MBase> T loadById(Class<T> clazz, int id) {
 		Session session = PDHibernateFactory.getSession();
-		return (T)session.load(clazz, id);
+		return (T) session.load(clazz, id);
 	}
 
 	@Deprecated
@@ -161,7 +162,7 @@ public abstract class MBase implements Lifecycle {
 		if (fieldKey != null) {
 			query.setString("fieldVal", fieldVal);
 		}
-		return (T)query.uniqueResult();
+		return (T) query.uniqueResult();
 	}
 
 	@Deprecated

@@ -13,10 +13,13 @@ import com.maydesk.social.model.MAnnouncement;
 import com.maydesk.social.model.MAnnouncementUser;
 import com.maydesk.social.sop.SopAnnouncementUser;
 
+/**
+ * @author chrismay
+ */
 public class DaoSocial {
 
 	private static DaoSocial INSTANCE;
-	
+
 	public static DaoSocial getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new DaoSocial();
@@ -29,8 +32,8 @@ public class DaoSocial {
 		c.add(Restrictions.eq(SopAnnouncementUser.targetUser.name(), PDUserSession.getInstance().getUser()));
 		return c.list();
 	}
-	
-	public void createAnnouncement(MAnnouncement announcement ) {
+
+	public void createAnnouncement(MAnnouncement announcement) {
 		Session session = PDHibernateFactory.getSession();
 		session.save(announcement);
 		Criteria c = session.createCriteria(MUser.class);

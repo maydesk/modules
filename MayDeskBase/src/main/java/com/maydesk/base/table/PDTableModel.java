@@ -8,10 +8,14 @@ package com.maydesk.base.table;
 import nextapp.echo.app.event.TableModelListener;
 import nextapp.echo.app.table.DefaultTableModel;
 
+/**
+ * @author Alejandro Salas
+ */
 public abstract class PDTableModel extends DefaultTableModel {
 
 	protected TableModelListener cellChangeListener;
 
+	@Override
 	public abstract void setValueAt(Object value, int column, int row);
 
 	/**
@@ -23,8 +27,8 @@ public abstract class PDTableModel extends DefaultTableModel {
 	public void setCellChangeListener(TableModelListener cellChangeListener) {
 		this.cellChangeListener = cellChangeListener;
 	}
-	
+
 	public int getTotalRowCount() {
 		return getRowCount();
-    }
+	}
 }

@@ -5,11 +5,6 @@
  */
 package com.maydesk.base.internal;
 
-import com.maydesk.base.aspects.Translatable;
-import com.maydesk.base.sop.enums.EImage16;
-import com.maydesk.base.util.PDUtil;
-import com.maydesk.base.widgets.PDLabel;
-
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Button;
@@ -25,10 +20,15 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.RowLayoutData;
 
+import com.maydesk.base.aspects.Translatable;
+import com.maydesk.base.sop.enums.EImage16;
+import com.maydesk.base.util.PDUtil;
+import com.maydesk.base.widgets.PDLabel;
 
 import echopoint.ContainerEx;
 
 /**
+ * @author chrismay
  */
 public class PDExpandableFilter extends ContainerEx {
 
@@ -38,7 +38,7 @@ public class PDExpandableFilter extends ContainerEx {
 	private Button btnReset;
 	private ActionListener expandListener;
 	private boolean isInitialized = false;
-	
+
 	public PDExpandableFilter(ActionListener expandListener) {
 		this.expandListener = expandListener;
 		initGUI();
@@ -74,6 +74,7 @@ public class PDExpandableFilter extends ContainerEx {
 		btnExpand.setWidth(new Extent(14));
 		btnExpand.setRolloverEnabled(false);
 		btnExpand.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnReset.setVisible(!btnReset.isVisible());
 				btnSearch.setVisible(!btnSearch.isVisible());
@@ -114,19 +115,19 @@ public class PDExpandableFilter extends ContainerEx {
 	}
 
 	public void setResetListener(ActionListener resetListener) {
-		btnReset.addActionListener(resetListener);		
-    }
-	
+		btnReset.addActionListener(resetListener);
+	}
+
 	public void setOkListener(ActionListener okListener) {
 		btnSearch.addActionListener(okListener);
 		isInitialized = true;
-    }
+	}
 
 	public boolean isInitialized() {
 		return isInitialized;
-    }
+	}
 
 	public Grid getGrid() {
-    	return grid;
-    }
+		return grid;
+	}
 }

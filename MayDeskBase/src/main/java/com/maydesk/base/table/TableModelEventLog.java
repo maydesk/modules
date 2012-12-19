@@ -9,7 +9,7 @@ import nextapp.echo.app.table.TableModel;
 
 /**
  * @author Alejandro Salas <br>
- * Created on Feb 8, 2007
+ *         Created on Feb 8, 2007
  */
 public class TableModelEventLog extends nextapp.echo.app.event.TableModelEvent {
 

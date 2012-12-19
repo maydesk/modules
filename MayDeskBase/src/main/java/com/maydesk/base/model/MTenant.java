@@ -11,9 +11,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 /**
- * 
+ * @author chrismay
  */
-
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "t_pdw_tenant")
@@ -28,5 +27,5 @@ public class MTenant extends MBase {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

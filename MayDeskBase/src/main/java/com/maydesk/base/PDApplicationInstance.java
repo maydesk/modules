@@ -18,37 +18,40 @@ import org.hibernate.Session;
 
 import com.maydesk.base.util.IMessageListener;
 
+/**
+ * @author chrismay
+ */
 public abstract class PDApplicationInstance extends ApplicationInstance {
 
 	protected Window window;
-	
+
 	public void reset() {
 		window.setContent(getDesktop());
-    }
-	
+	}
+
 	@Override
-    public Window init() {
+	public Window init() {
 		Locale.setDefault(Locale.GERMAN);
 		window = new Window();
 		window.setTitle(getTitle());
 		window.setContent(getDesktop());
-        return window;
-    }
+		return window;
+	}
 
-    protected abstract PDDesktop getDesktop();
-    protected abstract String getTitle();
+	protected abstract PDDesktop getDesktop();
 
+	protected abstract String getTitle();
 
-    private List<IMessageListener> messageListeners = new CopyOnWriteArrayList<IMessageListener>();
-    private TaskQueueHandle tqh;
+	private List<IMessageListener> messageListeners = new CopyOnWriteArrayList<IMessageListener>();
+	private TaskQueueHandle tqh;
 
 	public void startPoller() {
-		tqh = PDApplicationInstance.getActive().createTaskQueue();
-		ContainerContext ctx = (ContainerContext)PDApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-		ctx.setTaskQueueCallbackInterval(tqh, 1000);	
+		tqh = ApplicationInstance.getActive().createTaskQueue();
+		ContainerContext ctx = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
+		ctx.setTaskQueueCallbackInterval(tqh, 1000);
 		startMessagePolling();
 	}
-	
+
 	private void startMessagePolling() {
 		Runnable r = new Runnable() {
 			@Override
@@ -57,12 +60,12 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 				Session session = factory.getSession();
 				for (IMessageListener messageListener : messageListeners) {
 					messageListener.doPoll(session);
-				}				
+				}
 				factory.closeSession();
 				startMessagePolling();
 			}
 		};
-		PDApplicationInstance.getActive().enqueueTask(tqh, r);
+		ApplicationInstance.getActive().enqueueTask(tqh, r);
 	}
 
 	public void addListener(IMessageListener messageListener) {
@@ -70,6 +73,6 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 	}
 
 	public static PDApplicationInstance getActivePD() {
-	    return (PDApplicationInstance)getActive();
-    }
+		return (PDApplicationInstance) getActive();
+	}
 }

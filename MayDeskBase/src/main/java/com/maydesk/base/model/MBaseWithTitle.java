@@ -4,10 +4,11 @@
  * All rights reserved
  */
 package com.maydesk.base.model;
- 
+
 import javax.persistence.MappedSuperclass;
 
 /**
+ * @author Alejandro Salas
  * Created on 08.10.2007
  */
 @MappedSuperclass
@@ -17,12 +18,12 @@ public abstract class MBaseWithTitle extends MBase {
 	protected String cachedDescription;
 
 	public String getCachedDescription() {
-    	return cachedDescription;
-    }
+		return cachedDescription;
+	}
 
 	public void setCachedDescription(String cachedDescription) {
-    	this.cachedDescription = cachedDescription;
-    }
+		this.cachedDescription = cachedDescription;
+	}
 
 	public String getCachedTitle() {
 		return cachedTitle;
@@ -38,10 +39,11 @@ public abstract class MBaseWithTitle extends MBase {
 		return "";
 	}
 
+	@Override
 	public String toString() {
 		return cachedTitle;
 	}
-	
+
 	public void updateCachedValues() {
 		cachedTitle = createCachedTitle();
 		cachedDescription = createCachedDescription();

@@ -1,6 +1,5 @@
 package com.maydesk.base.util;
 
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
@@ -8,7 +7,8 @@ import org.hibernate.criterion.Projections;
 import com.maydesk.base.model.MUser;
 
 /**
- * Make sure te database connections do not time out 
+ * Make sure te database connections do not time out
+ * @author chrismay
  */
 public class KeepAliveThread {
 

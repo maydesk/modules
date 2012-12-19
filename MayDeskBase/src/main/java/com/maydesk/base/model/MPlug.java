@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import com.maydesk.base.sop.plug.Plugable;
 import com.maydesk.base.sop.plug.SopSocketType;
 
-
+/**
+ * @author chrismay
+ */
 @Entity
 public class MPlug extends MBase {
 
@@ -16,11 +18,11 @@ public class MPlug extends MBase {
 	private String modelClassName;
 	private String name;
 	private SopSocketType plugType;
-	
+
 	public String getCaption() {
 		return caption;
 	}
-	
+
 	public String getConfigEditorClassName() {
 		return configEditorClassName;
 	}
@@ -28,7 +30,7 @@ public class MPlug extends MBase {
 	public String getEditorClassName() {
 		return editorClassName;
 	}
-	
+
 	public String getIcon() {
 		return icon;
 	}
@@ -52,11 +54,11 @@ public class MPlug extends MBase {
 	public void setConfigEditorClassName(String configEditorClassName) {
 		this.configEditorClassName = configEditorClassName;
 	}
-	
+
 	public void setEditorClassName(String editorClassName) {
 		this.editorClassName = editorClassName;
 	}
-	
+
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
@@ -64,6 +66,7 @@ public class MPlug extends MBase {
 	public void setModelClassName(String modelClassName) {
 		this.modelClassName = modelClassName;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -72,6 +75,7 @@ public class MPlug extends MBase {
 		this.plugType = plugType;
 	}
 
+	@Override
 	public String toString() {
 		return name;
 	}

@@ -1,22 +1,21 @@
 package com.maydesk.base.sop.logical;
 
-import com.maydesk.base.aspects.Translatable;
-
 import lombok.soplets.Sop;
 
+import com.maydesk.base.aspects.Translatable;
 
-@Sop(aspects=Translatable.class)
+/**
+ * @author chrismay
+ */
+@Sop(aspects = Translatable.class)
 public enum SopTask {
 
-	@Soplet( 
-		textEN = "Name")
+	@Soplet(textEN = "Name")
 	name,
 
-	@Soplet( 
-		textEN = "execute till")
+	@Soplet(textEN = "execute till")
 	executeTill,
 
-	@Soplet( 
-		textEN = "Description")
-	description;	
+	@Soplet(textEN = "Description")
+	description;
 }

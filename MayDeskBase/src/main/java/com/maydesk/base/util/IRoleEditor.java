@@ -7,8 +7,11 @@ package com.maydesk.base.util;
 
 import com.maydesk.base.model.MUserRole;
 
+/**
+ * @author chrismay
+ */
 public interface IRoleEditor {
 
-	public MUserRole getUserRole(); 
-	
+	public MUserRole getUserRole();
+
 }

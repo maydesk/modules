@@ -4,6 +4,9 @@ import nextapp.echo.app.ImageReference;
 
 import com.maydesk.base.model.MShortcut;
 
+/**
+ * @author chrismay
+ */
 public interface ShortcutType {
 
 	public void openShortcut(MShortcut shortcut);
