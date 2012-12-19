@@ -27,10 +27,17 @@ PD.Sync.PDDesktopItem = Core.extend(Echo.Render.ComponentSync, {
     _dragInitPositionX: null,
     _dragInitPositionY: null,
 	_firstClickTime: null,
-		
+	_MOUSEDOWN: null,
+	_MOUSEMOVE: null,
+    _MOUSEUP: null,
+    
 	$construct: function() {
         this._processMouseMoveRef = Core.method(this, this._processMouseMove);
         this._processMouseUpRef = Core.method(this, this._processMouseUp);
+        var isIPad = navigator.userAgent.match(/iPad/i) != null;
+        this._MOUSEDOWN = isIPad ? 'touchstart' : 'mousedown';
+        this._MOUSEMOVE = isIPad ? 'touchmove' : 'mousemove';
+        this._MOUSEUP = isIPad ? 'touchend' : 'mouseup';
     },
 	
 	$abstract: {
@@ -71,7 +78,7 @@ PD.Sync.PDDesktopItem = Core.extend(Echo.Render.ComponentSync, {
 		
 		this.redraw();
 		//event listeners
-		Core.Web.Event.add(this._node, "mousedown", Core.method(this, this._processMouseDown), true);
+		Core.Web.Event.add(this._node, this._MOUSEDOWN, Core.method(this, this._processMouseDown), true);
     	Core.Web.Event.add(this._node, "click", Core.method(this, this._processClick), true);	
     },
 	
@@ -95,24 +102,50 @@ PD.Sync.PDDesktopItem = Core.extend(Echo.Render.ComponentSync, {
         if (!this.client || !this.client.verifyInput(this.component)) {
             return true;
         }
+		var x;
+		var y;
+		if (echoEvent.touches) {
+			x = echoEvent.touches[0].pageX;
+			y = echoEvent.touches[0].pageY;
+		} else {
+			x = echoEvent.clientX;
+			y = echoEvent.clientY;
+		}        
 	    this._dragInitPositionX = this._positionX ;
 	    this._dragInitPositionY = this._positionY ;
-	    this._dragOriginX = echoEvent.clientX;
-	    this._dragOriginY = echoEvent.clientY;
+	    this._dragOriginX = x; 
+	    this._dragOriginY = y; 
 	    
         // Prevent selections.
         Core.Web.dragInProgress = true;
         Core.Web.DOM.preventEventDefault(echoEvent);
 		this._node.style.zIndex = 999;
-        Core.Web.Event.add(document.body, "mousemove", this._processMouseMoveRef, true);
-        Core.Web.Event.add(document.body, "mouseup", this._processMouseUpRef, true);
+        Core.Web.Event.add(document.body, this._MOUSEMOVE, this._processMouseMoveRef, true);
+        Core.Web.Event.add(document.body, this._MOUSEUP, this._processMouseUpRef, true);
 	},
 
 	_processMouseMove: function(e) {
-		var posX = this._dragInitPositionX + e.clientX - this._dragOriginX;
-		var posY = this._dragInitPositionY + e.clientY - this._dragOriginY;
+		var x;
+        var y;
+		if (echoEvent.touches) {
+			x = echoEvent.touches[0].pageX;
+			y = echoEvent.touches[0].pageY;
+			if (echoEvent.touches.length > 1) {
+				//multi-touch, resize as well
+			    var w = echoEvent.touches[1].pageX - x;
+		        var h = echoEvent.touches[1].pageY - y;
+		        this._node.style.width = w + "px";
+		        this._node.style.height = h + "px";
+		    }
+		} else {
+			x = echoEvent.clientX;
+			y = echoEvent.clientY;
+		}
+	
+		var posX = this._dragInitPositionX + x - this._dragOriginX;
+		var posY = this._dragInitPositionY + y - this._dragOriginY;
 		this._positionX = posX;
-		this._positionY = posY;
+		this._positionY = posY;		
 	    this.redraw();
 	    
 	    //dim down over the recycle box or a port
@@ -126,8 +159,8 @@ PD.Sync.PDDesktopItem = Core.extend(Echo.Render.ComponentSync, {
 
 	_processMouseUp: function(e) {
 		Core.Web.dragInProgress = false;
-        Core.Web.Event.remove(document.body, "mousemove", this._processMouseMoveRef, true);
-        Core.Web.Event.remove(document.body, "mouseup", this._processMouseUpRef, true);
+        Core.Web.Event.remove(document.body, this._MOUSEMOVE, this._processMouseMoveRef, true);
+        Core.Web.Event.remove(document.body, this._MOUSEUP, this._processMouseUpRef, true);
         this.component.set("positionX", this._positionX);
         this.component.set("positionY", this._positionY);
 		this._node.style.zIndex = 0;
