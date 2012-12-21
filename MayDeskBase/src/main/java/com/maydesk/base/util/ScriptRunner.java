@@ -1,6 +1,6 @@
 package com.maydesk.base.util;
 
-/*
+/* XXX: WHAT TO DO?
  *  Copyright 2004 Clinton Begin
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
