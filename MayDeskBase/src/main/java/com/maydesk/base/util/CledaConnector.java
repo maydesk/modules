@@ -24,8 +24,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.Entity;
-import javax.sql.DataSource;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -66,11 +67,10 @@ public class CledaConnector {
 			ctx = new InitialContext();
 			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/maydesk_dev");
 			props.put("hibernate.connection.datasource", ds);
+			ds.setPoolProperties(getPoolProperties());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-
-		// props.put("hibernate.connection.datasource", getDataSource());
 
 		props.put("hibernate.cglib.use_reflection_optimizer", true);
 		props.put("hibernate.show_sql", false);
@@ -83,7 +83,6 @@ public class CledaConnector {
 		Configuration config = new Configuration();
 		config.setProperties(props);
 
-		// AnnotationConfiguration config = new AnnotationConfiguration();
 		config.setInterceptor(new AuditInterceptor());
 		config.setNamingStrategy(new ImprovedNamingStrategy());
 		config.setProperties(props);
@@ -92,67 +91,52 @@ public class CledaConnector {
 		registerModels(config, "com.maydesk.base.model");
 		registerModels(config, "com.maydesk.social.model");
 
-		// registerModels(config, PDUtil.getProperty("model.path"));
-		// if (!PDUtil.isEmpty(PDUtil.getProperty("model.path2"))) {
-		// registerModels(config, PDUtil.getProperty("model.path2"));
-		// }
-		// String s3 = PDUtil.getProperty("model.path3");
-		// if (!PDUtil.isEmpty(s3)) {
-		// registerModels(config, s3);
-		// }
-		// if (!PDUtil.isEmpty(PDUtil.getProperty("model.path4"))) {
-		// registerModels(config, PDUtil.getProperty("model.path4"));
-		// }
-
 		ServiceRegistryBuilder serviceRegistryBuilder = new ServiceRegistryBuilder();
 
 		ServiceRegistry serviceRegistry = serviceRegistryBuilder.applySettings(props).buildServiceRegistry();
 		sessionFactory = config.buildSessionFactory(serviceRegistry);
 	}
 
-	// Create the Tomcat JDBC Connection Pool Datasource
-	// private DataSource getDataSource() {
-	// PoolProperties poolProps = new PoolProperties();
-	//
-	// // database connection
-	// String host = PDUtil.getProperty("db.host");
-	// if (PDUtil.isEmpty(host)) {
-	// host = "localhost";
-	// }
-	//
-	// poolProps.setUrl("jdbc:mysql://" + host + "/" +
-	// PDUtil.getProperty("db.database"));
-	// poolProps.setDriverClassName("com.mysql.jdbc.Driver");
-	//
-	// poolProps.setUsername(PDUtil.getProperty("db.username"));
-	// poolProps.setPassword(PDUtil.getProperty("db.password"));
-	//
-	// poolProps.setJmxEnabled(true);
-	// poolProps.setTestWhileIdle(false);
-	// poolProps.setTestOnBorrow(true);
-	// poolProps.setValidationQuery("SELECT 1");
-	// poolProps.setTestOnReturn(false);
-	// poolProps.setValidationInterval(30000);
-	// poolProps.setTimeBetweenEvictionRunsMillis(30000);
-	//
-	// poolProps.setMaxActive(75);
-	// poolProps.setMaxIdle(25);
-	// poolProps.setInitialSize(3);
-	// poolProps.setMaxWait(10000);
-	// poolProps.setRemoveAbandonedTimeout(60);
-	// poolProps.setMinEvictableIdleTimeMillis(30000);
-	// poolProps.setMinIdle(10);
-	//
-	// poolProps.setLogAbandoned(true);
-	// poolProps.setRemoveAbandoned(true);
-	//
-	// poolProps.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"
-	// + "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
-	//
-	// DataSource dataSource = new DataSource();
-	// dataSource.setPoolProperties(poolProps);
-	// return dataSource;
-	// }
+	//Create the Tomcat JDBC Connection Pool Datasource
+	private PoolProperties getPoolProperties() {
+		 PoolProperties poolProps = new PoolProperties();
+		
+		 // database connection
+//		 String host = PDUtil.getProperty("db.host");
+//		 if (PDUtil.isEmpty(host)) {
+//		 host = "localhost";
+//		 }
+//		
+//		 poolProps.setUrl("jdbc:mysql://" + host + "/" +
+//		 PDUtil.getProperty("db.database"));
+//		 poolProps.setUsername(PDUtil.getProperty("db.username"));
+//		 poolProps.setPassword(PDUtil.getProperty("db.password"));
+
+		 
+		 //see also https://developer.cloudbees.com/bin/view/RUN/DatabaseGuide
+		 poolProps.setDriverClassName("com.mysql.jdbc.Driver");		
+		 poolProps.setJmxEnabled(true);
+		 poolProps.setTestWhileIdle(false);
+		 poolProps.setTestOnBorrow(true);
+		 poolProps.setValidationQuery("SELECT 1");
+		 poolProps.setTestOnReturn(false);
+		 poolProps.setValidationInterval(30000);
+		 poolProps.setTimeBetweenEvictionRunsMillis(30000);		
+		 poolProps.setMaxActive(25);
+		 poolProps.setMaxIdle(2);
+		 poolProps.setInitialSize(3);
+		 poolProps.setMaxWait(10000);
+		 poolProps.setRemoveAbandonedTimeout(60);
+		 poolProps.setMinEvictableIdleTimeMillis(30000);
+		 poolProps.setMinIdle(10);		
+		 poolProps.setLogAbandoned(true);
+		 poolProps.setRemoveAbandoned(true);		
+		 poolProps.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"
+				 + "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
+		 return poolProps;
+	 }
+
+	
 
 	private void registerModels(Configuration config, String pckgname) {
 		// see also http://www.javaworld.com/javaworld/javatips/jw-javatip113.html?page=2
