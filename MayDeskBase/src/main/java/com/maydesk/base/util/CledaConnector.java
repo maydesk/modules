@@ -24,9 +24,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.Entity;
+import javax.sql.DataSource;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
-import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;

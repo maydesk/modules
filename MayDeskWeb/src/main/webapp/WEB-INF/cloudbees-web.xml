@@ -3,7 +3,7 @@
 
 	<environment name="dev">
 		<appid>maydesk/TestApp</appid>
-		<resource name="jdbc/maydesk_db" auth="Container" type="javax.sql.DataSource">
+		<resource name="jdbc/maydesk_db" auth="Container" type="org.apache.tomcat.jdbc.pool.DataSource">
 			<param name="username" value="maydesk_dev" />
 			<param name="password" value="sa003" />
 			<param name="url" value="jdbc:cloudbees://maydesk_dev" />
