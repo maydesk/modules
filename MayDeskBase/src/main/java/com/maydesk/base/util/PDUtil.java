@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.util;
 
 import java.io.DataInputStream;
@@ -41,13 +45,12 @@ import org.hibernate.criterion.Restrictions;
 import com.maydesk.base.DownloadServlet;
 import com.maydesk.base.DownloadServlet.Document;
 import com.maydesk.base.PDHibernateFactory;
-import com.maydesk.base.PDUserSession;
-import com.maydesk.base.model.MMediaFile;
-import com.maydesk.base.model.MUser;
 import com.maydesk.base.model.MWire;
 import com.maydesk.base.sop.SopWire;
-import com.maydesk.base.sop.enums.SopGender;
 
+/**
+ * @author Alejandro Salas
+ */
 public class PDUtil {
 
 	public static final String BASE_PATH = "com/maydesk/base/";
@@ -55,7 +58,7 @@ public class PDUtil {
 	public static final String XLS_CONTENT_TYPE = "application/xls";
 	public static final String PROPERTY_PATH_FILES = "path.documents";
 	public static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
-	
+
 	private static final char[] arrayChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 	private static Properties props;
 	private static final int LOGIN_CHARS_COUNT = 9;
@@ -362,7 +365,7 @@ public class PDUtil {
 
 	public static int getDaysDifference(Calendar refDate, Date date) {
 		long delta = date.getTime() - refDate.getTimeInMillis();
-		long deltaDays = (long) (delta) / MILLIS_PER_DAY;
+		long deltaDays = (delta) / MILLIS_PER_DAY;
 		return (int) deltaDays;
 	}
 
@@ -451,24 +454,25 @@ public class PDUtil {
 					}
 				}
 			}
-			return overrideProps.getProperty(key); 
+			return overrideProps.getProperty(key);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		} finally {
 			if (fis != null) {
 				try {
-	                fis.close();
-                } catch (IOException e) {
-	                e.printStackTrace();
-                }
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
-	
+
 	public static Integer getOverrideInt(Enum soplet, String attribute) {
 		String value = getOverride(soplet, attribute);
-		if (value == null) return null;
+		if (value == null)
+			return null;
 		try {
 			return Integer.parseInt(value);
 		} catch (Exception e) {
@@ -476,11 +480,9 @@ public class PDUtil {
 		}
 		return null;
 	}
-	
-	
+
 	public final static String MAYDESK_CONFIG = "MAYDESK_CONFIG";
 
-	
 	public static void initConfig(ServletContext context) {
 
 		// ********************************************************************************************
@@ -493,20 +495,22 @@ public class PDUtil {
 		// value="A:/workspaceFrietec2/FTFrontend/config/demo.properties"/>
 		// </Context>
 		//
-		// Otherwise you may define the MAYDESK_CONFIG variable in the system environment
+		// Otherwise you may define the MAYDESK_CONFIG variable in the system
+		// environment
 		// This is useful especially for the run-jetty-run plugin
-		// In that case use the Environment tab for defining the variable and its value
+		// In that case use the Environment tab for defining the variable and
+		// its value
 		// ********************************************************************************************
 
 		String path = context.getInitParameter(MAYDESK_CONFIG);
-		
-		//Eclipse VM arguments in the Jetty launch config, e.g.
-		//-DMAYDESK_CONFIG=A:/workspace2012/OneDesktopDemo/config/demo.properties
+
+		// Eclipse VM arguments in the Jetty launch config, e.g.
+		// -DMAYDESK_CONFIG=A:/workspace2012/OneDesktopDemo/config/demo.properties
 		if (path == null || path.length() == 0) {
 			path = System.getProperty(MAYDESK_CONFIG);
 		}
 
-		//still not found? try with system environment variable
+		// still not found? try with system environment variable
 		if (path == null || path.length() == 0) {
 			path = System.getenv(MAYDESK_CONFIG);
 		}
@@ -519,18 +523,18 @@ public class PDUtil {
 			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			return;
 		}
-		
+
 		File configFile = new File(path);
 		if (configFile.exists()) {
 			System.out.println("Starting application MAYDESK with config file: " + configFile.getAbsolutePath());
-			PDUtil.initProperties(configFile);	
+			PDUtil.initProperties(configFile);
 		} else {
 			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			System.out.println("ERROR: config file " + path + " as specified in context.xml does not exist!");
 			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 		}
 	}
-	
+
 	public static List<MWire> findWires(MWire parentWire) {
 		Criteria c = PDHibernateFactory.getSession().createCriteria(MWire.class);
 		if (parentWire == null) {

@@ -1,18 +1,17 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.gui;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
 
 import java.util.EventListener;
-
-import com.maydesk.base.aspects.Translatable;
-import com.maydesk.base.sop.gui.StandardTerms;
-import com.maydesk.base.util.PDLookAndFeel;
-import com.maydesk.base.widgets.PDPushButton;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Column;
@@ -27,14 +26,18 @@ import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.EventListenerList;
 import nextapp.echo.app.layout.SplitPaneLayoutData;
 
+import com.maydesk.base.aspects.Translatable;
+import com.maydesk.base.sop.gui.StandardTerms;
+import com.maydesk.base.util.PDLookAndFeel;
+import com.maydesk.base.widgets.PDPushButton;
 
 import echopoint.PushButton;
 
 /**
  * An OK/Cancel dialog for general purpose
  * 
- * @author Alejandro Salas 
- * Created on Feb 15, 2007
+ * @author Alejandro Salas <br>
+ *         Created on Feb 15, 2007
  */
 public abstract class PDOkCancelDialog extends PDWindowPane {
 
@@ -72,13 +75,14 @@ public abstract class PDOkCancelDialog extends PDWindowPane {
 	}
 
 	protected void btnOkClicked(ActionEvent evt) {
-		if (!onOkClicked()) return;
+		if (!onOkClicked())
+			return;
 		fireActionEvent(new ActionEvent(this, null));
 		setVisible(false);
 	}
 
 	protected abstract boolean onOkClicked();
-	
+
 	public void fireActionEvent(ActionEvent evt) {
 		EventListener[] eventListeners = eventListenerList.getListeners(ActionListener.class);
 		for (int i = 0; i < eventListeners.length; i++) {
@@ -88,7 +92,7 @@ public abstract class PDOkCancelDialog extends PDWindowPane {
 	}
 
 	private void initGUI() {
-		
+
 		SplitPane splitFooterAndBody = new SplitPane(SplitPane.ORIENTATION_VERTICAL_BOTTOM_TOP);
 		splitFooterAndBody.setSeparatorPosition(new Extent(28));
 		add(splitFooterAndBody);
@@ -97,7 +101,7 @@ public abstract class PDOkCancelDialog extends PDWindowPane {
 		splitFooterLeftRight.setBackground(PDLookAndFeel.BACKGROUND_COLOR);
 		splitFooterLeftRight.setSeparatorPosition(new Extent(200));
 		splitFooterAndBody.add(splitFooterLeftRight);
-		
+
 		rowCommands = new Row();
 		rowCommands.setCellSpacing(new Extent(6));
 		rowCommands.setAlignment(new Alignment(Alignment.RIGHT, Alignment.DEFAULT));
@@ -113,10 +117,10 @@ public abstract class PDOkCancelDialog extends PDWindowPane {
 		rowLeftFooter.setBackground(PDLookAndFeel.BACKGROUND_COLOR);
 		rowLeftFooter.setInsets(new Insets(12, 4, 0, 5));
 		splitFooterLeftRight.add(rowLeftFooter);
-		
 
 		btnCancel = new PDPushButton(StandardTerms.Cancel);
 		btnCancel.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				btnCancelClicked(evt);
 			}
@@ -125,12 +129,13 @@ public abstract class PDOkCancelDialog extends PDWindowPane {
 
 		btnOk = new PDPushButton(StandardTerms.OK);
 		btnOk.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				btnOkClicked(evt);
 			}
 		});
 		rowCommands.add(btnOk);
-		
+
 		pnlMainContainer = getMainContainer();
 		if (pnlMainContainer.getLayoutData() == null) {
 			spld = new SplitPaneLayoutData();
@@ -139,7 +144,7 @@ public abstract class PDOkCancelDialog extends PDWindowPane {
 		}
 		splitFooterAndBody.add(pnlMainContainer);
 	}
-	
+
 	protected Component getMainContainer() {
 		Column col = new Column();
 		col.setCellSpacing(new Extent(6));

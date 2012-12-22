@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.util;
 
 import nextapp.echo.app.ApplicationInstance;
@@ -28,64 +32,65 @@ import com.maydesk.base.gui.PDMessageBox;
  * -javaagent:C:\\libs\\aspectjweaver.jar
  */
 
+/**
+ * @author chrismay
+ */
 @Aspect
 public class AspectExceptionHandler {
-    
-    
-	@Around(value = "execution(* actionPerformed(..))")
-    public void handleUnexpectedExceptionInActionListeners(ProceedingJoinPoint point) throws Throwable {
-        try {
-        	long time = System.currentTimeMillis();
-            point.proceed();
-            time = System.currentTimeMillis() - time;
-            if (time > 3000) {            	
-	            String msg = "Long operation " + time + ": "+ PDUserSession.getInstance().getUser() + " at " + point;
-            	System.out.println(msg);
-            }
-        } catch (Exception e) {
-        	try {
-	            e.printStackTrace();
-	            
-	            //construct the message text
-	            String version = "";
-	            if (PDDesktop.getInstance() != null) {
-	            	version = "Version 123"; //PDAppInstance.getActivePD().getLookAndFeel().getVersionInfo() + "\n\n";	
-	            }
-	            
-	            String msg = "Ein Fehler ist aufgetreten: \n\n";
-	            msg += "User: " + PDUserSession.getInstance().getUser() + "\n";
-            	msg += "Version: " + version + "\n\n";	
-	            msg += "Fehler: " + ExceptionUtils.getStackTrace(e);
-	
-	            //send an email
-	            try {
-	            	PDMailBean mb = new PDMailBean();
-	            	mb.sendMail("mail@chrismay.de", "Fehler in Soplets Studio " + version, msg, null);
-	            } catch (Exception ex) {
-	            	System.out.println("Mail not configured!");
-	            	ex.printStackTrace();
-	            }
-	            
-	            //show error dialog
-	            if (PDDesktop.getInstance() != null) {
-	            	String msg2 = "An unexpected programm error occurred!\n\n";
-	        		msg2 += "Error type: " + e.getMessage() + "\n\n";
-	        		msg2 += "An email has been sent automatically to the admin; we will fix the error as soon as possible - sorry for the inconvenience";
-	        		PDMessageBox.msgBox("Unexpected Error", msg2, 360, 240);		
-	            }
-	            
-	            //rollback hibernate transaction
-	    		ContainerContext context = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-	    		PDHibernateMasterFactory factory = (PDHibernateMasterFactory)context.getSession().getAttribute(PDServlet.HIBERNATE_FACTORY);
-	    		if (factory.hasOpenSession()) {
-		            Session session = PDHibernateFactory.getSession();
-		            session.getTransaction().rollback();
-		            session.close();
-	    		}
-        	} catch (Exception ex2) {
-        		ex2.printStackTrace();
-        	}
-        }
-    }
-}
 
+	@Around(value = "execution(* actionPerformed(..))")
+	public void handleUnexpectedExceptionInActionListeners(ProceedingJoinPoint point) throws Throwable {
+		try {
+			long time = System.currentTimeMillis();
+			point.proceed();
+			time = System.currentTimeMillis() - time;
+			if (time > 3000) {
+				String msg = "Long operation " + time + ": " + PDUserSession.getInstance().getUser() + " at " + point;
+				System.out.println(msg);
+			}
+		} catch (Exception e) {
+			try {
+				e.printStackTrace();
+
+				// construct the message text
+				String version = "";
+				if (PDDesktop.getInstance() != null) {
+					version = "Version 123"; // PDAppInstance.getActivePD().getLookAndFeel().getVersionInfo() + "\n\n";
+				}
+
+				String msg = "Ein Fehler ist aufgetreten: \n\n";
+				msg += "User: " + PDUserSession.getInstance().getUser() + "\n";
+				msg += "Version: " + version + "\n\n";
+				msg += "Fehler: " + ExceptionUtils.getStackTrace(e);
+
+				// send an email
+				try {
+					PDMailBean mb = new PDMailBean();
+					mb.sendMail("mail@chrismay.de", "Fehler in Soplets Studio " + version, msg, null);
+				} catch (Exception ex) {
+					System.out.println("Mail not configured!");
+					ex.printStackTrace();
+				}
+
+				// show error dialog
+				if (PDDesktop.getInstance() != null) {
+					String msg2 = "An unexpected programm error occurred!\n\n";
+					msg2 += "Error type: " + e.getMessage() + "\n\n";
+					msg2 += "An email has been sent automatically to the admin; we will fix the error as soon as possible - sorry for the inconvenience";
+					PDMessageBox.msgBox("Unexpected Error", msg2, 360, 240);
+				}
+
+				// rollback hibernate transaction
+				ContainerContext context = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
+				PDHibernateMasterFactory factory = (PDHibernateMasterFactory) context.getSession().getAttribute(PDServlet.HIBERNATE_FACTORY);
+				if (factory.hasOpenSession()) {
+					Session session = PDHibernateFactory.getSession();
+					session.getTransaction().rollback();
+					session.close();
+				}
+			} catch (Exception ex2) {
+				ex2.printStackTrace();
+			}
+		}
+	}
+}

@@ -1,12 +1,22 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.table.renderer;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
 import static nextapp.echo.app.event.TableModelEvent.UPDATE;
+import nextapp.echo.app.Button;
+import nextapp.echo.app.Component;
+import nextapp.echo.app.Table;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
+import nextapp.echo.app.table.TableCellRenderer;
 
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.gui.PDDialogRichText;
@@ -15,13 +25,9 @@ import com.maydesk.base.sop.gui.PDBeanTerms;
 import com.maydesk.base.table.PDTableModel;
 import com.maydesk.base.table.TableModelEventLog;
 
-import nextapp.echo.app.Button;
-import nextapp.echo.app.Component;
-import nextapp.echo.app.Table;
-import nextapp.echo.app.event.ActionEvent;
-import nextapp.echo.app.event.ActionListener;
-import nextapp.echo.app.table.TableCellRenderer;
-
+/**
+ * @author Alejandro Salas
+ */
 public class NoticeRenderer implements TableCellRenderer {
 
 	private boolean editable;
@@ -30,11 +36,12 @@ public class NoticeRenderer implements TableCellRenderer {
 		this.editable = editable;
 	}
 
+	@Override
 	public Component getTableCellRendererComponent(Table table, Object value, final int col, final int row) {
 		final PDTableModel tableModel = (PDTableModel) table.getModel();
 
 		final String strValue = value == null ? "" : value.toString();
-		
+
 		String strWithoutTags = strValue.replaceAll("<(\\w+)>", "");
 		strWithoutTags = strWithoutTags.replaceAll("</(\\w+)>", "");
 		strWithoutTags = strWithoutTags.replaceAll("<(\\w+)/>", "");
@@ -45,12 +52,13 @@ public class NoticeRenderer implements TableCellRenderer {
 			image = EImage16.comment2empty;
 		} else {
 			image = EImage16.comment2;
-			
+
 		}
 
 		Button ret = new Button(image.getImage());
 		ret.setToolTipText(nls(PDBeanTerms.Edit_notice));
 		ret.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				btnNoticeClicked(tableModel, strValue, col, row, editable);
 			}
@@ -58,8 +66,7 @@ public class NoticeRenderer implements TableCellRenderer {
 		return ret;
 	}
 
-	private void btnNoticeClicked(final PDTableModel tableModel, final String strValue, final int col, final int row,
-			final boolean editable) {
+	private void btnNoticeClicked(final PDTableModel tableModel, final String strValue, final int col, final int row, final boolean editable) {
 		PDDialogRichText dlgRichTextArea = new PDDialogRichText(nls(PDBeanTerms.Edit_notice), editable);
 		dlgRichTextArea.setText(strValue);
 		dlgRichTextArea.setModal(true);
@@ -67,11 +74,11 @@ public class NoticeRenderer implements TableCellRenderer {
 		PDDesktop.getInstance().addWindow(dlgRichTextArea);
 
 		dlgRichTextArea.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				PDDialogRichText dlgRichTextArea2 = (PDDialogRichText) evt.getSource();
 				tableModel.setValueAt(dlgRichTextArea2.getText(), col, row);
-				tableModel.fireTableChanged(new TableModelEventLog(tableModel, col, row, row, UPDATE, strValue,
-						dlgRichTextArea2.getText()));
+				tableModel.fireTableChanged(new TableModelEventLog(tableModel, col, row, row, UPDATE, strValue, dlgRichTextArea2.getText()));
 				// tableModel.fireTableDataChanged();
 			}
 		});

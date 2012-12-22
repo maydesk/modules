@@ -1,3 +1,12 @@
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.peers;
 
 import nextapp.echo.app.Component;
@@ -12,33 +21,37 @@ import com.maydesk.base.widgets.PDTextArea;
 
 /**
  * Synchronization peer for <code>TextArea</code>s.
+ * 
+ * @author chrismay
  */
 public class PDTextAreaPeer extends TextComponentPeer {
 
 	private static final String PD_TEXT_AREA = "PD.RTA";
-    
-    static {
-        WebContainerServlet.getServiceRegistry().add(
-        		JavaScriptService.forResource(PD_TEXT_AREA, PDUtil.BASE_PATH + "js/PDTextArea.js"));
-    }
-    
-    public void init(Context context, Component component) {
-        super.init(context, component);
-        ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-        serverMessage.addLibrary(PD_TEXT_AREA);
-    }
-    
-    /**
-     * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#getClientComponentType(boolean)
-     */
-    public String getClientComponentType(boolean shortType) {
-        return PD_TEXT_AREA;
-    }
-    
-    /**
-     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getComponentClass()
-     */
-    public Class getComponentClass() {
-        return PDTextArea.class;
-    }
+
+	static {
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_TEXT_AREA, PDUtil.BASE_PATH + "js/PDTextArea.js"));
+	}
+
+	@Override
+	public void init(Context context, Component component) {
+		super.init(context, component);
+		ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
+		serverMessage.addLibrary(PD_TEXT_AREA);
+	}
+
+	/**
+	 * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#getClientComponentType(boolean)
+	 */
+	@Override
+	public String getClientComponentType(boolean shortType) {
+		return PD_TEXT_AREA;
+	}
+
+	/**
+	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getComponentClass()
+	 */
+	@Override
+	public Class getComponentClass() {
+		return PDTextArea.class;
+	}
 }

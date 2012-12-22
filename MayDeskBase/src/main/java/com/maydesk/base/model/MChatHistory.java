@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.model;
 
 import java.util.Date;
@@ -10,6 +14,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author chrismay
+ */
 @Entity
 @Table(name = "t_pdw_chat_history")
 public class MChatHistory extends MBase {
@@ -17,28 +24,28 @@ public class MChatHistory extends MBase {
 	private Date lastActivity;
 	private String otherUser;
 	private MUser user;
-	
+
 	public String getOtherUser() {
-    	return otherUser;
-    }
+		return otherUser;
+	}
 
 	public void setOtherUser(String otherUser) {
-    	this.otherUser = otherUser;
-    }
-	
+		this.otherUser = otherUser;
+	}
+
 	public Date getLastActivity() {
-    	return lastActivity;
-    }
-	
+		return lastActivity;
+	}
+
 	public MUser getUser() {
-    	return user;
-    }
-	
+		return user;
+	}
+
 	public void setLastActivity(Date lastActivity) {
-    	this.lastActivity = lastActivity;
-    }
-	
+		this.lastActivity = lastActivity;
+	}
+
 	public void setUser(MUser user) {
-    	this.user = user;
-    }	
+		this.user = user;
+	}
 }

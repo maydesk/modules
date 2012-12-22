@@ -1,17 +1,18 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.widgets;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EventListener;
-
-import com.maydesk.base.sop.enums.EImage16;
-import com.maydesk.base.util.PDFormat;
 
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Button;
@@ -23,6 +24,12 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.event.EventListenerList;
 
+import com.maydesk.base.sop.enums.EImage16;
+import com.maydesk.base.util.PDFormat;
+
+/**
+ * @author Alejandro Salas
+ */
 public class PDTimeSpinner extends Row {
 
 	private static final DateFormat DATE_FORMAT = PDFormat.getDefaultTimeOnlyFormat();
@@ -90,6 +97,7 @@ public class PDTimeSpinner extends Row {
 
 		btnUp = new Button(EImage16.spin_up.getImage());
 		btnUp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				spnHourUpClicked();
 			}
@@ -101,6 +109,7 @@ public class PDTimeSpinner extends Row {
 
 		btnDown = new Button(EImage16.spin_down.getImage());
 		btnDown.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				spnHourDownClicked();
 			}
@@ -115,6 +124,7 @@ public class PDTimeSpinner extends Row {
 		txtValue.setWidth(new Extent(40));
 		txtValue.setKeyAction(true);
 		txtValue.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				txtValueChanged();
 			}
@@ -126,6 +136,7 @@ public class PDTimeSpinner extends Row {
 
 		btnUp = new Button(EImage16.spin_up.getImage());
 		btnUp.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				spnMinsUpClicked();
 			}
@@ -137,6 +148,7 @@ public class PDTimeSpinner extends Row {
 
 		btnDown = new Button(EImage16.spin_down.getImage());
 		btnDown.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				spnMinsDownClicked();
 			}
@@ -218,8 +230,7 @@ public class PDTimeSpinner extends Row {
 			fireActionEvent(new ActionEvent(this, null));
 		} catch (Exception e) {
 			// do nothing, the model stays at the previous value
-			// just display what was before
-			//displayHour();
+			// just display what was before displayHour();
 			model = null;
 		}
 	}

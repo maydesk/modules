@@ -1,13 +1,13 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
-package com.maydesk.base.table;
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
 
-import com.maydesk.base.aspects.Translatable;
-import com.maydesk.base.table.renderer.PDCellRenderer;
-import com.maydesk.base.widgets.PDLabel;
+package com.maydesk.base.table;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
@@ -20,13 +20,15 @@ import nextapp.echo.app.table.TableColumn;
 import nextapp.echo.app.table.TableColumnModel;
 import nextapp.echo.app.table.TableModel;
 
+import com.maydesk.base.aspects.Translatable;
+import com.maydesk.base.table.renderer.PDCellRenderer;
+import com.maydesk.base.widgets.PDLabel;
 
 /**
- * @author Demián Gutierrez
+ * @author Demian Gutierrez
  */
 public class PDTable extends Table {
 
-	
 	public PDTable() {
 		init2();
 	}
@@ -45,24 +47,27 @@ public class PDTable extends Table {
 		setDefaultHeaderRenderer(new MyHeaderRenderer());
 		setInsets(new Insets(5, 0, 0, 0));
 		setDefaultRenderer(Object.class, new PDCellRenderer() {
+			@Override
 			public Component getTableCellRendererComponent(Table table, Object value, int column, int row) {
 				PDLabel lbl = new PDLabel(PDLabel.STYLE.FIELD_LABEL);
 				if (value instanceof ImageReference) {
-					lbl.setIcon((ImageReference)value);
+					lbl.setIcon((ImageReference) value);
 				} else {
-					if (value == null) value = "";
+					if (value == null)
+						value = "";
 					lbl.setText(value + "");
 				}
 				setBackground(lbl, row);
 				return lbl;
-			}			
+			}
 		});
 	}
 
 	class MyHeaderRenderer implements TableCellRenderer {
+		@Override
 		public Component getTableCellRendererComponent(Table table, Object value, int column, int row) {
 			return new PDLabel(value + "", PDLabel.STYLE.FIELD_LABEL);
-		}		
+		}
 	}
 
 	public void addColumn(Translatable title) {
@@ -77,22 +82,22 @@ public class PDTable extends Table {
 			col.setWidth(new Extent(width, Extent.PERCENT));
 		}
 		getColumnModel().addColumn(col);
-		if (getModel() instanceof PDTableModel3) {			
-			((PDTableModel3)getModel()).addColumn(title);
+		if (getModel() instanceof PDTableModel3) {
+			((PDTableModel3) getModel()).addColumn(title);
 		}
 	}
 
 	public void addColumn(String title, int width) {
 		int colCount = getModel().getColumnCount();
-		TableColumn col = new TableColumn(colCount); //, new Extent(width));
+		TableColumn col = new TableColumn(colCount); // , new Extent(width));
 		col.setHeaderValue(title);
 		col.setWidth(new Extent(width, Extent.PERCENT));
 		getColumnModel().addColumn(col);
-		if (getModel() instanceof PDTableModel2) {			
-			((PDTableModel2)getModel()).addColumn(title);
+		if (getModel() instanceof PDTableModel2) {
+			((PDTableModel2) getModel()).addColumn(title);
 		} else if (getModel() instanceof DefaultTableModel) {
-			((DefaultTableModel)getModel()).setColumnCount(colCount + 1);
-			((DefaultTableModel)getModel()).setColumnName(colCount, title);
+			((DefaultTableModel) getModel()).setColumnCount(colCount + 1);
+			((DefaultTableModel) getModel()).setColumnName(colCount, title);
 		}
 	}
 }

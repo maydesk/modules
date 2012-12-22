@@ -1,14 +1,24 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.widgets;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
 
 import java.util.List;
 import java.util.Vector;
+
+import nextapp.echo.app.Border;
+import nextapp.echo.app.Color;
+import nextapp.echo.app.Extent;
+import nextapp.echo.app.SelectField;
+import nextapp.echo.app.list.ListModel;
 
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.PDUserSession;
@@ -22,18 +32,14 @@ import com.maydesk.base.util.PDLookAndFeel;
 import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDComboModel.MyListEntry;
 
-import nextapp.echo.app.Border;
-import nextapp.echo.app.Color;
-import nextapp.echo.app.Extent;
-import nextapp.echo.app.SelectField;
-import nextapp.echo.app.list.ListModel;
-
-
+/**
+ * @author Alejandro Salas
+ */
 public class PDCombo<T> extends SelectField implements IChangeSupportableWithAction<T> {
 
 	private PDBinding changeSupport;
 	private int serialId;
-	
+
 	public PDCombo(int serialId) {
 		super(new PDComboModel<T>());
 		init2();
@@ -69,7 +75,7 @@ public class PDCombo<T> extends SelectField implements IChangeSupportableWithAct
 		setValues(values, emptyEntry, doSort);
 		init2();
 	}
-	
+
 	public void setValues(List<T> values) {
 		PDComboModel<T> model = getModel();
 		model.setValues(values, false);
@@ -93,7 +99,6 @@ public class PDCombo<T> extends SelectField implements IChangeSupportableWithAct
 		setSelectedIndex(0);
 	}
 
-
 	private void init2() {
 		setBorder(PDBorderFactory.getBorder());
 		setDisabledBorder(new Border(1, Color.LIGHTGRAY, Border.STYLE_DOTTED));
@@ -112,71 +117,73 @@ public class PDCombo<T> extends SelectField implements IChangeSupportableWithAct
 		if (PDUtil.isEmpty(o)) {
 			return null;
 		}
-		return (T)((MyListEntry)o).value;
+		return (T) ((MyListEntry) o).value;
 	}
-	
-    public PDComboModel<T> getModel() {
-        return (PDComboModel<T>)super.getModel();
-    }    
 
-    @Override
-    public void setModel(ListModel lm) {
-    	if (!(lm instanceof PDComboModel)) {
-        	throw new IllegalArgumentException ("Model must be of type PDComboModel");
-    	}
-    	super.setModel(lm);
-    }   
-    
-    @Override
-    public void setSelectedItem(Object item) {
-    	if (item == null) {
-    		setSelectedIndex(0);
-    	} else {
-    		MyListEntry entry = getModel().getEntryIndex(item);
-    		super.setSelectedItem(entry);
-    		//super.setSelectedIndex(3);
-    	}
-    }
-    
-    private static <TT> List<TT> arrayToList(TT[] array) {
-    	List<TT> list = new Vector<TT>();
-    	for (TT o : array) {
-    		list.add(o);
-    	}
-    	return list;
-    	
-    }
-    
-//	public void storeSelection(Object contextClazz, Class modelClass) {
-//		String context = contextClazz.toString();
-//		MBase model = (MBase)getSelectedItem();
-//		MMnemonic mnemomic = DaoUser.findMnemonic(context, modelClass);
-//		if (mnemomic == null) {
-//			mnemomic = new MMnemonic();
-//			mnemomic.setContext(context);
-//			mnemomic.setModelClass(modelClass.getName());
-//			mnemomic.setUser(PDUserSession.getInstance().getUser());
-//		}
-//		if (model != null) {
-//			mnemomic.setModelId(model.getId());
-//		} else {
-//			mnemomic.setModelId(-1);
-//		}
-//		PDHibernateFactory.getSession().saveOrUpdate(mnemomic);
-//	}
-//
-//	public void restoreSelection(Object key, Class modelClass) {
-//		String context = key.toString();
-//		MMnemonic mnemomic = DaoUser.findMnemonic(context, modelClass);
-//		if (mnemomic == null) return;
-//		try {
-//			Class modelClazz = Class.forName(mnemomic.getModelClass());
-//			T model = (T)MBase.loadById(modelClazz, mnemomic.getModelId());
-//			setSelectedItem(model);			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}			
-//	}
+	@Override
+	public PDComboModel<T> getModel() {
+		return (PDComboModel<T>) super.getModel();
+	}
+
+	@Override
+	public void setModel(ListModel lm) {
+		if (!(lm instanceof PDComboModel)) {
+			throw new IllegalArgumentException("Model must be of type PDComboModel");
+		}
+		super.setModel(lm);
+	}
+
+	@Override
+	public void setSelectedItem(Object item) {
+		if (item == null) {
+			setSelectedIndex(0);
+		} else {
+			MyListEntry entry = getModel().getEntryIndex(item);
+			super.setSelectedItem(entry);
+			// super.setSelectedIndex(3);
+		}
+	}
+
+	private static <TT> List<TT> arrayToList(TT[] array) {
+		List<TT> list = new Vector<TT>();
+		for (TT o : array) {
+			list.add(o);
+		}
+		return list;
+
+	}
+
+	// public void storeSelection(Object contextClazz, Class modelClass) {
+	// String context = contextClazz.toString();
+	// MBase model = (MBase) getSelectedItem();
+	// MMnemonic mnemomic = DaoUser.findMnemonic(context, modelClass);
+	// if (mnemomic == null) {
+	// mnemomic = new MMnemonic();
+	// mnemomic.setContext(context);
+	// mnemomic.setModelClass(modelClass.getName());
+	// mnemomic.setUser(PDUserSession.getInstance().getUser());
+	// }
+	// if (model != null) {
+	// mnemomic.setModelId(model.getId());
+	// } else {
+	// mnemomic.setModelId(-1);
+	// }
+	// PDHibernateFactory.getSession().saveOrUpdate(mnemomic);
+	// }
+	//
+	// public void restoreSelection(Object key, Class modelClass) {
+	// String context = key.toString();
+	// MMnemonic mnemomic = DaoUser.findMnemonic(context, modelClass);
+	// if (mnemomic == null)
+	// return;
+	// try {
+	// Class modelClazz = Class.forName(mnemomic.getModelClass());
+	// T model = (T) MBase.loadById(modelClazz, mnemomic.getModelId());
+	// setSelectedItem(model);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	public void storeSelection() {
 		if (serialId == 0) {
@@ -197,32 +204,38 @@ public class PDCombo<T> extends SelectField implements IChangeSupportableWithAct
 			throw new IllegalArgumentException("PDCombo.storeSelection may only be used when serialID is set");
 		}
 		MMnemonic mnemomic = DaoUser.findMnemonic(serialId);
-		if (mnemomic == null) return;
-		setSelectedItem(mnemomic.getPosition());			
+		if (mnemomic == null)
+			return;
+		setSelectedItem(mnemomic.getPosition());
 	}
 
+	@Override
 	public void setValue(T value) {
 		setSelectedItem(value);
 	}
 
+	@Override
 	public T getValue() {
-	    return getSelectedItem();
-    }
+		return getSelectedItem();
+	}
 
+	@Override
 	public PDBinding getChangeSupport() {
-    	return changeSupport;
-    }
+		return changeSupport;
+	}
 
+	@Override
 	public void setChangeSupport(PDBinding changeSupport) {
-    	this.changeSupport = changeSupport;
-    }
+		this.changeSupport = changeSupport;
+	}
 
+	@Override
 	public String getPropertyName() {
-	    return "selected";
-    }
-	
-	//@Override
-    public void setEditable(boolean editable) {
-	    setEnabled(editable);	    
-    }    
+		return "selected";
+	}
+
+	@Override
+	public void setEditable(boolean editable) {
+		setEnabled(editable);
+	}
 }

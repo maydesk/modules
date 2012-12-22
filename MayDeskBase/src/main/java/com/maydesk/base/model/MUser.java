@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.model;
 
 import java.util.Locale;
@@ -20,8 +24,11 @@ import com.maydesk.base.sop.enums.ECountry;
 import com.maydesk.base.sop.enums.SopGender;
 import com.maydesk.base.util.PDUtil;
 
+/**
+ * @author chrismay
+ */
 @Entity
-@Table(name = "t_pdw_user", uniqueConstraints = @UniqueConstraint(columnNames={"jabberId"}))
+@Table(name = "t_pdw_user", uniqueConstraints = @UniqueConstraint(columnNames = { "jabberId" }))
 public class MUser extends MBaseWithTitle {
 
 	private Integer colorShade;
@@ -29,13 +36,13 @@ public class MUser extends MBaseWithTitle {
 	protected String displayName;
 	protected String email;
 	private SopGender gender;
-	protected String jabberId; 
+	protected String jabberId;
 	protected Locale locale = Locale.ENGLISH;
 
 	public MUser() {
 		// Empty
 	}
-	
+
 	@Override
 	public String createCachedTitle() {
 		return toString();
@@ -45,17 +52,17 @@ public class MUser extends MBaseWithTitle {
 		if (colorShade == null) {
 			colorShade = Color.BLUE.getRgb();
 		}
-    	return colorShade;
-    }
+		return colorShade;
+	}
 
 	@Enumerated(javax.persistence.EnumType.STRING)
 	public ECountry getCountry() {
-    	return country;
-    }
+		return country;
+	}
 
 	public String getDisplayName() {
-    	return displayName;
-    }
+		return displayName;
+	}
 
 	public String getEmail() {
 		return email;
@@ -63,12 +70,12 @@ public class MUser extends MBaseWithTitle {
 
 	@Enumerated(EnumType.STRING)
 	public SopGender getGender() {
-    	return gender;
-    }
+		return gender;
+	}
 
 	public String getJabberId() {
-    	return jabberId;
-    }
+		return jabberId;
+	}
 
 	@Transient
 	public Locale getLocale() {
@@ -76,33 +83,33 @@ public class MUser extends MBaseWithTitle {
 	}
 
 	public void setColorShade(Integer colorShade) {
-    	this.colorShade = colorShade;
-    }
-	
+		this.colorShade = colorShade;
+	}
+
 	public void setCountry(ECountry country) {
-    	this.country = country;
-    }
+		this.country = country;
+	}
 
 	public void setDisplayName(String displayName) {
-    	this.displayName = displayName;
-    }
+		this.displayName = displayName;
+	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	public void setGender(SopGender gender) {
-    	this.gender = gender;
-    }
+		this.gender = gender;
+	}
 
 	public void setJabberId(String jabberId) {
-    	this.jabberId = jabberId;
-    }
+		this.jabberId = jabberId;
+	}
 
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
-	
+
 	@Override
 	public String toString() {
 		if (!PDUtil.isEmpty(displayName)) {

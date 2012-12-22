@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.gui.user;
 
 import java.util.List;
@@ -35,49 +39,55 @@ import com.maydesk.base.util.IUserRoleFactory;
 
 import echopoint.PushButton;
 
+/**
+ * @author chrismay
+ */
 public class PnlUserRoles extends Column implements ICrud {
 
 	private MUser user;
 	private PushButton btnAddRole;
 	private PDTable table;
 	private IUserRoleFactory userRoleFactory;
-	
+
 	public PnlUserRoles(Class<? extends IUserRoleFactory> factoryClass) {
 		try {
-	        userRoleFactory = factoryClass.newInstance();
-        } catch (Exception e) {
-	        e.printStackTrace();
-        }
-		initGUI();		
+			userRoleFactory = factoryClass.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		initGUI();
 	}
-	
+
 	private void initGUI() {
 		setInsets(new Insets(6));
 		setCellSpacing(new Extent(6));
-		
+
 		btnAddRole = new PushButton("Neue Rolle hinzu");
 		btnAddRole.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnAddRoleClicked();
-			}			
+			}
 		});
 		add(btnAddRole);
-		
+
 		table = new PDTable();
 		table.setWidth(new Extent(100, Extent.PERCENT));
 		table.addColumn("Rolle", 40);
 		table.addColumn("Kontext", 40);
 		table.addColumn("Aktion", 20);
 		table.setDefaultRenderer(Object.class, new TableCellRenderer() {
+			@Override
 			public Component getTableCellRendererComponent(Table table, Object value, int col, int r) {
 				if (col == 2) {
 					Row row = new Row();
 					row.setCellSpacing(new Extent(6));
-					
+
 					Button btnDelete = new Button(EImage16.deletee.getImage());
 					btnDelete.addActionListener(new ActionListener() {
+						@Override
 						public void actionPerformed(ActionEvent evt) {
-							//btnDeleteClicked(userRole);
+							// btnDeleteClicked(userRole);
 						}
 					});
 					row.add(btnDelete);
@@ -85,16 +95,17 @@ public class PnlUserRoles extends Column implements ICrud {
 				} else {
 					return new Label(value + "");
 				}
-            }			
+			}
 		});
 		add(table);
 	}
-	
+
 	private void btnDeleteClicked(final MUserRole userRole) {
 		PDMessageBox.confirmDeletion(userRole.toString()).addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				btnDeleteClickedBis(userRole);
-            }			
+			}
 		});
 	}
 
@@ -105,11 +116,13 @@ public class PnlUserRoles extends Column implements ICrud {
 	}
 
 	private void btnAddRoleClicked() {
-		final DlgAddRole dlg = new DlgAddRole(user, "com.maydesk.dvratio.DVRUserRoleFactory");  //XXX	
+		final DlgAddRole dlg = new DlgAddRole(user, "com.maydesk.dvratio.DVRUserRoleFactory"); // XXX
 		dlg.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				MUserRole userRole = dlg.getUserRole();
-				if (userRole == null) return;
+				if (userRole == null)
+					return;
 				PDHibernateFactory.getSession().save(userRole);
 				PDHibernateFactory.getSession().flush();
 				readFromModel(user);
@@ -118,24 +131,25 @@ public class PnlUserRoles extends Column implements ICrud {
 		PDDesktop.getInstance().addWindow(dlg);
 	}
 
+	@Override
 	public void readFromModel(MBase model) {
 		if (model instanceof MUser) {
-			this.user = (MUser)model;
+			this.user = (MUser) model;
 		} else {
-			int userId = ((MDataLink)model).getTargetId();
-			this.user = MUser.loadById(MUser.class, userId);
+			int userId = ((MDataLink) model).getTargetId();
+			this.user = MBase.loadById(MUser.class, userId);
 		}
 		List<MUserRole> userRoles = DaoRole.findRoles(user);
-		DefaultTableModel tableModel = (DefaultTableModel)table.getModel();
+		DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 		tableModel.setRowCount(0);
 		for (MUserRole userRole : userRoles) {
 			Object[] rowData = new Object[3];
 			rowData[0] = userRoleFactory.getRoleCaption(userRole);
 			rowData[1] = userRoleFactory.getContextDescription(userRole);
-			rowData[2] = userRole; 
+			rowData[2] = userRole;
 			tableModel.addRow(rowData);
 		}
-		tableModel.fireTableDataChanged();	
+		tableModel.fireTableDataChanged();
 	}
 
 	public void setEditing(boolean isEditing) {
@@ -148,11 +162,13 @@ public class PnlUserRoles extends Column implements ICrud {
 		return null;
 	}
 
+	@Override
 	public Component getFocusComponent() {
 		return null;
 	}
 
+	@Override
 	public Class getModelClass() {
-		 return MUser.class;
-    }
+		return MUser.class;
+	}
 }

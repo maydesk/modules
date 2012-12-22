@@ -1,3 +1,12 @@
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.web;
 
 import java.io.IOException;
@@ -20,8 +29,9 @@ import sun.misc.BASE64Encoder;
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.PDUserSession;
-import com.maydesk.base.model.MMediaFile;
 import com.maydesk.base.model.MAvatar;
+import com.maydesk.base.model.MBase;
+import com.maydesk.base.model.MMediaFile;
 import com.maydesk.base.model.MUser;
 import com.maydesk.base.model.MWire;
 import com.maydesk.base.sop.enums.EImage16;
@@ -36,29 +46,33 @@ import com.maydesk.base.widgets.PDAutoLookupField;
 
 import echopoint.model.AutoLookupSelectFieldModel;
 
+/**
+ * @author chrismay
+ */
 public class MDOmniBar extends PDAutoLookupField<MUser> implements IPlugTarget {
-	
-	public MDOmniBar() {		
+
+	public MDOmniBar() {
 		super(MUser.class);
-		
+
 		addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) { 
-				
-				if (getKey() == null) return;
+			public void actionPerformed(ActionEvent e) {
+
+				if (getKey() == null)
+					return;
 				int userId = Integer.parseInt(getKey());
 				MAvatar person = new MAvatar();
 				person.setPositionX(350);
 				person.setPositionY(40);
-				person.setPerson(MUser.loadById(MUser.class, userId));
+				person.setPerson(MBase.loadById(MUser.class, userId));
 				person.setOwner(PDUserSession.getInstance().getUser());
 				PDHibernateFactory.getSession().save(person);
 				PDDesktop.getInstance().addPerson(person);
 				setText("");
-			 }
+			}
 		});
 		setBackgroundImage(new FillImage(EImage16.textfield_bg.getImage(), null, null, FillImage.NO_REPEAT));
-		setBackground(PDLookAndFeel.BACKGROUND_COLOR); //colorScheme.getBackgroundDark());
+		setBackground(PDLookAndFeel.BACKGROUND_COLOR); // colorScheme.getBackgroundDark());
 		setWidth(new Extent(152));
 		setHeight(new Extent(18));
 		setInsets(new Insets(30, 0, 0, 0));
@@ -67,17 +81,19 @@ public class MDOmniBar extends PDAutoLookupField<MUser> implements IPlugTarget {
 		setSelectedOptionBackground(new Color(222, 222, 222));
 		setActionClick(true);
 		setAutoSelect(true);
-		
+
 	}
-	
+
 	static class UserLookupModel implements AutoLookupSelectFieldModel {
-		
+
+		@Override
 		public List<EntrySelect> getAllEntries() {
 			return null;
 		}
-		
+
+		@Override
 		public List<EntrySelect> searchEntries(String partialSearchValue) {
-			
+
 			List<EntrySelect> userList = new ArrayList<EntrySelect>();
 			Session session = CledaConnector.getInstance().createSession();
 			Criteria criteria = session.createCriteria(MUser.class);
@@ -85,13 +101,13 @@ public class MDOmniBar extends PDAutoLookupField<MUser> implements IPlugTarget {
 			List<MUser> list = criteria.list();
 			int i = 0;
 			BASE64Encoder encoder = new BASE64Encoder();
-			
+
 			for (MUser user : list) {
 				Criteria criteria2 = session.createCriteria(MMediaFile.class);
 				criteria2.add(Restrictions.eq("fileName", SopMood.normal.name()));
 				criteria2.add(Restrictions.eq("parentId", user.getId()));
-				MMediaFile img = (MMediaFile)criteria2.uniqueResult();
-				
+				MMediaFile img = (MMediaFile) criteria2.uniqueResult();
+
 				try {
 					byte[] bytes = ImageResizer.convertToDropDownEntry(img, user.getJabberId(), user.getDisplayName());
 					String byteString = encoder.encode(bytes);
@@ -100,7 +116,7 @@ public class MDOmniBar extends PDAutoLookupField<MUser> implements IPlugTarget {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 			session.getTransaction().commit();
 			session.close();

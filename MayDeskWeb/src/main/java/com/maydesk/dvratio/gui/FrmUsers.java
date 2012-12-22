@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.dvratio.gui;
 
 import nextapp.echo.app.Extent;
@@ -26,6 +30,9 @@ import com.maydesk.base.util.HeaderValue;
 import com.maydesk.base.util.IPlugTarget;
 import com.maydesk.web.MDUserRoleFactory;
 
+/**
+ * @author chrismay
+ */
 public class FrmUsers extends PDMasterDataView<MUser> implements IPlugTarget {
 
 	public FrmUsers() {
@@ -33,37 +40,40 @@ public class FrmUsers extends PDMasterDataView<MUser> implements IPlugTarget {
 		setWidth(new Extent(700));
 		setHeight(new Extent(450));
 		addToolButton("Neuer User", EImage16.add, true, "").addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				btnNewUserClicked();				
-        	}			
+				btnNewUserClicked();
+			}
 		});
-		
+
 		addEditor("User", new PnlUserForWizard());
 		addEditor("Image", new PnlUserMoods());
 		addEditor("Roles", new PnlUserRoles(MDUserRoleFactory.class));
 	}
 
-	protected void assignBaseModel(Object baseModel) {		
-		//factoryClass = (Class)baseModel;
+	protected void assignBaseModel(Object baseModel) {
+		// factoryClass = (Class)baseModel;
 	}
-	
+
 	private void btnNewUserClicked() {
 		MUser user = new MUser();
 		PDHibernateFactory.getSession().save(user);
 		addNewItem(user);
 		readFromModel();
 	}
-	
+
 	protected class MyTitleBar extends PDTitleBar {
 		public MyTitleBar(HeaderValue headerValues) {
 			super(FrmUsers.this, headerValues, true);
 		}
+
+		@Override
 		protected void addCommands() {
 		}
 	}
 
 	@Override
-    protected PDPageableFactory getFactory(final PDMasterDataView masterDataView) {
+	protected PDPageableFactory getFactory(final PDMasterDataView masterDataView) {
 		return new PDPageableFactory(masterDataView, MUser.class) {
 
 			@Override
@@ -71,13 +81,14 @@ public class FrmUsers extends PDMasterDataView<MUser> implements IPlugTarget {
 				return session.createCriteria(MUser.class);
 			}
 
+			@Override
 			public PDTitleBar getHeaderComponent(HeaderValue headerValues) {
-				 return new MyTitleBar(headerValues);
+				return new MyTitleBar(headerValues);
 			}
 		};
-    }
+	}
 
 	@Override
-    public void initWire(MWire parentWire) {
-    }
+	public void initWire(MWire parentWire) {
+	}
 }

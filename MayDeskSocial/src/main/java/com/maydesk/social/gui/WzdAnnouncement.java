@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.social.gui;
 
 import nextapp.echo.app.Component;
@@ -27,19 +31,19 @@ import com.maydesk.social.sop.SopAnnouncement;
 import echopoint.TextArea;
 import echopoint.able.Positionable;
 
-
 /**
+ * @author chrismay
  */
 public class WzdAnnouncement extends PDWizard implements IPlugTarget {
 
 	private MAnnouncement announcement;
-	
+
 	public WzdAnnouncement() {
 		super();
 		setHeight(new Extent(320));
 		setWidth(new Extent(420));
 		setTitle("Create New Announcement");
-		
+
 		addPanel(new Panel1());
 		addPanel(new Panel2());
 		addPanel(new Panel3());
@@ -47,17 +51,17 @@ public class WzdAnnouncement extends PDWizard implements IPlugTarget {
 	}
 
 	class Panel1 extends PDWizardPanel {
-		
+
 		private TextField txtTitle;
 		private TextArea txtContent;
-		
+
 		public Panel1() {
 			super(null, StandardTerms.Next);
 			setInfo("With this wizard you can create a new announcement");
-			
+
 			PDGrid grd = new PDGrid(2);
 			add(grd);
-			
+
 			grd.addLabel(SopAnnouncement.title);
 			grd.add(txtTitle = new TextField());
 
@@ -66,29 +70,29 @@ public class WzdAnnouncement extends PDWizard implements IPlugTarget {
 			txtContent.setHeight(new Extent(110));
 			txtContent.setWidth(new Extent(290));
 		}
-		
+
 		@Override
 		public Component getFocusComponent() {
 			return txtTitle;
 		}
-		
+
 		@Override
 		public void applyToModel() {
 			announcement = new MAnnouncement();
 			announcement.setTitle(txtTitle.getText());
 			announcement.setText(txtContent.getText());
 			announcement.setAuthor(PDUserSession.getInstance().getUser());
-		}		
+		}
 	}
 
 	class Panel2 extends PDWizardPanel {
-		
+
 		PnlAnnouncement pnl;
-		
+
 		public Panel2() {
 			super(PDBeanTerms.Preview, StandardTerms.Back, PDBeanTerms.Publish_Now);
-			//setInfo("Preview");
-			
+			// setInfo("Preview");
+
 			pnl = new PnlAnnouncement();
 			pnl.setPosition(Positionable.ABSOLUTE);
 			pnl.setLeft(new Extent(3));
@@ -98,7 +102,7 @@ public class WzdAnnouncement extends PDWizard implements IPlugTarget {
 			pnl.setBackgroundImage(new FillImage(new ResourceImageReference("img/CloudDeskBackground2.jpg")));
 			pnl.setInsets(new Insets(6));
 			add(pnl);
-		}		
+		}
 
 		@Override
 		public void readFromModel() {
@@ -109,17 +113,17 @@ public class WzdAnnouncement extends PDWizard implements IPlugTarget {
 		public void applyToModel2() {
 			DaoSocial.getInstance().createAnnouncement(announcement);
 		}
-	}	
+	}
 
 	class Panel3 extends PDWizardPanel {
 		public Panel3() {
 			super(null, StandardTerms.Done);
 			setInfo("Your announcement has been published!");
-		}		
+		}
 	}
 
 	@Override
 	public void initWire(MWire parentWire) {
-		//setTitle(parentWire.getCaption());		
-	}	
+		// setTitle(parentWire.getCaption());
+	}
 }

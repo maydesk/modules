@@ -1,3 +1,12 @@
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.gui.user;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
@@ -28,6 +37,9 @@ import com.maydesk.base.widgets.PDGrid;
 
 import echopoint.PushButton;
 
+/**
+ * @author chrismay
+ */
 public class DlgSelectUser extends PDOkCancelDialog {
 
 	private PDTableModel2 tableModel;
@@ -36,12 +48,12 @@ public class DlgSelectUser extends PDOkCancelDialog {
 	private TextField txtLastName;
 	private TextField txtFirstName;
 	private TextField txtLogin;
-	
+
 	public DlgSelectUser() {
-	    super("Search Facebook User", 450, 520);
-	    initGUI();
-	    readFromModel();
-    }
+		super("Search Facebook User", 450, 520);
+		initGUI();
+		readFromModel();
+	}
 
 	private void readFromModel() {
 		Criteria criteria = PDHibernateFactory.getSession().createCriteria(MUser.class);
@@ -57,13 +69,13 @@ public class DlgSelectUser extends PDOkCancelDialog {
 		if (!PDUtil.isEmpty(txtLogin.getText())) {
 			criteria.add(Restrictions.like("login", txtLogin.getText().trim() + "%")); //$NON-NLS-1$ //$NON-NLS-2$
 			hasRestriction = true;
-		} 
+		}
 		if (!hasRestriction) {
 			criteria.add(Restrictions.isNotNull("lastName")); //$NON-NLS-1$
 			criteria.add(Restrictions.not(Restrictions.eq("lastName", ""))); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		criteria.addOrder(Order.asc("lastName")); //$NON-NLS-1$
-		criteria.addOrder(Order.asc("firstName"));		 //$NON-NLS-1$
+		criteria.addOrder(Order.asc("firstName")); //$NON-NLS-1$
 		criteria.setMaxResults(20);
 		List<MUser> users = criteria.list();
 		tableModel.setValues(users);
@@ -76,13 +88,14 @@ public class DlgSelectUser extends PDOkCancelDialog {
 	private void initGUI() {
 		PDGrid grdFilter = new PDGrid(4);
 		addMainComponent(grdFilter);
-		
+
 		ActionListener listener = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-	            readFromModel();
-            }
+				readFromModel();
+			}
 		};
-		
+
 		grdFilter.addLabel(SopUser.lastName);
 		grdFilter.add(txtLastName = new TextField());
 		txtLastName.addActionListener(listener);
@@ -99,16 +112,17 @@ public class DlgSelectUser extends PDOkCancelDialog {
 		PushButton btnSearch = new PushButton(nls(PDBeanTerms.Search));
 		grdFilter.add(btnSearch);
 		btnSearch.addActionListener(listener);
-		
-		
+
 		tableModel = new PDTableModel2() {
 			@Override
 			public Object getValueAt(int col, int row) {
-				MUser user = (MUser)values.get(row);
+				MUser user = (MUser) values.get(row);
 				switch (col) {
-				case 0: return user.getJabberId();
-				case 1: return user.getDisplayName();
-//				case 2: return user.getCity();
+				case 0:
+					return user.getJabberId();
+				case 1:
+					return user.getDisplayName();
+					// case 2: return user.getCity();
 				}
 				return user;
 			}
@@ -121,21 +135,24 @@ public class DlgSelectUser extends PDOkCancelDialog {
 		table.setWidth(new Extent(100, Extent.PERCENT));
 		addMainComponent(table);
 	}
-	
+
+	@Override
 	protected Component getMainContainer() {
 		SplitPane split = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 		split.setAutoPositioned(true);
 		split.setSeparatorColor(Color.LIGHTGRAY);
 		return split;
 	}
-	
+
+	@Override
 	protected boolean onOkClicked() {
 		int row = table.getSelectionModel().getMinSelectedIndex();
-		if (row < 0) return false;
-		selectedUser = (MUser)tableModel.getValueAt(3, row);
+		if (row < 0)
+			return false;
+		selectedUser = (MUser) tableModel.getValueAt(3, row);
 		return true;
 	}
-	
+
 	public MUser getSelectedUser() {
 		return selectedUser;
 	}

@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.gui;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
@@ -21,8 +25,6 @@ import org.hibernate.Session;
 
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.PDHibernateFactory;
-import com.maydesk.base.PDUserSession;
-import com.maydesk.base.dao.DaoUser;
 import com.maydesk.base.model.MTask;
 import com.maydesk.base.model.MTaskAssign;
 import com.maydesk.base.model.MUser;
@@ -33,111 +35,115 @@ import com.maydesk.base.widgets.PDCombo;
 import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.base.widgets.PDLabel;
 
+/**
+ * @author chrismay
+ */
 public class WzdAssignTask extends PDWizard {
 
 	private static enum FILTER {
-		//BY_ROLE, 
-		BY_PROJECT, 
-		ALL;
+		// BY_ROLE,
+		BY_PROJECT, ALL;
 
+		@Override
 		public String toString() {
-			switch(this) {
-			//case BY_ROLE: return "By applicable role in this project";
-			case BY_PROJECT: return nls(PDBeanTerms.By_related_project);
+			switch (this) {
+			// case BY_ROLE: return "By applicable role in this project";
+			case BY_PROJECT:
+				return nls(PDBeanTerms.By_related_project);
 			}
 			return nls(PDBeanTerms.All_reachable_users);
 		}
 	}
-	
+
 	private MTask task;
-	
+
 	public WzdAssignTask(MTask task) {
 		setTitle(nls(PDBeanTerms.Assign_task));
-		
+
 		this.task = task;
-		
+
 		addPanel(new Panel1());
 		addPanel(new Panel2());
 		addPanel(new Panel3());
-		
+
 		showPage();
 	}
-	
+
 	class Panel1 extends PDWizardPanel {
-		
+
 		Panel1() {
 			super(PDBeanTerms.Task_Overview, null, StandardTerms.Next);
 			initGui();
 		}
-		
+
 		private void initGui() {
 			setInfo(PDBeanTerms.General_info_about_this_task);
-			
+
 			PDGrid grid = new PDGrid(2);
 			grid.setInsets(new Insets(3));
 			add(grid);
-			
+
 			grid.addLabel(PDBeanTerms.Task);
-			
+
 			PDLabel lbl = new PDLabel(PDLabel.STYLE.FIELD_VALUE);
-			//lbl.setWidth(new Extent(400));
+			// lbl.setWidth(new Extent(400));
 			lbl.setText(task.toString());
-			grid.add(lbl);			
+			grid.add(lbl);
 		}
 	}
-	
-	
+
 	class Panel2 extends PDWizardPanel {
-		
+
 		private PDCombo<FILTER> cboFilter;
 		private Column colUsers;
-		
+
 		Panel2() {
 			super(PDBeanTerms.Assign_to_user, StandardTerms.Back, PDBeanTerms.Assign£);
 			initGui();
 		}
-		
+
 		private void initGui() {
 			setInfo(nls(PDBeanTerms.Assign_this_task_to_a_user));
-			
+
 			PDGrid grid = new PDGrid(2);
 			add(grid);
-			
+
 			grid.addLabel(StandardTerms.Filter, KIT_CONST.Colon);
-	
+
 			cboFilter = new PDCombo<FILTER>(FILTER.values(), false);
 			cboFilter.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					fillUserList();
 				}
 			});
 			grid.add(cboFilter);
-			
+
 			PDLabel lbl = new PDLabel(StandardTerms.Users, KIT_CONST.Colon);
 			GridLayoutData gld = new GridLayoutData();
 			gld.setAlignment(Alignment.ALIGN_TOP);
 			lbl.setLayoutData(gld);
 			grid.add(lbl);
-			
+
 			colUsers = new Column();
-			grid.add(colUsers);			
+			grid.add(colUsers);
 		}
-		
+
 		private void fillUserList() {
 			colUsers.removeAll();
 			List<MUser> users = null;
 			if (FILTER.ALL == cboFilter.getSelectedItem()) {
-				//users = DaoUser.findReachableUsersList(PDUserSession.getInstance().getUser(), null, task);
+				// users = DaoUser.findReachableUsersList(PDUserSession.getInstance().getUser(), null, task);
 			} else {
-				//users = DaoUser.findReachableUsersList(PDUserSession.getInstance().getUser(), task.getTenant(), task);				
+				// users = DaoUser.findReachableUsersList(PDUserSession.getInstance().getUser(), task.getTenant(), task);
 			}
-			
+
 			for (MUser user : users) {
 				PDCheckBox chk = new PDCheckBox(user.getJabberId());
-				//chk.setAttribute("user", user);
+				// chk.setAttribute("user", user);
 				colUsers.add(chk);
 			}
-			
+
 			if (colUsers.getComponentCount() == 0) {
 				colUsers.add(new PDLabel(PDBeanTerms.No_users_available));
 			}
@@ -152,22 +158,23 @@ public class WzdAssignTask extends PDWizard {
 		public void applyToModel2() {
 			Session session = PDHibernateFactory.getSession();
 			for (Component c : colUsers.getComponents()) {
-				PDCheckBox chk = (PDCheckBox)c;
-				if (!chk.isSelected()) continue;
-				//MUser user = (MUser)chk.getAttribute("user");
+				PDCheckBox chk = (PDCheckBox) c;
+				if (!chk.isSelected())
+					continue;
+				// MUser user = (MUser)chk.getAttribute("user");
 				MTaskAssign ut = new MTaskAssign();
-				//ut.setUserRef(user);
+				// ut.setUserRef(user);
 				ut.setTask(task);
 				session.save(ut);
 			}
 			PDDesktop.getInstance().refreshTaskDisplay(true);
 		}
 	}
-	
-	class Panel3 extends PDWizardPanel {		
+
+	class Panel3 extends PDWizardPanel {
 		Panel3() {
 			super(PDBeanTerms.Users_succesfully_assigned, null, StandardTerms.Close);
 			setInfo(PDBeanTerms.Users_have_been_succesfully_assigned);
-		}		
+		}
 	}
 }

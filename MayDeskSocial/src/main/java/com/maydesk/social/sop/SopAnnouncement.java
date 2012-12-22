@@ -1,3 +1,12 @@
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.social.sop;
 
 import javax.persistence.ManyToOne;
@@ -8,21 +17,19 @@ import lombok.soplets.Sop;
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.model.MUser;
 
-@Sop(aspects={Translatable.class, Beanable.class})
+/**
+ * @author chrismay
+ */
+@Sop(aspects = { Translatable.class, Beanable.class })
 public enum SopAnnouncement {
 
-	@ManyToOne(targetEntity=MUser.class)
-	@Soplet(
-		textEN = "Author",
-		javaType=MUser.class)
+	@ManyToOne(targetEntity = MUser.class)
+	@Soplet(textEN = "Author", javaType = MUser.class)
 	author,
-	
-	@Soplet(
-		textEN = "Title")
+
+	@Soplet(textEN = "Title")
 	title,
 
-	@Soplet(
-		textEN = "Text",
-		length=2000)
+	@Soplet(textEN = "Text", length = 2000)
 	text;
 }

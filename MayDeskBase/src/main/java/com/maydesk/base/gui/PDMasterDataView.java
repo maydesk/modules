@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.gui;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
@@ -52,7 +56,6 @@ import com.maydesk.base.table.PDPageableFactory;
 import com.maydesk.base.util.HeaderValue;
 import com.maydesk.base.util.IBindable;
 import com.maydesk.base.util.ICrud;
-import com.maydesk.base.util.ICrudWithBinding;
 import com.maydesk.base.util.PDDataGridModel;
 import com.maydesk.base.util.PDLookAndFeel;
 import com.maydesk.base.util.PDUtil;
@@ -61,11 +64,10 @@ import echopoint.ContainerEx;
 import echopoint.Strut;
 
 /**
- * This class is a high-level component to display editable data in a convenient
- * way. Features include: - Built-in support to display a pageable list of
- * expandable sections - Very light-way loading of large data sets - Built-in
- * slidable filter - Configurable toolbar
+ * This class is a high-level component to display editable data in a convenient way. Features include: - Built-in support to display a pageable list of expandable sections - Very light-way loading of
+ * large data sets - Built-in slidable filter - Configurable toolbar
  * 
+ * @author chrismay
  */
 public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindowPane implements IDeleteMaster {
 
@@ -83,7 +85,7 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 	protected TextField txtQuickSearch;
 	protected Table table;
 	protected PDDataGridModel tableModel2;
-	protected PDPageableFactory tableFactory; 
+	protected PDPageableFactory tableFactory;
 	protected SplitPane footerSplit;
 	protected int tabIndex;
 	protected Component colHeaderContainer;
@@ -92,7 +94,7 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 	protected Row topRow;
 	protected PDNavigationBar navigationBar;
 	protected int rowsPerPage = 20;
-	protected SplitPaneLayoutData layoutDataLeftColumn;	
+	protected SplitPaneLayoutData layoutDataLeftColumn;
 	protected PDTitleBar titleBar;
 	protected Row rowFooterLeft;
 	protected Row rowFooterRight;
@@ -102,7 +104,7 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 	protected List<ICrud<?>> editors;
 	protected Class modelClass;
 	protected ActionListener titleChangeListener;
-	
+
 	public PDMasterDataView(boolean showQuickFilter, DISPLAY_MODE displayMode, Class modelClass2, Object... baseModel) {
 		this.displayMode = displayMode;
 		this.modelClass = modelClass2;
@@ -115,11 +117,11 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 				if (selectedRow < 0 || tableModel2.getRowCount() == 0) {
 					return;
 				}
-				HeaderValue headerValue = (HeaderValue)tableModel2.getValueAt(0, selectedRow);
+				HeaderValue headerValue = (HeaderValue) tableModel2.getValueAt(0, selectedRow);
 				if (!(e.getSource() instanceof MBaseWithTitle)) {
 					return;
 				}
-				MBaseWithTitle model = (MBaseWithTitle)e.getSource();
+				MBaseWithTitle model = (MBaseWithTitle) e.getSource();
 				headerValue.title = model.getCachedTitle();
 				tableModel2.fireTableDataChanged();
 			}
@@ -127,19 +129,21 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 		init(showQuickFilter);
 	}
 
-	protected void assignBaseModel(Object[] baseModel) {		
-		//override if applicable
+	protected void assignBaseModel(Object[] baseModel) {
+		// override if applicable
 	}
 
 	public void addFilter(String caption, Component filterComponent) {
 		if (!sidebar.isInitialized()) {
 			ActionListener okListener = new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					loadData();
 				}
 			};
 			sidebar.setOkListener(okListener);
 			ActionListener resetListener = new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					resetFilter();
 					loadData();
@@ -147,7 +151,7 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 			};
 			sidebar.setResetListener(resetListener);
 			layoutDataLeftColumn.setInsets(new Insets(24, 6, 6, 6));
-		}		
+		}
 		sidebar.addFilter(caption, filterComponent);
 	}
 
@@ -164,56 +168,61 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 		table.setSelectionBackground(PDLookAndFeel.HIGHLIGHT_COLOR);
 		table.setInsets(new Insets(6, 2, 6, 2));
 		table.setDefaultRenderer(Object.class, new TableCellRenderer() {
+			@Override
 			public Component getTableCellRendererComponent(Table table, Object value, int col, int row) {
-				HeaderValue headerValue = (HeaderValue)value;
+				HeaderValue headerValue = (HeaderValue) value;
 				if (displayMode == DISPLAY_MODE.SIDE_SCROLL) {
 					return tableFactory.getTableCellComponent(headerValue);
 				} else {
 					return tableFactory.getHeaderComponent(headerValue);
 				}
-            }			
+			}
 		});
 		table.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				//apply the last data
-//				if (binding.hasChanges()) {
-//					PDYesNoCancelDialog msg = new PDYesNoCancelDialog("Soplet Studio", "Save changes?") {
-//						@Override
-//						protected boolean onOkClicked() {
-//							binding.applyChanges();
-//							readFromModel2();							
-//							return true;
-//						}
-//						@Override
-//						protected boolean onNoClicked() {
-//							binding.resetChanges();
-//							//HeaderValue headerValue = (HeaderValue)tableModel2.getValueAt(0, selectedRow) ;
-//							//currentModel = (T)tableFactory.getModel(headerValue);
-//							refreshTitle();
-//							readFromModel();
-//							return true;
-//						}
-//						@Override
-//						protected boolean onCancelClicked() {
-//							table.getSelectionModel().setSelectedIndex(selectedRow, true);
-//							return true;
-//						}
-//					};
-//					msg.setVisible(true);
-//					PDDesktop.getInstance().addWindow(msg);
-//				} else {
-					readFromModel2();
-//				}
+				// apply the last data
+				// if (binding.hasChanges()) {
+				// PDYesNoCancelDialog msg = new
+				// PDYesNoCancelDialog("Soplet Studio", "Save changes?") {
+				// @Override
+				// protected boolean onOkClicked() {
+				// binding.applyChanges();
+				// readFromModel2();
+				// return true;
+				// }
+				// @Override
+				// protected boolean onNoClicked() {
+				// binding.resetChanges();
+				// //HeaderValue headerValue =
+				// (HeaderValue)tableModel2.getValueAt(0, selectedRow) ;
+				// //currentModel = (T)tableFactory.getModel(headerValue);
+				// refreshTitle();
+				// readFromModel();
+				// return true;
+				// }
+				// @Override
+				// protected boolean onCancelClicked() {
+				// table.getSelectionModel().setSelectedIndex(selectedRow,
+				// true);
+				// return true;
+				// }
+				// };
+				// msg.setVisible(true);
+				// PDDesktop.getInstance().addWindow(msg);
+				// } else {
+				readFromModel2();
+				// }
 			}
 		});
 	}
-	
+
 	protected void readFromModel2() {
-		int row = selectedRow; 
+		int row = selectedRow;
 		readFromModel();
 		setFocus();
-		
-		//log the action
+
+		// log the action
 		MActionSelectRow action = new MActionSelectRow();
 		action.setMasterDataView(PDMasterDataView.this);
 		action.setOldIntValue(row);
@@ -236,23 +245,23 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 	protected void init(boolean showQuickFilter) {
 		this.showQuickFilter = showQuickFilter;
 		initGUI();
-		initGUI2();		
+		initGUI2();
 		loadData();
 	}
 
 	protected final void initGUI() {
 		SplitPane mainSplit = new SplitPane(SplitPane.ORIENTATION_VERTICAL_BOTTOM_TOP);
 		mainSplit.setSeparatorPosition(new Extent(20)); // hight of the footer
-		add(mainSplit);	
-		
+		add(mainSplit);
+
 		footerSplit = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_RIGHT_LEFT);
 		footerSplit.setSeparatorPosition(new Extent(200));
-		//footerSplit.setBackground(PDLookAndFeel.BACKGROUND_COLOR);
+		// footerSplit.setBackground(PDLookAndFeel.BACKGROUND_COLOR);
 		SplitPaneLayoutData spld = new SplitPaneLayoutData();
 		spld.setOverflow(SplitPaneLayoutData.OVERFLOW_HIDDEN);
 		spld.setBackground(PDLookAndFeel.BACKGROUND_COLOR);
-		//spld.setBackgroundImage(new FillImage(new ResourceImageReference("img/glassblue/Header.png")));
-		
+		// spld.setBackgroundImage(new FillImage(new ResourceImageReference("img/glassblue/Header.png")));
+
 		footerSplit.setLayoutData(spld);
 		mainSplit.add(footerSplit);
 
@@ -263,29 +272,30 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 		rld.setAlignment(Alignment.ALIGN_RIGHT);
 		rowFooterRight.setLayoutData(rld);
 		footerSplit.add(rowFooterRight);
-		
+
 		btnSaveCancel = new BtnSaveCancel();
 		rowFooterRight.add(btnSaveCancel);
-		
+
 		rowFooterLeft = new Row();
 		rowFooterLeft.setCellSpacing(new Extent(12));
 		footerSplit.add(rowFooterLeft);
-		
+
 		tableFactory = getFactory(this);
 		rowsPerPage = tableFactory.getRowsPerPage();
 		navigationBar = new PDNavigationBar(rowsPerPage);
 		navigationBar.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				loadData(false);	            
-            }			
+				loadData(false);
+			}
 		});
 		rowFooterLeft.add(navigationBar);
-		
+
 		// left side of the footer bar
 		if (showQuickFilter) {
 			mainSplit.setSeparatorPosition(new Extent(25)); // hight of the footer
 			rowFooterLeft.add(new Strut(12, 1));
-			
+
 			Label lblFilter = new Label(nls(PDBeanTerms.Quicksearch));
 			lblFilter.setForeground(Color.WHITE);
 			lblFilter.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, new Extent(11)));
@@ -294,12 +304,13 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 			txtQuickSearch = new TextField();
 			txtQuickSearch.setRenderId(getClass().getSimpleName() + "txtQuickSearch"); //$NON-NLS-1$
 			txtQuickSearch.setBackgroundImage(new FillImage(EImage16.textfield_bg.getImage(), null, null, FillImage.NO_REPEAT));
-			txtQuickSearch.setBackground(PDLookAndFeel.BACKGROUND_COLOR); //colorScheme.getBackgroundDark());
+			txtQuickSearch.setBackground(PDLookAndFeel.BACKGROUND_COLOR); // colorScheme.getBackgroundDark());
 			txtQuickSearch.setWidth(new Extent(175));
 			txtQuickSearch.setHeight(new Extent(18));
 			txtQuickSearch.setInsets(new Insets(30, 0, 0, 0));
 			txtQuickSearch.setBorder(PDUtil.emptyBorder());
 			txtQuickSearch.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent action) {
 					if (getFilterText().equals(lastFilterText)) {
 						return;
@@ -321,10 +332,10 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 		mainSplit.add(splitTopRowAndBody);
 
 		initTable();
-		
+
 		layoutDataLeftColumn = new SplitPaneLayoutData();
 		layoutDataLeftColumn.setOverflow(SplitPaneLayoutData.OVERFLOW_HIDDEN);
-		layoutDataLeftColumn.setInsets(new Insets(6, 6, 6, 6));  
+		layoutDataLeftColumn.setInsets(new Insets(6, 6, 6, 6));
 
 		if (displayMode == DISPLAY_MODE.SIDE_SCROLL) {
 			colHeaderAndTable = new Column();
@@ -347,7 +358,7 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 			colHeaderContainer = new Column();
 			splitHeaderAndEditor.add(colHeaderContainer);
 
-			splitListAndDetails.add(splitHeaderAndEditor);			
+			splitListAndDetails.add(splitHeaderAndEditor);
 		} else {
 			splitListAndDetails = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_LEFT_RIGHT);
 			splitListAndDetails.setSeparatorPosition(new Extent(0));
@@ -369,7 +380,7 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 		}
 		spld = new SplitPaneLayoutData();
 		spld.setInsets(new Insets(6));
-		
+
 		editorTab = new PDTab();
 		editorTab.setLayoutData(spld);
 		splitHeaderAndEditor.add(editorTab);
@@ -394,16 +405,16 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 		}
 		readFromModel();
 	}
-	
+
 	protected void resetFilter() {
-//		resetComponent(sidebar.getGrid());
+		// resetComponent(sidebar.getGrid());
 	}
-	
+
 	private void resetComponent(Component c) {
 		if (c instanceof TextField) {
-			((TextField)c).setText(""); //$NON-NLS-1$
+			((TextField) c).setText(""); //$NON-NLS-1$
 		} else if (c instanceof SelectField) {
-			((SelectField)c).setSelectedIndex(0);
+			((SelectField) c).setSelectedIndex(0);
 		} else {
 			for (Component child : c.getComponents()) {
 				resetComponent(child);
@@ -428,29 +439,29 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 			editorTab.setVisible(false);
 		} else {
 			editorTab.setVisible(true);
-			HeaderValue headerValue = (HeaderValue)tableModel2.getValueAt(0, selectedRow) ;
+			HeaderValue headerValue = (HeaderValue) tableModel2.getValueAt(0, selectedRow);
 			int sourceId = tableFactory.getSourceId(headerValue);
 			Session session = PDHibernateFactory.getSession();
 			for (ICrud<?> editor : editors) {
 				MDataLink dataLink = new MDataLink();
 				dataLink.setSourceId(sourceId);
 				dataLink.setTargetClass(editor.getModelClass().getName());
-				
+
 				if (modelClass.equals(editor.getModelClass())) {
-					//no need for a real datalink, its the same model class
-					dataLink.setTargetId(sourceId);	
+					// no need for a real datalink, its the same model class
+					dataLink.setTargetId(sourceId);
 				} else {
 					Criteria c = session.createCriteria(MDataLink.class);
 					c.add(Restrictions.eq("sourceId", dataLink.getSourceId()));
 					c.add(Restrictions.eq("targetClass", dataLink.getTargetClass()));
-					MDataLink dl = (MDataLink)c.uniqueResult();
+					MDataLink dl = (MDataLink) c.uniqueResult();
 					if (dl != null) {
 						dataLink = dl;
 					} else {
 						dataLink.setTargetId(-1);
 					}
 				}
-				editor.readFromModel(dataLink);				
+				editor.readFromModel(dataLink);
 			}
 			if (displayMode == DISPLAY_MODE.SIDE_SCROLL) {
 				colHeaderContainer.add(new Strut(0, 9));
@@ -459,9 +470,10 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 			}
 		}
 	}
-	
+
 	protected void setFocus() {
-		if (editors.size() == 0) return;
+		if (editors.size() == 0)
+			return;
 		Component focusComponent = editors.get(0).getFocusComponent();
 		if (focusComponent != null) {
 			ApplicationInstance.getActive().setFocusedComponent(focusComponent);
@@ -469,17 +481,17 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 	}
 
 	public void refreshTitle() {
-//		if (currentModel instanceof MBaseWithTitle) {
-//			((MBaseWithTitle)currentModel).updateCachedTitle();
-//			String newTitle = ((MBaseWithTitle)currentModel).getCachedTitle();
-//			titleBar.setTitle(newTitle);
-//			tableModel2.fireTableDataChanged();			
-//		}
-//		lblSavingStatus.setLineWrap(!lblSavingStatus.isLineWrap());
+		// if (currentModel instanceof MBaseWithTitle) {
+		// ((MBaseWithTitle) currentModel).updateCachedTitle();
+		// String newTitle = ((MBaseWithTitle) currentModel).getCachedTitle();
+		// titleBar.setTitle(newTitle);
+		// tableModel2.fireTableDataChanged();
+		// }
+		// lblSavingStatus.setLineWrap(!lblSavingStatus.isLineWrap());
 	}
-	
+
 	protected void addNewItem(HeaderValue headerValue) {
-		tableModel2.addItem(headerValue);		
+		tableModel2.addItem(headerValue);
 		tableModel2.fireTableRowsInserted(0, 1);
 		table.getSelectionModel().setSelectedIndex(0, true);
 		navigationBar.updateNavigation(tableModel2.getTotalRowCount(), 0);
@@ -496,23 +508,24 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 		item.updateCachedValues();
 		Object[] rowData = new Object[3];
 		rowData[0] = item.getId();
-		rowData[1] = item.getCachedTitle();		
-		rowData[2] = item.getCachedDescription();		
+		rowData[1] = item.getCachedTitle();
+		rowData[2] = item.getCachedDescription();
 		addNewItem(tableFactory.createHeaderValue(rowData));
 	}
 
+	@Override
 	public void deleteItem() {
 		Session session = PDHibernateFactory.getSession();
 		try {
-			
-			HeaderValue headerValue = (HeaderValue)tableModel2.getValueAt(0, selectedRow) ;
+
+			HeaderValue headerValue = (HeaderValue) tableModel2.getValueAt(0, selectedRow);
 			int sourceId = tableFactory.getSourceId(headerValue);
-			MBase mbase = (MBase)session.load(modelClass, sourceId);
+			MBase mbase = (MBase) session.load(modelClass, sourceId);
 			session.delete(mbase);
-			
+
 			session.flush();
 			session.getTransaction().commit();
-			loadData();	    
+			loadData();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			Object param = null;
@@ -522,9 +535,9 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 					err = err.substring(err.indexOf("table") + 10); //$NON-NLS-1$
 					err = err.substring(0, err.indexOf("caused") - 3); //$NON-NLS-1$
 					System.out.println(err);
-					param= nls(PDBeanTerms.Dependent_dataset_could_not_be_deleted, err);
+					param = nls(PDBeanTerms.Dependent_dataset_could_not_be_deleted, err);
 				} catch (Exception e2) {
-					param= nls(PDBeanTerms.Dependent_dataset_could_not_be_deleted);
+					param = nls(PDBeanTerms.Dependent_dataset_could_not_be_deleted);
 				}
 			} else {
 				param = e.getMessage();
@@ -533,23 +546,23 @@ public abstract class PDMasterDataView<T extends MBaseWithTitle> extends PDWindo
 		} finally {
 			session.beginTransaction();
 		}
-    }
+	}
 
 	public void setSelectedRow(int row) {
 		table.getSelectionModel().setSelectedIndex(row, true);
-		readFromModel();	    
-    }
-	
+		readFromModel();
+	}
+
 	protected ContainerEx addEditor(String caption, ICrud<?> editor) {
-		ContainerEx tab = editorTab.addTab(caption, (Component)editor);
+		ContainerEx tab = editorTab.addTab(caption, (Component) editor);
 		editors.add(editor);
 		if (editor instanceof IBindable) {
-			btnSaveCancel.addBinding(((IBindable)editor).getBinding());
+			btnSaveCancel.addBinding(((IBindable) editor).getBinding());
 			if (editors.size() <= 1) {
-				//just listen to the first tab!
-				((IBindable)editor).getBinding().setTitleChangeListener(titleChangeListener);
+				// just listen to the first tab!
+				((IBindable) editor).getBinding().setTitleChangeListener(titleChangeListener);
 			}
 		}
 		return tab;
-	}	
+	}
 }

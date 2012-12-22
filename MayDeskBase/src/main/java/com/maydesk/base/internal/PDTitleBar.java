@@ -1,21 +1,15 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.internal;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
-
-import com.maydesk.base.gui.PDMessageBox;
-import com.maydesk.base.sop.enums.EImage16;
-import com.maydesk.base.sop.gui.PDBeanTerms;
-import com.maydesk.base.util.HeaderValue;
-import com.maydesk.base.util.IImage;
-import com.maydesk.base.util.PDLookAndFeel;
-import com.maydesk.base.util.PDUtil;
-import com.maydesk.base.widgets.PDButton;
-
 import nextapp.echo.app.Alignment;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
@@ -27,11 +21,20 @@ import nextapp.echo.app.Label;
 import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+
+import com.maydesk.base.gui.PDMessageBox;
+import com.maydesk.base.sop.enums.EImage16;
+import com.maydesk.base.sop.gui.PDBeanTerms;
+import com.maydesk.base.util.HeaderValue;
+import com.maydesk.base.util.IImage;
+import com.maydesk.base.util.PDLookAndFeel;
+import com.maydesk.base.util.PDUtil;
+import com.maydesk.base.widgets.PDButton;
+
 import echopoint.Strut;
 
 /**
- * 
- * 
+ * @author chrismay
  * @date 25.01.2009
  */
 public class PDTitleBar extends Grid {
@@ -86,11 +89,12 @@ public class PDTitleBar extends Grid {
 	}
 
 	protected void addCommands() {
-		//override if applicable
+		// override if applicable
 	}
 
 	protected void btnDeleteClicked() {
 		PDMessageBox.confirmDeletion().addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				btnDeleteClickedBis();
 			}
@@ -100,26 +104,26 @@ public class PDTitleBar extends Grid {
 	protected void btnDeleteClickedBis() {
 		parentForm.deleteItem();
 	}
-	
+
 	protected void initEditingCommands() {
 		// extend if needed
 	}
 
-	protected void initGUI() {		
+	protected void initGUI() {
 		setBorder(PDUtil.emptyBorder());
-		
+
 		setWidth(new Extent(100, Extent.PERCENT));
 		setInsets(new Insets(0, 1, 0, 1));
 		setColumnWidth(0, new Extent(1));
 
 		btnTitle = new Label(EImage16.arrowLeft.getImage());
-		//btnTitle.setRenderId(getClass().getSimpleName() + "" + headerValues.id);
+		// btnTitle.setRenderId(getClass().getSimpleName() + "" + headerValues.id);
 		btnTitle.setIconTextMargin(new Extent(0));
 		btnTitle.setFont(new Font(Font.VERDANA, 0, new Extent(11)));
 		btnTitle.setForeground(Color.BLACK);
 		btnTitle.setBackground(PDLookAndFeel.EXP_SECTION_BACKROUND);
 		btnTitle.setLineWrap(false);
-		
+
 		add(btnTitle);
 		if (headerValues != null) {
 			setTitle(headerValues.title);
@@ -138,12 +142,13 @@ public class PDTitleBar extends Grid {
 			commandRow.add(new Strut(6, 0));
 			btnDelete = addCommand(null, EImage16.deletee, nls(PDBeanTerms.Delete_item), "delete");
 			btnDelete.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					btnDeleteClicked();
 				}
 			});
 		}
-		setBackground(PDLookAndFeel.EXP_SECTION_BACKROUND);		
+		setBackground(PDLookAndFeel.EXP_SECTION_BACKROUND);
 	}
 
 	public void setTitle(String title) {
@@ -161,7 +166,8 @@ public class PDTitleBar extends Grid {
 	public void setTitleChangeListener(ActionListener titleChangeListener) {
 		this.titleChangeListener = titleChangeListener;
 	}
-	
+
+	@Override
 	public void setBackground(Color c) {
 		super.setBackground(c);
 		if (commandRow != null) {
@@ -175,6 +181,6 @@ public class PDTitleBar extends Grid {
 	}
 
 	public Row getCommandRow() {
-	    return commandRow;
-    }
+		return commandRow;
+	}
 }

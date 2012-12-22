@@ -1,3 +1,12 @@
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.web;
 
 import java.util.ArrayList;
@@ -11,6 +20,9 @@ import com.maydesk.base.util.IRoleEditor;
 import com.maydesk.base.util.IUserRoleFactory;
 import com.maydesk.dvratio.sop.SopRoles;
 
+/**
+ * @author chrismay
+ */
 public class MDUserRoleFactory implements IUserRoleFactory {
 
 	@Override
@@ -19,7 +31,7 @@ public class MDUserRoleFactory implements IUserRoleFactory {
 		for (SopRoles role : SopRoles.values()) {
 			roles.add(role);
 		}
-		return roles;		
+		return roles;
 	}
 
 	@Override
@@ -34,7 +46,7 @@ public class MDUserRoleFactory implements IUserRoleFactory {
 
 	@Override
 	public String getContextDescription(MUserRole userRole) {
-		return "C"  + userRole.getRoleName();
+		return "C" + userRole.getRoleName();
 	}
 
 	@Override

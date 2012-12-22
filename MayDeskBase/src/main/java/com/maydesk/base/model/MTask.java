@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.model;
 
 import java.util.Date;
@@ -32,19 +36,17 @@ public class MTask<T> extends MBaseWithTitle {
 	protected Date doneDate;
 	protected int modelId;
 	protected MTenant tenant;
-	
 
 	public MTask() {
 		// Empty
 	}
 
-
 	public void executeTask() {
 		executeTaskInternal();
 	}
 
-	protected void executeTaskInternal(){}
-
+	protected void executeTaskInternal() {
+	}
 
 	@ManyToOne(targetEntity = MUser.class, optional = false)
 	public MUser getCreatedBy() {
@@ -88,7 +90,7 @@ public class MTask<T> extends MBaseWithTitle {
 		this.modelId = modelId;
 	}
 
-	@ManyToOne(targetEntity = MTenant.class) 
+	@ManyToOne(targetEntity = MTenant.class)
 	public MTenant getTenant() {
 		return tenant;
 	}
@@ -98,16 +100,19 @@ public class MTask<T> extends MBaseWithTitle {
 	}
 
 	@Transient
-	public String getName(){return null;}
-	
-	@Transient
-	public String getDescription(){return null;}
+	public String getName() {
+		return null;
+	}
 
+	@Transient
+	public String getDescription() {
+		return null;
+	}
 
 	@Override
-    public String createCachedTitle() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+	public String createCachedTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

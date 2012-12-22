@@ -1,8 +1,12 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.util;
 
 import java.awt.Color;
@@ -16,11 +20,13 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 
-import com.maydesk.base.model.MMediaFile;
-
 import nextapp.echo.webcontainer.util.PngEncoder;
 
+import com.maydesk.base.model.MMediaFile;
 
+/**
+ * @author Alejandro Salas
+ */
 public class ImageResizer {
 
 	public static byte[] resize(byte[] originalFile, int newWidth, float quality) throws IOException {
@@ -68,21 +74,20 @@ public class ImageResizer {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		// Encodes image as a JPEG data stream
-//		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-//		JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(bufferedImage);
-//		param.setQuality(quality, true);
-//		encoder.setJPEGEncodeParam(param);
-//		encoder.encode(bufferedImage);
-		
+		// JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+		// JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(bufferedImage);
+		// param.setQuality(quality, true);
+		// encoder.setJPEGEncodeParam(param);
+		// encoder.encode(bufferedImage);
+
 		PngEncoder encoder = new PngEncoder(bufferedImage, true, null, 0);
 		encoder.encode(out);
 		return out.toByteArray();
 	}
-	
-	public static int xxx;
-	
-	public static byte[] convertToDropDownEntry(MMediaFile img, String text1, String text2) throws IOException {
 
+	public static int xxx;
+
+	public static byte[] convertToDropDownEntry(MMediaFile img, String text1, String text2) throws IOException {
 
 		// Create the buffered image.
 		BufferedImage bufferedImage = new BufferedImage(180, 32, BufferedImage.TYPE_BYTE_INDEXED);
@@ -90,50 +95,47 @@ public class ImageResizer {
 		Graphics g = bufferedImage.createGraphics();
 
 		// Clear background and paint the image.
-//		g.setColor(new Color(255, 255, 255, 255));
+		// g.setColor(new Color(255, 255, 255, 255));
 		g.setColor(new Color(0, 0, 255, 255));
 		g.fillRect(0, 0, 180, 32);
-		
+
 		if (img != null) {
 			byte[] bytes = img.getFileBytes();
 			ImageIcon ii = new ImageIcon(bytes);
 			Image i = ii.getImage();
 			Image resizedImage = i.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
-	
+
 			// This code ensures that all the pixels in the image are loaded.
 			Image temp = new ImageIcon(resizedImage).getImage();
 			g.drawImage(temp, 0, 0, null);
 		}
 
 		g.setColor(Color.darkGray);
-		if (text1 != null) g.drawString(text1, 40, 15);
-		if (text2 != null) g.drawString(text2, 40, 30);
+		if (text1 != null)
+			g.drawString(text1, 40, 15);
+		if (text2 != null)
+			g.drawString(text2, 40, 30);
 		g.dispose();
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-//		// Encodes image as a JPEG data stream
-//		JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-//		JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(bufferedImage);
-//		param.setQuality(1, true);
-//		encoder.setJPEGEncodeParam(param);
-//		encoder.encode(bufferedImage);
-	
-//		PngEncoder encoder = new PngEncoder(bufferedImage, true, null, 0);
-//		encoder.encode(out);
-		
+		// Encodes image as a JPEG data stream
+		// JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+		// JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(bufferedImage);
+		// param.setQuality(1, true);
+		// encoder.setJPEGEncodeParam(param);
+		// encoder.encode(bufferedImage);
+
+		// PngEncoder encoder = new PngEncoder(bufferedImage, true, null, 0);
+		// encoder.encode(out);
+
 		GifEncoder ge = new GifEncoder(bufferedImage);
 		ge.setTransparentPixel(5);
-		
+
 		System.out.println("XXXX " + xxx);
 		ge.write(out);
-       
-        
-//		
+
 		return out.toByteArray();
 	}
 
-	
-	
-	
 }

@@ -1,3 +1,12 @@
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.gui.user;
 
 import nextapp.echo.app.Color;
@@ -14,14 +23,17 @@ import com.maydesk.base.gui.PDSimpleDialog;
 import com.maydesk.base.model.MMediaFile;
 import com.maydesk.base.model.MUser;
 import com.maydesk.base.util.ByteArrayImageReference;
+import com.maydesk.base.widgets.PDAvatar;
 import com.maydesk.base.widgets.PDCombo;
 import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.base.widgets.PDLabel;
-import com.maydesk.base.widgets.PDAvatar;
 import com.maydesk.base.widgets.PDUpload;
 
 import echopoint.ContainerEx;
 
+/**
+ * @author chrismay
+ */
 public class FrmAvatar extends PDSimpleDialog {
 
 	private MUser user;
@@ -32,22 +44,23 @@ public class FrmAvatar extends PDSimpleDialog {
 	private PDCombo<ColorEntry> cboColor;
 	private ImageReference imgUser;
 	private MMediaFile imageFile;
-	
+
 	public FrmAvatar() {
 		super("Avatar Image", 410, 390);
 		user = PDUserSession.getInstance().getUser();
-		imgUser = PDUserSession.getInstance().getImage(user.getJabberId());		
-		
+		imgUser = PDUserSession.getInstance().getImage(user.getJabberId());
+
 		String msg = "Please upload your personal avatar image";
 		addMainComponent(new PDLabel(msg, PDLabel.STYLE.FIELD_VALUE));
-		
+
 		msg = "The image should be 60x60 pixel and in black/white";
 		addMainComponent(new PDLabel(msg, PDLabel.STYLE.FIELD_VALUE));
-		
+
 		msg = "You may change your default color shade below";
 		addMainComponent(new PDLabel(msg, PDLabel.STYLE.FIELD_VALUE));
-		
+
 		uploadSelect = new PDUpload() {
+			@Override
 			protected boolean isValidFile(String fileName) {
 				String ext = fileName.substring(fileName.length() - 3, fileName.length());
 				ext = ext.toUpperCase();
@@ -55,21 +68,22 @@ public class FrmAvatar extends PDSimpleDialog {
 			}
 		};
 		uploadSelect.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				uploadSelectClicked();
 			}
 		});
 		addMainComponent(uploadSelect);
-		
+
 		grid = new PDGrid(4);
 		addMainComponent(grid);
-		
+
 		grid.addEmpty();
 		grid.addLabel("Your icon");
 		grid.addLabel("Example 1");
 		grid.addLabel("Example 2");
-		
-		grid.addLabel("Image");		
+
+		grid.addLabel("Image");
 		lblImage = new Label(imgUser);
 		grid.add(lblImage);
 
@@ -84,7 +98,7 @@ public class FrmAvatar extends PDSimpleDialog {
 
 		PDAvatar person = new PDAvatar(imgUser, 0, 0, new Color(user.getColorShade()));
 		ctnPersons.add(person);
-		
+
 		ResourceImageReference img1 = new ResourceImageReference("img/person1.png");
 		PDAvatar person1 = new PDAvatar(img1, 0, 0, Color.RED);
 		ContainerEx ctnPerson1 = new ContainerEx();
@@ -100,15 +114,9 @@ public class FrmAvatar extends PDSimpleDialog {
 		grid.add(ctnPerson2);
 
 		grid.addLabel("Color shade");
-		ColorEntry[] colors = new ColorEntry[]{
-				new ColorEntry(Color.BLUE, "blue"),
-				new ColorEntry(Color.CYAN, "cyan"),
-				new ColorEntry(Color.GREEN, "green"),
-				new ColorEntry(Color.MAGENTA, "magenta"),
-				new ColorEntry(Color.ORANGE, "orange"),
-				new ColorEntry(Color.PINK, "pink"),
-				new ColorEntry(Color.RED, "red"),
-				new ColorEntry(Color.YELLOW, "yellow")};
+		ColorEntry[] colors = new ColorEntry[] { new ColorEntry(Color.BLUE, "blue"), new ColorEntry(Color.CYAN, "cyan"), new ColorEntry(Color.GREEN, "green"),
+				new ColorEntry(Color.MAGENTA, "magenta"), new ColorEntry(Color.ORANGE, "orange"), new ColorEntry(Color.PINK, "pink"), new ColorEntry(Color.RED, "red"),
+				new ColorEntry(Color.YELLOW, "yellow") };
 		cboColor = new PDCombo<ColorEntry>(colors);
 		cboColor.addActionListener(new ActionListener() {
 			@Override
@@ -126,58 +134,60 @@ public class FrmAvatar extends PDSimpleDialog {
 		}
 		cboColor.setWidth(new Extent(100));
 		grid.addFill(cboColor);
-		
+
 	}
-	
+
 	private static class ColorEntry {
 		private Color color;
 		private String caption;
-		
+
 		ColorEntry(Color color, String caption) {
 			this.color = color;
 			this.caption = caption;
 		}
-		
+
+		@Override
 		public String toString() {
 			return caption;
 		}
+
 		Color getColor() {
 			return color;
 		}
 	}
-	
+
 	private void uploadSelectClicked() {
 		imageFile = uploadSelect.getFile();
 		if (imageFile == null)
 			return;
 		try {
-//			DaoUser.deleteUserIcon(user.getId());
-//			
-//			//byte[] preview = ImageResizer.resize(file.getFileBytes(), previewSize, 1);
-//			//file.setPreviewBytes(preview);
-//			file.setFileName(SopMood.normal.name());
-//			file.setParentId(user.getId());
-//			PDHibernateFactory.getSession().save(file);
-//			PDHibernateFactory.doCommit();
-			
-			imgUser = new ByteArrayImageReference(imageFile.getFileBytes(), imageFile.getContentType(), 60); 
+			// DaoUser.deleteUserIcon(user.getId());
+			//
+			// //byte[] preview = ImageResizer.resize(file.getFileBytes(), previewSize, 1);
+			// //file.setPreviewBytes(preview);
+			// file.setFileName(SopMood.normal.name());
+			// file.setParentId(user.getId());
+			// PDHibernateFactory.getSession().save(file);
+			// PDHibernateFactory.doCommit();
+
+			imgUser = new ByteArrayImageReference(imageFile.getFileBytes(), imageFile.getContentType(), 60);
 			lblImage.setIcon(imgUser);
-			
+
 			updatePersonIcon();
 		} catch (Exception e1) {
 			e1.printStackTrace();
-		}		
+		}
 	}
 
 	private void updatePersonIcon() {
 		ctnPersons.removeAll();
 		PDAvatar avatar = new PDAvatar(imgUser, 0, 0, cboColor.getSelectedItem().getColor());
-		ctnPersons.add(avatar);		
+		ctnPersons.add(avatar);
 	}
 
 	@Override
-    protected boolean onOkClicked() {
+	protected boolean onOkClicked() {
 		PDUserSession.getInstance().updateAvatar(imageFile);
 		return true;
-    }	
+	}
 }

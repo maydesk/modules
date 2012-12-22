@@ -1,23 +1,26 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.widgets;
 
-import com.maydesk.base.PDApplicationInstance;
-import com.maydesk.base.util.IImage;
-import com.maydesk.base.util.PDUtil;
-
 import nextapp.echo.app.Alignment;
-import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Button;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.FillImage;
-import nextapp.echo.app.event.ActionEvent;
-import nextapp.echo.app.event.ActionListener;
 
+import com.maydesk.base.util.IImage;
+import com.maydesk.base.util.PDUtil;
+
+/**
+ * @author chrismay
+ */
 public class PDButton extends Button {
 
 	public enum STYLE {
@@ -30,7 +33,7 @@ public class PDButton extends Button {
 
 	public PDButton(String text, STYLE style) {
 		setText(text);
-		
+
 		switch (style) {
 		case NORMAL:
 			setBorder(new Border(1, Color.DARKGRAY, Border.STYLE_OUTSET));
@@ -40,16 +43,16 @@ public class PDButton extends Button {
 			setForeground(Color.LIGHTGRAY);
 			setBackgroundImage(new FillImage(PDUtil.getImg("img/semitrans6a.png")));
 		}
-		
-		setTextAlignment(Alignment.ALIGN_CENTER);	
+
+		setTextAlignment(Alignment.ALIGN_CENTER);
 		setAlignment(Alignment.ALIGN_CENTER);
 		setRolloverEnabled(true);
 	}
-	
+
 	public PDButton(IImage image) {
 		setIcon(image.getImage());
 	}
-	
+
 	public PDButton(String text, IImage image) {
 		setIcon(image.getImage());
 		setText(text);

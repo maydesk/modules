@@ -1,9 +1,20 @@
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.util;
 
-import java.util.*;
-import java.io.*;
 import java.awt.Image;
-import java.awt.image.*;
+import java.awt.image.ColorModel;
+import java.awt.image.IndexColorModel;
+import java.awt.image.PixelGrabber;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * GifEncoder - writes out an image as a GIF.
@@ -33,6 +44,8 @@ import java.awt.image.*;
  * 
  * Visit the ACME Labs Java page for up-to-date versions of this and other fine
  * Java utilities: http://www.acme.com/java/
+
+ * @author Jef Poskanzer <jef@acme.com>. All rights reserved.
  */
 
 public class GifEncoder {
@@ -269,7 +282,7 @@ public class GifEncoder {
 		if (pixelIndex == numPixels)
 			return EOF;
 		else
-			return ((byte[]) pixels)[pixelIndex++] & 0xff;
+			return pixels[pixelIndex++] & 0xff;
 	}
 
 	// Write out a word to the GIF file

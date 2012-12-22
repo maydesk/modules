@@ -1,8 +1,11 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
 package com.maydesk.base;
 
 import java.io.IOException;
@@ -13,10 +16,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author chrismay
+ */
 public class DownloadServlet extends HttpServlet {
 
 	private static Hashtable<String, Document> documents = new Hashtable<String, Document>();
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		final String docId = request.getParameter("docId"); //$NON-NLS-1$
 		if (docId == null) {
@@ -31,9 +38,10 @@ public class DownloadServlet extends HttpServlet {
 				response.setContentLength(doc.getContentLength());
 				response.getOutputStream().write(doc.getContents());
 			}
-			
-			//delete from cache after 1 minute
+
+			// delete from cache after 1 minute
 			Thread t = new Thread() {
+				@Override
 				public void run() {
 					try {
 						Thread.sleep(60 * 1000);
@@ -41,7 +49,8 @@ public class DownloadServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 					documents.remove(docId);
-					//System.out.println("Doc " + docId + " removed. Docs in cache: " + documents.size());
+					// System.out.println("Doc " + docId +
+					// " removed. Docs in cache: " + documents.size());
 				}
 			};
 			t.start();

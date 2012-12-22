@@ -1,8 +1,11 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
 package com.maydesk.base;
 
 import java.util.HashMap;
@@ -48,15 +51,17 @@ import echopoint.able.Positionable;
  * This class is the centerpiece of the PDWorkspace framework; it provides the
  * desktop where the menu, windows, tasks etc. are displayed
  * 
+ * @author chrismay
  */
 public final class PDDesktop extends ContentPane {
 
 	private static final String DESKTOP_INSTANCE = "DESKTOP_INSTANCE"; //$NON-NLS-1$
-	
+
 	public static PDDesktop getInstance() {
 		ContainerContext context = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-		if (context == null) return null;
-		PDDesktop desktop = (PDDesktop)context.getSession().getAttribute(DESKTOP_INSTANCE);
+		if (context == null)
+			return null;
+		PDDesktop desktop = (PDDesktop) context.getSession().getAttribute(DESKTOP_INSTANCE);
 		return desktop;
 	}
 
@@ -78,16 +83,15 @@ public final class PDDesktop extends ContentPane {
 	private MWire footerRightWire;
 	private MWire topRightWire;
 	private SplitPane splitHeaderMain;
-	private PDLabel	lblUser;
-	
-	
+	private PDLabel lblUser;
+
 	public Row getRowTopRight() {
-    	return rowTopRight;
-    }
+		return rowTopRight;
+	}
 
 	public ContainerEx getRowMenu() {
-    	return rowMenu;
-    }
+		return rowMenu;
+	}
 
 	public PDDesktop(PDMenuProvider menuProvider, ILookAndFeel lookAndFeel) {
 		this.menuProvider = menuProvider;
@@ -95,22 +99,23 @@ public final class PDDesktop extends ContentPane {
 		ContainerContext context = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
 		context.getSession().setAttribute(DESKTOP_INSTANCE, this);
 		PDUserSession.getInstance().addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				userChanged();
-            }			
+			}
 		});
 	}
 
 	public void initDesktop() {
-		
+
 		String img = "img/CloudDeskBackground.jpg";
 		setBackgroundImage(new FillImage(new ResourceImageReference(img)));
-		
+
 		try {
 			splitFooterMain = new SplitPane(SplitPane.ORIENTATION_VERTICAL_BOTTOM_TOP);
 			splitFooterMain.setSeparatorPosition(new Extent(25));
 			super.add(splitFooterMain);
-			
+
 			splitFooterLeftRight = new SplitPane(SplitPane.ORIENTATION_HORIZONTAL_RIGHT_LEFT);
 			splitFooterLeftRight.setSeparatorPosition(new Extent(220));
 			SplitPaneLayoutData spld = new SplitPaneLayoutData();
@@ -122,21 +127,22 @@ public final class PDDesktop extends ContentPane {
 			rowFooterRight = new Row();
 			splitFooterLeftRight.add(rowFooterRight);
 			splitFooterLeftRight.add(rowFooterLeft);
-			
+
 			btnReload = new PDButton("Reload", PDButton.STYLE.TRANSPARENT);
 			btnReload.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					PDApplicationInstance appInst = (PDApplicationInstance)ApplicationInstance.getActive();
+					PDApplicationInstance appInst = (PDApplicationInstance) ApplicationInstance.getActive();
 					appInst.reset();
 				}
 			});
-			rowFooterRight.add(btnReload);			
-			
+			rowFooterRight.add(btnReload);
+
 			lblUser = new PDLabel(PDLabel.STYLE.FIELD_VALUE);
 			lblUser.getLabel().setForeground(Color.LIGHTGRAY);
 			rowFooterLeft.add(lblUser);
-			
-			//**********************************************************************************
+
+			// **********************************************************************************
 			splitHeaderMain = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 			splitHeaderMain.setSeparatorPosition(new Extent(25));
 			splitFooterMain.add(splitHeaderMain);
@@ -145,38 +151,39 @@ public final class PDDesktop extends ContentPane {
 			splitHeader.setSeparatorPosition(new Extent(380));
 			spld = new SplitPaneLayoutData();
 			spld.setBackgroundImage(new FillImage(PDUtil.getImg("img/semitrans6.png")));
-			splitHeader.setLayoutData(spld);			
+			splitHeader.setLayoutData(spld);
 			splitHeaderMain.add(splitHeader);
-			
+
 			rowTopRight = new Row();
 			rowTopRight.setCellSpacing(new Extent(12));
 			spld.setInsets(new Insets(5, 2, 0, 0));
 			rowTopRight.setLayoutData(spld);
 			splitHeader.add(rowTopRight);
-			
-//			lblStatus = new PDStatusLabel();
-//			lblStatus.setText(nls(PDBeanTerms.Change));
-//			lblStatus.setFormatWhitespace(true);
-//			lblStatus.setForeground(Color.WHITE);
-//			rowTopRight.add(lblStatus);
+
+			// lblStatus = new PDStatusLabel();
+			// lblStatus.setText(nls(PDBeanTerms.Change));
+			// lblStatus.setFormatWhitespace(true);
+			// lblStatus.setForeground(Color.WHITE);
+			// rowTopRight.add(lblStatus);
 
 			contentPane = new ContainerEx() {
-			    public boolean isValidChild(Component child) {
-			    	return true;			    
-			    }
+				@Override
+				public boolean isValidChild(Component child) {
+					return true;
+				}
 			};
-			
+
 			contentPane.setHeight(new Extent(100, Extent.PERCENT));
 			splitHeaderMain.add(contentPane);
 
 			rowMenu = new ContainerEx();
 			rowMenu.setLayoutStyle(ContainerEx.ROW_LAYOUT);
-			//rowMenu.setBackground(Color.ORANGE);
-			//rowMenu.setLeft(new Extent(6));
+			// rowMenu.setBackground(Color.ORANGE);
+			// rowMenu.setLeft(new Extent(6));
 			rowMenu.setTop(new Extent(3));
 			splitHeader.add(rowMenu);
 			rowMenu.add(new Strut(6, 0));
-			
+
 			MenuModel menuModel = menuProvider.updateMenu();
 			if (menuModel != null) {
 				menuBar = new MenuBarPane();
@@ -187,15 +194,15 @@ public final class PDDesktop extends ContentPane {
 				menuBar.setBorder(PDUtil.emptyBorder());
 				rowMenu.add(menuBar);
 			}
-						
+
 			initBasePlugs();
-			
+
 			userChanged();
 		} catch (Throwable e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-	
+
 	private void initBasePlugs() {
 		List<MWire> wires = PDUtil.findWires(null);
 		for (MWire wire : wires) {
@@ -207,41 +214,41 @@ public final class PDDesktop extends ContentPane {
 				footerRightWire = wire;
 			} else if ("topRight".equals(wire.getPlug().getName())) {
 				topRightWire = wire;
-			}			
+			}
 		}
 	}
-	
+
 	public void userChanged() {
 		contentPane.removeAll();
-		
+
 		if (PDUserSession.getInstance().isLoggedIn()) {
 			splitHeaderMain.setSeparatorPosition(new Extent(25));
 			splitFooterMain.setSeparatorPosition(new Extent(25));
-			
+
 			PDBasePlugLoader.loadItems(contentPane, desktopWire);
 			PDBasePlugLoader.loadItems(rowFooterLeft, footerLeftWire);
 			PDBasePlugLoader.loadItems(rowFooterRight, footerRightWire);
 			PDBasePlugLoader.loadItems(rowTopRight, topRightWire);
-			//rowFooterRight.add(btnReload);	
-			
-			loadShortcuts();			
+			// rowFooterRight.add(btnReload);
+
+			loadShortcuts();
 			refreshTaskDisplay(false);
 			menuBar.setModel(menuProvider.updateMenu());
 			menuProvider.onInit();
 			lblUser.setText("Your are logged in as " + PDUserSession.getInstance().getUser().getJabberId());
 		} else {
-			//show initial screen
+			// show initial screen
 			splitHeaderMain.setSeparatorPosition(new Extent(0));
 			splitFooterMain.setSeparatorPosition(new Extent(0));
-			//show register/login panel
+			// show register/login panel
 			PnlLogin pnlLogin = new PnlLogin();
 			pnlLogin.setLeft(new Extent(50));
 			pnlLogin.setBottom(new Extent(90));
-			contentPane.add(pnlLogin);			
+			contentPane.add(pnlLogin);
 			pnlLogin.initialize();
 		}
-		
-		Label  lbl = new Label(new ResourceImageReference("img/CloudDeskLogo.png"));
+
+		Label lbl = new Label(new ResourceImageReference("img/CloudDeskLogo.png"));
 		ContainerEx c2 = new ContainerEx();
 		c2.setBottom(new Extent(30));
 		c2.setRight(new Extent(50));
@@ -249,7 +256,7 @@ public final class PDDesktop extends ContentPane {
 		c2.add(lbl);
 		contentPane.add(c2);
 	}
-	
+
 	private void loadShortcuts() {
 		List<MShortcut> shortcuts = DaoUser.findShortcuts(PDUserSession.getInstance().getUser());
 		for (MShortcut shortcut : shortcuts) {
@@ -260,13 +267,13 @@ public final class PDDesktop extends ContentPane {
 			addPerson(avatar);
 		}
 	}
-	
+
 	private HashMap<String, PDAvatar> allAvatars = new HashMap<String, PDAvatar>();
 
 	public void addPerson(final MAvatar mAvatar) {
 		final PDAvatar avatar = new PDAvatar(mAvatar);
-		allAvatars.put(avatar.getModel().getPerson().getJabberId(), avatar);		
-		PDUserSession.getInstance().addToRoster(mAvatar.getPerson());		
+		allAvatars.put(avatar.getModel().getPerson().getJabberId(), avatar);
+		PDUserSession.getInstance().addToRoster(mAvatar.getPerson());
 		contentPane.add(avatar.getMenuedComponent());
 	}
 
@@ -284,21 +291,21 @@ public final class PDDesktop extends ContentPane {
 	}
 
 	public ContainerEx getContentPane() {
-	    return contentPane;
-    }
+		return contentPane;
+	}
 
 	public MenuBarPane getMenuBar() {
-	    return menuBar;
-    }
-	
+		return menuBar;
+	}
+
 	public void showSaving() {
-		//lblStatus.setLineWrap(!lblStatus.isLineWrap());	    
-    }
-	
+		// lblStatus.setLineWrap(!lblStatus.isLineWrap());
+	}
+
 	public void refreshTaskDisplay(boolean b) {
-    }
+	}
 
 	public PDAvatar findAvatarByJabberId(String jabberId) {
-	    return allAvatars.get(jabberId);
-    }	
+		return allAvatars.get(jabberId);
+	}
 }

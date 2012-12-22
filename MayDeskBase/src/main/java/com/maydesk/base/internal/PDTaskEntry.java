@@ -1,12 +1,13 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
-package com.maydesk.base.internal;
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
 
-import com.maydesk.base.model.MTask;
-import com.maydesk.base.util.PDUtil;
+package com.maydesk.base.internal;
 
 import nextapp.echo.app.Border;
 import nextapp.echo.app.Border.Side;
@@ -18,11 +19,14 @@ import nextapp.echo.app.Insets;
 import nextapp.echo.app.Label;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
+
+import com.maydesk.base.model.MTask;
+import com.maydesk.base.util.PDUtil;
+
 import echopoint.ContainerEx;
 
 /**
- * 
- * 
+ * @author chrismay
  */
 public class PDTaskEntry extends ContainerEx {
 
@@ -31,47 +35,47 @@ public class PDTaskEntry extends ContainerEx {
 
 	public PDTaskEntry(MTask t) {
 		this.task = t;
-		
+
 		Side emptySide = new Side(0, Color.BLACK, Border.STYLE_NONE);
-		
+
 		Side[] sides = new Side[4];
 		sides[0] = emptySide;
 		sides[1] = emptySide;
 		sides[2] = new Side(2, Color.DARKGRAY, Border.STYLE_DOTTED);
 		sides[3] = emptySide;
-		Border border = new Border(sides);		
-		setBorder(border); 
+		Border border = new Border(sides);
+		setBorder(border);
 
-//		Row row = new Row();
-//		add(row);
-//
-//		Column colWorkflowOption = new Column();
-//
-//		Label lblAssignedBy = new Label("Task assigned by: " + task.getCreatedBy());
-//		colWorkflowOption.add(lblAssignedBy);
-//
-//		Label lblAssignedSince = new Label("Task assigned since: " + PDFormat.formatLong(task.getCreatedDate()));
-//		colWorkflowOption.add(lblAssignedSince);
-//
-//		Label lblPriority = new Label("Priority: " + task.getPriority());
-//		colWorkflowOption.add(lblPriority);
-//
-//		Button btnAcceptNow = new Button("Accept now");
-//		colWorkflowOption.add(btnAcceptNow);
-//
-//		Button btnManiana = new Button("Remind me later");
-//		colWorkflowOption.add(btnManiana);
-//
-//		Button btnDecline = new Button("Decline");
-//		colWorkflowOption.add(btnDecline);
+		// Row row = new Row();
+		// add(row);
+		//
+		// Column colWorkflowOption = new Column();
+		//
+		// Label lblAssignedBy = new Label("Task assigned by: " + task.getCreatedBy());
+		// colWorkflowOption.add(lblAssignedBy);
+		//
+		// Label lblAssignedSince = new Label("Task assigned since: " + PDFormat.formatLong(task.getCreatedDate()));
+		// colWorkflowOption.add(lblAssignedSince);
+		//
+		// Label lblPriority = new Label("Priority: " + task.getPriority());
+		// colWorkflowOption.add(lblPriority);
+		//
+		// Button btnAcceptNow = new Button("Accept now");
+		// colWorkflowOption.add(btnAcceptNow);
+		//
+		// Button btnManiana = new Button("Remind me later");
+		// colWorkflowOption.add(btnManiana);
+		//
+		// Button btnDecline = new Button("Decline");
+		// colWorkflowOption.add(btnDecline);
 
 		String caption = task.getName();
-//		if (task.getExecuteTill() != null) {
-//			int daysTooLate = -PDUtil.getDaysDifference(Calendar.getInstance(), task.getExecuteTill());
-//			for (int i = 0; i < daysTooLate; i++) {
-//				caption += "!";
-//			}
-//		}
+		// if (task.getExecuteTill() != null) {
+		// int daysTooLate = -PDUtil.getDaysDifference(Calendar.getInstance(), task.getExecuteTill());
+		// for (int i = 0; i < daysTooLate; i++) {
+		// caption += "!";
+		// }
+		// }
 		button = new Button(caption);
 		button.setFont(new Font(Font.VERDANA, Font.BOLD, new Extent(13)));
 		button.setForeground(new Color(212, 212, 212));
@@ -83,6 +87,7 @@ public class PDTaskEntry extends ContainerEx {
 		button.setRolloverBackground(new Color(120, 180, 205));
 		button.setRolloverBorder(PDUtil.emptyBorder());
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				task.executeTask();
 			}
@@ -90,21 +95,21 @@ public class PDTaskEntry extends ContainerEx {
 		add(button);
 
 		Label lblDescription = new Label();
-		String s = task.getDescription();		
+		String s = task.getDescription();
 		lblDescription.setText(s);
 		lblDescription.setFont(new Font(Font.VERDANA, Font.PLAIN, new Extent(9)));
 		lblDescription.setForeground(Color.DARKGRAY);
-		//lblDescription.setInsets(new Insets(20, 0, 0, 2));
+		// lblDescription.setInsets(new Insets(20, 0, 0, 2));
 		ContainerEx c = new ContainerEx();
 		c.setInsets(new Insets(20, 0, 0, 2));
 		c.add(lblDescription);
 		add(c);
 	}
-	
+
 	public MTask getTask() {
 		return task;
 	}
-	
+
 	public Button getButton() {
 		return button;
 	}

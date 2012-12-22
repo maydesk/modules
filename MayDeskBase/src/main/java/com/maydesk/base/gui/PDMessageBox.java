@@ -1,28 +1,31 @@
-/* 
- * This file is copyright of PROFIDESK (www.profidesk.net)
- * Copyright (C) 2009
- * All rights reserved
- */
+/* This file is part of the MayDesk project.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.*/
+
 package com.maydesk.base.gui;
 
 import static com.maydesk.base.util.SopletsResourceBundle.nls;
+import nextapp.echo.app.Label;
+import nextapp.echo.app.ResourceImageReference;
 
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.sop.gui.PDBeanTerms;
 import com.maydesk.base.sop.gui.StandardTerms;
 
-import nextapp.echo.app.Label;
-import nextapp.echo.app.ResourceImageReference;
-
-
 /**
  * A model box displaying a simple message
  * 
+ * @author Alejandro Salas
  */
 public class PDMessageBox extends PDOkCancelDialog {
 
-	public static PDMessageBox confirmDeletion(String objectDescription) {		
+	public static PDMessageBox confirmDeletion(String objectDescription) {
 		return confirmMsgBox(PDBeanTerms.Really_delete_object_x, objectDescription);
 	}
 
@@ -43,7 +46,7 @@ public class PDMessageBox extends PDOkCancelDialog {
 	@Deprecated
 	public static PDMessageBox msgBox(String title, String text, int w, int h) {
 		try {
-			PDMessageBox box = new PDMessageBox(title, text, w, h);		
+			PDMessageBox box = new PDMessageBox(title, text, w, h);
 			box.btnCancel.setVisible(false);
 			PDDesktop.getInstance().addWindow(box);
 			return box;
@@ -59,7 +62,7 @@ public class PDMessageBox extends PDOkCancelDialog {
 		super("Info", 400, 200);
 		setModal(true);
 	}
-	
+
 	@Deprecated
 	public PDMessageBox(String title, String text, int w, int h) {
 		super(title, w, h);
@@ -84,10 +87,10 @@ public class PDMessageBox extends PDOkCancelDialog {
 	}
 
 	@Override
-    protected boolean onOkClicked() {
-	    return true;
-    }
-	
+	protected boolean onOkClicked() {
+		return true;
+	}
+
 	public void info(String text) {
 		msg = text;
 		Label lblText = new Label(msg);
