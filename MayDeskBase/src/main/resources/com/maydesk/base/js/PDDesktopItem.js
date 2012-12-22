@@ -132,7 +132,7 @@ PD.Sync.PDDesktopItem = Core.extend(Echo.Render.ComponentSync, {
         Core.Web.Event.add(document.body, this._MOUSEUP, this._processMouseUpRef, true);
 	},
 
-	_processMouseMove: function(e) {
+	_processMouseMove: function(echoEvent) {
 		var x;
         var y;
 		if (echoEvent.touches) {
