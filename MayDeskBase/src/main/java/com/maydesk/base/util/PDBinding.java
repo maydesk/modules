@@ -230,10 +230,10 @@ public class PDBinding {
 
 			if (component instanceof PDTextField) {
 				if (sopletRef instanceof Enum) {
-					Integer length = PDUtil.getOverrideInt((Enum) sopletRef, "length");
-					if (length == null) {
+					Integer length = null; //PDUtil.getOverrideInt((Enum) sopletRef, "length");
+					//if (length == null) {
 						length = sopletRef.length();
-					}
+					//}
 					if (length != null && length > 0) {
 						((PDTextField) component).setMaximumLength(length);
 					}

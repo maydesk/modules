@@ -40,9 +40,9 @@ public class SopletsResourceBundle {
 		try {
 
 			String translation = null;
-			if (term instanceof Enum) {
-				PDUtil.getOverride((Enum) term, "textEN");
-			}
+			//if (term instanceof Enum) {
+			//	PDUtil.getOverride((Enum) term, "textEN");
+			//}
 			if (translation == null) {
 				translation = term.textEN();
 			}

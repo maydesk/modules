@@ -1,0 +1,17 @@
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+
+<!-- this is used for local development only -->
+
+<New id="maydesk_db" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg></Arg>
+    <Arg>jdbc/maydesk_db</Arg>
+    <Arg>
+     <New class="org.apache.tomcat.jdbc.pool.DataSource">
+        <Set name="driverClassName">com.mysql.jdbc.Driver</Set>
+        <Set name="url">jdbc:mysql://localhost:3306/clouddesk</Set>
+        <Set name="username">sa</Set>
+        <Set name="password">sa003</Set>
+    </New>
+  </Arg>
+ </New>
+</Configure>

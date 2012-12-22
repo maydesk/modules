@@ -26,9 +26,7 @@ public class MDServlet extends PDServlet {
 
 	@Override
 	protected PDMenuProvider getPerspective() {
-		PDUtil.initConfig(super.getServletContext());
 		MDInit.resetAll();
-
 		return new MDPerspective();
 	}
 }

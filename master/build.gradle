@@ -23,7 +23,7 @@ subprojects  {
 	
 	dependencies {
 	    ajc "org.aspectj:aspectjtools:1.+"
-		compile "org.projectlombok:lombok:0.11.+"
+	    compile "org.projectlombok:lombok:0.11.+"
 		compile files('lib/lombok_soplet.jar')
 	}
 

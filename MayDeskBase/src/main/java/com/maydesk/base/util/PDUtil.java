@@ -322,47 +322,6 @@ public class PDUtil {
 		return text.substring(0, length - 3) + "...";
 	}
 
-	public static void initProperties() {
-		URL url = PDUtil.class.getClassLoader().getResource("app.properties");
-		// URL url = PDAppInstance.getActivePD().getConfigPath();
-		if (url == null) {
-			System.out.println("WARN: config path is NULL");
-			return;
-		}
-		File configFile = new File(url.getFile());
-
-		if (!configFile.exists()) {
-			// Linux deployed environment
-			String path = "/etc/profidesk/soplets.properties"; // TODO
-			// String path = "D:/workspace2009/BusStop30/config/" +
-			// PDAppInstance.getActivePD().getAppName() + ".properties";
-			configFile = new File(path);
-		}
-		initProperties(configFile);
-	}
-
-	public static void initProperties(File configFile) {
-		if (!configFile.exists()) {
-			System.out.println("Config file " + configFile.getAbsolutePath() + " not found!!!");
-			return;
-		}
-		try {
-			props = new Properties();
-			InputStream is = new FileInputStream(configFile);
-			props.load(is);
-			System.out.println("Configs loaded from " + configFile.getAbsolutePath() + "!");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static String getProperty(String key) {
-		if (props == null) {
-			initProperties();
-		}
-		return props.getProperty(key);
-	}
-
 	public static int getDaysDifference(Calendar refDate, Date date) {
 		long delta = date.getTime() - refDate.getTimeInMillis();
 		long deltaDays = (delta) / MILLIS_PER_DAY;
@@ -438,102 +397,49 @@ public class PDUtil {
 		return new Font(Font.COURIER, Font.PLAIN, new Extent(11));
 	}
 
-	public static String getOverride(Enum soplet, String attribute) {
-		FileInputStream fis = null;
-		try {
-			String key = soplet.getClass().getCanonicalName() + "." + soplet.name() + "." + attribute;
-			if (overrideProps == null || System.currentTimeMillis() - lastOverrideLoadTime > 1000) {
-				lastOverrideLoadTime = System.currentTimeMillis();
-				overrideProps = new Properties();
-				String filePath = getProperty("sop.overrides");
-				if (filePath != null) {
-					File propertiesFile = new File(filePath);
-					if (propertiesFile.exists()) {
-						fis = new FileInputStream(propertiesFile);
-						overrideProps.load(fis);
-					}
-				}
-			}
-			return overrideProps.getProperty(key);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			if (fis != null) {
-				try {
-					fis.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+//	public static String getOverride(Enum soplet, String attribute) {
+//		FileInputStream fis = null;
+//		try {
+//			String key = soplet.getClass().getCanonicalName() + "." + soplet.name() + "." + attribute;
+//			if (overrideProps == null || System.currentTimeMillis() - lastOverrideLoadTime > 1000) {
+//				lastOverrideLoadTime = System.currentTimeMillis();
+//				overrideProps = new Properties();
+//				String filePath = getProperty("sop.overrides");
+//				if (filePath != null) {
+//					File propertiesFile = new File(filePath);
+//					if (propertiesFile.exists()) {
+//						fis = new FileInputStream(propertiesFile);
+//						overrideProps.load(fis);
+//					}
+//				}
+//			}
+//			return overrideProps.getProperty(key);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		} finally {
+//			if (fis != null) {
+//				try {
+//					fis.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//	}
+//
+//	public static Integer getOverrideInt(Enum soplet, String attribute) {
+//		String value = getOverride(soplet, attribute);
+//		if (value == null)
+//			return null;
+//		try {
+//			return Integer.parseInt(value);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 
-	public static Integer getOverrideInt(Enum soplet, String attribute) {
-		String value = getOverride(soplet, attribute);
-		if (value == null)
-			return null;
-		try {
-			return Integer.parseInt(value);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public final static String MAYDESK_CONFIG = "MAYDESK_CONFIG";
-
-	public static void initConfig(ServletContext context) {
-
-		// ********************************************************************************************
-		// IMPORTANT:
-		// This methods expects the path to the configuration file in the
-		// tomcat/conf/context.xml in the following form
-		// <Context>
-		// ... (other stuff)
-		// <Parameter name="MAYDESK_CONFIG"
-		// value="A:/workspaceFrietec2/FTFrontend/config/demo.properties"/>
-		// </Context>
-		//
-		// Otherwise you may define the MAYDESK_CONFIG variable in the system
-		// environment
-		// This is useful especially for the run-jetty-run plugin
-		// In that case use the Environment tab for defining the variable and
-		// its value
-		// ********************************************************************************************
-
-		String path = context.getInitParameter(MAYDESK_CONFIG);
-
-		// Eclipse VM arguments in the Jetty launch config, e.g.
-		// -DMAYDESK_CONFIG=A:/workspace2012/OneDesktopDemo/config/demo.properties
-		if (path == null || path.length() == 0) {
-			path = System.getProperty(MAYDESK_CONFIG);
-		}
-
-		// still not found? try with system environment variable
-		if (path == null || path.length() == 0) {
-			path = System.getenv(MAYDESK_CONFIG);
-		}
-
-		if (path == null || path.length() == 0) {
-			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-			System.out.println("ERROR - No config file specified in conf/context.xml!!");
-			System.out.println("Please specify an entry like in the following example:");
-			System.out.println("<Parameter name=\"MAYDESK_CONFIG\" value=\"/etc/tomcat/demo.properties\"/>");
-			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-			return;
-		}
-
-		File configFile = new File(path);
-		if (configFile.exists()) {
-			System.out.println("Starting application MAYDESK with config file: " + configFile.getAbsolutePath());
-			PDUtil.initProperties(configFile);
-		} else {
-			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-			System.out.println("ERROR: config file " + path + " as specified in context.xml does not exist!");
-			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-		}
-	}
 
 	public static List<MWire> findWires(MWire parentWire) {
 		Criteria c = PDHibernateFactory.getSession().createCriteria(MWire.class);

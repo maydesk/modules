@@ -13,5 +13,5 @@ dependencies {
 	providedCompile 'javax.servlet:servlet-api:2.5'
 	compile 'org.igniterealtime.smack:smack:3.2.1'
 	compile 'org.apache.tomcat:tomcat-jdbc:7.0.29'
-	compile 'org.igniterealtime.smack:smackx:3.2.1'
+	compile 'org.igniterealtime.smack:smackx:3.2.1'	
 }

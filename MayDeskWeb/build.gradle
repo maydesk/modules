@@ -1,10 +1,6 @@
-configurations { 
-	deployerJars 
-}
-
 dependencies {
 	compile project(':MayDeskBase')
-	compile project(':MayDeskSocial')
+	compile project(':MayDeskSocial')	        
 }
 
 jar {
@@ -12,14 +8,5 @@ jar {
 }
 	
 war {
-  classpath = jar.outputs.files + configurations.runtime - configurations.providedRuntime
-}
-
-task doDeploy(type: Copy) {
-	from(war)
-	into('C:/apache-tomcat-7.0.29/webapps')
-	include('*.war')
-	rename { String fileName ->
-	    fileName.replace('-1.0', '')
-	}
+	classpath = jar.outputs.files + configurations.runtime - configurations.providedRuntime
 }

@@ -61,13 +61,12 @@ public class CledaConnector {
 
 	private void createSessionFactory() {
 		Properties props = new Properties();
-
-		Context ctx;
+		
 		try {
-			ctx = new InitialContext();
-			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/maydesk_dev");
+			Context ctx = new InitialContext();
+			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/maydesk_db");
 			props.put("hibernate.connection.datasource", ds);
-			ds.setPoolProperties(getPoolProperties());
+			//ds.setPoolProperties(getPoolProperties());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -97,56 +96,13 @@ public class CledaConnector {
 		sessionFactory = config.buildSessionFactory(serviceRegistry);
 	}
 
-	//Create the Tomcat JDBC Connection Pool Datasource
-	private PoolProperties getPoolProperties() {
-		 PoolProperties poolProps = new PoolProperties();
-		
-		 // database connection
-//		 String host = PDUtil.getProperty("db.host");
-//		 if (PDUtil.isEmpty(host)) {
-//		 host = "localhost";
-//		 }
-//		
-//		 poolProps.setUrl("jdbc:mysql://" + host + "/" +
-//		 PDUtil.getProperty("db.database"));
-//		 poolProps.setUsername(PDUtil.getProperty("db.username"));
-//		 poolProps.setPassword(PDUtil.getProperty("db.password"));
-
-		 
-		 //see also https://developer.cloudbees.com/bin/view/RUN/DatabaseGuide
-		 poolProps.setDriverClassName("com.mysql.jdbc.Driver");		
-		 poolProps.setJmxEnabled(true);
-		 poolProps.setTestWhileIdle(false);
-		 poolProps.setTestOnBorrow(true);
-		 poolProps.setValidationQuery("SELECT 1");
-		 poolProps.setTestOnReturn(false);
-		 poolProps.setValidationInterval(30000);
-		 poolProps.setTimeBetweenEvictionRunsMillis(30000);		
-		 poolProps.setMaxActive(25);
-		 poolProps.setMaxIdle(2);
-		 poolProps.setInitialSize(3);
-		 poolProps.setMaxWait(10000);
-		 poolProps.setRemoveAbandonedTimeout(60);
-		 poolProps.setMinEvictableIdleTimeMillis(30000);
-		 poolProps.setMinIdle(10);		
-		 poolProps.setLogAbandoned(true);
-		 poolProps.setRemoveAbandoned(true);		
-		 poolProps.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"
-				 + "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
-		 return poolProps;
-	 }
-
-	
-
 	private void registerModels(Configuration config, String pckgname) {
 		// see also http://www.javaworld.com/javaworld/javatips/jw-javatip113.html?page=2
 		File directory = null;
 		URL url = null;
 		try {
 			String pack = '/' + pckgname.replace('.', '/');
-			// System.out.println(pack);
 			url = getClass().getResource(pack);
-			// System.out.println(url);
 			directory = new File(url.getFile());
 		} catch (NullPointerException x) {
 			throw new IllegalArgumentException(pckgname + " does not appear to be a valid package");
@@ -184,40 +140,17 @@ public class CledaConnector {
 			// we are only interested in .class files
 			if (file.endsWith(".class")) {
 				// removes the .class extension
-				// String className = pckgname + '.' + file.substring(0, file.length() - 6);
 				String className = file.substring(0, file.length() - 6);
 				try {
 					Class clazz = Class.forName(className);
 					if (clazz.getAnnotation(Entity.class) != null) {
 						config.addAnnotatedClass(clazz);
-
-						// PersistentClass persistentClass =
-						// config.getClassMapping(clazz.getCanonicalName());
-						// SimpleValue simpleValue = new SimpleValue();
-						// simpleValue.addColumn(new Column("fld_" + "test"));
-						// simpleValue.setTypeName(String.class.getName());
-						//
-						// simpleValue.setTable(persistentClass.getTable());
-						//
-						// Property property = new Property();
-						// property.setName("test");
-						// property.setValue(simpleValue);
-						// Property property2 =
-						// persistentClass.getProperty(clazz.getCanonicalName());
-						// Component customProperties = (Component)
-						// property2.getValue();
-						// customProperties.addProperty(property);
-
 					}
 				} catch (ClassNotFoundException cnfe) {
 					System.out.println("Class " + className + " mot found");
 				}
 			}
 		}
-	}
-
-	public void dropDB() {
-		// TODO Auto-generated method stub
 	}
 
 	public class AuditInterceptor extends EmptyInterceptor {
