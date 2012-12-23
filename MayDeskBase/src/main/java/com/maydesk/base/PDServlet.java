@@ -9,6 +9,7 @@
 package com.maydesk.base;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -83,7 +84,20 @@ public abstract class PDServlet extends WebContainerServlet {
 
 			@Override
 			public Window init() {
+				Enumeration<String> en2 = getInitParameterNames();
+				while (en2.hasMoreElements()) {
+					String key = en2.nextElement();
+					System.out.println(key + " ::: " + getInitParameter(key));
+				}
+
+				Enumeration<String> en3 = getServletConfig().getInitParameterNames();
+				while (en3.hasMoreElements()) {
+					String key = en3.nextElement();
+					System.out.println(key + " :::3 " + getInitParameter(key));
+				}
+
 				environment = getInitParameter("application.environment");
+				System.out.println("environment = " + environment);
 				return super.init();
 			}
 
