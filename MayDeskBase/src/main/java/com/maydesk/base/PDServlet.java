@@ -74,25 +74,6 @@ public abstract class PDServlet extends WebContainerServlet {
 
 	@Override
 	public ApplicationInstance newApplicationInstance() {
-
-		
-		Enumeration<String> en2 = getInitParameterNames();
-		while (en2.hasMoreElements()) {
-			String key = en2.nextElement();
-			System.out.println(key + " :2: " + getInitParameter(key));
-		}
-		Enumeration<String> en3 = getServletContext().getAttributeNames();
-		while (en3.hasMoreElements()) {
-			String key = en3.nextElement();
-			System.out.println(key + " :3: " + getServletContext().getAttribute(key));
-		}
-
-		Enumeration<String> en4 = getServletContext().getInitParameterNames();
-		while (en4.hasMoreElements()) {
-			String key = en4.nextElement();
-			System.out.println(key + " :4: " + getServletContext().getInitParameter(key));
-		}
-
 		
 		if (!initialized) {
 			initialize();
@@ -103,19 +84,7 @@ public abstract class PDServlet extends WebContainerServlet {
 
 			@Override
 			public Window init() {
-				Enumeration<String> en2 = getInitParameterNames();
-				while (en2.hasMoreElements()) {
-					String key = en2.nextElement();
-					System.out.println(key + " ::: " + getInitParameter(key));
-				}
-
-				Enumeration<String> en3 = getServletConfig().getInitParameterNames();
-				while (en3.hasMoreElements()) {
-					String key = en3.nextElement();
-					System.out.println(key + " :::3 " + getInitParameter(key));
-				}
-
-				environment = getInitParameter("application.environment");
+				environment = getServletContext().getInitParameter("application.environment");
 				System.out.println("environment ==== " + environment);
 				return super.init();
 			}
