@@ -46,6 +46,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import com.maydesk.base.DownloadServlet;
+import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.DownloadServlet.Document;
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.model.MWire;
@@ -461,12 +462,14 @@ public class PDUtil {
 
 	public static String getStage() {
 		try {
-			Context ctx = new InitialContext();
-			String stage = (String)ctx.lookup("java:comp/env/STAGE");
+			//Context ctx = new InitialContext();
+			//String stage = (String)ctx.lookup("java:comp/env/STAGE");
+			String stage = (String)PDApplicationInstance.getActivePD().getContextProperty("STAGE");
+			 
 			return stage;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "ERROR";
+			return "ERROR: " + e.getMessage();
 		}		
 	}
 }
