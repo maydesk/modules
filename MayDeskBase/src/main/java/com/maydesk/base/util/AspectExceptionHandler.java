@@ -53,20 +53,20 @@ public class AspectExceptionHandler {
 				e.printStackTrace();
 
 				// construct the message text
-				String version = "";
+				String stage = "";
 				if (PDDesktop.getInstance() != null) {
-					version = "Version 123"; // PDAppInstance.getActivePD().getLookAndFeel().getVersionInfo() + "\n\n";
+					stage = PDUtil.getStage(); 
 				}
 
-				String msg = "Ein Fehler ist aufgetreten: \n\n";
+				String msg = "An error has occurred: \n\n";
 				msg += "User: " + PDUserSession.getInstance().getUser() + "\n";
-				msg += "Version: " + version + "\n\n";
-				msg += "Fehler: " + ExceptionUtils.getStackTrace(e);
+				msg += "Stage: " + stage + "\n\n";
+				msg += "Error: " + ExceptionUtils.getStackTrace(e);
 
 				// send an email
 				try {
 					PDMailBean mb = new PDMailBean();
-					mb.sendMail("mail@chrismay.de", "Fehler in Soplets Studio " + version, msg, null);
+					mb.sendMail("mail@chrismay.de", "Error in MayDesk " + stage, msg, null);
 				} catch (Exception ex) {
 					System.out.println("Mail not configured!");
 					ex.printStackTrace();

@@ -24,6 +24,9 @@ import java.util.Random;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
 import nextapp.echo.app.ApplicationInstance;
@@ -454,5 +457,16 @@ public class PDUtil {
 
 	public static ImageReference getImg(String img) {
 		return new ResourceImageReference(img);
+	}
+
+	public static String getStage() {
+		try {
+			Context ctx = new InitialContext();
+			String stage = (String)ctx.lookup("java:comp/env/STAGE");
+			return stage;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "ERROR";
+		}		
 	}
 }

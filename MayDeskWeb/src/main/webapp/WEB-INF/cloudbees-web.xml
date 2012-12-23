@@ -3,6 +3,10 @@
 
 	<environment name="dev">
 		<appid>maydesk/TestApp</appid>
+		<context-param>
+    		<param-name>STAGE</param-name>
+			<param-value>DEV</param-value>
+		</context-param>
 		<resource name="jdbc/maydesk_db" auth="Container" type="javax.sql.DataSource">
 			<param name="username" value="maydesk_dev" />
 			<param name="password" value="sa003" />

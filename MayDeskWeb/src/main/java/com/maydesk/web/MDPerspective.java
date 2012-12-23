@@ -49,7 +49,7 @@ public class MDPerspective extends PDMenuProvider {
 
 		MUser user = PDUserSession.getInstance().getUser();
 
-		if (user != null && user.getJabberId().equals("aoeu@jabber.de")) {
+		if (user != null && user.getJabberId().equals("chrismay@jabber.de")) {
 			DefaultMenuModel mnuAdmin = new DefaultMenuModel("2", "Admin");
 			m.addItem(mnuAdmin);
 			mnuAdmin.addItem(new DefaultOptionModel("2a", "Mail Settings", null));
