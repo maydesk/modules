@@ -1,6 +1,6 @@
 dependencies {
 	compile project(':MayDeskBase')
-	compile project(':MayDeskSocial')	        
+	compile project(':MayDeskSocial')	
 }
 
 jar {
@@ -8,5 +8,5 @@ jar {
 }
 	
 war {
-	classpath = jar.outputs.files + configurations.runtime - configurations.providedRuntime
+	classpath = jar.outputs.files + configurations.runtime - project(':MayDeskBase').configurations.providedCompile
 }
