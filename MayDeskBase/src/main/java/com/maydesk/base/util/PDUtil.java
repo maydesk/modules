@@ -459,17 +459,4 @@ public class PDUtil {
 	public static ImageReference getImg(String img) {
 		return new ResourceImageReference(img);
 	}
-
-	public static String getStage() {
-		try {
-			//Context ctx = new InitialContext();
-			//String stage = (String)ctx.lookup("java:comp/env/STAGE");
-			String stage = (String)PDApplicationInstance.getActivePD().getContextProperty("STAGE");
-			 
-			return stage;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "ERROR: " + e.getMessage();
-		}		
-	}
 }

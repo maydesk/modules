@@ -83,6 +83,7 @@ public abstract class PDServlet extends WebContainerServlet {
 
 			@Override
 			public Window init() {
+				environment = getInitParameter("application.environment");
 				return super.init();
 			}
 

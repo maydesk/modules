@@ -18,6 +18,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.hibernate.Session;
 
+import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.PDHibernateMasterFactory;
@@ -55,7 +56,7 @@ public class AspectExceptionHandler {
 				// construct the message text
 				String stage = "";
 				if (PDDesktop.getInstance() != null) {
-					stage = PDUtil.getStage(); 
+					stage = PDApplicationInstance.getActivePD().getEnvironment();
 				}
 
 				String msg = "An error has occurred: \n\n";

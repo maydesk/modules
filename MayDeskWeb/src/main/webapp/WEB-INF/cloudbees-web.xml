@@ -4,7 +4,7 @@
 	<environment name="dev">
 		<appid>maydesk/TestApp</appid>
 		<context-param>
-    		<param-name>STAGE</param-name>
+    		<param-name>application.environment</param-name>
 			<param-value>DEV</param-value>
 		</context-param>
 		<resource name="jdbc/maydesk_db" auth="Container" type="javax.sql.DataSource">

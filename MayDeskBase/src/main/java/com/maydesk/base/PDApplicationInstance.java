@@ -27,7 +27,8 @@ import com.maydesk.base.util.IMessageListener;
 public abstract class PDApplicationInstance extends ApplicationInstance {
 
 	protected Window window;
-
+	protected String environment; 
+	
 	public void reset() {
 		window.setContent(getDesktop());
 	}
@@ -77,5 +78,9 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 
 	public static PDApplicationInstance getActivePD() {
 		return (PDApplicationInstance) getActive();
+	}
+
+	public String getEnvironment() {
+		return environment;
 	}
 }
