@@ -28,7 +28,7 @@ import com.maydesk.base.model.MUser;
 import com.maydesk.base.sop.gui.PDBeanTerms;
 import com.maydesk.base.sop.gui.StandardTerms;
 import com.maydesk.base.sop.logical.SopUser;
-import com.maydesk.base.util.PDMailBean;
+import com.maydesk.base.util.MDMailUtil;
 import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.base.widgets.PDTextField;
@@ -82,7 +82,7 @@ public class WzdPasswordForgotten extends PDWizard {
 			}
 			String emailAdresss = txtEmail.getText();
 
-			PDMailBean mailBean = new PDMailBean();
+			MDMailUtil mailBean = new MDMailUtil();
 			StringBuffer message = new StringBuffer();
 
 			message.append(nls(PDBeanTerms.Hello) + Space + users.get(0).getJabberId() + Comma + CRLF + CRLF);

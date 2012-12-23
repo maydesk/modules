@@ -65,8 +65,7 @@ public class AspectExceptionHandler {
 
 				// send an email
 				try {
-					PDMailBean mb = new PDMailBean();
-					mb.sendMail("mail@chrismay.de", "Error in MayDesk " + stage, msg, null);
+					MDMailUtil.sendMail("mail@chrismay.de", "Error in MayDesk " + stage, msg, null);
 				} catch (Exception ex) {
 					System.out.println("Mail not configured!");
 					ex.printStackTrace();
