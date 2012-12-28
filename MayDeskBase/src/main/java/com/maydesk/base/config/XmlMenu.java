@@ -11,8 +11,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class XmlMenu extends XmlBaseEntry { 
 
-	private List<XmlMenu> menuEntries = new ArrayList<>();
-	private List<XmlMenuItem> menuItems = new ArrayList<>();
+	private List<XmlMenu> menuEntries = new ArrayList<XmlMenu>();
+	private List<XmlMenuItem> menuItems = new ArrayList<XmlMenuItem>();
 	private String textEN;
 	
 	public List<XmlMenu> getMenuEntries() {

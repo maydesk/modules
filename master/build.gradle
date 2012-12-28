@@ -6,7 +6,7 @@ subprojects  {
 	group = 'org.maydesk'
 	version = '0.1.0-SNAPSHOT'
 	ext.packaging = 'jar'
-	sourceCompatibility = 1.7
+	sourceCompatibility = 1.6
 	
 	def srcJava = 'src/main/java'
 	def srcDelomboked = 'build/src-delomboked'

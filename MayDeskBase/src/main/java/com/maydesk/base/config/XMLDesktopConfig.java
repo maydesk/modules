@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(namespace = "com.maydesk.base.config.XMLConfig")
 public class XMLDesktopConfig {
 	
-	private List<XmlDesktopItem> desktopEntries = new ArrayList<>();
+	private List<XmlDesktopItem> desktopEntries = new ArrayList<XmlDesktopItem>();
 	private XmlMenu menu;
 	
 	public XmlMenu getMenu() {

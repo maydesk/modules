@@ -83,6 +83,8 @@ public final class PDDesktop extends ContentPane {
 	private ContainerEx rowMenu;
 	private SplitPane splitHeaderMain;
 	private PDLabel lblUser;
+	private HashMap<String, XmlMenuItem> menuItems = new HashMap<String, XmlMenuItem>();
+	
 
 	public Row getRowTopRight() {
 		return rowTopRight;
@@ -201,8 +203,6 @@ public final class PDDesktop extends ContentPane {
 			}			
 		}
 	}
-	
-	private HashMap<String, XmlMenuItem> menuItems = new HashMap<>();
 	
 	private void loadMenu(XMLDesktopConfig configuration) {
 		MenuBarPane menuBarPane = new MenuBarPane();
