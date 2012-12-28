@@ -43,7 +43,7 @@ import com.maydesk.base.model.MBaseWithTitle;
  */
 public class CledaConnector {
 
-	private static CledaConnector instance = new CledaConnector();
+	private static CledaConnector instance;
 
 	private SessionFactory sessionFactory;
 
