@@ -9,17 +9,14 @@
 package com.maydesk.base.config;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
-import nextapp.echo.app.Component;
-
-import com.maydesk.base.sop.plug.Plugable;
 
 /**
  * @author chrismay
@@ -42,16 +39,21 @@ public class MDPluginRegistry {
 	
 	public XMLDesktopConfig getConfiguration() {
 		if (configuration == null) {
-			String pathName = "../MayDeskDemoProject";  //XXX PDApplicationInstance.getActivePD().getProject();
-			File file = new File(pathName + "/src/resource/config.xml");
-			if (!file.exists()) {
-				throw new IllegalArgumentException("File " + file.getAbsolutePath() + " not found!");
-			}
 			try {
+				InputStream configStream = getClass().getResourceAsStream("config.xml");
+				if (configStream == null) {
+					//just for local development
+					String pathName = "../MayDeskDemoProject";
+					File file = new File(pathName + "/src/resource/config.xml");
+					if (!file.exists()) {
+						throw new IllegalArgumentException("File " + file.getAbsolutePath() + " not found!");
+					}
+					configStream = new FileInputStream(file);
+				}
 				JAXBContext context = JAXBContext.newInstance(XMLDesktopConfig.class);
 				Unmarshaller m = context.createUnmarshaller();
-				configuration = (XMLDesktopConfig) m.unmarshal(file);
-			} catch (JAXBException e) {
+				configuration = (XMLDesktopConfig) m.unmarshal(configStream);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
