@@ -40,6 +40,7 @@ public class MDPluginRegistry {
 	public XMLDesktopConfig getConfiguration() {
 		if (configuration == null) {
 			try {
+				//when deployed then look inside the war (at WEB-INF/classes)
 				InputStream configStream = getClass().getClassLoader().getResourceAsStream("config.xml");
 				if (configStream == null) {
 					//this is just for local development 

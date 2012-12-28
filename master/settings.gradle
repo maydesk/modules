@@ -1,1 +1,1 @@
-includeFlat 'MayDeskBase', 'MayDeskSocial'
+includeFlat 'modBase', 'modSocial'

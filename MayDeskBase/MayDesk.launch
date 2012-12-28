@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="RunJettyRunWebApp">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/modBase"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="4"/>
+</listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="RunJettyRunWebAppClassPathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="runjettyrun.Bootstrap"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="MayDeskBase"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="modBase"/>
 <stringAttribute key="run_jetty_run.CONTEXT_ATTR" value="/"/>
 <booleanAttribute key="run_jetty_run.ENABLE_JNDI_ATTR" value="true"/>
 <booleanAttribute key="run_jetty_run.ENABLE_NEED_CLIENT_AUTH_ATTR" value="false"/>
