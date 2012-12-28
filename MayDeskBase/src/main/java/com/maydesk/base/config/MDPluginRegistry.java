@@ -40,11 +40,15 @@ public class MDPluginRegistry {
 	public XMLDesktopConfig getConfiguration() {
 		if (configuration == null) {
 			try {
-				InputStream configStream = getClass().getResourceAsStream("config.xml");
+				InputStream configStream = getClass().getClassLoader().getResourceAsStream("config.xml");
 				if (configStream == null) {
-					//just for local development
-					String pathName = "../MayDeskDemoProject";
-					File file = new File(pathName + "/src/resource/config.xml");
+					System.out.println("XXXXX try with system resource....");
+					configStream = getClass().getClassLoader().getSystemResourceAsStream("config.xml");					
+				}
+				System.out.println("XXXXX configStream: " + configStream);
+				if (configStream == null) {
+					//this is just for local development 
+					File file = new File("../..projects/CloudbeesDEV/src/resource/config.xml");
 					if (!file.exists()) {
 						throw new IllegalArgumentException("File " + file.getAbsolutePath() + " not found!");
 					}
