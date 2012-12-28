@@ -36,6 +36,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.hibernate.type.Type;
 
+import com.maydesk.base.model.MAvatar;
 import com.maydesk.base.model.MBaseWithTitle;
 
 /**
@@ -43,7 +44,7 @@ import com.maydesk.base.model.MBaseWithTitle;
  */
 public class CledaConnector {
 
-	private static CledaConnector instance = new CledaConnector();
+	private static CledaConnector instance;
 
 	private SessionFactory sessionFactory;
 
@@ -100,9 +101,12 @@ public class CledaConnector {
 		URL url = null;
 		try {
 			String pack = '/' + pckgname.replace('.', '/');
-			url = getClass().getClassLoader().getResource(pack);
+			System.out.println("XXXXXXXXXXXXXXXXX pack: " + pack);
+			url = MAvatar.class.getClassLoader().getResource(pack);
+			System.out.println("XXXXXXXXXXXXXXXXX url: " + url);
 			directory = new File(url.getFile());
 		} catch (NullPointerException x) {
+			x.printStackTrace();
 			throw new IllegalArgumentException(pckgname + " does not appear to be a valid package");
 		}
 		List<String> files = new Vector<String>();

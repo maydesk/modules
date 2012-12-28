@@ -8,7 +8,7 @@
  * License.*/
 
 package com.maydesk.base.model;
-
+		 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
