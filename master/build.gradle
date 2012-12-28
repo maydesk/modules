@@ -12,6 +12,8 @@ subprojects  {
 	def srcDelomboked = 'build/src-delomboked'
 	def sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
 	
+	defaultTasks 'install'
+	
 	configurations { 
 		replacer
 		ajc
