@@ -69,7 +69,6 @@ public class WzdNewUser extends PDWizard {
 	}
 
 	public WzdNewUser(MUser user, String textWelcome, String textFinished) {
-		super(null);
 		this.user = user;
 		this.textWelcome = textWelcome;
 		this.textFinished = textFinished;

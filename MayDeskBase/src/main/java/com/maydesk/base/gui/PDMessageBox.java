@@ -64,7 +64,7 @@ public class PDMessageBox extends PDOkCancelDialog {
 	}
 
 	@Deprecated
-	public PDMessageBox(String title, String text, int w, int h) {
+	private PDMessageBox(String title, String text, int w, int h) {
 		super(title, w, h);
 		this.msg = text;
 		setResizable(false);
@@ -72,7 +72,7 @@ public class PDMessageBox extends PDOkCancelDialog {
 		initGUI();
 	}
 
-	public PDMessageBox(Translatable title, Translatable msg, int w, int h, Object... param) {
+	private PDMessageBox(Translatable title, Translatable msg, int w, int h, Object... param) {
 		super(title, w, h);
 		this.msg = nls(msg, param);
 		setResizable(false);

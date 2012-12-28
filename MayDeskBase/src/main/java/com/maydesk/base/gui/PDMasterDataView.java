@@ -64,8 +64,11 @@ import echopoint.ContainerEx;
 import echopoint.Strut;
 
 /**
- * This class is a high-level component to display editable data in a convenient way. Features include: - Built-in support to display a pageable list of expandable sections - Very light-way loading of
- * large data sets - Built-in slidable filter - Configurable toolbar
+ * This class is a high-level component to display editable data in a convenient way. Features include: 
+ * - Built-in support to display a pageable list of expandable sections 
+ * - Very light-way loading of large data sets 
+ * - Built-in slidable filter 
+ * - Configurable toolbar
  * 
  * @author chrismay
  */

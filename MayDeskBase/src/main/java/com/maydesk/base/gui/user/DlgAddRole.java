@@ -43,7 +43,7 @@ public class DlgAddRole extends PDOkCancelDialog {
 
 	@SuppressWarnings("unchecked")
 	public DlgAddRole(MUser user, String factoryClassName) {
-		super(nls(PDBeanTerms.Add_role), 400, 300);
+		super(PDBeanTerms.Add_role, 400, 300);
 		this.user = user;
 		try {
 			Class factoryClass = Class.forName(factoryClassName);

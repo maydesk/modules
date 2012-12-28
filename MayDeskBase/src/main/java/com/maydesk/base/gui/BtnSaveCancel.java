@@ -26,9 +26,9 @@ import echopoint.PushButton;
  */
 public class BtnSaveCancel extends Row {
 
-	protected PushButton btnSave;
-	protected PushButton btnCancel;
-	protected List<PDBinding> bindings = new Vector<PDBinding>();
+	private PushButton btnSave;
+	private PushButton btnCancel;
+	private List<PDBinding> bindings = new Vector<PDBinding>();
 
 	public BtnSaveCancel() {
 		btnCancel = new PushButton("Cancel");

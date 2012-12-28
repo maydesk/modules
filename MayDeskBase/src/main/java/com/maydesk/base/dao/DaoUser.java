@@ -28,8 +28,6 @@ import com.maydesk.base.model.MMnemonic;
 import com.maydesk.base.model.MPresence;
 import com.maydesk.base.model.MPresenceAcknowledge;
 import com.maydesk.base.model.MShortcut;
-import com.maydesk.base.model.MTask;
-import com.maydesk.base.model.MTaskAssign;
 import com.maydesk.base.model.MTenant;
 import com.maydesk.base.model.MTenantAssignment;
 import com.maydesk.base.model.MUser;
@@ -55,16 +53,6 @@ public class DaoUser implements IDAO {
 		return (MMnemonic) criteria.uniqueResult();
 	}
 
-	public static List<MTask> findTask(MUser user) {
-		Session session = PDHibernateFactory.getSession();
-		Criteria criteria = session.createCriteria(MTaskAssign.class);
-		criteria.add(Restrictions.eq("userRef", user));
-		criteria.createAlias("task", "t");
-		criteria.add(Restrictions.isNull("t.doneDate"));
-		criteria.setProjection(Projections.distinct(Projections.property("task")));
-		return criteria.list();
-	}
-
 	public static List<MUser> findUsersByProject(MTenant tenant) {
 		Criteria criteria = PDHibernateFactory.getSession().createCriteria(MTenantAssignment.class);
 		criteria.add(Restrictions.eq("tenant", tenant));
@@ -79,20 +67,7 @@ public class DaoUser implements IDAO {
 		criteria.setProjection(Projections.property("tenant"));
 		return criteria.list();
 	}
-
-	public static void assignTask(MTask task, MTenant project, String authorizationName) {
-		// find the project admin(s) for the project
-		Session session = PDHibernateFactory.getSession();
-		Criteria criteria = session.createCriteria(MTenantAssignment.class);
-		criteria.add(Restrictions.eq("tenant", project));
-		criteria.add(Restrictions.eq("assignmentActive", true));
-		criteria.add(Restrictions.eq(authorizationName, true));
-		List<MTenantAssignment> list = criteria.list();
-		for (MTenantAssignment pa2 : list) {
-			DaoTask.assignUser(session, task, pa2.getUserRef());
-		}
-	}
-
+	
 	public static MUser findUserByJabberId(String jabberId) {
 		Criteria criteria = PDHibernateFactory.getSession().createCriteria(MUser.class);
 		criteria.add(Restrictions.eq("jabberId", jabberId));

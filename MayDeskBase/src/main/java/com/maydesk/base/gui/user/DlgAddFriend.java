@@ -165,7 +165,7 @@ public class DlgAddFriend extends PDOkCancelDialog {
 		private MUser user;
 		private VCard vCard;
 
-		public UserEntry(MUser user, VCard vCard) {
+		private UserEntry(MUser user, VCard vCard) {
 			this.user = user;
 			this.vCard = vCard;
 		}

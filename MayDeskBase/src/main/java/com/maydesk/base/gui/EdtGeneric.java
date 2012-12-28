@@ -24,7 +24,6 @@ import com.maydesk.base.sop.gui.StandardTerms;
 import com.maydesk.base.util.IChangeSupportable;
 import com.maydesk.base.util.ICrudWithBinding;
 import com.maydesk.base.util.PDBinding;
-import com.maydesk.base.util.ShowWithEmptyData;
 import com.maydesk.base.widgets.PDCombo;
 import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.base.widgets.PDIntegerSpinner;
@@ -33,7 +32,7 @@ import com.maydesk.base.widgets.PDTextField;
 /**
  * @author chrismay
  */
-public class EdtGeneric extends PDGrid implements ICrudWithBinding<MBase>, ShowWithEmptyData {
+public class EdtGeneric extends PDGrid implements ICrudWithBinding<MBase> {
 
 	protected PDBinding binding;
 	protected Class<? extends MBase> modelClass;

@@ -42,11 +42,6 @@ public class MDPluginRegistry {
 			try {
 				InputStream configStream = getClass().getClassLoader().getResourceAsStream("config.xml");
 				if (configStream == null) {
-					System.out.println("XXXXX try with system resource....");
-					configStream = getClass().getClassLoader().getSystemResourceAsStream("config.xml");					
-				}
-				System.out.println("XXXXX configStream: " + configStream);
-				if (configStream == null) {
 					//this is just for local development 
 					File file = new File("../..projects/CloudbeesDEV/src/resource/config.xml");
 					if (!file.exists()) {

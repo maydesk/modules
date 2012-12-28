@@ -96,7 +96,7 @@ public class GifEncoder {
 	 * Constructs a new GifEncoder using an 8-bit AWT Image. The image is
 	 * assumed to be fully loaded.
 	 */
-	public GifEncoder(Image img) {
+	GifEncoder(Image img) {
 		width = img.getWidth(null);
 		height = img.getHeight(null);
 		pixels = new byte[width * height];

@@ -30,7 +30,6 @@ import nextapp.echo.extras.app.TransitionPane;
 import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.aspects.Translatable;
 import com.maydesk.base.internal.PDFooterButton;
-import com.maydesk.base.model.MTask;
 import com.maydesk.base.sop.gui.StandardTerms;
 import com.maydesk.base.util.PDLookAndFeel;
 
@@ -47,16 +46,10 @@ public class PDWizard extends PDWindowPane {
 	protected List<IWizardPanel> panels = new Vector<IWizardPanel>();
 	protected int pageIndex = 0;
 	protected ContentPane container;
-	protected MTask originTask;
 	protected TransitionPane footerTransitionPane;
 	protected SplitPane footerSplit;
 
 	public PDWizard() {
-		this(null);
-	}
-
-	public PDWizard(MTask task) {
-		this.originTask = task;
 		initGUI();
 	}
 
