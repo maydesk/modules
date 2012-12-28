@@ -27,21 +27,27 @@ import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 import nextapp.echo.app.layout.SplitPaneLayoutData;
 import nextapp.echo.extras.app.MenuBarPane;
+import nextapp.echo.extras.app.menu.DefaultMenuModel;
+import nextapp.echo.extras.app.menu.DefaultOptionModel;
 import nextapp.echo.extras.app.menu.MenuModel;
 import nextapp.echo.webcontainer.ContainerContext;
 
+import com.maydesk.base.cmd.ICommand;
+import com.maydesk.base.config.IPlugTarget;
+import com.maydesk.base.config.MDPluginRegistry;
+import com.maydesk.base.config.XMLDesktopConfig;
+import com.maydesk.base.config.XmlDesktopItem;
+import com.maydesk.base.config.XmlMenu;
+import com.maydesk.base.config.XmlMenuItem;
 import com.maydesk.base.dao.DaoUser;
 import com.maydesk.base.internal.PnlLogin;
 import com.maydesk.base.model.MAvatar;
 import com.maydesk.base.model.MShortcut;
-import com.maydesk.base.model.MWire;
-import com.maydesk.base.util.ILookAndFeel;
 import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDAvatar;
 import com.maydesk.base.widgets.PDButton;
 import com.maydesk.base.widgets.PDLabel;
 import com.maydesk.base.widgets.PDShortcut;
-import com.maydesk.base.widgets.PDStatusLabel;
 
 import echopoint.ContainerEx;
 import echopoint.Strut;
@@ -73,15 +79,8 @@ public final class PDDesktop extends ContentPane {
 	private SplitPane splitFooterLeftRight;
 	private SplitPane splitFooterMain;
 	private MenuBarPane menuBar;
-	private PDMenuProvider menuProvider;
 	private PDButton btnReload;
-	private ILookAndFeel lookAndFeel;
-	private PDStatusLabel lblStatus;
 	private ContainerEx rowMenu;
-	private MWire desktopWire;
-	private MWire footerLeftWire;
-	private MWire footerRightWire;
-	private MWire topRightWire;
 	private SplitPane splitHeaderMain;
 	private PDLabel lblUser;
 
@@ -93,9 +92,7 @@ public final class PDDesktop extends ContentPane {
 		return rowMenu;
 	}
 
-	public PDDesktop(PDMenuProvider menuProvider, ILookAndFeel lookAndFeel) {
-		this.menuProvider = menuProvider;
-		this.lookAndFeel = lookAndFeel;
+	public PDDesktop() {
 		ContainerContext context = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
 		context.getSession().setAttribute(DESKTOP_INSTANCE, this);
 		PDUserSession.getInstance().addActionListener(new ActionListener() {
@@ -184,18 +181,7 @@ public final class PDDesktop extends ContentPane {
 			splitHeader.add(rowMenu);
 			rowMenu.add(new Strut(6, 0));
 
-			MenuModel menuModel = menuProvider.updateMenu();
-			if (menuModel != null) {
-				menuBar = new MenuBarPane();
-				menuBar.setAnimationTime(600);
-				menuBar.addActionListener(menuProvider);
-				menuBar.setModel(menuModel);
-				menuBar.setBackground(lookAndFeel.getBackgroundDark());
-				menuBar.setBorder(PDUtil.emptyBorder());
-				rowMenu.add(menuBar);
-			}
 
-			initBasePlugs();
 
 			userChanged();
 		} catch (Throwable e) {
@@ -203,21 +189,53 @@ public final class PDDesktop extends ContentPane {
 		}
 	}
 
-	private void initBasePlugs() {
-		List<MWire> wires = PDUtil.findWires(null);
-		for (MWire wire : wires) {
-			if ("desktop".equals(wire.getPlug().getName())) {
-				desktopWire = wire;
-			} else if ("footerLeft".equals(wire.getPlug().getName())) {
-				footerLeftWire = wire;
-			} else if ("footerRight".equals(wire.getPlug().getName())) {
-				footerRightWire = wire;
-			} else if ("topRight".equals(wire.getPlug().getName())) {
-				topRightWire = wire;
-			}
+	private void loadDesktopItems(XMLDesktopConfig configuration) {
+		for (XmlDesktopItem item : configuration.getDesktopEntries()) {
+			try {
+				Class clazz = Class.forName(item.getClassName());
+				IPlugTarget itemInstance = (IPlugTarget)clazz.newInstance();
+				itemInstance.initWire(item);
+				contentPane.add((Component)itemInstance);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}			
 		}
 	}
-
+	
+	private HashMap<String, XmlMenuItem> menuItems = new HashMap<>();
+	
+	private void loadMenu(XMLDesktopConfig configuration) {
+		MenuBarPane menuBarPane = new MenuBarPane();
+		menuBarPane.setForeground(Color.WHITE);
+		DefaultMenuModel menuBarModel = new DefaultMenuModel();
+		menuBarPane.setModel(menuBarModel);
+		rowMenu.add(menuBarPane);
+		
+		appendSubMenus(menuBarModel, configuration.getMenu().getMenuEntries());
+		menuBarPane.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				XmlMenuItem item = menuItems.get(ae.getActionCommand());
+				ICommand command = (ICommand)PDUtil.getSopletEntry(item.getCommandClass(), item.getCommandId());
+				command.doCommand();
+			}
+		});
+	}
+	
+	private void appendSubMenus(DefaultMenuModel parentMenuModel, List<XmlMenu> subMenuEntries) {
+		for (XmlMenu xmlMenu : subMenuEntries) {
+			DefaultMenuModel menu = new DefaultMenuModel("", xmlMenu.getTextEN());
+			parentMenuModel.addItem(menu);
+			appendSubMenus(menu, xmlMenu.getMenuEntries());
+			for (XmlMenuItem item : xmlMenu.getMenuItems()) {
+				String id = "Item_" + menuItems.size();
+				DefaultOptionModel optionModel = new DefaultOptionModel(id, item.getTextEN(), null);
+				menu.addItem(optionModel);
+				menuItems.put(id, item);
+			}
+		}		
+	}
+	
 	public void userChanged() {
 		contentPane.removeAll();
 
@@ -225,16 +243,20 @@ public final class PDDesktop extends ContentPane {
 			splitHeaderMain.setSeparatorPosition(new Extent(25));
 			splitFooterMain.setSeparatorPosition(new Extent(25));
 
-			PDBasePlugLoader.loadItems(contentPane, desktopWire);
-			PDBasePlugLoader.loadItems(rowFooterLeft, footerLeftWire);
-			PDBasePlugLoader.loadItems(rowFooterRight, footerRightWire);
-			PDBasePlugLoader.loadItems(rowTopRight, topRightWire);
-			// rowFooterRight.add(btnReload);
+			MDPluginRegistry registry = MDPluginRegistry.getInstance();
+			XMLDesktopConfig configuration = registry.getConfiguration();
+			loadDesktopItems(configuration);
+			loadMenu(configuration);
+			
+			//registry.loadItems(contentPane, SopBasePlugs.desktop.name());
+			//registry.loadItems(rowMenu, SopBasePlugs.menu.name());
+
+			//registry.loadItems(rowFooterLeft, "footerLeftWire");
+			//registry.loadItems(rowFooterRight, "footerRightWire");
+			//registry.loadItems(rowTopRight, "topRightWire");
 
 			loadShortcuts();
 			refreshTaskDisplay(false);
-			menuBar.setModel(menuProvider.updateMenu());
-			menuProvider.onInit();
 			lblUser.setText("Your are logged in as " + PDUserSession.getInstance().getUser().getJabberId());
 		} else {
 			// show initial screen

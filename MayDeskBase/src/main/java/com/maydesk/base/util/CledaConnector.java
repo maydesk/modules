@@ -65,7 +65,6 @@ public class CledaConnector {
 			Context ctx = new InitialContext();
 			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/maydesk_db");
 			props.put("hibernate.connection.datasource", ds);
-			//ds.setPoolProperties(getPoolProperties());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -101,7 +100,7 @@ public class CledaConnector {
 		URL url = null;
 		try {
 			String pack = '/' + pckgname.replace('.', '/');
-			url = getClass().getResource(pack);
+			url = getClass().getClassLoader().getResource(pack);
 			directory = new File(url.getFile());
 		} catch (NullPointerException x) {
 			throw new IllegalArgumentException(pckgname + " does not appear to be a valid package");
@@ -170,26 +169,4 @@ public class CledaConnector {
 		session.beginTransaction();
 		return session;
 	}
-
-	// public String executeDBScripts() {
-	//
-	// String sqlScriptFilePath = "busstop23_testbase.sql";
-	// Session session = createSession();
-	// try {
-	// Connection con = session.connection();
-	// con.setAutoCommit(false);
-	// ScriptRunner runner = new ScriptRunner(con, false, true);
-	// URL url = getClass().getClassLoader().getResource(sqlScriptFilePath);
-	//
-	// FileInputStream fis = new FileInputStream(url.getFile());
-	// InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
-	//
-	// runner.runScript(isr);
-	// //con.getc
-	// } catch (Exception e) {
-	// System.err.println("Failed to Execute " + sqlScriptFilePath + ". The error is: " + e.getMessage());
-	// return e.getMessage();
-	// }
-	// return null;
-	// }
 }

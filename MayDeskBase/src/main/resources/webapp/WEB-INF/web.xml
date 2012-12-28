@@ -1,0 +1,26 @@
+<!DOCTYPE web-app 
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<display-name>Maydesk</display-name>
+
+	<resource-ref>
+		<res-ref-name>jdbc/maydesk_db</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+    <servlet>
+      <servlet-name>MDServlet</servlet-name>
+      <servlet-class>com.maydesk.base.MDServlet</servlet-class>
+    </servlet>
+    
+	<servlet-mapping>
+      <servlet-name>MDServlet</servlet-name>
+      <url-pattern>/</url-pattern>
+    </servlet-mapping>
+	
+	
+</web-app>

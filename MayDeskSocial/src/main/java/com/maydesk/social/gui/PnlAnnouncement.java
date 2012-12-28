@@ -32,11 +32,11 @@ import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.PDUserSession;
+import com.maydesk.base.config.IPlugTarget;
+import com.maydesk.base.config.XmlBaseEntry;
 import com.maydesk.base.model.MShortcut;
 import com.maydesk.base.model.MUser;
-import com.maydesk.base.model.MWire;
 import com.maydesk.base.util.IMessageListener;
-import com.maydesk.base.util.IPlugTarget;
 import com.maydesk.base.widgets.PDLabel;
 import com.maydesk.social.dao.DaoSocial;
 import com.maydesk.social.model.MAnnouncement;
@@ -129,7 +129,7 @@ public class PnlAnnouncement extends ContainerEx implements IPlugTarget {
 	}
 
 	@Override
-	public void initWire(MWire parentWire) {
+	public void initWire(XmlBaseEntry parentWire) {
 		PDApplicationInstance.getActivePD().addListener(new IMessageListener() {
 			@Override
 			public void doPoll(Session session) {

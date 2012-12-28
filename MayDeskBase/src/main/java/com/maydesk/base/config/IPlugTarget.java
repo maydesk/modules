@@ -7,30 +7,14 @@
  * for the specific language governing rights and limitations under the
  * License.*/
 
-package com.maydesk.base.util;
+package com.maydesk.base.config;
 
-import nextapp.echo.app.Color;
 
 /**
  * @author chrismay
  */
-public interface ILookAndFeel {
+public interface IPlugTarget {
 
-	public Color getHighlight();
+	public void initWire(XmlBaseEntry parentWire);
 
-	public Color getBackgroundDark();
-
-	public Color getBackgroundClear();
-
-	public Color getBackgroundDark2();
-
-	public IImage getFooterFillImage();
-
-	public String getLogo();
-
-	public IImage getProfideskIcon();
-
-	public Color getForeground();
-
-	public String getApplicationName();
 }

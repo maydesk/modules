@@ -13,21 +13,14 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletContext;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Border;
@@ -40,17 +33,12 @@ import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.webcontainer.command.BrowserOpenWindowCommand;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import com.maydesk.base.DownloadServlet;
-import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.DownloadServlet.Document;
 import com.maydesk.base.PDHibernateFactory;
-import com.maydesk.base.model.MWire;
-import com.maydesk.base.sop.SopWire;
 
 /**
  * @author Alejandro Salas
@@ -64,21 +52,8 @@ public class PDUtil {
 	public static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
 
 	private static final char[] arrayChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-	private static Properties props;
 	private static final int LOGIN_CHARS_COUNT = 9;
-	private static Properties overrideProps;
-	private static long lastOverrideLoadTime = 0;
 
-	public static void main(String[] args) {
-		for (int i = 1; i < 50; i++) {
-			String s = createLogin(6);
-			System.out.println("A-" + s);
-		}
-		for (int i = 1; i < 50; i++) {
-			String s = createLogin(6);
-			System.out.println("B-" + s);
-		}
-	}
 
 	public static Object[] addEmpty(Object[] src) {
 		Object[] values = new Object[src.length + 1];
@@ -178,41 +153,6 @@ public class PDUtil {
 
 		return ret;
 	}
-
-	// public static XhtmlFragment getXHTML(String text) {
-	//
-	// boolean isIE = ((PDAppInstance) ApplicationInstance.getActive()).isIE();
-	//
-	// String xhtml = null;
-	// if (isIE) {
-	// text = text.replaceAll("<big>", "<font size=\"4\">");
-	// text = text.replaceAll("</big>", "</font>");
-	// xhtml = "<p align=\"justify\">" + text + "</p>";
-	// } else {
-	// text = text.replaceAll("<a href", "<xhtml:a href");
-	// text = text.replaceAll("</a>", "</xhtml:a>");
-	// text = text.replaceAll("<i>", "<xhtml:i>");
-	// text = text.replaceAll("</i>", "</xhtml:i>");
-	// text = text.replaceAll("<tt>", "<xhtml:tt>");
-	// text = text.replaceAll("</tt>", "</xhtml:tt>");
-	// text = text.replaceAll("<pre>", "<xhtml:pre>");
-	// text = text.replaceAll("</pre>", "</xhtml:pre>");
-	// text = text.replaceAll("<b>", "<xhtml:b>");
-	// text = text.replaceAll("</b>", "</xhtml:b>");
-	// text = text.replaceAll("<hr/>", "<xhtml:hr/>");
-	// text = text.replaceAll("<br/>", "<xhtml:br/>");
-	// text = text.replaceAll("<p ", "<xhtml:p ");
-	// text = text.replaceAll("</p>", "</xhtml:p>");
-	// text = text.replaceAll("<p/>", "<xhtml:p/>");
-	// text = text.replaceAll("<big>", "<xhtml:font size=\"4\">");
-	// text = text.replaceAll("</big>", "</xhtml:font>");
-	// xhtml = "<span xmlns:xhtml=\"http://www.w3.org/1999/xhtml\"> <xhtml:p
-	// style=\"text-align: justify\">";
-	// xhtml += text;
-	// xhtml += "</xhtml:p> </span>";
-	// }
-	// return new XhtmlFragment(xhtml);
-	// }
 
 	public static boolean isBefore(Date date1, Date date2) {
 		Calendar cal1 = Calendar.getInstance();
@@ -401,62 +341,21 @@ public class PDUtil {
 		return new Font(Font.COURIER, Font.PLAIN, new Extent(11));
 	}
 
-//	public static String getOverride(Enum soplet, String attribute) {
-//		FileInputStream fis = null;
-//		try {
-//			String key = soplet.getClass().getCanonicalName() + "." + soplet.name() + "." + attribute;
-//			if (overrideProps == null || System.currentTimeMillis() - lastOverrideLoadTime > 1000) {
-//				lastOverrideLoadTime = System.currentTimeMillis();
-//				overrideProps = new Properties();
-//				String filePath = getProperty("sop.overrides");
-//				if (filePath != null) {
-//					File propertiesFile = new File(filePath);
-//					if (propertiesFile.exists()) {
-//						fis = new FileInputStream(propertiesFile);
-//						overrideProps.load(fis);
-//					}
-//				}
-//			}
-//			return overrideProps.getProperty(key);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		} finally {
-//			if (fis != null) {
-//				try {
-//					fis.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
-//
-//	public static Integer getOverrideInt(Enum soplet, String attribute) {
-//		String value = getOverride(soplet, attribute);
-//		if (value == null)
-//			return null;
-//		try {
-//			return Integer.parseInt(value);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-
-
-	public static List<MWire> findWires(MWire parentWire) {
-		Criteria c = PDHibernateFactory.getSession().createCriteria(MWire.class);
-		if (parentWire == null) {
-			c.add(Restrictions.isNull(SopWire.parentWire.name()));
-		} else {
-			c.add(Restrictions.eq(SopWire.parentWire.name(), parentWire));
-		}
-		List<MWire> list = c.list();
-		return list;
-	}
-
 	public static ImageReference getImg(String img) {
 		return new ResourceImageReference(img);
+	}
+	
+	public static Object getSopletEntry(String sopletClassName, String sopletName) {
+		try {
+			Class enumClass = Class.forName(sopletClassName);
+			for (Object enumConstant : enumClass.getEnumConstants()) {
+				if (((Enum)enumConstant).name().equals(sopletName)) {
+					return enumConstant;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;		
 	}
 }

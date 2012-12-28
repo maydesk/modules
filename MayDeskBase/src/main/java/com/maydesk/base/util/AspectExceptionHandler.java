@@ -18,11 +18,11 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.hibernate.Session;
 
+import com.maydesk.base.MDServlet;
 import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.PDHibernateMasterFactory;
-import com.maydesk.base.PDServlet;
 import com.maydesk.base.PDUserSession;
 import com.maydesk.base.gui.PDMessageBox;
 
@@ -82,7 +82,7 @@ public class AspectExceptionHandler {
 
 				// rollback hibernate transaction
 				ContainerContext context = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-				PDHibernateMasterFactory factory = (PDHibernateMasterFactory) context.getSession().getAttribute(PDServlet.HIBERNATE_FACTORY);
+				PDHibernateMasterFactory factory = (PDHibernateMasterFactory) context.getSession().getAttribute(MDServlet.HIBERNATE_FACTORY);
 				if (factory.hasOpenSession()) {
 					Session session = PDHibernateFactory.getSession();
 					session.getTransaction().rollback();

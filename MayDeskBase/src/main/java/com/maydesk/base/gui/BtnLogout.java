@@ -7,33 +7,34 @@
  * for the specific language governing rights and limitations under the
  * License.*/
 
-package com.maydesk.base.widgets;
+package com.maydesk.base.gui;
 
-import nextapp.echo.app.Extent;
-import nextapp.echo.app.Label;
+import nextapp.echo.app.Insets;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 
+import com.maydesk.base.PDUserSession;
 import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
-import com.maydesk.base.config.XmlDesktopItem;
-import com.maydesk.base.sop.enums.EImage16;
-
-import echopoint.ContainerEx;
+import com.maydesk.base.widgets.PDButton;
 
 /**
  * @author chrismay
  */
-public class PDRecycleBin extends ContainerEx implements IPlugTarget {
+public class BtnLogout extends PDButton implements IPlugTarget {
+
+	public BtnLogout() {
+		super("Logout", PDButton.STYLE.TRANSPARENT);
+		setInsets(new Insets(10, 3, 3, 0));
+		addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PDUserSession.getInstance().doLogout();
+			}
+		});
+	}
 
 	@Override
-	public void initWire(XmlBaseEntry baseEntry) {
-		XmlDesktopItem di = (XmlDesktopItem)baseEntry;
-		setTop(new Extent(di.getTop()));
-		setLeft(new Extent(di.getLeft()));
-		setWidth(new Extent(25));
-		setHeight(new Extent(25));
-
-		Label lblRecycleBin = new Label(EImage16.recycle_bin.getImage());
-		add(lblRecycleBin);
-
+	public void initWire(XmlBaseEntry parentWire) {
 	}
 }

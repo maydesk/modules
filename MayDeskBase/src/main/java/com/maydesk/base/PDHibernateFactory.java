@@ -33,11 +33,11 @@ public abstract class PDHibernateFactory {
 
 	public static Session getSession() {
 		ApplicationInstance instance = ApplicationInstance.getActive();
-		PDHibernateMasterFactory factory = (PDHibernateMasterFactory) instance.getContextProperty(PDServlet.HIBERNATE_FACTORY);
+		PDHibernateMasterFactory factory = (PDHibernateMasterFactory) instance.getContextProperty(MDServlet.HIBERNATE_FACTORY);
 		if (factory == null) {
 			// might be the case for Home server
 			ContainerContext context = (ContainerContext) instance.getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-			factory = (PDHibernateMasterFactory) context.getSession().getAttribute(PDServlet.HIBERNATE_FACTORY);
+			factory = (PDHibernateMasterFactory) context.getSession().getAttribute(MDServlet.HIBERNATE_FACTORY);
 		}
 		return factory.getSession();
 	}

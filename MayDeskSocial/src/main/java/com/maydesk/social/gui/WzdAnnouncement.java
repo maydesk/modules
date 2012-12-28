@@ -17,12 +17,12 @@ import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.TextField;
 
 import com.maydesk.base.PDUserSession;
+import com.maydesk.base.config.IPlugTarget;
+import com.maydesk.base.config.XmlBaseEntry;
 import com.maydesk.base.gui.PDWizard;
 import com.maydesk.base.gui.PDWizardPanel;
-import com.maydesk.base.model.MWire;
 import com.maydesk.base.sop.gui.PDBeanTerms;
 import com.maydesk.base.sop.gui.StandardTerms;
-import com.maydesk.base.util.IPlugTarget;
 import com.maydesk.base.widgets.PDGrid;
 import com.maydesk.social.dao.DaoSocial;
 import com.maydesk.social.model.MAnnouncement;
@@ -123,7 +123,7 @@ public class WzdAnnouncement extends PDWizard implements IPlugTarget {
 	}
 
 	@Override
-	public void initWire(MWire parentWire) {
+	public void initWire(XmlBaseEntry parentWire) {
 		// setTitle(parentWire.getCaption());
 	}
 }

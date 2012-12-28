@@ -187,9 +187,8 @@ public class PDUserSession implements Serializable {
 					@Override
 					public void run() {
 						ActionEvent evt = new ActionEvent(presence, "");
-						loginPresenceListener.actionPerformed(evt);
-						// We remove it on the first call, it's just a one time
-						// thing
+						if (loginPresenceListener != null) loginPresenceListener.actionPerformed(evt);
+						// We remove it on the first call, it's just a one time thing
 						appInstance.removeTaskQueue(handle);
 					}
 				};

@@ -28,6 +28,8 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 
 	protected Window window;
 	protected String environment; 
+	protected String project;
+	
 	
 	public void reset() {
 		window.setContent(getDesktop());
@@ -82,5 +84,9 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 
 	public String getEnvironment() {
 		return environment;
+	}
+	
+	public String getProject() {
+		return project;
 	}
 }

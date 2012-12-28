@@ -21,9 +21,9 @@ import org.jivesoftware.smack.packet.Presence;
 
 import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.PDUserSession;
-import com.maydesk.base.model.MWire;
+import com.maydesk.base.config.IPlugTarget;
+import com.maydesk.base.config.XmlBaseEntry;
 import com.maydesk.base.model.StatusMode;
-import com.maydesk.base.util.IPlugTarget;
 import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDButton;
 import com.maydesk.base.widgets.PDCombo;
@@ -107,7 +107,7 @@ public class PnlUserStatus extends Row implements IPlugTarget, ActionListener {
 	}
 
 	@Override
-	public void initWire(MWire parentWire) {
+	public void initWire(XmlBaseEntry parentWire) {
 		// XXX: Ugly! To update status at login time
 		PDUserSession.getInstance().setLoginPresenceListener(this);
 	}
