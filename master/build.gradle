@@ -1,12 +1,16 @@
 subprojects  {
 	apply plugin: 'java'
 	apply plugin: 'maven'
-	apply plugin: 'war'
+	apply plugin: 'signing'
 	
-	sourceCompatibility = 1.6
-	version = '1.0'
+	group = 'org.maydesk'
+	version = '0.1.0-SNAPSHOT'
+	ext.packaging = 'jar'
+	sourceCompatibility = 1.7
+	
 	def srcJava = 'src/main/java'
 	def srcDelomboked = 'build/src-delomboked'
+	def sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
 	
 	configurations { 
 		replacer
@@ -23,7 +27,7 @@ subprojects  {
 	
 	dependencies {
 	    ajc "org.aspectj:aspectjtools:1.+"
-	    providedCompile "org.projectlombok:lombok:0.11.+"
+	    compile "org.projectlombok:lombok:0.11.+"
 		compile files('lib/lombok_soplet.jar')
 	}
 
@@ -69,5 +73,51 @@ subprojects  {
 					srcdir:file(srcDelomboked),
 					classpath:configurations.compile.asPath)
 		}
+	}
+	
+	artifacts {
+ 	   archives jar
+ 	}
+ 	
+ 	uploadArchives {
+	    repositories {
+            mavenDeployer {
+				repository(url: sonatypeRepositoryUrl) {
+                	authentication(userName: sonatypeUsername, password: sonatypePassword)
+                }
+    
+                pom.project {
+                   name projectName
+                   packaging 'jar'
+                   description projectDescription
+                   url 'https://github.com/maydesk'
+    
+                   scm {
+                       url 'https://github.com/maydesk/maydesk.git'
+                       connection 'https://github.com/maydesk/maydesk.git'
+                       developerConnection 'https://github.com/maydesk/maydesk.git'
+                   }
+    
+                   licenses {
+                       license {
+                           name 'Mozilla Public License, v. 2.0'
+                           url 'http://mozilla.org/MPL/2.0/'
+                           distribution 'repo'
+                       }
+                   }
+    
+                   developers {
+                       developer {
+                           id 'chrismay2'
+                           name 'Christof May'
+                       }
+                       developer {
+                           id 'kriegerd'
+                           name 'Alejandro Salas'
+                       }
+                   }
+               }
+            }
+        }
 	}
 }

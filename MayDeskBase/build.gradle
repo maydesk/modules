@@ -12,6 +12,6 @@ dependencies {
 	compile 'org.igniterealtime.smack:smackx:3.2.1'	
 	runtime 'mysql:mysql-connector-java:5.1.19'		
 		
-	providedCompile 'javax.mail:mail:1.4.5'
-	providedCompile 'javax.servlet:servlet-api:2.5'
+	compile 'javax.mail:mail:1.4.5'
+	compile 'javax.servlet:servlet-api:2.5'
 }
