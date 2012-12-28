@@ -101,9 +101,7 @@ public class CledaConnector {
 		URL url = null;
 		try {
 			String pack = pckgname.replace('.', '/');
-			System.out.println("XXXXXXXXXXXXXXXXX pack: " + pack);
 			url = MAvatar.class.getClassLoader().getResource(pack);
-			System.out.println("XXXXXXXXXXXXXXXXX url: " + url);
 			directory = new File(url.getFile());
 		} catch (NullPointerException x) {
 			x.printStackTrace();
