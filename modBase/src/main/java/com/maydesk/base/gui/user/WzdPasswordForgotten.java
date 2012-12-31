@@ -94,7 +94,7 @@ public class WzdPasswordForgotten extends PDWizard {
 
 			try {
 				// String project = PDDesktop.getInstance().getLookAndFeel().getApplicationName();
-				mailBean.sendMail(emailAdresss, nls(PDBeanTerms.Password_recovery, "CloudDesk"), message.toString(), null);
+				mailBean.sendMail(emailAdresss, nls(PDBeanTerms.Password_recovery, "MayDesk"), message.toString(), null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

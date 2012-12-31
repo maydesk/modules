@@ -65,7 +65,7 @@ public class WzdNewUser extends PDWizard {
 	}
 
 	public WzdNewUser(MUser user) {
-		this(user, "Follow the next steps in order to register to Jabber and CloudDesk in one single operation", "Congratulations, you have succesfully registered to CloudDesk!");
+		this(user, "Follow the next steps in order to register to Jabber and MayDesk in one single operation", "Congratulations, you have succesfully registered to MayDesk!");
 	}
 
 	public WzdNewUser(MUser user, String textWelcome, String textFinished) {

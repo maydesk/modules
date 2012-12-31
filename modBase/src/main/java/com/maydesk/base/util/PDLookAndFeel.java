@@ -66,6 +66,6 @@ public abstract class PDLookAndFeel implements ILookAndFeel {
 	}
 
 	public String getBackgroundImage() {
-		return "img/CloudDeskBackground.jpg";
+		return "img/MayDeskBackground.jpg";
 	}
 }

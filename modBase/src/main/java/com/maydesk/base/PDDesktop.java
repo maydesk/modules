@@ -106,7 +106,7 @@ public final class PDDesktop extends ContentPane {
 
 	public void initDesktop() {
 
-		String img = "img/CloudDeskBackground.jpg";
+		String img = "img/MayDeskBackground.jpg";
 		setBackgroundImage(new FillImage(new ResourceImageReference(img)));
 
 		try {
@@ -262,7 +262,7 @@ public final class PDDesktop extends ContentPane {
 			splitFooterMain.setSeparatorPosition(new Extent(0));
 		}
 
-		Label lbl = new Label(new ResourceImageReference("img/CloudDeskLogo.png"));
+		Label lbl = new Label(new ResourceImageReference("img/MayDeskLogo.png"));
 		ContainerEx c2 = new ContainerEx();
 		c2.setBottom(new Extent(30));
 		c2.setRight(new Extent(50));

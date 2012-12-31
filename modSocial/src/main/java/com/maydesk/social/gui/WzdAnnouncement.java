@@ -99,7 +99,7 @@ public class WzdAnnouncement extends PDWizard implements IPlugTarget {
 			pnl.setTop(new Extent(32));
 			pnl.setWidth(new Extent(350));
 			pnl.setHeight(new Extent(170));
-			pnl.setBackgroundImage(new FillImage(new ResourceImageReference("img/CloudDeskBackground2.jpg")));
+			pnl.setBackgroundImage(new FillImage(new ResourceImageReference("img/MayDeskBackground2.jpg")));
 			pnl.setInsets(new Insets(6));
 			add(pnl);
 		}

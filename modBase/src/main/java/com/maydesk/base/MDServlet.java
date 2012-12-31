@@ -99,7 +99,7 @@ public class MDServlet extends WebContainerServlet {
 
 			@Override
 			protected String getTitle() {
-				return "CloudDesk";
+				return "MayDesk";
 			}
 		};
 	}

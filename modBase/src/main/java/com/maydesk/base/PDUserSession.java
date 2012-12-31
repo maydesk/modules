@@ -104,7 +104,7 @@ public class PDUserSession implements Serializable {
 
 		// Log into the server
 		try {
-			connection.login(login, password, "CloudDesk");
+			connection.login(login, password, "MayDesk");
 		} catch (XMPPException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException("Invalid password!");
@@ -442,7 +442,7 @@ public class PDUserSession implements Serializable {
 
 		try {
 			String jabberId = username + "@" + server;
-			connection.login(jabberId, password, "CloudDesk");
+			connection.login(jabberId, password, "MayDesk");
 			vcard.setJabberId(jabberId);
 			vcard.save(connection);
 			connection.disconnect();

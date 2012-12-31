@@ -120,7 +120,7 @@ public class PnlLogin extends ContainerEx  implements IPlugTarget  {
 		grid.addFill(tnpDummy);
 		// grid.addFill(new Label());
 
-		grid.addLabel("New to CloudDesk?");
+		grid.addLabel("New to MayDesk?");
 		PDButton btnRegister = new PDButton("REGISTER NOW!", PDButton.STYLE.TRANSPARENT);
 		btnRegister.addActionListener(new ActionListener() {
 			@Override
