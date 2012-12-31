@@ -24,6 +24,9 @@ import nextapp.echo.extras.app.ContextMenu;
 
 import com.maydesk.base.PDDesktop;
 import com.maydesk.base.PDUserSession;
+import com.maydesk.base.config.IPlugTarget;
+import com.maydesk.base.config.XmlBaseEntry;
+import com.maydesk.base.config.XmlDesktopItem;
 import com.maydesk.base.gui.user.WzdNewUser;
 import com.maydesk.base.gui.user.WzdPasswordForgotten;
 import com.maydesk.base.sop.gui.PDBeanTerms;
@@ -43,7 +46,7 @@ import echopoint.able.Positionable;
 /**
  * @author mail@chrismay.de
  */
-public class PnlLogin extends ContainerEx {
+public class PnlLogin extends ContainerEx  implements IPlugTarget  {
 
 	private TextField txtLogin;
 	private PasswordField txtPassword;
@@ -162,7 +165,12 @@ public class PnlLogin extends ContainerEx {
 		}
 	}
 
-	public void initialize() {
+	@Override
+	public void initWire(XmlBaseEntry baseEntry) {
+		XmlDesktopItem di = (XmlDesktopItem)baseEntry;
+		setBottom(new Extent(di.getBottom()));
+		setLeft(new Extent(di.getLeft()));
+		
 		String cookie = PDUserSession.getInstance().getCookie(PDUserSession.LOGIN_COOKIE_NAME);
 		if (PDUtil.isEmpty(cookie)) {
 			ApplicationInstance.getActive().setFocusedComponent(txtLogin);

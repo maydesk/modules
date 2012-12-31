@@ -12,24 +12,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class XMLDesktopConfig {
 	
 	private List<XmlDesktopItem> desktopEntries = new ArrayList<XmlDesktopItem>();
+	private List<XmlDesktopItem> footerItemsLeft = new ArrayList<XmlDesktopItem>();
 	private XmlMenu menu;
-	
-	public XmlMenu getMenu() {
-		return menu;
-	}
 
-	public void setMenu(XmlMenu menu) {
-		this.menu = menu;
-	}
-
-	@XmlElementWrapper(name = "desktopitems")
+	@XmlElementWrapper(name = "desktopItems")
 	@XmlElement(name = "item")
 	public List<XmlDesktopItem> getDesktopEntries() {
 		return desktopEntries;
 	}
 
+	@XmlElementWrapper(name = "footerItemsLeft")
+	@XmlElement(name = "item")
+	public List<XmlDesktopItem> getFooterItemsLeft() {
+		return footerItemsLeft;
+	}
+	
+	public XmlMenu getMenu() {
+		return menu;
+	}
+
 	public void setDesktopEntries(List<XmlDesktopItem> desktopEntries) {
 		this.desktopEntries = desktopEntries;
+	}
+
+	public void setFooterItemsLeft(List<XmlDesktopItem> footerItemsLeft) {
+		this.footerItemsLeft = footerItemsLeft;
+	}
+
+	public void setMenu(XmlMenu menu) {
+		this.menu = menu;
 	}
 
 

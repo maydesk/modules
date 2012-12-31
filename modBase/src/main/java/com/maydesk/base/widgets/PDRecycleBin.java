@@ -31,9 +31,7 @@ public class PDRecycleBin extends ContainerEx implements IPlugTarget {
 		setLeft(new Extent(di.getLeft()));
 		setWidth(new Extent(25));
 		setHeight(new Extent(25));
-
 		Label lblRecycleBin = new Label(EImage16.recycle_bin.getImage());
 		add(lblRecycleBin);
-
 	}
 }

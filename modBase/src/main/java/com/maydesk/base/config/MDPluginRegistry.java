@@ -11,12 +11,13 @@ package com.maydesk.base.config;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+
+import com.maydesk.base.PDUserSession;
 
 /**
  * @author chrismay
@@ -38,13 +39,14 @@ public class MDPluginRegistry {
 	}
 	
 	public XMLDesktopConfig getConfiguration() {
-		if (configuration == null) {
+		//if (configuration == null) {
 			try {
+				String configName = PDUserSession.getInstance().isLoggedIn() ? "loggedIn.xml" : "guest.xml";
 				//when deployed then look inside the war (at WEB-INF/classes)
-				InputStream configStream = getClass().getClassLoader().getResourceAsStream("config.xml");
+				InputStream configStream = getClass().getClassLoader().getResourceAsStream(configName);
 				if (configStream == null) {
 					//this is just for local development with Eclipse/Jetty! 
-					File file = new File("src/main/resources/config.xml");
+					File file = new File("src/main/resources/" + configName);
 					if (!file.exists()) {
 						throw new IllegalArgumentException("File " + file.getAbsolutePath() + " not found!");
 					}
@@ -56,7 +58,7 @@ public class MDPluginRegistry {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		//}
 		return configuration;
 	}
 	
