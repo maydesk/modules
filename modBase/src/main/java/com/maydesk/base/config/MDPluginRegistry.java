@@ -43,8 +43,8 @@ public class MDPluginRegistry {
 				//when deployed then look inside the war (at WEB-INF/classes)
 				InputStream configStream = getClass().getClassLoader().getResourceAsStream("config.xml");
 				if (configStream == null) {
-					//this is just for local development 
-					File file = new File("../..projects/CloudbeesDEV/src/resource/config.xml");
+					//this is just for local development with Eclipse/Jetty! 
+					File file = new File("src/main/resources/config.xml");
 					if (!file.exists()) {
 						throw new IllegalArgumentException("File " + file.getAbsolutePath() + " not found!");
 					}
