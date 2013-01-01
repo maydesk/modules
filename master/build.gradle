@@ -86,11 +86,12 @@ subprojects  {
  	
  	uploadArchives {
  		deployer = mavenDeployer {
-		configureAuth = {
-        	authentication(userName: cloudbeesUsername)
+			configureAuth = {
+    	    	authentication(userName: cloudbeesUsername)
+        	}
+        	configuration = configurations.deployerJars
+        	snapshotRepository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/", configureAuth)
+        	repository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/", configureAuth)
         }
-        configuration = configurations.deployerJars
-        snapshotRepository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/", configureAuth)
-        repository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/", configureAuth)
     }
 }
