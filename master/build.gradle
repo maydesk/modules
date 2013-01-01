@@ -10,9 +10,10 @@ subprojects  {
 	
 	def srcJava = 'src/main/java'
 	def srcDelomboked = 'build/src-delomboked'
-	def sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+ 	def cloudbeesAccountName = 'maydesk'
+ 	def cloudbeesUsername = 'chrismay2'
 	
-	defaultTasks 'install'
+	defaultTasks 'uploadArchives'
 	
 	configurations { 
 		replacer
@@ -31,6 +32,8 @@ subprojects  {
 	    ajc "org.aspectj:aspectjtools:1.+"
 	    compile "org.projectlombok:lombok:0.11.+"
 		compile files('lib/lombok_soplet.jar')
+	   	// to use WebDav protocol on upload
+   		deployerJars "org.apache.maven.wagon:wagon-webdav-jackrabbit:1.0-beta-6"
 	}
 
 	task delombok {
@@ -82,44 +85,12 @@ subprojects  {
  	}
  	
  	uploadArchives {
-	    repositories {
-            mavenDeployer {
-				repository(url: sonatypeRepositoryUrl) {
-                	authentication(userName: sonatypeUsername, password: sonatypePassword)
-                }
-    
-                pom.project {
-                   name projectName
-                   packaging 'jar'
-                   description projectDescription
-                   url 'https://github.com/maydesk'
-    
-                   scm {
-                       url 'https://github.com/maydesk/maydesk.git'
-                       connection 'https://github.com/maydesk/maydesk.git'
-                       developerConnection 'https://github.com/maydesk/maydesk.git'
-                   }
-    
-                   licenses {
-                       license {
-                           name 'Mozilla Public License, v. 2.0'
-                           url 'http://mozilla.org/MPL/2.0/'
-                           distribution 'repo'
-                       }
-                   }
-    
-                   developers {
-                       developer {
-                           id 'chrismay2'
-                           name 'Christof May'
-                       }
-                       developer {
-                           id 'kriegerd'
-                           name 'Alejandro Salas'
-                       }
-                   }
-               }
-            }
+ 		deployer = mavenDeployer {
+		configureAuth = {
+        	authentication(userName: cloudbeesUsername)
         }
-	}
+        configuration = configurations.deployerJars
+        snapshotRepository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/", configureAuth)
+        repository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/", configureAuth)
+    }
 }
