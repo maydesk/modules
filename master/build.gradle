@@ -20,6 +20,7 @@ subprojects  {
 		ajc
 		aspects
 		ajInpath
+		deployerJars
 	}
 	
 	repositories {
@@ -85,7 +86,7 @@ subprojects  {
  	}
  	
  	uploadArchives {
- 		deployer = mavenDeployer {
+ 		repositories.mavenDeployer {
 			configureAuth = {
     	    	authentication(userName: cloudbeesUsername)
         	}
