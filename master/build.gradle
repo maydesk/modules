@@ -35,7 +35,8 @@ subprojects  {
 	    compile "org.projectlombok:lombok:0.11.+"
 		compile files('lib/lombok_soplet.jar')
 	   	// to use WebDav protocol on upload
-   		deployerJars "org.apache.maven.wagon:wagon-webdav-jackrabbit:2.2"
+   		 deployerJars 'org.apache.maven.wagon:wagon-webdav:1.0-beta-2',
+                 'org.apache.maven:maven-ant-tasks:2.1.0' 
 	}
 
 	task delombok {
@@ -89,12 +90,13 @@ subprojects  {
  	uploadArchives {
 		repositories {
 			mavenDeployer {
-				configureAuth = {
-					authentication(userName: cloudbeesUsername, password: cloudbeesPassword)
-				}
-	        	configuration = configurations.deployerJars
-    	    	snapshotRepository(url: "webdav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/", configureAuth)
-        		repository(url: "webdav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/", configureAuth)
+				configuration = configurations.deployerJars
+    	    	snapshotRepository(url:"dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/") {
+    	    		authentication(userName: cloudbeesUsername)
+    	    	}
+        		repository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/") {
+    	    		authentication(userName: cloudbeesUsername)
+    	    	}
       		}
    		}
 	}
