@@ -17,34 +17,46 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 
 import com.maydesk.base.PDHibernateFactory;
-import com.maydesk.base.config.IPlugTarget;
-import com.maydesk.base.config.XmlBaseEntry;
+import com.maydesk.base.config.MDPluginRegistry;
+import com.maydesk.base.config.XmlExtension;
+import com.maydesk.base.config.XmlExtensionTab;
 import com.maydesk.base.gui.PDMasterDataView;
 import com.maydesk.base.internal.PDTitleBar;
 import com.maydesk.base.model.MUser;
 import com.maydesk.base.sop.enums.EImage16;
 import com.maydesk.base.table.PDPageableFactory;
 import com.maydesk.base.util.HeaderValue;
+import com.maydesk.base.util.ICrud;
 
 /**
  * @author chrismay
  */
-public class FrmUsers extends PDMasterDataView<MUser> implements IPlugTarget {
+public class FrmUsers extends PDMasterDataView<MUser> {
 
 	public FrmUsers() {
 		super(true, PDMasterDataView.DISPLAY_MODE.SIDE_SCROLL, MUser.class);
 		setWidth(new Extent(700));
 		setHeight(new Extent(450));
-		addToolButton("Neuer User", EImage16.add, true, "").addActionListener(new ActionListener() {
+		addToolButton("New User", EImage16.add, true, "").addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				btnNewUserClicked();
 			}
 		});
+		
+		XmlExtension extension = MDPluginRegistry.getInstance().findExtension(getClass());
+		for (XmlExtensionTab tab : extension.getTabs()) {
+			try {
+				Class clazz = Class.forName(tab.getClassName());
+				ICrud<?> tabComponent = (ICrud<?>)clazz.newInstance();
+				addEditor(tab.getTitle(), tabComponent);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		//addEditor("User", new PnlUserForWizard());
+		//addEditor("Image", new PnlUserMoods());
 
-		addEditor("User", new PnlUserForWizard());
-		addEditor("Image", new PnlUserMoods());
-//XXX		addEditor("Roles", new PnlUserRoles(MDUserRoleFactory.class));
 	}
 
 	protected void assignBaseModel(Object baseModel) {
@@ -82,9 +94,5 @@ public class FrmUsers extends PDMasterDataView<MUser> implements IPlugTarget {
 				return new MyTitleBar(headerValues);
 			}
 		};
-	}
-
-	@Override
-	public void initWire(XmlBaseEntry parentWire) {
 	}
 }

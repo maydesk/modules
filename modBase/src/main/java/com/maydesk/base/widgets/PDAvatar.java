@@ -97,7 +97,7 @@ public class PDAvatar extends PDDesktopItem {
 				// sent to recycle bin
 				// Testing just in case it's not a menued comp.
 				Component comp = getParent() instanceof PDContextMenu ? getParent() : this;
-				PDDesktop.getInstance().getContentPane().remove(comp);
+				PDDesktop.getInstance().removeItem(comp);
 
 				if (avatar.getId() > 0) {
 					PDHibernateFactory.getSession().delete(avatar);

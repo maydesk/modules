@@ -156,7 +156,7 @@ public class DlgAddFriend extends PDOkCancelDialog {
 		avatar.setPerson(entry.user);
 		avatar.setOwner(PDUserSession.getInstance().getUser());
 		PDHibernateFactory.getSession().save(avatar);
-		PDDesktop.getInstance().addPerson(avatar);
+		PDDesktop.getInstance().addAvatar(avatar);
 
 		return true;
 	}

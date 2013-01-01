@@ -65,34 +65,24 @@ public final class PDDesktop extends ContentPane {
 
 	public static PDDesktop getInstance() {
 		ContainerContext context = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-		if (context == null)
-			return null;
+		if (context == null) return null;
 		PDDesktop desktop = (PDDesktop) context.getSession().getAttribute(DESKTOP_INSTANCE);
 		return desktop;
 	}
 
+	private HashMap<String, PDAvatar> allAvatars = new HashMap<String, PDAvatar>();
+	private ContainerEx contentPane;
+	private MenuBarPane menuBar;
+	private HashMap<String, XmlMenuItem> menuItems = new HashMap<String, XmlMenuItem>();
 	private Row rowFooterLeft;
 	private Row rowFooterRight;
+	private ContainerEx rowMenu;
 	private Row rowTopRight;
-
-	private ContainerEx contentPane;
 	private SplitPane splitFooterLeftRight;
 	private SplitPane splitFooterMain;
-	private MenuBarPane menuBar;
-	private PDButton btnReload;
-	private ContainerEx rowMenu;
-	private SplitPane splitHeaderMain;
-	private HashMap<String, XmlMenuItem> menuItems = new HashMap<String, XmlMenuItem>();
+	private SplitPane splitHeaderMain;	
+
 	
-
-	public Row getRowTopRight() {
-		return rowTopRight;
-	}
-
-	public ContainerEx getRowMenu() {
-		return rowMenu;
-	}
-
 	public PDDesktop() {
 		ContainerContext context = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
 		context.getSession().setAttribute(DESKTOP_INSTANCE, this);
@@ -104,8 +94,45 @@ public final class PDDesktop extends ContentPane {
 		});
 	}
 
-	public void initDesktop() {
+	public void addAvatar(final MAvatar mAvatar) {
+		final PDAvatar avatar = new PDAvatar(mAvatar);
+		allAvatars.put(avatar.getModel().getPerson().getJabberId(), avatar);
+		PDUserSession.getInstance().addToRoster(mAvatar.getPerson());
+		contentPane.add(avatar.getMenuedComponent());
+	}
 
+	public void addShortcut(final MShortcut mShortcut) {
+		final PDShortcut shortcut = new PDShortcut(mShortcut);
+		contentPane.add(shortcut);
+	}
+
+	public void addWindow(final Component c) {
+		if (c instanceof WindowPane) {
+			add(c);
+		} else {
+			contentPane.add(c);
+		}
+	}
+
+	private void appendSubMenus(DefaultMenuModel parentMenuModel, List<XmlMenu> subMenuEntries) {
+		for (XmlMenu xmlMenu : subMenuEntries) {
+			DefaultMenuModel menu = new DefaultMenuModel("", xmlMenu.getTextEN());
+			parentMenuModel.addItem(menu);
+			appendSubMenus(menu, xmlMenu.getMenuEntries());
+			for (XmlMenuItem item : xmlMenu.getMenuItems()) {
+				String id = "Item_" + menuItems.size();
+				DefaultOptionModel optionModel = new DefaultOptionModel(id, item.getTextEN(), null);
+				menu.addItem(optionModel);
+				menuItems.put(id, item);
+			}
+		}		
+	}
+
+	public PDAvatar findAvatarByJabberId(String jabberId) {
+		return allAvatars.get(jabberId);
+	}
+	
+	public void initDesktop() {
 		String img = "img/MayDeskBackground.jpg";
 		setBackgroundImage(new FillImage(new ResourceImageReference(img)));
 
@@ -126,16 +153,6 @@ public final class PDDesktop extends ContentPane {
 			splitFooterLeftRight.add(rowFooterRight);
 			splitFooterLeftRight.add(rowFooterLeft);
 
-			btnReload = new PDButton("Reload", PDButton.STYLE.TRANSPARENT);
-			btnReload.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					PDApplicationInstance appInst = (PDApplicationInstance) ApplicationInstance.getActive();
-					appInst.reset();
-				}
-			});
-			rowFooterRight.add(btnReload);
-
 			// **********************************************************************************
 			splitHeaderMain = new SplitPane(SplitPane.ORIENTATION_VERTICAL_TOP_BOTTOM);
 			splitHeaderMain.setSeparatorPosition(new Extent(25));
@@ -154,12 +171,6 @@ public final class PDDesktop extends ContentPane {
 			rowTopRight.setLayoutData(spld);
 			splitHeader.add(rowTopRight);
 
-			// lblStatus = new PDStatusLabel();
-			// lblStatus.setText(nls(PDBeanTerms.Change));
-			// lblStatus.setFormatWhitespace(true);
-			// lblStatus.setForeground(Color.WHITE);
-			// rowTopRight.add(lblStatus);
-
 			contentPane = new ContainerEx() {
 				@Override
 				public boolean isValidChild(Component child) {
@@ -172,7 +183,6 @@ public final class PDDesktop extends ContentPane {
 
 			rowMenu = new ContainerEx();
 			rowMenu.setLayoutStyle(ContainerEx.ROW_LAYOUT);			
-			// rowMenu.setLeft(new Extent(6));
 			rowMenu.setTop(new Extent(3));
 			splitHeader.add(rowMenu);
 			rowMenu.add(new Strut(6, 0));
@@ -183,26 +193,13 @@ public final class PDDesktop extends ContentPane {
 		}
 	}
 
-	private void loadDesktopItems(XMLDesktopConfig configuration) {
-		for (XmlDesktopItem item : configuration.getDesktopEntries()) {
+	private void loadItems(Component parent, List<XmlDesktopItem> items) {
+		for (XmlDesktopItem item : items) {
 			try {
 				Class clazz = Class.forName(item.getClassName());
 				IPlugTarget itemInstance = (IPlugTarget)clazz.newInstance();
 				itemInstance.initWire(item);
-				contentPane.add((Component)itemInstance);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}			
-		}
-	}
-
-	private void loadFooterLeftItems(XMLDesktopConfig configuration) {
-		for (XmlDesktopItem item : configuration.getFooterItemsLeft()) {
-			try {
-				Class clazz = Class.forName(item.getClassName());
-				IPlugTarget itemInstance = (IPlugTarget)clazz.newInstance();
-				itemInstance.initWire(item);
-				rowFooterLeft.add((Component)itemInstance);
+				parent.add((Component)itemInstance);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}			
@@ -228,48 +225,6 @@ public final class PDDesktop extends ContentPane {
 			}
 		});
 	}
-	
-	private void appendSubMenus(DefaultMenuModel parentMenuModel, List<XmlMenu> subMenuEntries) {
-		for (XmlMenu xmlMenu : subMenuEntries) {
-			DefaultMenuModel menu = new DefaultMenuModel("", xmlMenu.getTextEN());
-			parentMenuModel.addItem(menu);
-			appendSubMenus(menu, xmlMenu.getMenuEntries());
-			for (XmlMenuItem item : xmlMenu.getMenuItems()) {
-				String id = "Item_" + menuItems.size();
-				DefaultOptionModel optionModel = new DefaultOptionModel(id, item.getTextEN(), null);
-				menu.addItem(optionModel);
-				menuItems.put(id, item);
-			}
-		}		
-	}
-	
-	public void userChanged() {
-		contentPane.removeAll();
-
-		MDPluginRegistry registry = MDPluginRegistry.getInstance();
-		XMLDesktopConfig configuration = registry.getConfiguration();
-		loadDesktopItems(configuration);
-		loadFooterLeftItems(configuration);
-		loadMenu(configuration);
-
-		if (PDUserSession.getInstance().isLoggedIn()) {
-			splitHeaderMain.setSeparatorPosition(new Extent(25));
-			splitFooterMain.setSeparatorPosition(new Extent(25));
-			loadShortcuts();
-			//lblUser.setText("Your are logged in as " + PDUserSession.getInstance().getUser().getJabberId());
-		} else {
-			splitHeaderMain.setSeparatorPosition(new Extent(0));
-			splitFooterMain.setSeparatorPosition(new Extent(0));
-		}
-
-		Label lbl = new Label(new ResourceImageReference("img/MayDeskLogo.png"));
-		ContainerEx c2 = new ContainerEx();
-		c2.setBottom(new Extent(30));
-		c2.setRight(new Extent(50));
-		c2.setPosition(Positionable.ABSOLUTE);
-		c2.add(lbl);
-		contentPane.add(c2);
-	}
 
 	private void loadShortcuts() {
 		List<MShortcut> shortcuts = DaoUser.findShortcuts(PDUserSession.getInstance().getUser());
@@ -278,45 +233,35 @@ public final class PDDesktop extends ContentPane {
 		}
 		List<MAvatar> avatars = DaoUser.findAvatars(PDUserSession.getInstance().getUser());
 		for (MAvatar avatar : avatars) {
-			addPerson(avatar);
+			addAvatar(avatar);
 		}
-	}
-
-	private HashMap<String, PDAvatar> allAvatars = new HashMap<String, PDAvatar>();
-
-	public void addPerson(final MAvatar mAvatar) {
-		final PDAvatar avatar = new PDAvatar(mAvatar);
-		allAvatars.put(avatar.getModel().getPerson().getJabberId(), avatar);
-		PDUserSession.getInstance().addToRoster(mAvatar.getPerson());
-		contentPane.add(avatar.getMenuedComponent());
-	}
-
-	public void addShortcut(final MShortcut mShortcut) {
-		final PDShortcut shortcut = new PDShortcut(mShortcut);
-		contentPane.add(shortcut);
-	}
-
-	public void addWindow(final Component c) {
-		if (c instanceof WindowPane) {
-			add(c);
-		} else {
-			contentPane.add(c);
-		}
-	}
-
-	public ContainerEx getContentPane() {
-		return contentPane;
-	}
-
-	public MenuBarPane getMenuBar() {
-		return menuBar;
 	}
 
 	public void showSaving() {
 		// lblStatus.setLineWrap(!lblStatus.isLineWrap());
 	}
 
-	public PDAvatar findAvatarByJabberId(String jabberId) {
-		return allAvatars.get(jabberId);
+	public void userChanged() {
+		contentPane.removeAll();
+
+		MDPluginRegistry registry = MDPluginRegistry.getInstance();
+		XMLDesktopConfig configuration = registry.getConfiguration();
+		loadItems(contentPane, configuration.getDesktopEntries());
+		loadItems(rowFooterLeft, configuration.getFooterItemsLeft());
+		loadItems(rowFooterRight, configuration.getFooterItemsRight());
+		loadMenu(configuration);
+
+		if (PDUserSession.getInstance().isLoggedIn()) {
+			splitHeaderMain.setSeparatorPosition(new Extent(25));
+			splitFooterMain.setSeparatorPosition(new Extent(25));
+			loadShortcuts();
+		} else {
+			splitHeaderMain.setSeparatorPosition(new Extent(0));
+			splitFooterMain.setSeparatorPosition(new Extent(0));
+		}
+	}
+
+	public void removeItem(Component comp) {
+		contentPane.remove(comp);
 	}
 }

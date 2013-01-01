@@ -34,6 +34,7 @@ import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.PDUserSession;
 import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
+import com.maydesk.base.config.XmlDesktopItem;
 import com.maydesk.base.model.MShortcut;
 import com.maydesk.base.model.MUser;
 import com.maydesk.base.util.IMessageListener;
@@ -62,8 +63,6 @@ public class PnlAnnouncement extends ContainerEx implements IPlugTarget {
 		setPosition(Positionable.ABSOLUTE);
 		setWidth(new Extent(304));
 		setHeight(new Extent(140));
-		setLeft(new Extent(60));
-		setBottom(new Extent(60));
 		setInsets(new Insets(9));
 		setBackgroundImage(new FillImage(new ResourceImageReference("img/semitrans6.png")));
 
@@ -111,8 +110,6 @@ public class PnlAnnouncement extends ContainerEx implements IPlugTarget {
 			}
 		});
 		row.add(btnShortcut);
-		// row.add(new Button(new ResourceImageReference("img/thumbs_down.gif")));
-		// row.add(new Button(new ResourceImageReference("img/thumbs_up.gif")));
 
 		lblHeader = new PDLabel(PDLabel.STYLE.WHITE_BIG);
 		lblHeader.getLabel().setFont(new Font(Font.VERDANA, Font.BOLD, new Extent(18)));
@@ -129,13 +126,17 @@ public class PnlAnnouncement extends ContainerEx implements IPlugTarget {
 	}
 
 	@Override
-	public void initWire(XmlBaseEntry parentWire) {
+	public void initWire(XmlBaseEntry baseEntry) {
+		XmlDesktopItem di = (XmlDesktopItem)baseEntry;
+		setBottom(new Extent(di.getBottom()));
+		setLeft(new Extent(di.getLeft()));
 		PDApplicationInstance.getActivePD().addListener(new IMessageListener() {
 			@Override
 			public void doPoll(Session session) {
 				PnlAnnouncement.this.doPoll(session);
 			}
 		});
+		setVisible(false);
 	}
 
 	private void doPoll(Session session) {

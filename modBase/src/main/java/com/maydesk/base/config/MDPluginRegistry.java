@@ -11,6 +11,7 @@ package com.maydesk.base.config;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -34,6 +35,8 @@ public class MDPluginRegistry {
 	}
 	
 	private XMLDesktopConfig configuration;
+	private HashMap<String, XmlExtension> extensions = new HashMap<String, XmlExtension>();
+	
 	
 	private MDPluginRegistry() {
 	}
@@ -55,6 +58,9 @@ public class MDPluginRegistry {
 				JAXBContext context = JAXBContext.newInstance(XMLDesktopConfig.class);
 				Unmarshaller m = context.createUnmarshaller();
 				configuration = (XMLDesktopConfig) m.unmarshal(configStream);
+				for (XmlExtension extension : configuration.getExtensions()) {
+					extensions.put(extension.getClassName(), extension);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -104,6 +110,10 @@ public class MDPluginRegistry {
 		}
 		
 		return true;
+	}
+
+	public XmlExtension findExtension(Class<?> clazz) {
+		return extensions.get(clazz.getName());		
 	}
 
 }

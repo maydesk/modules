@@ -37,6 +37,7 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 
 	@Override
 	public Window init() {
+		startPoller();
 		Locale.setDefault(Locale.GERMAN);
 		window = new Window();
 		window.setTitle(getTitle());
@@ -51,7 +52,7 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 	private List<IMessageListener> messageListeners = new CopyOnWriteArrayList<IMessageListener>();
 	private TaskQueueHandle tqh;
 
-	public void startPoller() {
+	private void startPoller() {
 		tqh = ApplicationInstance.getActive().createTaskQueue();
 		ContainerContext ctx = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
 		ctx.setTaskQueueCallbackInterval(tqh, 1000);

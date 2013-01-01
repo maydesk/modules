@@ -11,8 +11,17 @@ public class XmlDesktopItem extends XmlBaseEntry {
 	private int left;
 	private int right;
 	private int top;
+	private String value;
 	
 	
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	public int getBottom() {
 		return bottom;
 	}
@@ -52,4 +61,5 @@ public class XmlDesktopItem extends XmlBaseEntry {
 	public void setTop(int top) {
 		this.top = top;
 	}
+
 }
