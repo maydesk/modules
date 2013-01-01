@@ -12,6 +12,7 @@ subprojects  {
 	def srcDelomboked = 'build/src-delomboked'
  	def cloudbeesAccountName = 'maydesk'
  	def cloudbeesUsername = 'chrismay2'
+	def cloudbeesPassword = null
 	
 	defaultTasks 'uploadArchives'
 	
@@ -86,13 +87,15 @@ subprojects  {
  	}
  	
  	uploadArchives {
- 		repositories.mavenDeployer {
-			configureAuth = {
-    	    	authentication(userName: cloudbeesUsername)
-        	}
-        	configuration = configurations.deployerJars
-        	snapshotRepository(url: "https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/", configureAuth)
-        	repository(url: "https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/", configureAuth)
-        }
-    }
+		repositories {
+			deployer = mavenDeployer {
+				configureAuth = {
+					authentication(userName: cloudbeesUsername, password: cloudbeesPassword)
+				}
+	        	configuration = configurations.deployerJars
+    	    	snapshotRepository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/", configureAuth)
+        		repository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/", configureAuth)
+      		}
+   		}
+	}
 }
