@@ -11,8 +11,8 @@ subprojects  {
 	def srcJava = 'src/main/java'
 	def srcDelomboked = 'build/src-delomboked'
  	def cloudbeesAccountName = 'maydesk'
- 	def cloudbeesUsername = 'chrismay2'
-	def cloudbeesPassword = null
+ 	def cloudbeesUsername = 'maydesk-deploy'
+	def cloudbeesPassword = 'secret111'
 	
 	defaultTasks 'uploadArchives'
 	
@@ -90,8 +90,12 @@ subprojects  {
 		repositories {
 			mavenDeployer {
 				configuration = configurations.deployerJars
-    	    	snapshotRepository(url:"dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/")
-        		repository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/") 
+    	    	snapshotRepository(url:"dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/snapshot/") {
+    	    		authentication(userName: cloudbeesUsername, password: cloudbeesPassword)
+    	    	}
+        		repository(url: "dav:https://repository-${cloudbeesAccountName}.forge.cloudbees.com/release/") {
+    	    		authentication(userName: cloudbeesUsername, password: cloudbeesPassword)
+    	    	}
       		}
    		}
 	}
