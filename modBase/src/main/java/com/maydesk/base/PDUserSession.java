@@ -401,8 +401,7 @@ public class PDUserSession implements Serializable {
 
 	public void createNewChatWindow(String targetJabberId, String initialMessage) {
 		Chat chat = findLastChat(targetJabberId);
-		final FrmChat frm = new FrmChat(chat, initialMessage);
-		PDDesktop.getInstance().addWindow(frm);
+		PDDesktop.getInstance().addWindow(new FrmChat(chat, initialMessage));
 		openChatWindowIds.add(chat.getThreadID());
 	}
 
