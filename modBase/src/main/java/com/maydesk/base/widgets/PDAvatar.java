@@ -89,8 +89,10 @@ public class PDAvatar extends PDDesktopItem {
 
 	@Override
 	public void processInput(String inputName, Object inputValue) {
-		if (avatar == null)
+		if (avatar == null) {
 			return;
+		}
+		
 		if (ACTION_MOUSE_UP.equals(inputName)) {
 			if (avatar.getPositionX() < 50 && avatar.getPositionY() < 55) {
 
@@ -117,6 +119,7 @@ public class PDAvatar extends PDDesktopItem {
 			avatar.executeTask();
 		} else if (ACTION_ACKNOWLEDGE_STATUS.equals(inputName)) {
 			avatar.acknowledgeStatus();
+			setBubbleStatus(null);
 		} else if (ACTION_ACKNOWLEDGE_MESSAGE.equals(inputName)) {
 			startConversation();
 		}

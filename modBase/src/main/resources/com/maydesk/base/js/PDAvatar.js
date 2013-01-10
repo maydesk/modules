@@ -46,7 +46,7 @@ PD.PDAvatar = Core.extend(Echo.Component, {
             		type: "acknowledgeStatus", 
             		source: this
             	});
-			}			
+			}		
     	},
     	
 		componentType : "PDAvatar"		
@@ -129,7 +129,7 @@ PD.Sync.PDAvatar = Core.extend(PD.Sync.PDDesktopItem, {
 			this._bubbleNodeMessage.set("positionY", -54, false);
 			this._bubbleNodeMessage.set("isMessage", true);
 			this._bubbleNodeMessage.set("avatar", this);
-			Echo.Render.renderComponentAdd(update, this._bubbleNodeMessage, this._nodeParent);			
+			Echo.Render.renderComponentAdd(update, this._bubbleNodeMessage, this._nodeParent);
 	   	}
 
 		//the status bubble (right, cloudy)

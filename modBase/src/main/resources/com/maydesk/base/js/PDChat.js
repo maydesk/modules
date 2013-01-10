@@ -21,7 +21,7 @@ PD.PDChat = Core.extend(Echo.Component, {
 	},
 
 	sendMessage: function() {
-	    this.fireEvent({type: "sendMessage", source: this, actionCommand: this.get("actionCommand")});
+	    this.fireEvent({type: "sendMessage", source: this});
 	}
 });
 
