@@ -50,7 +50,7 @@ public class FrmChat extends PDWindowPane {
 		});
 
 		if (!StringUtils.isEmpty(initialMessage)) {
-			Map<String, String> messagesMap = new HashMap<>();
+			Map<String, String> messagesMap = new HashMap<String, String>();
 			messagesMap.put("0", initialMessage);
 			pdChat.setIncomingMessagesMap(messagesMap);
 		}

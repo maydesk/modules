@@ -67,7 +67,7 @@ public class PDChat extends Component {
 	}
 
 	private void processIncomingMessages() {
-		Map<String, String> messagesMap = new HashMap<>();
+		Map<String, String> messagesMap = new HashMap<String, String>();
 		for (int i = 0; i < incomingMessages.size(); i++) {
 			messagesMap.put(Integer.toString(i), incomingMessages.get(i).getBody());
 		}
