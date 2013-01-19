@@ -1,27 +1,13 @@
-/* This file is part of the MayDesk project.
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- * for the specific language governing rights and limitations under the
- * License.*/
-
-/**
- * Component rendering peer: PDContext.
- */
- 
-if (!Core.get(window, ["PD", "Sync"])) {
-        Core.set(window, ["PD", "Sync"], {});
+if (!Core.get(window, ["MD", "Sync"])) {
+        Core.set(window, ["MD", "Sync"], {});
 }
  
-PD.PDContext = Core.extend(Echo.Component, {
-
+MD.MDContext = Core.extend(Echo.Component, {
 		$load : function() {
-        	Echo.ComponentFactory.registerType("PDContext", this);
+        	Echo.ComponentFactory.registerType("MDContext", this);
 		},
 		
-		componentType : "PDContext",
+		componentType : "MDContext",
 		
 	    $virtual: {
 			doMouseUp: function(actionType) {
@@ -35,7 +21,7 @@ PD.PDContext = Core.extend(Echo.Component, {
 });
  
  
-PD.Sync.PDContext = Core.extend(PD.Sync.PDDesktopItem, {
+MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 
 	$static: {
 		ExpandAnimation: Core.extend(Extras.Sync.Animation, {
@@ -95,18 +81,14 @@ PD.Sync.PDContext = Core.extend(PD.Sync.PDDesktopItem, {
 	},
     
     $load: function() {
-        Echo.Render.registerPeer("PDContext", this);
+        Echo.Render.registerPeer("MDContext", this);
     },
     
     _container: null,
     _icon: null,
-	_expanded: true,
+	_expanded: false,
 	_titleBar: null,
-	
-    $construct: function() {
-        this._processMouseMoveRef = Core.method(this, this._processMouseMove);
-        this._processMouseUpRef = Core.method(this, this._processMouseUp);
-    },
+	_mainNode: null,
     
     /** @see Echo.Render.ComponentSync#renderAdd */
     renderAddImpl: function(update, parentElement) {
@@ -115,20 +97,24 @@ PD.Sync.PDContext = Core.extend(PD.Sync.PDDesktopItem, {
 	   	this._width = Echo.Sync.Extent.toPixels(this.component.render("width")); 
 		this._height = Echo.Sync.Extent.toPixels(this.component.render("height"));
 
-		//the main node
         this._mainNode = document.createElement("div");
-        this._mainNode.id = this.component.renderId;
-		this._mainNode.style.position = "absolute";	
-		this._mainNode.style.width = "48px";
-		this._mainNode.style.height ="60px";
-		this._mainNode.style.zIndex = 0;
-		this._mainNode.style.cursor = "pointer";
+        this._mainNode.style.position = "absolute";	
 		parentElement.appendChild(this._mainNode);
+
+		//the main node
+        this._node = document.createElement("div");
+        this._node.id = this.component.renderId;
+		this._node.style.position = "absolute";	
+		this._node.style.width = "80px";
+		this._node.style.height ="20px";
+		this._node.style.zIndex = 0;
+		this._node.style.cursor = "pointer";
+		this._mainNode.appendChild(this._node);
 		
 		//the icon
-		this._node = document.createElement("img");
-        Echo.Sync.ImageReference.renderImg(icon, this._node);
-   		this._mainNode.appendChild(this._node);
+		this._imgNode = document.createElement("img");
+        Echo.Sync.ImageReference.renderImg(icon, this._imgNode);
+   		this._mainNode.appendChild(this._imgNode);
 
 		//the title text
 	    this._titleBar = document.createElement("div");
@@ -136,7 +122,7 @@ PD.Sync.PDContext = Core.extend(PD.Sync.PDDesktopItem, {
 	    this._titleBar.style.top = "22px";
 		this._titleBar.style.left = "2px";
 	    this._titleBar.style.height = "20px";
-		this._titleBar.style.width = this._width + "px";
+		this._titleBar.style.width = "300px";
 	    this._titleBar.style.fontSize = "9px";
 	    this._titleBar.style.color = "#00ffff";
 	    this._titleBar.appendChild(document.createTextNode(this._title));
@@ -148,30 +134,36 @@ PD.Sync.PDContext = Core.extend(PD.Sync.PDDesktopItem, {
        	this._container.style.left = "0px";
 		this._container.style.top = "19px";
 		this._container.style.overflow = "hidden";
-		this._container.style.width = this._width + "px";
-		this._container.style.height = this._height + "px";
+		this._container.style.width = "0px";
+		this._container.style.height = "20px";
 		Echo.Sync.Border.render("1px dotted #eeeeee", this._container);
 		this._mainNode.appendChild(this._container);
 
 		//add child to container
 		var componentCount = this.component.getComponentCount();
-        if (componentCount == 1) {
-            Echo.Render.renderComponentAdd(update, this.component.getComponent(0), this._container);
-        } else if (componentCount > 1) {
-            throw new Error("Too many children: " + componentCount);
-        }
+        for (var i = 0; i < componentCount; i++) {     
+            Echo.Render.renderComponentAdd(update, this.component.getComponent(i), this._container);
+        }	
     },
 
 	onDoubleClick: function() {
-		var expander = new PD.Sync.PDContext.ExpandAnimation(this);
+		//work-around...
+		var componentCount = this.component.getComponentCount();
+        for (var i = 0; i < componentCount; i++) {     
+        	if (this.component.getComponent(i).peer.lazyLoadable) {
+				this.component.getComponent(i).peer.doLazyLoad();
+			}
+        }	
+        
+		var expander = new MD.Sync.MDContext.ExpandAnimation(this);
 		expander.start();  
 	},
     
     /** @see Echo.Render.ComponentSync#renderDispose */
     renderDispose: function(update) {
         this._containerElement = null;
-        this._mainNode = null;
         this._node = null;
+        this._imgNode = null;
         this._container = null;
     },
     
@@ -186,7 +178,7 @@ PD.Sync.PDContext = Core.extend(PD.Sync.PDDesktopItem, {
 		this._mainNode.style.top = this._positionY + "px";
 	}, 
 	
-	/** @see PD.Sync.PDDesktopItem#onMouseOver */
+	/** @see MD.Sync.MDDesktopItem#onMouseOver */
     onMouseOver: function(mouseOver) {
 		//not implemented
 	}   

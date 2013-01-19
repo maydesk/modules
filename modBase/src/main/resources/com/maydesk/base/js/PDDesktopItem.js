@@ -22,7 +22,7 @@ PD.Sync.PDDesktopItem = Core.extend(Echo.Render.ComponentSync, {
 	
 	_processMouseMoveRef: null,
     _processMouseUpRef: null,
-	_title: "Taggo",
+	_title: "n/a",
 	_positionX: 0,
     _positionY: 0,
     _width: 100,
@@ -58,6 +58,7 @@ PD.Sync.PDDesktopItem = Core.extend(Echo.Render.ComponentSync, {
 		onDoubleClick: function () { }
 	},
 		
+	// not used currently... 	
 	checkMouseOver: function(dragEvent) {
 		this.onMouseOver(false);
 		
@@ -65,8 +66,7 @@ PD.Sync.PDDesktopItem = Core.extend(Echo.Render.ComponentSync, {
 		if (this._rightAlign) {
 			posX = window.innerWidth - posX - this._width;
 		}
-		var posY = this._positionY + this._topOffset; 
-		
+		var posY = this._positionY + this._topOffset;
 		if (dragEvent.clientX < posX) return false;
 		if (dragEvent.clientX > posX + this._width) return false;
 		if (dragEvent.clientY < posY) return false;

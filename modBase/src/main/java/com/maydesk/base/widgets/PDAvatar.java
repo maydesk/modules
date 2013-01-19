@@ -65,9 +65,9 @@ public class PDAvatar extends PDDesktopItem {
 		ImageReference img = PDUserSession.getInstance().getImage(user.getJabberId());
 		set(PROPERTY_ICON, img);
 		set(PROPERTY_TOOL_TIP, getTooltip(user));
+		set(PROPERTY_COLOR, new Color(user.getColorShade()));
 		set(PROPERTY_BUBBLE_LEFT, new Extent(0));
 		set(PROPERTY_BUBBLE_TOP, new Extent(0));
-		set(PROPERTY_COLOR, new Color(user.getColorShade()));
 		checkPresenceStatus();
 	}
 

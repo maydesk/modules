@@ -26,7 +26,7 @@ import com.maydesk.base.widgets.PDDesktopItem;
 public abstract class PDDesktopItemPeer extends AbstractComponentSynchronizePeer {
 
 	/** The associated client-side JavaScript module <code>Service</code>. */
-	private static final JavaScriptService DESKTOP_ITEM_SERVICE = JavaScriptService.forResource("PDDesktopItem", PDUtil.BASE_PATH + "js/PDDesktopItem.js");
+	public static final JavaScriptService DESKTOP_ITEM_SERVICE = JavaScriptService.forResource("PDDesktopItem", PDUtil.BASE_PATH + "js/PDDesktopItem.js");
 
 	static {
 		WebContainerServlet.getServiceRegistry().add(DESKTOP_ITEM_SERVICE);
