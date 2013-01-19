@@ -1,6 +1,8 @@
 dependencies {
     compile fileTree(dir: 'lib', include: 'Echo3*.jar') 	
  	compile files('lib/echopoint.jar') 	
+	compile "org.maydesk:echo3-app:3.0"
+	compile "org.maydesk:echo3-webcontainer:3.0"
 	compile "org.hibernate:hibernate-core:4.1.+"
 	compile "org.aspectj:aspectjrt:1.+"
 	compile 'commons-lang:commons-lang:1.+'
@@ -11,7 +13,6 @@ dependencies {
 	compile 'org.apache.tomcat:tomcat-jdbc:7.0.29'
 	compile 'org.igniterealtime.smack:smackx:3.2.1'	
 	runtime 'mysql:mysql-connector-java:5.1.19'		
-		
 	compile 'javax.mail:mail:1.4.5'
 	compile 'javax.servlet:servlet-api:2.5'
 }

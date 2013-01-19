@@ -24,9 +24,9 @@ subprojects  {
 		deployerJars
 	}
 	
-	repositories {
-	    mavenCentral()
-	    mavenLocal()
+	repositories { 	
+		mavenRepo url: "http://repository-maydesk.forge.cloudbees.com/release/"
+	    mavenCentral()	    
 		mavenRepo url: "https://repository.jboss.org/nexus/content/groups/public/"
 	}
 	
