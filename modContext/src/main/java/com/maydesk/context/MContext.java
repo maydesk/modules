@@ -7,10 +7,12 @@
  * for the specific language governing rights and limitations under the
  * License.*/
 
-package com.maydesk.base.model;
+package com.maydesk.context;
 		 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import com.maydesk.base.model.MBase;
 
 /**
  * @author chrismay

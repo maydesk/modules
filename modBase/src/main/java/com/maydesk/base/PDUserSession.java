@@ -34,6 +34,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.jboss.logging.MDC;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -89,7 +90,10 @@ public class PDUserSession implements Serializable {
 	}
 
 	public void doLogin(String jabberId, String password) {
-
+		
+		if (jabberId.indexOf('@') == -1) {
+			throw new IllegalArgumentException("Invalid Jabber ID!");
+		}
 		StringTokenizer st = new StringTokenizer(jabberId, "@");
 		String login = st.nextToken();
 		String server = st.nextToken();
@@ -355,9 +359,9 @@ public class PDUserSession implements Serializable {
 			return new ByteArrayImageReference(bytes, "image/png", size);
 		}
 
-		if (user.getGender() == SopGender.female) {
-			return new ResourceImageReference("img/silhouette-female.gif");
-		}
+//		if (jabberUser.getGender() == SopGender.female) {
+//			return new ResourceImageReference("img/silhouette-female.gif");
+//		}
 
 		return new ResourceImageReference("img/silhouette-male.gif");
 	}
