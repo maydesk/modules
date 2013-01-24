@@ -24,16 +24,19 @@ subprojects  {
 		deployerJars
 	}
 	
-	repositories { 	
-		mavenRepo url: "http://repository-maydesk.forge.cloudbees.com/release/"
-	    mavenCentral()	    
+	repositories {
+	    mavenCentral()
+	    mavenLocal()
+		maven {
+			url "http://repository-maydesk.forge.cloudbees.com/snapshot"
+		}	
 		mavenRepo url: "https://repository.jboss.org/nexus/content/groups/public/"
 	}
 	
 	dependencies {
 	    ajc "org.aspectj:aspectjtools:1.+"
 	    compile "org.projectlombok:lombok:0.11.+"
-		compile files('lib/lombok_soplet.jar')
+		compile files(project(':modBase').file('lib/lombok_soplet.jar')) // Not the best solution. Better solved once it's on a repo
 		deployerJars 'org.apache.maven.wagon:wagon-webdav:1.0-beta-2'
         deployerJars 'org.apache.maven:maven-ant-tasks:2.1.0' 
 	}
