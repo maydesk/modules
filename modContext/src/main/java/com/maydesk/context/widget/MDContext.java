@@ -8,16 +8,15 @@ package com.maydesk.context.widget;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.ResourceImageReference;
+import nextapp.echo.app.Row;
+import nextapp.echo.extras.app.MenuBarPane;
+import nextapp.echo.extras.app.menu.DefaultMenuModel;
 
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
-import com.maydesk.base.dao.DaoUser;
 import com.maydesk.base.experimental.IInnerContainer;
-import com.maydesk.base.model.MAvatar;
 import com.maydesk.base.model.MShortcut;
-import com.maydesk.base.model.MUser;
-import com.maydesk.base.widgets.PDAvatar;
 import com.maydesk.context.MContext;
 
 public class MDContext extends Component implements IInnerContainer, IPlugTarget {
@@ -118,17 +117,32 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		init2();
 		
 		MDCanvas canvas = new MDCanvas();
-		canvas.add(new MDArrow());
+		//XXX work-around for early-loading
 		canvas.add(new MDText());
+		canvas.add(new MDRectangle());
+		canvas.add(new MDArrow());
+		canvas.add(new MDTable());
 		add(canvas);
+
+		MDToolEntry tool = new MDToolEntry();
+		tool.setIcon(new ResourceImageReference("img/rectangle16.png"));
+		tool.setTool("MD.MDRectangle");
+		canvas.add(tool);
 		
-		MAvatar mAvatar = new MAvatar();
-		DaoUser dao = new DaoUser();
-		MUser user = dao.findUserByJabberId("chrismay@jabber.de");
-		mAvatar.setPerson(user);
-		mAvatar.setPositionX(25);
-		mAvatar.setPositionY(25);
-		PDAvatar avatar = new PDAvatar(mAvatar);
-		add(avatar);
+		tool = new MDToolEntry();
+		tool.setIcon(new ResourceImageReference("img/arrow16.png"));
+		tool.setTool("MD.MDArrow");
+		canvas.add(tool);
+
+		tool = new MDToolEntry();
+		tool.setIcon(new ResourceImageReference("img/table16.png"));
+		tool.setTool("MD.MDTable");
+		canvas.add(tool);
+
+		tool = new MDToolEntry();
+		tool.setIcon(new ResourceImageReference("img/text16.png"));
+		tool.setTool("MD.MDText");
+		canvas.add(tool);
+
 	}
 }

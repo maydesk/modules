@@ -14,4 +14,5 @@ public class MDCanvas extends Component implements IPlugTarget {
 	@Override
 	public void initWire(XmlBaseEntry parentWire) {
 	}
+
 }

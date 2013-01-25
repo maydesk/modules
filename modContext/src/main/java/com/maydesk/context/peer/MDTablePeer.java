@@ -2,25 +2,19 @@ package com.maydesk.context.peer;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
-import nextapp.echo.webcontainer.ContentType;
-import nextapp.echo.webcontainer.ResourceRegistry;
 import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
-import com.maydesk.context.widget.MDArrow;
+import com.maydesk.context.widget.MDTable;
+import com.maydesk.context.widget.MDText;
 
-public class MDArrowPeer extends MDAbstractFigurePeer {
+public class MDTablePeer extends MDAbstractFigurePeer {
 
-	private static final String COMPONENT = MDArrow.class.getSimpleName();
+	private static final String COMPONENT = MDTable.class.getSimpleName();
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDArrow.js"));
-		ResourceRegistry resources = WebContainerServlet.getResourceRegistry();
-		resources.addPackage(COMPONENT, "img/");
-		resources.add(COMPONENT, "editor/back.gif", ContentType.IMAGE_GIF);
-		resources.add(COMPONENT, "editor/forward.gif", ContentType.IMAGE_GIF);
-
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDTable.js"));
 	}
 	
     public String getClientComponentType(boolean shortType) {
@@ -29,7 +23,7 @@ public class MDArrowPeer extends MDAbstractFigurePeer {
     
     @Override
     public Class getComponentClass() {
-        return MDArrow.class;
+        return MDTable.class;
     }
 
     @Override

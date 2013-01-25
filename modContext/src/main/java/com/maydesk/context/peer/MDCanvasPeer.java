@@ -1,13 +1,16 @@
 package com.maydesk.context.peer;
 
-import com.maydesk.context.widget.MDCanvas;
-
 import nextapp.echo.app.Component;
+import nextapp.echo.app.serial.SerialException;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
+
+import org.w3c.dom.Element;
+
+import com.maydesk.context.widget.MDCanvas;
 
 public class MDCanvasPeer extends Draw2dAbstractPeer {
 
@@ -51,59 +54,4 @@ public class MDCanvasPeer extends Draw2dAbstractPeer {
 	public String getClientComponentType(final boolean shortType) {
 		return COMPONENT_NAME;
 	}
-
-	//
-	//
-	//
-	//
-	//
-	//
-	// private static final String MD_CANVAS = "MDCanvas";
-	//
-	// static {
-	// WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResources(MD_CANVAS,
-	// new String[] {
-	// "js/MDCanvas.js",
-	// "js/draw2d/Class.js",
-	// "js/draw2d/canvg.js",
-	// "js/draw2d/json2.js",
-	// "js/draw2d/rgbcolor.js",
-	// "js/draw2d/shifty.js",
-	// // "js/draw2d/jquery-1.8.1.js",
-	// // "js/draw2d/jquery-1.8.1.min.js", //ILLEGAL
-	// // "js/draw2d/jquery-touch_punch.js",
-	// // "js/draw2d/jquery-ui-1.8.23.custom.min.js",
-	// // "js/draw2d/jquery.autoresize.js",
-	// // "js/draw2d/jquery.contextmenu.js",
-	// // "js/draw2d/jquery.layout.js",
-	// "js/draw2d/raphael.js",
-	// "js/draw2d/draw2d.js"}
-	// ));
-	// CommonResources.install();
-	//
-	// Service ECHOPOINT_SERVICE = JavaScriptService.forResource(
-	// "echopoint.Boot", "resource/js/Echopoint.js" );
-	// Service JQUERY_SERVICE = JavaScriptService.forResource( "jq",
-	// "resource/js/jquery/jquery.js" );
-	//
-	// }
-	//
-	// public String getClientComponentType(boolean shortType) {
-	// return MD_CANVAS;
-	// }
-	//
-	// @Override
-	// public Class getComponentClass() {
-	// return MDCanvas.class;
-	// }
-	//
-	// @Override
-	// public void init(Context context, Component component) {
-	// super.init(context, component);
-	// ServerMessage serverMessage = (ServerMessage)
-	// context.get(ServerMessage.class);
-	// serverMessage.addLibrary(MD_CANVAS);
-	// serverMessage.addLibrary( CommonService.JQUERY_SERVICE.getId() );
-	// }
-	//
 }

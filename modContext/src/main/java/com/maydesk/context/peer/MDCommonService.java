@@ -28,35 +28,10 @@ public class MDCommonService {
 		JavaScriptService.forResource("draw2d", "js/draw2d/draw2d.js")		
 	};
 	
-//	private static List<String> files = new ArrayList<String>();
-//	public static Service DRAW2D;
-//	
-//	private static void addFile(File parentFile) {
-//		for (File file : parentFile.listFiles()) {
-//			if (file.isDirectory()) {
-//				addFile(file);
-//			} else {
-//				String path = file.getAbsolutePath();
-//				path = path.substring(path.indexOf("drawJS") - 3);
-//				System.out.println(path);
-//				files.add(path);
-//			}			
-//		}		
-//	}
-	
-	
 	static {
 		for (Service service : SERVICES) {
 			WebContainerServlet.getServiceRegistry().add(service);
 		}
-//		//addFile(new File("js/src"));
-//		URL uri = MDCommonResources.class.getClassLoader().getResource("js/drawJS/adraw2d.js");
-//		File f = new File(uri.getFile());
-//		addFile(f.getParentFile());
-//
-//		DRAW2D = JavaScriptService.forResources("draw2d", files.toArray(new String[files.size()]));
-//		WebContainerServlet.getServiceRegistry().add(DRAW2D);
-
 	}
 
 	private MDCommonService() {

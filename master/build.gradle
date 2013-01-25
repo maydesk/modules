@@ -4,7 +4,7 @@ subprojects  {
 	apply plugin: 'signing'
 	
 	group = 'org.maydesk'
-	version = '0.1.0-SNAPSHOT'
+	version = '0.2.0-SNAPSHOT'
 	ext.packaging = 'jar'
 	sourceCompatibility = 1.6
 	

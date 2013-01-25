@@ -3,8 +3,8 @@ package com.maydesk.context.widget;
 import nextapp.echo.app.Component;
 
 
-public class MDText extends MDAbstractFigure {
+public class MDRectangle extends MDAbstractFigure {
 
-	public MDText() {
-	}
+	public MDRectangle() {
+	}	
 }

@@ -30,7 +30,7 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 		
 			$construct: function(context) {
 				this._context2 = context;
-				this.runTime = 1600;
+				this.runTime = 600;
 			},
 			init: function() { 
 				this._context2._container.style.visibility = "visible";
@@ -127,7 +127,7 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 	    this._titleBar.style.color = "#00ffff";
 	    this._titleBar.appendChild(document.createTextNode(this._title));
 	    this._mainNode.appendChild(this._titleBar);
-
+		
 		//the container
         this._container = document.createElement("div");
 		this._container.style.position = "absolute";
@@ -144,6 +144,11 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
         for (var i = 0; i < componentCount; i++) {     
             Echo.Render.renderComponentAdd(update, this.component.getComponent(i), this._container);
         }	
+        
+        
+        //remove - just for testing...
+        var expander = new MD.Sync.MDContext.ExpandAnimation(this);
+		expander.start();  
     },
 
 	onDoubleClick: function() {

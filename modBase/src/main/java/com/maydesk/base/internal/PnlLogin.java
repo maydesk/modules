@@ -17,6 +17,7 @@ import nextapp.echo.app.Font;
 import nextapp.echo.app.Insets;
 import nextapp.echo.app.Label;
 import nextapp.echo.app.PasswordField;
+import nextapp.echo.app.SelectField;
 import nextapp.echo.app.TextField;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
@@ -140,6 +141,7 @@ public class PnlLogin extends ContainerEx  implements IPlugTarget  {
 		});
 		grid.addFill(btnPassword);
 
+		grid.add(new SelectField(new Object[]{"aaa", "bbbb"}));
 	}
 
 	private void btnRegisterClicked() {

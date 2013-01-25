@@ -1,18 +1,9 @@
 package com.maydesk.context.widget;
 
-import nextapp.echo.app.Component;
-
-import com.maydesk.base.config.IPlugTarget;
-import com.maydesk.base.config.XmlBaseEntry;
 
 
-public class MDArrow extends Component implements IPlugTarget{
+public class MDArrow extends MDAbstractFigure {
 
 	public MDArrow() {
-	}
-	
-	@Override
-	public void initWire(XmlBaseEntry parentWire) {
-		//TODO
 	}
 }

@@ -8,16 +8,16 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import com.maydesk.context.widget.MDText;
 
-public class MDTextPeer extends Draw2dAbstractPeer {
+public class MDTextPeer extends MDAbstractFigurePeer {
 
-	private static final String MD_TEXT = MDText.class.getSimpleName();
+	private static final String COMPONENT = MDText.class.getSimpleName();
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(MD_TEXT, "js/MDText.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDText.js"));
 	}
 	
     public String getClientComponentType(boolean shortType) {
-        return MD_TEXT;
+        return COMPONENT;
     }
     
     @Override
@@ -29,6 +29,6 @@ public class MDTextPeer extends Draw2dAbstractPeer {
     public void init(Context context, Component component) {
         super.init(context, component);
         ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-        serverMessage.addLibrary(MD_TEXT);
+        serverMessage.addLibrary(COMPONENT);
     }
 }
