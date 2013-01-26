@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-SVGFigure'>/**
+</span> * @class draw2d.SVGFigure
+ * Abstract class which can handle plain SVG content. Inherit class must override the method
+ * &lt;code&gt;getSVG()&lt;/code&gt;.
+ * 
+ * @author Andreas Herz
+ * @extends draw2d.shape.basic.Rectangle
+ */
+draw2d.SVGFigure = draw2d.SetFigure.extend({
+    
+    NAME : &quot;draw2d.SVGFigure&quot;,
+
+<span id='draw2d-SVGFigure-method-constructor'>    /**
+</span>     * @constructor
+     * Creates a new figure element which are not assigned to any canvas.
+     * 
+     */
+    init: function(width, height) {
+      this._super(width, height);
+
+    },
+
+<span id='draw2d-SVGFigure-method-createSet'>    /**
+</span>     * @private
+     * @returns
+     */
+    createSet : function() {
+		return this.importSVG(this.canvas, this.getSVG());
+	},
+    
+<span id='draw2d-SVGFigure-method-importSVG'>    /**
+</span>     * @private
+     */
+    importSVG : function (canvas, rawSVG) {
+      
+      var set = canvas.paper.set();
+       
+      try {
+        if (typeof rawSVG === 'undefined'){
+          throw 'No data was provided.';
+        }
+        
+        rawSVG = rawSVG.replace(/\n|\r|\t/gi, '');
+        
+        if (!rawSVG.match(/&lt;svg(.*?)&gt;(.*)&lt;\/svg&gt;/i)){
+          throw &quot;The data you entered doesn't contain valid SVG.&quot;;
+        }
+        
+        // Override the dimension from the JSON if the SVG contains any
+        //
+        var findDim   = new RegExp('&lt;svg width=&quot;(.*?)&quot; height=&quot;(.*?)&quot; .*?&gt;','gi');
+        var match=findDim.exec(rawSVG);
+        if(match){
+            this.setDimension(parseInt(match[1],10), parseInt(match[2],10));
+        }
+        
+        var findAttr  = new RegExp('([a-z0-9\-]+)=&quot;(.*?)&quot;','gi');
+        var findStyle = new RegExp('([a-z0-9\-]+) ?: ?([^ ;]+)[ ;]?','gi');
+        //var findNodes = new RegExp('&lt;(line|rect|polyline|circle|ellipse|path|polygon|image|text).*?\/&gt;','gi');
+        var findNodes = new RegExp('&lt;(line|rect|polyline|circle|ellipse|path|polygon|image|text).*?(\/&gt;|.*&lt;/text&gt;)','gi');
+               
+        while(match = findNodes.exec(rawSVG)){      
+          var shape=null;
+          var style=null;
+          var attr = { };
+          var node = RegExp.$1;
+          while(findAttr.exec(match)){
+            switch(RegExp.$1) {
+              case 'stroke-dasharray':
+                attr[RegExp.$1] = '- ';
+              break;
+              case 'style':
+                style = RegExp.$2;
+              break;
+              default:
+                attr[RegExp.$1] = RegExp.$2;
+              break;
+            }
+          }
+          
+          
+          if ( style !== null){
+            while(findStyle.exec(style)){
+              attr[RegExp.$1] = RegExp.$2;
+            }
+          }
+          
+          if (typeof attr['stroke-width'] === 'undefined'){
+              attr['stroke-width'] = (typeof attr.stroke === 'undefined' ? 0 : 1);
+          }
+          
+          switch(node) {
+            case 'rect':
+              shape = canvas.paper.rect();
+              break;
+            case 'circle':
+              shape = canvas.paper.circle();
+              break;
+            case 'ellipse':
+              shape = canvas.paper.ellipse();
+              break;
+            case 'path':
+              attr.fill =&quot;none&quot;;
+              shape = canvas.paper.path(attr.d);
+              break;
+            case 'line':
+              attr.d= &quot;M &quot;+attr.x1+&quot; &quot;+attr.y1+&quot;L&quot;+attr.x2+&quot; &quot;+attr.y2;
+              attr.fill =&quot;none&quot;;
+              shape = canvas.paper.path(attr.d);
+             break;
+            case 'polyline':
+              var path = attr.points;
+              attr.d = &quot;M &quot;+path.replace(&quot; &quot;,&quot; L&quot;);
+              shape = canvas.paper.path(attr.d);
+              break;
+            case 'polygon':
+              shape = canvas.paper.polygon(attr.points);
+              break;
+            case 'image':
+              shape = canvas.paper.image();
+              break;
+            case 'text':
+              shape = canvas.paper.text();
+              attr[&quot;text-anchor&quot;] = &quot;start&quot;;
+              attr.y= parseInt(attr.y,10)+shape.getBBox().height/2;
+              break;
+          }
+          if(shape!==null){
+              shape.attr(attr);
+              set.push(shape);
+          }
+        }
+      } catch (error) {
+        alert('The SVG data you entered was invalid! (' + error + ')');
+      }
+      return set;
+    }
+
+});</pre>
+</body>
+</html>

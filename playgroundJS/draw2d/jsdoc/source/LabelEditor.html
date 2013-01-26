@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='draw2d-ui-LabelEditor'>/**
+</span> * @class draw2d.ui.LabelEditor
+ * Base class for all draw2d.shape.basic.Label editors. The default implementation is to open
+ * a simple javascript prompt dialog.&lt;br&gt;
+ * Use LabelInplaceEditor or your own implementation if you need more comfort. 
+ * 
+ * @author Andreas Herz
+ */
+
+draw2d.ui.LabelEditor = Class.extend({
+    
+<span id='draw2d-ui-LabelEditor-method-constructor'>    /**
+</span>     * @constructor
+     * @private
+     */
+    init: function(){
+        
+    },
+    
+<span id='draw2d-ui-LabelEditor-method-start'>    /**
+</span>     * @method
+     * Trigger the edit of the label text.
+     * 
+     * @param {draw2d.shape.basic.Label} label the label to edit
+     */
+    start: function( label){
+        var newText = prompt(&quot;Label: &quot;, label.getText());
+        if(newText){
+            label.setText(newText);
+        }
+    }
+    
+});</pre>
+</body>
+</html>

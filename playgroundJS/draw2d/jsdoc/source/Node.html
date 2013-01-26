@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-shape-node-Node'>/**
+</span> * @class draw2d.shape.node.Node
+ * 
+ * A Node is the base class for all figures which can have {@link draw2d.Port}s. A {@link draw2d.Port} is the
+ * anchor for a {@link draw2d.Connection} line.&lt;br&gt;&lt;br&gt;A {@link draw2d.Port} is a green dot which can 
+ * be dragged and dropped over another port.&lt;br&gt;
+ * @inheritable
+ * @author Andreas Herz
+ * @extends draw2d.Figure 
+ */
+draw2d.shape.node.Node = draw2d.Figure.extend({
+ 
+	NAME : &quot;draw2d.shape.node.Node&quot;,
+
+<span id='draw2d-shape-node-Node-method-constructor'>   /**
+</span>     * @constructor
+     * Creates a new Node element which are not assigned to any canvas.
+     * 
+     * @param {Number} [width] initial width of the shape
+     * @param {Number} [height] initial height of the shape
+    */
+    init: function( width, height ) {
+      this.bgColor   = new  draw2d.util.Color(255,255,255);
+      this.lineColor = new  draw2d.util.Color(128,128,255);
+      this.color     = new  draw2d.util.Color(128,128,128);
+      
+      this.inputPorts = new draw2d.util.ArrayList();
+      this.outputPorts= new draw2d.util.ArrayList();
+      this.hybridPorts= new draw2d.util.ArrayList();
+      
+      this._super( width, height);
+    },
+    
+
+    onDoubleClick:function(){
+        var w = this.getWidth();
+        var h = this.getHeight();
+        this.setRotationAngle((this.getRotationAngle()+90)%360);
+        this.setDimension(h,w);
+    },
+    
+
+<span id='draw2d-shape-node-Node-method-getPorts'>    /**
+</span>     * @method
+     * Return all ports of the node.
+     *
+     * @return  {draw2d.util.ArrayList}
+     **/
+    getPorts: function()
+    {
+      // TODO: expensive! Find another solution.
+      return this.inputPorts
+             .clone()
+             .addAll(this.outputPorts)
+             .addAll(this.hybridPorts);
+    },
+    
+    
+<span id='draw2d-shape-node-Node-method-getInputPorts'>    /**
+</span>     * @method
+     * Return all input ports of the node.
+     *
+     * @return {draw2d.util.ArrayList}
+     **/
+    getInputPorts: function()
+    {
+      return this.inputPorts
+               .clone()
+               .addAll(this.hybridPorts);
+    },
+    
+<span id='draw2d-shape-node-Node-method-getOutputPorts'>    /**
+</span>     * @method
+     * Return all output ports of the node.
+     *
+     * @return {draw2d.util.ArrayList}
+     **/
+    getOutputPorts: function()
+    {
+      return this.outputPorts
+          .clone()
+          .addAll(this.hybridPorts);
+    },
+    
+<span id='draw2d-shape-node-Node-method-getPort'>    /**
+</span>     * @method
+     * Return the port with the corresponding name.
+     *
+     * 
+     * @param {String} portName The name of the port to return.
+     * @return {draw2d.Port} Returns the port with the hands over name or null.
+     **/
+    getPort: function( portName)
+    {
+        var i=0;
+        for ( i = 0; i &lt; this.outputPorts.getSize(); i++) {
+            var port = this.outputPorts.get(i);
+            if (port.getName() === portName) {
+                return port;
+            }
+        }
+
+        for ( i = 0; i &lt; this.inputPorts.getSize(); i++) {
+            var port = this.inputPorts.get(i);
+            if (port.getName() === portName) {
+                return port;
+            }
+        }
+          
+        for ( i = 0; i &lt; this.hybridPorts.getSize(); i++) {
+            var port = this.hybridPorts.get(i);
+            if (port.getName() === portName) {
+                return port;
+            }
+        }
+         return null;
+    },
+    
+<span id='draw2d-shape-node-Node-method-getInputPort'>    /**
+</span>     * @method
+     * Return the input port with the corresponding name.
+     *
+     * 
+     * @param {String/Number} portName The name or numeric index of the port to return.
+     * @return {draw2d.InputPort} Returns the port with the hands over name or null.
+     **/
+    getInputPort: function( portName)
+    {
+        if(typeof portName === &quot;number&quot;){
+            return this.inputPorts.get(portName);
+        }
+        
+        for ( var i = 0; i &lt; this.inputPorts.getSize(); i++) {
+            var port = this.inputPorts.get(i);
+            if (port.getName() === portName) {
+                return port;
+            }
+        }
+      
+        return null;
+    },
+    
+<span id='draw2d-shape-node-Node-method-getOutputPort'>    /**
+</span>     * @method
+     * Return the output port with the corresponding name.
+     *
+     * @param {String/Number} portName The name or the numeric index of the port to return.
+     * @return {draw2d.OutputPort} Returns the port with the hands over name or null.
+     **/
+    getOutputPort: function( portName)
+    {
+        if(typeof portName === &quot;number&quot;){
+            return this.outputPorts.get(portName);
+        }
+        
+         for ( var i = 0; i &lt; this.outputPorts.getSize(); i++) {
+            var port = this.outputPorts.get(i);
+            if (port.getName() === portName) {
+                return port;
+            }
+        }
+
+        return null;
+    },
+    
+<span id='draw2d-shape-node-Node-method-getHybridPort'>    /**
+</span>     * @method
+     * Return the input port with the corresponding name.
+     *
+     * 
+     * @param {String/Number} portName The name or numeric index of the port to return.
+     * @return {draw2d.InputPort} Returns the port with the hands over name or null.
+     **/
+    getHybridPort: function( portName)
+    {
+        if(typeof portName === &quot;number&quot;){
+            return this.hybridPorts.get(portName);
+        }
+        
+        for ( var i = 0; i &lt; this.hybridPorts.getSize(); i++) {
+            var port = this.hybridPorts.get(i);
+            if (port.getName() === portName) {
+                return port;
+            }
+        }
+      
+        return null;
+    },
+    
+<span id='draw2d-shape-node-Node-method-addPort'>    /**
+</span>     * @method
+     * Add a port to this node at the given position.&lt;br&gt;
+     *
+     * @param {draw2d.Port} port The new port to add.
+     * @param {draw2d.layout.locator.Locator} locator The layouter for the port.
+     **/
+    addPort: function(port, locator)
+    {
+        if(!(port instanceof draw2d.Port)){
+            throw &quot;Argument is not typeof 'draw2d.Port'. \nFunction: draw2d.shape.node.Node#addPort&quot;;
+        }
+        
+        
+        if (port instanceof draw2d.InputPort) {
+            this.inputPorts.add(port);
+        }
+        else if(port instanceof draw2d.OutputPort){
+            this.outputPorts.add(port);
+        }
+        else if(port instanceof draw2d.HybridPort){
+            this.hybridPorts.add(port);
+        }
+
+        if((typeof locator !== &quot;undefined&quot;) &amp;&amp; (locator instanceof draw2d.layout.locator.Locator)){
+            port.setLocator(locator);
+        }
+        
+        port.setParent(this);
+        port.setCanvas(this.canvas);
+
+        // You can't delete a port with the [DEL] key if a port is a child of a node
+        port.setDeleteable(false);
+
+        if (this.canvas !== null) {
+            port.getShapeElement();
+            this.canvas.registerPort(port);
+        }
+    },
+    
+<span id='draw2d-shape-node-Node-method-removePort'>    /**
+</span>     * @method
+     * Removes a port and all related connections from this node.&lt;br&gt;
+     *
+     * @param {draw2d.Port} port The port to remove.
+     **/
+    removePort : function(port)
+    {
+        this.inputPorts.remove(port);
+        this.outputPorts.remove(port);
+        this.hybridPorts.remove(port);
+
+        if (port.getCanvas() !== null) {
+            port.getCanvas().unregisterPort(port);
+            // remove the related connections of the port too.
+            var connections = port.getConnections();
+            for ( var i = 0; i &lt; connections.getSize(); ++i) {
+                port.getCanvas().removeFigure(connections.get(i));
+            }
+        }
+
+        port.setCanvas(null);
+    },
+    
+<span id='draw2d-shape-node-Node-method-createPort'>    /**
+</span>     * @method
+     * Create a standard Port for this element. Inherited class can override this
+     * method to create its own type of ports.
+     * 
+     * @param {String} type the type of the requested port. possible [&quot;input&quot;, &quot;output&quot;]
+     * @param {draw2d.layout.locator.Locator} [locator] the layouter to use for this port
+     * @template
+     */
+    createPort: function(type, locator){
+        var newPort = null;
+        var count =0;
+        
+    	switch(type){
+    	case &quot;input&quot;:
+    		newPort= new draw2d.InputPort();
+    		count = this.inputPorts.getSize();
+    		break;
+    	case &quot;output&quot;:
+    		newPort= new draw2d.OutputPort();
+            count = this.outputPorts.getSize();
+    		break;
+        case &quot;hybrid&quot;:
+            newPort= new draw2d.HybridPort();
+            count = this.hybridPorts.getSize();
+            break;
+    	default:
+            throw &quot;Unknown type [&quot;+type+&quot;] of port requested&quot;;
+    	}
+    	
+   	    newPort.setName(type+count);
+    	
+    	this.addPort(newPort, locator);
+    	// relayout the ports
+    	this.setDimension(this.width,this.height);
+    	
+    	return newPort;
+    },
+    
+<span id='draw2d-shape-node-Node-method-getConnections'>    /**
+</span>     * @method
+     * Return all connections related to this node.
+     * 
+     * @returns {draw2d.util.ArrayList}
+     */
+    getConnections: function(){
+        var connections = new draw2d.util.ArrayList();
+        var ports = this.getPorts();
+        for(var i=0; i&lt;ports.getSize(); i++)
+        {
+          var port = ports.get(i);
+          // Do NOT add twice the same connection if it is linking ports from the same node
+          for (var c = 0, c_size = port.getConnections().getSize() ; c&lt; c_size ; c++)
+          {
+              if(!connections.contains(port.getConnections().get(c)))
+              {
+                connections.add(port.getConnections().get(c));
+              }
+          }
+        }
+        return connections;
+    },
+
+<span id='draw2d-shape-node-Node-method-setCanvas'>    /**
+</span>     * @private
+     **/
+    setCanvas : function(canvas)
+    {
+        var oldCanvas = this.canvas;
+        this._super(canvas);
+       
+        var ports = this.getPorts();
+        if (oldCanvas !== null) {
+            ports.each(function(i,port){
+                oldCanvas.unregisterPort(port);
+            });
+        }
+
+        if (canvas !== null) {
+            ports.each(function(i,port){
+                port.setCanvas(canvas);
+                canvas.registerPort(port);
+            });
+            // relayout the ports
+            this.setDimension(this.width,this.height);
+        }
+        else {
+            ports.each(function(i,port){
+                port.setCanvas(null);
+            });
+        }
+    },
+    
+    
+<span id='draw2d-shape-node-Node-method-setDimension'>    /**
+</span>     * @inheritdoc
+     *
+     * @param {Number} w The new width of the figure
+     * @param {Number} h The new height of the figure
+     **/
+    setDimension:function(w, h)
+    {
+        this._super(w,h);
+
+        // make no sense to layout the ports if we not part
+        // of the canvas
+        if(this.shape===null){
+            return;
+        }
+        
+        // layout the ports
+        //
+        this.outputPorts.each(function(i, port){
+            port.locator.relocate(i,port);
+        });
+        
+        this.inputPorts.each(function(i, port){
+            port.locator.relocate(i,port);
+        });
+        
+        this.hybridPorts.each(function(i, port){
+            port.locator.relocate(i,port);
+        });
+    },
+
+    setRotationAngle: function(angle){
+    	this._super(angle);
+        
+        // layout the ports
+        //
+        this.outputPorts.each(function(i, port){
+            port.locator.relocate(i,port);
+        });
+        
+        this.inputPorts.each(function(i, port){
+            port.locator.relocate(i,port);
+        });
+        
+        this.hybridPorts.each(function(i, port){
+            port.locator.relocate(i,port);
+        });
+    },
+    
+<span id='draw2d-shape-node-Node-method-onPortValueChanged'>    /**
+</span>     * @method
+     * Called if the value of any port has been changed
+     * 
+     * @param {draw2d.Port} relatedPort
+     * @template
+     */
+    onPortValueChanged: function(relatedPort){
+    
+    }
+    
+});</pre>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-shape-analog-OpAmp'>/**
+</span> * @class draw2d.shape.analog.OpAmp
+ * Hand drawn arrow which points down left
+ * 
+ * See the example:
+ *
+ *     @example preview small frame
+ *     
+ *     var figure =  new draw2d.shape.analog.OpAmp();
+ *     canvas.addFigure(figure,10,10);
+ *     
+ *     
+ * @extends draw2d.SVGFigure
+ */
+draw2d.shape.analog.OpAmp = draw2d.SVGFigure.extend({
+
+    NAME:&quot;draw2d.shape.analog.OpAmp&quot;,
+    
+    // custom locator for the special design of the OpAmp Input area
+    MyInputPortLocator : draw2d.layout.locator.PortLocator.extend({
+        init:function( ){
+          this._super();
+        },    
+        relocate:function(index, port){
+        	var parent = port.getParent();
+            var calcY = (8+19*index)*parent.scaleY;
+            this.applyConsiderRotation(port, 0, calcY);
+        }
+    }),
+
+<span id='draw2d-shape-analog-OpAmp-method-constructor'>    /**
+</span>     * @constructor
+     * Create a new instance
+     */
+    init:function(width, height){
+        if(typeof width === &quot;undefined&quot;){
+            width = 50;
+            height= 50;
+        }
+        
+        this._super(width,height);
+        this.inputLocator = new this.MyInputPortLocator();
+        
+        this.createPort(&quot;input&quot;, this.inputLocator);
+        this.createPort(&quot;input&quot;, this.inputLocator);
+        
+        this.createPort(&quot;output&quot;);
+    },
+
+    
+    getSVG: function(){
+         return '&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; version=&quot;1.1&quot;&gt;'+
+                 '&lt;path d=&quot;m8.2627,0l0,35.36035l31.23926,-17.76025l-31.23926,-17.60011l0,0l0,0.00001zm2.27832,27.36719l4.08105,0m-2.10449,-2.20703l0,4.27979m2.26367,-21.35938l-4.15918,0&quot;  stroke=&quot;#1B1B1B&quot; fill=&quot;#ffffff&quot;/&gt;'+
+                 '&lt;line x1=&quot;0.53516&quot;  y1=&quot;8&quot;  x2=&quot;8.21191&quot;  y2=&quot;8&quot;  stroke=&quot;#010101&quot;/&gt;'+
+                 '&lt;line x1=&quot;39.14941&quot; y1=&quot;18&quot; x2=&quot;45.81055&quot; y2=&quot;18&quot; stroke=&quot;#010101&quot; /&gt;'+
+                 '&lt;line x1=&quot;0.53516&quot;  y1=&quot;27&quot; x2=&quot;8.21191&quot;  y2=&quot;27&quot; stroke=&quot;#010101&quot; /&gt;'+
+                '&lt;/svg&gt;';
+    },
+    
+<span id='draw2d-shape-analog-OpAmp-method-repaint'>    /**
+</span>     * @method
+     * propagate all attributes like color, stroke,... to the shape element
+     **/
+     repaint : function(attributes)
+     {
+         if (this.repaintBlocked===true || this.shape === null){
+             return;
+         }
+
+         if(typeof attributes === &quot;undefined&quot; ){
+             attributes = {};
+         }
+
+         // redirect the backgroundColor to an internal SVG node.
+         // In this case only a small part of the shape are filled with the background color
+         // and not the complete rectangle/bounding box
+         //
+         attributes[&quot;fill&quot;] = &quot;transparent&quot;;
+         if( this.bgColor!=null){
+             this.svgNodes[0].attr({fill:&quot;#&quot; + this.bgColor.hex()});
+         }
+         
+         this._super(attributes);
+     }
+
+});</pre>
+</body>
+</html>

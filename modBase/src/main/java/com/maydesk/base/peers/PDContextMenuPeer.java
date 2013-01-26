@@ -29,7 +29,7 @@ public class PDContextMenuPeer extends AbstractComponentSynchronizePeer {
 	private static final String PD_CONTEXT_PANE = "PDContextMenu";
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_CONTEXT_PANE, PDUtil.BASE_PATH + "js/PDContextMenu.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_CONTEXT_PANE, "js/PDContextMenu.js"));
 	}
 
 	@Override

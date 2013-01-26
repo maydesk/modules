@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+<span id='draw2d-shape-basic-Circle'>/**
+</span> * @class draw2d.shape.basic.Circle
+ * A circle figure with basic background and stroke API. &lt;br&gt;
+ * A circle can not be streched. &lt;strong&gt;The aspect ration is always 1:1&lt;/strong&gt;.
+ * 
+ * See the example:
+ *
+ *     @example preview small frame
+ *     
+ *     var shape =  new draw2d.shape.basic.Circle();
+ *     shape.setStroke(3);
+ *     shape.setColor(&quot;#3d3d3d&quot;);
+ *     shape.setBackgroundColor(&quot;#3dff3d&quot;);
+ *     
+ *     canvas.addFigure(shape,40,10);
+ *     
+ * @inheritable
+ * @author Andreas Herz
+ * @extends draw2d.shape.basic.Oval
+ */
+draw2d.shape.basic.Circle = draw2d.shape.basic.Oval.extend({
+    
+    NAME : &quot;draw2d.shape.basic.Circle&quot;, 
+    
+<span id='draw2d-shape-basic-Circle-method-constructor'>    /**
+</span>     * @constructor
+     * Create a new circle figure.
+     * 
+     * @param {Number} [radius] the initial radius for the circle
+     */
+    init:function( radius)
+    {
+      this._super();
+      if(typeof radius === &quot;number&quot;){
+        this.setDimension(radius,radius);
+      }
+      else {
+         this.setDimension(40,40);
+      }
+    },
+    
+    
+<span id='draw2d-shape-basic-Circle-method-setDimension'>    /**
+</span>     * @method
+     * It is not possible to set different values width and height for a circle. The 
+     * greater value of w and h will be used only.
+     * 
+     * @param {Number} w The new width of the circle.
+     * @param {Number} h The new height of the circle.
+     **/
+    setDimension:function( w,  h)
+    {
+      if(w&gt;h){
+         this._super(w,w);
+      }
+      else{
+         this._super(h,h);
+      }
+    },
+    
+<span id='draw2d-shape-basic-Circle-method-isStrechable'>    /**
+</span>     * @method
+     * A Circle can't be streched. The aspect ratio is always 1:1&lt;br&gt;
+     *
+     * @return {boolean} Returns always false. It is not possible to strech a circle.
+     */
+    isStrechable:function(){
+      return false;
+    }
+
+});</pre>
+</body>
+</html>

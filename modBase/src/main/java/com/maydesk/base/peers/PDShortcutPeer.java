@@ -29,7 +29,7 @@ public class PDShortcutPeer extends PDDesktopItemPeer {
 	private static final String PD_SHORTCUT = "PDShortcut";
 
 	static {
-		JavaScriptService SERVICE = JavaScriptService.forResources(PD_SHORTCUT, new String[] { PDUtil.BASE_PATH + "js/PDShortcut.js" });
+		JavaScriptService SERVICE = JavaScriptService.forResources(PD_SHORTCUT, new String[] {"js/PDShortcut.js" });
 		WebContainerServlet.getServiceRegistry().add(SERVICE);
 	}
 

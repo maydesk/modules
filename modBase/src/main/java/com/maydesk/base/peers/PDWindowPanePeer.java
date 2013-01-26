@@ -28,7 +28,7 @@ public class PDWindowPanePeer extends WindowPanePeer {
 	private static final String PD_WINDOW_PANE = "PDWindowPane";
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_WINDOW_PANE, PDUtil.BASE_PATH + "js/PDWindowPane.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_WINDOW_PANE, "js/PDWindowPane.js"));
 	}
 
 	public PDWindowPanePeer() {

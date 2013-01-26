@@ -29,7 +29,7 @@ public class PDTextAreaPeer extends TextComponentPeer {
 	private static final String PD_TEXT_AREA = "PD.RTA";
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_TEXT_AREA, PDUtil.BASE_PATH + "js/PDTextArea.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_TEXT_AREA, "js/PDTextArea.js"));
 	}
 
 	@Override

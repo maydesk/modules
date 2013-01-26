@@ -26,7 +26,7 @@ public class PDTaggerPeer extends PDDesktopItemPeer {
 	private static final String PD_TAGGER = "PDTagger";
 
 	static {
-		JavaScriptService SERVICE = JavaScriptService.forResources(PD_TAGGER, new String[] { PDUtil.BASE_PATH + "js/PDTagger.js" });
+		JavaScriptService SERVICE = JavaScriptService.forResources(PD_TAGGER, new String[] { "js/PDTagger.js" });
 		WebContainerServlet.getServiceRegistry().add(SERVICE);
 	}
 

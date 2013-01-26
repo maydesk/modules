@@ -29,7 +29,7 @@ public class PDPortPeer extends PDDesktopItemPeer {
 
 	static {
 		// TODO not very elegant to register PDDesktopItem.js here...
-		JavaScriptService SERVICE = JavaScriptService.forResources(PD_PORT, new String[] { PDUtil.BASE_PATH + "js/PDPort.js" });
+		JavaScriptService SERVICE = JavaScriptService.forResources(PD_PORT, new String[] { "js/PDPort.js" });
 		WebContainerServlet.getServiceRegistry().add(SERVICE);
 		ResourceRegistry resources = WebContainerServlet.getResourceRegistry();
 		resources.addPackage(PD_PORT, "img/");

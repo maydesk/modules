@@ -30,7 +30,7 @@ public class PDAvatarPeer extends PDDesktopItemPeer {
 	private static final String PD_AVATAR = "PDAvatar";
 
 	static {
-		JavaScriptService SERVICE = JavaScriptService.forResources(PD_AVATAR, new String[] { PDUtil.BASE_PATH + "js/PDBubbleText.js", PDUtil.BASE_PATH + "js/PDAvatar.js" });
+		JavaScriptService SERVICE = JavaScriptService.forResources(PD_AVATAR, new String[] { "js/PDBubbleText.js", "js/PDAvatar.js" });
 		WebContainerServlet.getServiceRegistry().add(SERVICE);
 	}
 

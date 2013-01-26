@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-shape-icon-Icon'>/**
+</span> * @class draw2d.shape.icon.Icon
+ * @inheritable
+ * @author Andreas Herz
+ * @extends draw2d.VectorFigure
+ */
+draw2d.shape.icon.Icon = draw2d.SetFigure.extend({
+    NAME : &quot;draw2d.shape.icon.Icon&quot;,
+
+<span id='draw2d-shape-icon-Icon-method-constructor'>    /**
+</span>     * 
+     * @constructor
+     * Creates a new figure element which are not assigned to any canvas.
+     * @param {Number} [width] the width of the Oval
+     * @param {Number} [height] the height of the Oval
+     */
+    init: function(width, height) {
+      this._super(width, height);
+      this.setBackgroundColor(&quot;#333333&quot;);
+    },
+
+<span id='draw2d-shape-icon-Icon-method-repaint'>    /**
+</span>     * @method
+     * propagate all attributes like color, stroke,... to the shape element
+     **/
+    repaint : function(attributes)
+    {
+        if(this.repaintBlocked===true || this.shape===null){
+            return;
+        }
+
+        if (typeof attributes === &quot;undefined&quot;) {
+            attributes = {};
+        }
+        
+        // redirect the bgColor to the inner set and not to the outer container
+        //
+        attributes.fill=&quot;none&quot;;
+        if(this.svgNodes!==null) {
+            this.svgNodes.attr({fill: this.bgColor.hash(), stroke:&quot;none&quot;});
+        }
+        
+        this._super(attributes);
+    },
+
+    applyTransformation:function(){
+        if (this.isResizeable()===true) {
+            this.svgNodes.transform(&quot;S&quot;+this.scaleX+&quot;,&quot;+this.scaleY+&quot;,&quot;+this.getAbsoluteX()+&quot;,&quot;+this.getAbsoluteY()+ &quot;t&quot;+ (this.getAbsoluteX()-this.offsetX) + &quot;,&quot; + (this.getAbsoluteY()-this.offsetY));
+        }
+        else {
+            this.svgNodes.transform(&quot;T&quot; + (this.getAbsoluteX()-this.offsetX) + &quot;,&quot; + (this.getAbsoluteY()-this.offsetY));
+        }
+    },
+    
+<span id='draw2d-shape-icon-Icon-method-createShapeElement'>    /**
+</span>     * @private
+     */
+    createShapeElement : function()
+    {
+    	var shape = this._super();
+    	
+        var bb = this.svgNodes.getBBox();
+
+        this.offsetX = bb.x;
+        this.offsetY = bb.y;
+       
+        return shape;
+    },
+ 
+<span id='draw2d-shape-icon-Icon-method-setDimension'>    /**
+</span>     * @method
+     * It is not possible to set different values width and height for a circle. The 
+     * greater value of w and h will be used only.
+     * 
+     * @param {Number} w The new width of the circle.
+     * @param {Number} h The new height of the circle.
+     **/
+    setDimension:function( w,  h)
+    {
+      if(w&gt;h){
+         this._super(w,w);
+      }
+      else{
+         this._super(h,h);
+      }
+    }
+    
+});
+
+</pre>
+</body>
+</html>

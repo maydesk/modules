@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-VectorFigure'>/**
+</span> * @class draw2d.VectorFigure
+ * The base class for all vector based figures like {@link draw2d.shape.basic.Rectangle}  or {@link draw2d.shape.basic.Oval} 
+ * inside a canvas.
+ * 
+ * @inheritable
+ * @author Andreas Herz
+ * @extends draw2d.shape.node.Node
+ */
+draw2d.VectorFigure = draw2d.shape.node.Node.extend({
+    NAME : &quot;draw2d.VectorFigure&quot;,
+
+<span id='draw2d-VectorFigure-method-constructor'>    /**
+</span>     * @constructor
+     * Creates a new figure element which are not assigned to any canvas.
+     * 
+     */
+    init : function()
+    {
+        this.stroke = 1;
+        
+        // memento for the stroke if we reset the glow effect of this shape
+        //
+        this.strokeBeforeGlow = this.stroke;
+        this.glowIsActive = false;
+        
+        this._super();
+    },
+      
+    
+<span id='draw2d-VectorFigure-method-setGlow'>    /**
+</span>     * @method
+     * Highlight the element or remove the highlighting
+     * 
+     * @param {Boolean} flag indicates glow/noGlow
+     * @template
+     */
+    setGlow: function(flag){
+        
+        if(flag === this.glowIsActive) {
+            // nothing todo
+            return;
+        }
+        
+        this.glowIsActive = flag;
+        if(flag===true){
+            this.strokeBeforeGlow = this.getStroke();
+            this.setStroke(this.strokeBeforeGlow*2.5);
+        }
+        else {
+            this.setStroke(this.strokeBeforeGlow);
+        }
+    },
+    
+<span id='draw2d-VectorFigure-method-repaint'>   /**
+</span>    * @method
+    * propagate all attributes like color, stroke,... to the shape element
+    **/
+    repaint : function(attributes)
+    {
+        if (this.repaintBlocked===true || this.shape === null){
+            return;
+        }
+
+        if(typeof attributes === &quot;undefined&quot; ){
+            attributes = {};
+        }
+
+        attributes.x = this.getAbsoluteX();
+        attributes.y = this.getAbsoluteY();
+        
+        if(typeof attributes.stroke===&quot;undefined&quot;){
+            if(this.color === null || this.stroke ===0){
+                attributes.stroke = &quot;none&quot;;
+            }
+            else {
+                attributes.stroke = &quot;#&quot; + this.color.hex();
+            }
+        }
+        
+        attributes[&quot;stroke-width&quot;] = this.stroke;
+        
+        if(typeof attributes.fill === &quot;undefined&quot;){
+           if(this.bgColor!==null){
+        	   attributes.fill = &quot;#&quot; + this.bgColor.hex();
+           }
+           else{
+               attributes.fill =&quot;none&quot;;
+           }
+        }
+
+        this._super(attributes);
+    },
+
+
+<span id='draw2d-VectorFigure-method-setBackgroundColor'>   /**
+</span>    * @method
+    * Set the new background color of the figure. It is possible to hands over
+    * &lt;code&gt;null&lt;/code&gt; to set the background transparent.
+    *
+    * @param {draw2d.util.Color} color The new background color of the figure
+    **/
+    setBackgroundColor : function(color)
+    {
+        if (color instanceof draw2d.util.Color) {
+            this.bgColor = color;
+        }
+        else if (typeof color === &quot;string&quot;) {
+            this.bgColor = new draw2d.util.Color(color);
+        }
+        else {
+            this.bgColor = null;
+        }
+
+        this.repaint();
+    },
+
+<span id='draw2d-VectorFigure-method-getBackgroundColor'>   /**
+</span>    * @method
+    * The current used background color.
+    * 
+    * @return {draw2d.util.Color}
+    */
+   getBackgroundColor:function()
+   {
+     return this.bgColor;
+   },
+
+<span id='draw2d-VectorFigure-method-setStroke'>   /**
+</span>    * @method
+    * Set the stroke to use.
+    * 
+    * @param {Number} w The new line width of the figure
+    **/
+   setStroke:function( w )
+   {
+     this.stroke=w;
+     this.repaint();
+   },
+
+<span id='draw2d-VectorFigure-method-getStroke'>   /**
+</span>    * @method
+    * The current use line width.
+    * 
+    * @type {Number}
+    **/
+   getStroke:function( )
+   {
+     return this.stroke;
+   },
+
+<span id='draw2d-VectorFigure-method-setColor'>   /**
+</span>    * @mehod
+    * Set the color of the line.
+    * This method fires a &lt;i&gt;document dirty&lt;/i&gt; event.
+    * 
+    * @param {draw2d.util.Color} color The new color of the line.
+    **/
+   setColor:function( color)
+   {
+     if(color instanceof draw2d.util.Color){
+         this.color = color;
+     }
+     else if(typeof color === &quot;string&quot;){
+         this.color = new draw2d.util.Color(color);
+     }
+     else{
+         // set good default
+         this.color = new draw2d.util.Color(0,0,0);
+     }
+     this.repaint();
+   },
+
+<span id='draw2d-VectorFigure-method-getColor'>   /**
+</span>    * @method
+    * The current used forground color
+    * 
+    * @returns {draw2d.util.Color}
+    */
+   getColor:function()
+   {
+     return this.color;
+   }
+
+});
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-Selection'>/**
+</span> * @class draw2d.Selection
+ * 
+ * Represents the current selection in the canvas. The selection element is a pure passive element which 
+ * manage/store the selection.
+ * 
+ * 
+ * @author Andreas Herz
+ */
+draw2d.Selection = Class.extend({
+    
+    NAME : &quot;draw2d.Selection&quot;,
+
+<span id='draw2d-Selection-method-constructor'>    /**
+</span>     * @constructor
+     * Creates a new figure element which are not assigned to any canvas.
+     * 
+     */
+    init: function() {
+        this.primary = null;
+        this.all = new draw2d.util.ArrayList();
+    },
+
+<span id='draw2d-Selection-method-clear'>    /**
+</span>     * Reset the current selection
+     * 
+     */
+    clear: function(){
+        this.primary = null;
+        this.all = new draw2d.util.ArrayList();
+    },
+    
+<span id='draw2d-Selection-method-getPrimary'>    /**
+</span>     * @method
+     * Return the primary selection. This can only one figure at once.
+     * 
+     * @return {draw2d.Figure} the primary selected figure
+     */
+    getPrimary: function(  )
+    {
+        return this.primary;
+    },
+ 
+<span id='draw2d-Selection-method-setPrimary'>    /**
+</span>     * @method
+     * Set the primary selection.
+     * 
+     * @param {draw2d.Figure} figure The new primary selection
+     */
+    setPrimary: function(figure){
+        this.primary = figure;
+        if(figure!==null &amp;&amp; !this.all.contains(figure)){
+            this.all.add(figure);
+        }
+    },
+    
+<span id='draw2d-Selection-method-remove'>    /**
+</span>     * @method
+     * Remove the given figure from the selection (primary,all)
+     * 
+     * @param {draw2d.Figure} figure
+     */
+    remove: function(figure){
+        this.all.remove(figure);
+        if(this.primary===figure){
+            this.primary = null;
+        }
+    },
+    
+<span id='draw2d-Selection-method-contains'>    /**
+</span>     * @method
+     * return true if the given figure part of the selection
+     * 
+     * @param {draw2d.Figure} figure The figure to check
+     * @since 2.2.0
+     */
+    contains: function(figure){
+        return this.all.contains(figure);
+    },
+    
+<span id='draw2d-Selection-method-getAll'>    /**
+</span>     * @method
+     * Return the complete selection - including the primary selection.
+     * 
+     */
+    getAll: function()
+    {
+        return this.all.clone();
+    }
+});</pre>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-layout-connection-ManhattanBridgedConnectionRouter'>/**
+</span> * @class draw2d.layout.connection.ManhattanBridgedConnectionRouter
+ * Provides a {@link draw2d.Connection} with an orthogonal route between the Connection's source 
+ * and target anchors.
+ * 
+ * @inheritable
+ * @author Andreas Herz
+ * 
+ * @extends  draw2d.layout.connection.ManhattanConnectionRouter
+ */
+draw2d.layout.connection.ManhattanBridgedConnectionRouter = draw2d.layout.connection.ManhattanConnectionRouter.extend({
+    NAME : &quot;draw2d.layout.connection.ManhattanBridgedConnectionRouter&quot;,
+
+	BRIDE_HORIZONTAL_LR : &quot; r 0 0 3 -4 7 -4 10 0 13 0 &quot;, // Left to right
+    BRIDE_HORIZONTAL_RL : &quot; r 0 0 -3 -4 -7 -4 -10 0 -13 0 &quot;, // right to left
+ 
+<span id='draw2d-layout-connection-ManhattanBridgedConnectionRouter-method-constructor'>	/**
+</span>	 * @constructor 
+	 * Creates a new Router object.
+	 * 
+	 */
+    init: function(){
+    },
+    
+<span id='draw2d-layout-connection-ManhattanBridgedConnectionRouter-method-route'>	/**
+</span>	 * @method
+	 * Layout the hands over connection in a manhattan like layout
+	 * 
+	 * @param {draw2d.Connection} conn the connection to layout
+	 */
+	route : function(conn) {
+		var fromPt  = conn.getStartPoint();
+		var fromDir = this.getStartDirection(conn);
+
+		var toPt  = conn.getEndPoint();
+		var toDir = this.getEndDirection(conn);
+
+		// calculate the lines between the two points.
+		//
+		this._route(conn, toPt, toDir, fromPt, fromDir);
+
+		// calculate the path string for the SVG rendering
+		//
+        var intersectionsASC = conn.getCanvas().getIntersection(conn).sort(&quot;x&quot;);
+        var intersectionsDESC= intersectionsASC.clone().reverse();
+        
+        var intersectionForCalc = intersectionsASC;
+		var i = 0;
+
+		var ps = conn.getPoints();
+		var p = ps.get(0);
+		var path = [ &quot;M&quot;, parseInt(p.x), &quot; &quot;, parseInt(p.y) ];
+		var oldP = p;
+		for (i = 1; i &lt; ps.getSize(); i++) {
+			p = ps.get(i);
+       
+			// check for intersection and paint a bridge if required
+			// line goes from left to right
+			//
+			var bridgeWidth = 5;
+			var bridgeCode = this.BRIDE_HORIZONTAL_LR;
+
+			// line goes from right-&gt;left. Inverse the bridge and the bridgeWidth
+			//
+			if (oldP.x &gt; p.x) {
+				intersectionForCalc=intersectionsDESC;
+				bridgeCode = this.BRIDE_HORIZONTAL_RL;
+				bridgeWidth = -bridgeWidth;
+			}
+
+			intersectionForCalc.each(function(ii, interP) {
+				if (draw2d.shape.basic.Line.hit(1, oldP.x, oldP.y, p.x, p.y, interP.x, interP.y) === true) {
+					// we draw only horizontal bridges. Just a design decision
+					//
+					if (p.y === interP.y) {
+						path.push(&quot; L&quot;, parseInt((interP.x - bridgeWidth)), &quot; &quot;, parseInt(interP.y));
+						path.push(bridgeCode);
+					}
+				}
+
+			});
+
+			path.push(&quot; L&quot;, parseInt(p.x), &quot; &quot;, parseInt(p.y));
+			oldP = p;
+		}
+		conn.svgPathString = path.join(&quot;&quot;);
+	}
+
+});</pre>
+</body>
+</html>

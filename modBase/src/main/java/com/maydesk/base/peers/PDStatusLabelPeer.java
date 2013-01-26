@@ -28,7 +28,7 @@ public class PDStatusLabelPeer extends AbstractComponentSynchronizePeer {
 	private static final String PD_STATUS_LABEL = "PDStatusLabel";
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_STATUS_LABEL, PDUtil.BASE_PATH + "js/PDStatusLabel.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_STATUS_LABEL, "js/PDStatusLabel.js"));
 	}
 
 	/**

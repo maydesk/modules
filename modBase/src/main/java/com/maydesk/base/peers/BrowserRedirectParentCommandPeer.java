@@ -28,7 +28,7 @@ import com.maydesk.base.util.PDUtil;
 public class BrowserRedirectParentCommandPeer extends AbstractCommandSynchronizePeer {
 
 	/** The associated client-side JavaScript module <code>Service</code>. */
-	private static final Service BROWSER_REDIRECT_PARENT_SERVICE = JavaScriptService.forResource("Echo.BrowserRedirectParent", PDUtil.BASE_PATH + "js/PDBrowserRedirectParent.js");
+	private static final Service BROWSER_REDIRECT_PARENT_SERVICE = JavaScriptService.forResource("Echo.BrowserRedirectParent", "js/PDBrowserRedirectParent.js");
 
 	static {
 		WebContainerServlet.getServiceRegistry().add(BROWSER_REDIRECT_PARENT_SERVICE);

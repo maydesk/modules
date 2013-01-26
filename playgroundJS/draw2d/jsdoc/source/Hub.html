@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-shape-node-Hub'>/**
+</span> * @class draw2d.shape.node.Hub
+ * 
+ * A hub is a shape with a special kind of port handling. The hole figure is a hybrid port. You can drag&amp;drop a Port directly on
+ * the figure.
+ * 
+ * See the example:
+ *
+ *     @example preview small frame
+ *     
+ *     var figure =  new draw2d.shape.node.Hub();
+ *     
+ *     canvas.addFigure(figure,50,10);
+ *     
+ * @extends draw2d.shape.basic.Rectangle
+ */
+draw2d.shape.node.Hub = draw2d.shape.basic.Rectangle.extend({
+
+    NAME : &quot;draw2d.shape.node.Hub&quot;,
+
+    DEFAULT_COLOR : new draw2d.util.Color(&quot;#4DF0FE&quot;),
+    BACKGROUND_COLOR : new draw2d.util.Color(&quot;#29AA77&quot;),
+
+<span id='draw2d-shape-node-Hub-method-init'>	/**
+</span>	 * 
+	 * @param {Number} width initial width of the bus shape
+	 * @param {Number} height height of the bus
+	 */
+	init : function(width, height, label)
+    {
+	    this.label = null;
+	    
+        this._super(width,height);
+        
+        var port = this.createPort(&quot;hybrid&quot;, new draw2d.layout.locator.CenterLocator(this));
+
+        // redirect the glow effect and the hitTest for the port to the parent node
+        //
+        port.setGlow = $.proxy(this.setGlow,this);
+        port.hitTest = $.proxy(this.hitTest,this);
+        
+        // provide a special connection anchor for this port. We use the bounding box of the
+        // parent as connection border
+        //
+        port.setConnectionAnchor(new draw2d.layout.anchor.ShortesPathConnectionAnchor(port));
+        port.setVisible(false);
+        
+        // set some good defaults
+        //
+        if(typeof height ===&quot;undefined&quot;){
+            this.setDimension(150, 50);
+        }
+        
+        // set the border of the rectangle a little bit darker than the 
+        // inner part
+        //
+        this.setColor(this.DEFAULT_COLOR.darker());
+        this.setBackgroundColor(this.BACKGROUND_COLOR);
+        if(typeof label !== &quot;undefined&quot;){
+            // Create any Draw2D figure as decoration for the connection
+            //
+            this.label = new draw2d.shape.basic.Label(label);
+            this.label.setColor(&quot;#0d0d0d&quot;);
+            this.label.setFontColor(&quot;#0d0d0d&quot;);
+            this.label.setStroke(0);
+            
+            // add the new decoration to the connection with a position locator.
+            //
+            this.addFigure(this.label, new draw2d.layout.locator.CenterLocator(this));
+        }
+    },
+    
+<span id='draw2d-shape-node-Hub-method-onDragEnter'>      /**
+</span>      * @method
+      * 
+      * @param draggedFigure
+      * @return {draw2d.Figure} the figure which should receive the drop event or null if the element didnt want a drop event
+      */
+     onDragEnter : function( draggedFigure )
+     {
+         // redirect the dragEnter handling to the hybrid port
+         //
+  		 return this.getHybridPort(0).onDragEnter(draggedFigure);
+     },
+     
+<span id='draw2d-shape-node-Hub-method-getMinWidth'>     /**
+</span>      * @method
+      * This value is relevant for the interactive resize of the figure.
+      *
+      * @return {Number} Returns the min. width of this object.
+      */
+     getMinWidth:function()
+     {
+         if(this.label!==null){
+             return Math.max(this.label.getMinWidth(), this._super());
+         }
+         else{
+             return this._super();
+         }
+     },
+     
+
+<span id='draw2d-shape-node-Hub-method-repaint'>     /**
+</span>      * @inheritdoc
+      * 
+      * @param attributes
+      */
+     repaint:function(attributes)
+     {
+         if(this.repaintBlocked===true || this.shape===null){
+             return;
+         }
+
+         if(typeof attributes === &quot;undefined&quot;){
+             attributes= {};
+         }
+         
+         // set some good defaults if the parent didn't
+         if(typeof attributes.fill ===&quot;undefined&quot;){
+             attributes.fill=&quot;90-&quot;+this.bgColor.hash()+&quot;:5-&quot;+this.bgColor.lighter(0.3).hash()+&quot;:95&quot;;
+         }
+         
+        this._super(attributes);
+     }
+     
+
+});
+</pre>
+</body>
+</html>

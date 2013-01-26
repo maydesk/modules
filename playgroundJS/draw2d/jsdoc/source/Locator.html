@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='draw2d-layout-locator-Locator'>/**
+</span> * @class draw2d.layout.locator.Locator
+ * 
+ * Controls the location of an IFigure. 
+ *
+ * @author Andreas Herz
+ */
+draw2d.layout.locator.Locator= Class.extend({
+    NAME : &quot;draw2d.layout.locator.Locator&quot;,
+   
+<span id='draw2d-layout-locator-Locator-method-constructor'>    /**
+</span>     * @constructor
+     * Initial Constructor
+     * 
+     * @param {draw2d.Figure} [parentShape] the parent or owner of the child 
+     */
+    init:function(parentShape )
+    {
+        this.parent = parentShape;
+    },
+    
+<span id='draw2d-layout-locator-Locator-method-getParent'>    /**
+</span>     * @method
+     * Returns the associated owner of the locator
+     *
+     * @return {draw2d.Figure}
+     **/
+    getParent:function(){
+       return this.parent;
+    },
+    
+    
+<span id='draw2d-layout-locator-Locator-method-setParent'>    /**
+</span>     * @method
+     * Set the associated owner of the locator
+     *
+     * @param {draw2d.Figure} parentShape
+     **/
+    setParent:function(parentShape){
+        this.parent= parentShape;
+    },
+    
+<span id='draw2d-layout-locator-Locator-method-relocate'>    /**
+</span>     * @method
+     * Controls the location of an I{@link draw2d.Figure} 
+     *
+     * @param {Number} index child index of the figure
+     * @param {draw2d.Figure} figure the figure to control
+     * 
+     * @template
+     **/
+    relocate:function(index, figure){
+    	
+    }
+});</pre>
+</body>
+</html>

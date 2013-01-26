@@ -29,7 +29,7 @@ public class PDTextFieldPeer extends TextComponentPeer {
 	private static final String PD_TEXT_FIELD = "PDTextField";
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_TEXT_FIELD, PDUtil.BASE_PATH + "js/PDTextField.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_TEXT_FIELD, "js/PDTextField.js"));
 	}
 
 	@Override

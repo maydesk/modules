@@ -1,0 +1,626 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<title></title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link type="text/css" rel="stylesheet" href="./css/example.css" />
+    <link type="text/css" rel="stylesheet" href="../../../css/contextmenu.css" />
+
+	<SCRIPT src="../../../lib/shifty.js"></SCRIPT>
+	<SCRIPT src="../../../lib/raphael.js"></SCRIPT>
+	<SCRIPT src="../../../lib/jquery-1.8.1.min.js"></SCRIPT>
+	<SCRIPT src="../../../lib/jquery-ui-1.8.23.custom.min.js"></SCRIPT>
+	<SCRIPT src="../../../lib/jquery.layout.js"></SCRIPT>
+	<SCRIPT src="../../../lib/jquery.autoresize.js"></SCRIPT>
+	<SCRIPT src="../../../lib/jquery-touch_punch.js"></SCRIPT>
+	<SCRIPT src="../../../lib/jquery.contextmenu.js"></SCRIPT>
+	<SCRIPT src="../../../lib/rgbcolor.js"></SCRIPT>
+	<SCRIPT src="../../../lib/canvg.js"></SCRIPT>
+	<SCRIPT src="../../../lib/Class.js"></SCRIPT>
+	<SCRIPT src="../../../lib/json2.js"></SCRIPT>
+	<SCRIPT src="../../../src/draw2d.js"></SCRIPT>
+	    <SCRIPT src="../../../src/util/Color.js"> </SCRIPT>
+    <SCRIPT src="../../../src/util/ArrayList.js"> </SCRIPT>
+    <SCRIPT src="../../../src/util/SVGUtil.js"> </SCRIPT>
+    <SCRIPT src="../../../src/util/UUID.js"> </SCRIPT>
+    <SCRIPT src="../../../src/util/spline/Spline.js"> </SCRIPT>
+    <SCRIPT src="../../../src/util/spline/CubicSpline.js"> </SCRIPT>
+    <SCRIPT src="../../../src/util/spline/CatmullRomSpline.js"> </SCRIPT>
+    <SCRIPT src="../../../src/util/spline/BezierSpline.js"> </SCRIPT>
+    <SCRIPT src="../../../src/geo/PositionConstants.js"> </SCRIPT>
+    <SCRIPT src="../../../src/geo/Point.js"> </SCRIPT>
+    <SCRIPT src="../../../src/geo/Rectangle.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandType.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/Command.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandCollection.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandStack.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandStackEvent.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandStackEventListener.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandMove.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandResize.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandConnect.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandReconnect.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandDelete.js"> </SCRIPT>
+    <SCRIPT src="../../../src/command/CommandAdd.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/connection/ConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/connection/DirectRouter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/connection/ManhattanConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/connection/ManhattanBridgedConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/connection/SplineConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/connection/FanConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/mesh/MeshLayouter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/mesh/ExplodeLayouter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/mesh/ProposedMeshChange.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/Locator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/PortLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/InputPortLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/OutputPortLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/ConnectionLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/ManhattanMidpointLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/TopLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/BottomLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/LeftLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/RightLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/locator/CenterLocator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/EditPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/CanvasPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/SelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/SingleSelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/PanningSelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/BoundingBoxSelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/ReadOnlySelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/DecorationPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/FadeoutDecorationPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/CoronaDecorationPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/SnapToEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/SnapToGridEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/canvas/SnapToGeometryEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/DragDropEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/RegionEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/HorizontalEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/VerticalEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/SelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/LineSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/RectangleSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/BigRectangleSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/RoundRectangleSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/BusSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/VBusSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/HBusSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/AntSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/GlowSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/figure/SlimSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/port/PortFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/port/ElasticStrapFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/policy/port/IntrusivePortsFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/Canvas.js"> </SCRIPT>
+    <SCRIPT src="../../../src/Selection.js"> </SCRIPT>
+    <SCRIPT src="../../../src/Figure.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/node/Node.js"> </SCRIPT>
+    <SCRIPT src="../../../src/VectorFigure.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/basic/Rectangle.js"> </SCRIPT>
+    <SCRIPT src="../../../src/SetFigure.js"> </SCRIPT>
+    <SCRIPT src="../../../src/SVGFigure.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/node/Hub.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/node/HorizontalBus.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/node/VerticalBus.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/basic/Oval.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/basic/Circle.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/basic/Label.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/basic/Line.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/basic/PolyLine.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/basic/Diamond.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/basic/Image.js"> </SCRIPT>
+    <SCRIPT src="../../../src/Connection.js"> </SCRIPT>
+    <SCRIPT src="../../../src/VectorFigure.js"> </SCRIPT>
+    <SCRIPT src="../../../src/ResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="../../../src/LineResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="../../../src/LineStartResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="../../../src/LineEndResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="../../../src/Port.js"> </SCRIPT>
+    <SCRIPT src="../../../src/InputPort.js"> </SCRIPT>
+    <SCRIPT src="../../../src/OutputPort.js"> </SCRIPT>
+    <SCRIPT src="../../../src/HybridPort.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/anchor/ConnectionAnchor.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/anchor/ChopboxConnectionAnchor.js"> </SCRIPT>
+    <SCRIPT src="../../../src/layout/anchor/ShortesPathConnectionAnchor.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/arrow/CalligrapherArrowLeft.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/arrow/CalligrapherArrowDownLeft.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/node/Start.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/node/End.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/node/Between.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/note/PostIt.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/widget/Widget.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/widget/Slider.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/diagram/Diagram.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/diagram/Pie.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/diagram/Sparkline.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/analog/OpAmp.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/analog/ResistorBridge.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/analog/ResistorVertical.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/analog/VoltageSupplyHorizontal.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/analog/VoltageSupplyVertical.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Icon.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Thunder.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Snow.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Hail.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Rain.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Cloudy.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Sun.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Undo.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Detour.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Merge.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Split.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Fork.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ForkAlt.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Exchange.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Shuffle.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Refresh.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Ccw.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Acw.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Contract.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Expand.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Stop.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/End.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Start.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Ff.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Rw.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ArrowRight.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ArrowLeft.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ArrowUp.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ArrowDown.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ArrowLeft2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ArrowRight2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Smile2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Smile.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Alarm.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Clock.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/StopWatch.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/History.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Future.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/GlobeAlt2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/GlobeAlt.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Globe.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Warning.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Code.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Pensil.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Pen.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Plus.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Minus.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/TShirt.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Sticker.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Page2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Page.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Landscape1.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Landscape2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Plugin.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Bookmark.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Hammer.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Users.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/User.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Customer.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Employee.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Anonymous.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Skull.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Mail.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Picture.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Bubble.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/CodeTalk.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Talkq.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Talke.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Home.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Lock.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Clip.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Star.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/StarOff.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Star2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Star2Off.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Star3.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Star3Off.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Chat.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Quote.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Gear2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Gear.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Wrench.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Wrench2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Wrench3.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ScrewDriver.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/HammerAndScrewDriver.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Magic.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Download.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/View.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Noview.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Cloud.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Cloud2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/CloudDown.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/CloudUp.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Location.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Volume0.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Volume1.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Volume2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Volume3.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Key.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Ruler.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Power.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Unlock.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Flag.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Tag.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Search.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ZoomOut.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ZoomIn.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Cross.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Check.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Settings.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/SettingsAlt.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Feed.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Bug.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Link.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Calendar.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Picker.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/No.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/CommandLine.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Photo.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Printer.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Export.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Import.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Run.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Magnet.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/NoMagnet.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ReflectH.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/ReflectV.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Resize2.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Rotate.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Connect.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Disconnect.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Folder.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Man.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Woman.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/People.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Parent.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Notebook.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Diagram.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/BarChart.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/PieChart.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/LineChart.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Apps.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Locked.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Ppt.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Lab.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Umbrella.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Dry.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Ipad.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Iphone.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Jigsaw.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Lamp.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Lamp_alt.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Video.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Palm.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Fave.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Help.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Crop.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/BioHazard.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/WheelChair.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Mic.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/MicMute.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/IMac.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Pc.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Cube.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/FullCube.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Font.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Trash.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/NewWindow.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/DockRight.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/DockLeft.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/DockBottom.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/DockTop.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Pallete.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Cart.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Glasses.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Package.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Book.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Books.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Icons.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/List.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Db.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Paper.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/TakeOff.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Landing.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Plane.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Phone.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/HangUp.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/SlideShare.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Twitter.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/TwitterBird.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Skype.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Windows.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Apple.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Linux.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/NodeJs.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/JQuery.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Sencha.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Vim.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/InkScape.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Aumade.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Firefox.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Ie.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Ie9.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Opera.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Chrome.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Safari.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/LinkedIn.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Flickr.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/GitHub.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/GitHubAlt.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Raphael.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/GRaphael.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Svg.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Usb.js"> </SCRIPT>
+    <SCRIPT src="../../../src/shape/icon/Ethernet.js"> </SCRIPT>
+    <SCRIPT src="../../../src/ui/LabelEditor.js"> </SCRIPT>
+    <SCRIPT src="../../../src/ui/LabelInplaceEditor.js"> </SCRIPT>
+    <SCRIPT src="../../../src/decoration/connection/Decorator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/decoration/connection/ArrowDecorator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/decoration/connection/DiamondDecorator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/decoration/connection/CircleDecorator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/decoration/connection/BarDecorator.js"> </SCRIPT>
+    <SCRIPT src="../../../src/io/Reader.js"> </SCRIPT>
+    <SCRIPT src="../../../src/io/Writer.js"> </SCRIPT>
+    <SCRIPT src="../../../src/io/svg/Writer.js"> </SCRIPT>
+    <SCRIPT src="../../../src/io/png/Writer.js"> </SCRIPT>
+    <SCRIPT src="../../../src/io/json/Writer.js"> </SCRIPT>
+    <SCRIPT src="../../../src/io/json/Reader.js"> </SCRIPT>
+    
+
+<script type="text/javascript">
+
+$(window).load(function () {
+
+    
+     // create the canvas for the user interaction
+     //
+     var canvas = new draw2d.Canvas("gfx_holder");
+
+     // add all icons to the canvas 
+     // 
+     canvas.addFigure(new draw2d.shape.icon.Thunder(30,30),50,100);
+     canvas.addFigure(new draw2d.shape.icon.Snow(30,30),100,100);
+     canvas.addFigure(new draw2d.shape.icon.Hail(30,30),150,100);
+     canvas.addFigure(new draw2d.shape.icon.Rain(30,30),200,100);
+     canvas.addFigure(new draw2d.shape.icon.Cloudy(30,30),250,100);
+     canvas.addFigure(new draw2d.shape.icon.Sun(30,30),300,100);
+     canvas.addFigure(new draw2d.shape.icon.Undo(30,30),350,100);
+     canvas.addFigure(new draw2d.shape.icon.Detour(30,30),400,100);
+     canvas.addFigure(new draw2d.shape.icon.Merge(30,30),450,100);
+     canvas.addFigure(new draw2d.shape.icon.Split(30,30),500,100);
+     canvas.addFigure(new draw2d.shape.icon.Fork(30,30),550,100);
+     canvas.addFigure(new draw2d.shape.icon.ForkAlt(30,30),600,100);
+     canvas.addFigure(new draw2d.shape.icon.Exchange(30,30),650,100);
+     canvas.addFigure(new draw2d.shape.icon.Shuffle(30,30),700,100);
+     canvas.addFigure(new draw2d.shape.icon.Refresh(30,30),750,100);
+     canvas.addFigure(new draw2d.shape.icon.Ccw(30,30),800,100);
+     canvas.addFigure(new draw2d.shape.icon.Acw(30,30),850,100);
+     canvas.addFigure(new draw2d.shape.icon.Contract(30,30),900,100);
+     canvas.addFigure(new draw2d.shape.icon.Expand(30,30),950,100);
+     canvas.addFigure(new draw2d.shape.icon.Stop(30,30),1000,100);
+     canvas.addFigure(new draw2d.shape.icon.End(30,30),50,150);
+     canvas.addFigure(new draw2d.shape.icon.Start(30,30),100,150);
+     canvas.addFigure(new draw2d.shape.icon.Ff(30,30),150,150);
+     canvas.addFigure(new draw2d.shape.icon.Rw(30,30),200,150);
+     canvas.addFigure(new draw2d.shape.icon.ArrowRight(30,30),250,150);
+     canvas.addFigure(new draw2d.shape.icon.ArrowLeft(30,30),300,150);
+     canvas.addFigure(new draw2d.shape.icon.ArrowUp(30,30),350,150);
+     canvas.addFigure(new draw2d.shape.icon.ArrowDown(30,30),400,150);
+     canvas.addFigure(new draw2d.shape.icon.ArrowLeft2(30,30),450,150);
+     canvas.addFigure(new draw2d.shape.icon.ArrowRight2(30,30),500,150);
+     canvas.addFigure(new draw2d.shape.icon.Smile2(30,30),550,150);
+     canvas.addFigure(new draw2d.shape.icon.Smile(30,30),600,150);
+     canvas.addFigure(new draw2d.shape.icon.Alarm(30,30),650,150);
+     canvas.addFigure(new draw2d.shape.icon.Clock(30,30),700,150);
+     canvas.addFigure(new draw2d.shape.icon.StopWatch(30,30),750,150);
+     canvas.addFigure(new draw2d.shape.icon.History(30,30),800,150);
+     canvas.addFigure(new draw2d.shape.icon.Future(30,30),850,150);
+     canvas.addFigure(new draw2d.shape.icon.GlobeAlt2(30,30),900,150);
+     canvas.addFigure(new draw2d.shape.icon.GlobeAlt(30,30),950,150);
+     canvas.addFigure(new draw2d.shape.icon.Globe(30,30),1000,150);
+     canvas.addFigure(new draw2d.shape.icon.Warning(30,30),50,200);
+     canvas.addFigure(new draw2d.shape.icon.Code(30,30),100,200);
+     canvas.addFigure(new draw2d.shape.icon.Pensil(30,30),150,200);
+     canvas.addFigure(new draw2d.shape.icon.Pen(30,30),200,200);
+     canvas.addFigure(new draw2d.shape.icon.Plus(30,30),250,200);
+     canvas.addFigure(new draw2d.shape.icon.Minus(30,30),300,200);
+     canvas.addFigure(new draw2d.shape.icon.TShirt(30,30),350,200);
+     canvas.addFigure(new draw2d.shape.icon.Sticker(30,30),400,200);
+     canvas.addFigure(new draw2d.shape.icon.Page2(30,30),450,200);
+     canvas.addFigure(new draw2d.shape.icon.Page(30,30),500,200);
+     canvas.addFigure(new draw2d.shape.icon.Landscape1(30,30),550,200);
+     canvas.addFigure(new draw2d.shape.icon.Landscape2(30,30),600,200);
+     canvas.addFigure(new draw2d.shape.icon.Plugin(30,30),650,200);
+     canvas.addFigure(new draw2d.shape.icon.Bookmark(30,30),700,200);
+     canvas.addFigure(new draw2d.shape.icon.Hammer(30,30),750,200);
+     canvas.addFigure(new draw2d.shape.icon.Users(30,30),800,200);
+     canvas.addFigure(new draw2d.shape.icon.User(30,30),850,200);
+     canvas.addFigure(new draw2d.shape.icon.Customer(30,30),900,200);
+     canvas.addFigure(new draw2d.shape.icon.Employee(30,30),950,200);
+     canvas.addFigure(new draw2d.shape.icon.Anonymous(30,30),1000,200);
+     canvas.addFigure(new draw2d.shape.icon.Skull(30,30),50,250);
+     canvas.addFigure(new draw2d.shape.icon.Mail(30,30),100,250);
+     canvas.addFigure(new draw2d.shape.icon.Picture(30,30),150,250);
+     canvas.addFigure(new draw2d.shape.icon.Bubble(30,30),200,250);
+     canvas.addFigure(new draw2d.shape.icon.CodeTalk(30,30),250,250);
+     canvas.addFigure(new draw2d.shape.icon.Talkq(30,30),300,250);
+     canvas.addFigure(new draw2d.shape.icon.Talke(30,30),350,250);
+     canvas.addFigure(new draw2d.shape.icon.Home(30,30),400,250);
+     canvas.addFigure(new draw2d.shape.icon.Lock(30,30),450,250);
+     canvas.addFigure(new draw2d.shape.icon.Clip(30,30),500,250);
+     canvas.addFigure(new draw2d.shape.icon.Star(30,30),550,250);
+     canvas.addFigure(new draw2d.shape.icon.StarOff(30,30),600,250);
+     canvas.addFigure(new draw2d.shape.icon.Star2(30,30),650,250);
+     canvas.addFigure(new draw2d.shape.icon.Star2Off(30,30),700,250);
+     canvas.addFigure(new draw2d.shape.icon.Star3(30,30),750,250);
+     canvas.addFigure(new draw2d.shape.icon.Star3Off(30,30),800,250);
+     canvas.addFigure(new draw2d.shape.icon.Chat(30,30),850,250);
+     canvas.addFigure(new draw2d.shape.icon.Quote(30,30),900,250);
+     canvas.addFigure(new draw2d.shape.icon.Gear2(30,30),950,250);
+     canvas.addFigure(new draw2d.shape.icon.Gear(30,30),1000,250);
+     canvas.addFigure(new draw2d.shape.icon.Wrench(30,30),50,300);
+     canvas.addFigure(new draw2d.shape.icon.Wrench2(30,30),100,300);
+     canvas.addFigure(new draw2d.shape.icon.Wrench3(30,30),150,300);
+     canvas.addFigure(new draw2d.shape.icon.ScrewDriver(30,30),200,300);
+     canvas.addFigure(new draw2d.shape.icon.HammerAndScrewDriver(30,30),250,300);
+     canvas.addFigure(new draw2d.shape.icon.Magic(30,30),300,300);
+     canvas.addFigure(new draw2d.shape.icon.Download(30,30),350,300);
+     canvas.addFigure(new draw2d.shape.icon.View(30,30),400,300);
+     canvas.addFigure(new draw2d.shape.icon.Noview(30,30),450,300);
+     canvas.addFigure(new draw2d.shape.icon.Cloud(30,30),500,300);
+     canvas.addFigure(new draw2d.shape.icon.Cloud2(30,30),550,300);
+     canvas.addFigure(new draw2d.shape.icon.CloudDown(30,30),600,300);
+     canvas.addFigure(new draw2d.shape.icon.CloudUp(30,30),650,300);
+     canvas.addFigure(new draw2d.shape.icon.Location(30,30),700,300);
+     canvas.addFigure(new draw2d.shape.icon.Volume0(30,30),750,300);
+     canvas.addFigure(new draw2d.shape.icon.Volume1(30,30),800,300);
+     canvas.addFigure(new draw2d.shape.icon.Volume2(30,30),850,300);
+     canvas.addFigure(new draw2d.shape.icon.Volume3(30,30),900,300);
+     canvas.addFigure(new draw2d.shape.icon.Key(30,30),950,300);
+     canvas.addFigure(new draw2d.shape.icon.Ruler(30,30),1000,300);
+     canvas.addFigure(new draw2d.shape.icon.Power(30,30),50,350);
+     canvas.addFigure(new draw2d.shape.icon.Unlock(30,30),100,350);
+     canvas.addFigure(new draw2d.shape.icon.Flag(30,30),150,350);
+     canvas.addFigure(new draw2d.shape.icon.Tag(30,30),200,350);
+     canvas.addFigure(new draw2d.shape.icon.Search(30,30),250,350);
+     canvas.addFigure(new draw2d.shape.icon.ZoomOut(30,30),300,350);
+     canvas.addFigure(new draw2d.shape.icon.ZoomIn(30,30),350,350);
+     canvas.addFigure(new draw2d.shape.icon.Cross(30,30),400,350);
+     canvas.addFigure(new draw2d.shape.icon.Check(30,30),450,350);
+     canvas.addFigure(new draw2d.shape.icon.Settings(30,30),500,350);
+     canvas.addFigure(new draw2d.shape.icon.SettingsAlt(30,30),550,350);
+     canvas.addFigure(new draw2d.shape.icon.Feed(30,30),600,350);
+     canvas.addFigure(new draw2d.shape.icon.Bug(30,30),650,350);
+     canvas.addFigure(new draw2d.shape.icon.Link(30,30),700,350);
+     canvas.addFigure(new draw2d.shape.icon.Calendar(30,30),750,350);
+     canvas.addFigure(new draw2d.shape.icon.Picker(30,30),800,350);
+     canvas.addFigure(new draw2d.shape.icon.No(30,30),850,350);
+     canvas.addFigure(new draw2d.shape.icon.CommandLine(30,30),900,350);
+     canvas.addFigure(new draw2d.shape.icon.Photo(30,30),950,350);
+     canvas.addFigure(new draw2d.shape.icon.Printer(30,30),1000,350);
+     canvas.addFigure(new draw2d.shape.icon.Export(30,30),50,400);
+     canvas.addFigure(new draw2d.shape.icon.Import(30,30),100,400);
+     canvas.addFigure(new draw2d.shape.icon.Run(30,30),150,400);
+     canvas.addFigure(new draw2d.shape.icon.Magnet(30,30),200,400);
+     canvas.addFigure(new draw2d.shape.icon.NoMagnet(30,30),250,400);
+     canvas.addFigure(new draw2d.shape.icon.ReflectH(30,30),300,400);
+     canvas.addFigure(new draw2d.shape.icon.ReflectV(30,30),350,400);
+     canvas.addFigure(new draw2d.shape.icon.Resize2(30,30),400,400);
+     canvas.addFigure(new draw2d.shape.icon.Rotate(30,30),450,400);
+     canvas.addFigure(new draw2d.shape.icon.Connect(30,30),500,400);
+     canvas.addFigure(new draw2d.shape.icon.Disconnect(30,30),550,400);
+     canvas.addFigure(new draw2d.shape.icon.Folder(30,30),600,400);
+     canvas.addFigure(new draw2d.shape.icon.Man(30,30),650,400);
+     canvas.addFigure(new draw2d.shape.icon.Woman(30,30),700,400);
+     canvas.addFigure(new draw2d.shape.icon.People(30,30),750,400);
+     canvas.addFigure(new draw2d.shape.icon.Parent(30,30),800,400);
+     canvas.addFigure(new draw2d.shape.icon.Notebook(30,30),850,400);
+     canvas.addFigure(new draw2d.shape.icon.Diagram(30,30),900,400);
+     canvas.addFigure(new draw2d.shape.icon.BarChart(30,30),950,400);
+     canvas.addFigure(new draw2d.shape.icon.PieChart(30,30),1000,400);
+     canvas.addFigure(new draw2d.shape.icon.LineChart(30,30),50,450);
+     canvas.addFigure(new draw2d.shape.icon.Apps(30,30),100,450);
+     canvas.addFigure(new draw2d.shape.icon.Locked(30,30),150,450);
+     canvas.addFigure(new draw2d.shape.icon.Ppt(30,30),200,450);
+     canvas.addFigure(new draw2d.shape.icon.Lab(30,30),250,450);
+     canvas.addFigure(new draw2d.shape.icon.Umbrella(30,30),300,450);
+     canvas.addFigure(new draw2d.shape.icon.Dry(30,30),350,450);
+     canvas.addFigure(new draw2d.shape.icon.Ipad(30,30),400,450);
+     canvas.addFigure(new draw2d.shape.icon.Iphone(30,30),450,450);
+     canvas.addFigure(new draw2d.shape.icon.Jigsaw(30,30),500,450);
+     canvas.addFigure(new draw2d.shape.icon.Lamp(30,30),550,450);
+     canvas.addFigure(new draw2d.shape.icon.Lamp_alt(30,30),600,450);
+     canvas.addFigure(new draw2d.shape.icon.Video(30,30),650,450);
+     canvas.addFigure(new draw2d.shape.icon.Palm(30,30),700,450);
+     canvas.addFigure(new draw2d.shape.icon.Fave(30,30),750,450);
+     canvas.addFigure(new draw2d.shape.icon.Help(30,30),800,450);
+     canvas.addFigure(new draw2d.shape.icon.Crop(30,30),850,450);
+     canvas.addFigure(new draw2d.shape.icon.BioHazard(30,30),900,450);
+     canvas.addFigure(new draw2d.shape.icon.WheelChair(30,30),950,450);
+     canvas.addFigure(new draw2d.shape.icon.Mic(30,30),1000,450);
+     canvas.addFigure(new draw2d.shape.icon.MicMute(30,30),50,500);
+     canvas.addFigure(new draw2d.shape.icon.IMac(30,30),100,500);
+     canvas.addFigure(new draw2d.shape.icon.Pc(30,30),150,500);
+     canvas.addFigure(new draw2d.shape.icon.Cube(30,30),200,500);
+     canvas.addFigure(new draw2d.shape.icon.FullCube(30,30),250,500);
+     canvas.addFigure(new draw2d.shape.icon.Font(30,30),300,500);
+     canvas.addFigure(new draw2d.shape.icon.Trash(30,30),350,500);
+     canvas.addFigure(new draw2d.shape.icon.NewWindow(30,30),400,500);
+     canvas.addFigure(new draw2d.shape.icon.DockRight(30,30),450,500);
+     canvas.addFigure(new draw2d.shape.icon.DockLeft(30,30),500,500);
+     canvas.addFigure(new draw2d.shape.icon.DockBottom(30,30),550,500);
+     canvas.addFigure(new draw2d.shape.icon.DockTop(30,30),600,500);
+     canvas.addFigure(new draw2d.shape.icon.Pallete(30,30),650,500);
+     canvas.addFigure(new draw2d.shape.icon.Cart(30,30),700,500);
+     canvas.addFigure(new draw2d.shape.icon.Glasses(30,30),750,500);
+     canvas.addFigure(new draw2d.shape.icon.Package(30,30),800,500);
+     canvas.addFigure(new draw2d.shape.icon.Book(30,30),850,500);
+     canvas.addFigure(new draw2d.shape.icon.Books(30,30),900,500);
+     canvas.addFigure(new draw2d.shape.icon.Icons(30,30),950,500);
+     canvas.addFigure(new draw2d.shape.icon.List(30,30),1000,500);
+     canvas.addFigure(new draw2d.shape.icon.Db(30,30),50,550);
+     canvas.addFigure(new draw2d.shape.icon.Paper(30,30),100,550);
+     canvas.addFigure(new draw2d.shape.icon.TakeOff(30,30),150,550);
+     canvas.addFigure(new draw2d.shape.icon.Landing(30,30),200,550);
+     canvas.addFigure(new draw2d.shape.icon.Plane(30,30),250,550);
+     canvas.addFigure(new draw2d.shape.icon.Phone(30,30),300,550);
+     canvas.addFigure(new draw2d.shape.icon.HangUp(30,30),350,550);
+     canvas.addFigure(new draw2d.shape.icon.SlideShare(30,30),400,550);
+     canvas.addFigure(new draw2d.shape.icon.Twitter(30,30),450,550);
+     canvas.addFigure(new draw2d.shape.icon.TwitterBird(30,30),500,550);
+     canvas.addFigure(new draw2d.shape.icon.Skype(30,30),550,550);
+     canvas.addFigure(new draw2d.shape.icon.Windows(30,30),600,550);
+     canvas.addFigure(new draw2d.shape.icon.Apple(30,30),650,550);
+     canvas.addFigure(new draw2d.shape.icon.Linux(30,30),700,550);
+     canvas.addFigure(new draw2d.shape.icon.NodeJs(30,30),750,550);
+     canvas.addFigure(new draw2d.shape.icon.JQuery(30,30),800,550);
+     canvas.addFigure(new draw2d.shape.icon.Sencha(30,30),850,550);
+     canvas.addFigure(new draw2d.shape.icon.Vim(30,30),900,550);
+     canvas.addFigure(new draw2d.shape.icon.InkScape(30,30),950,550);
+     canvas.addFigure(new draw2d.shape.icon.Aumade(30,30),1000,550);
+     canvas.addFigure(new draw2d.shape.icon.Firefox(30,30),50,600);
+     canvas.addFigure(new draw2d.shape.icon.Ie(30,30),100,600);
+     canvas.addFigure(new draw2d.shape.icon.Ie9(30,30),150,600);
+     canvas.addFigure(new draw2d.shape.icon.Opera(30,30),200,600);
+     canvas.addFigure(new draw2d.shape.icon.Chrome(30,30),250,600);
+     canvas.addFigure(new draw2d.shape.icon.Safari(30,30),300,600);
+     canvas.addFigure(new draw2d.shape.icon.LinkedIn(30,30),350,600);
+     canvas.addFigure(new draw2d.shape.icon.Flickr(30,30),400,600);
+     canvas.addFigure(new draw2d.shape.icon.GitHub(30,30),450,600);
+     canvas.addFigure(new draw2d.shape.icon.GitHubAlt(30,30),500,600);
+     canvas.addFigure(new draw2d.shape.icon.Raphael(30,30),550,600);
+     canvas.addFigure(new draw2d.shape.icon.GRaphael(30,30),600,600);
+     canvas.addFigure(new draw2d.shape.icon.Svg(30,30),650,600);
+     canvas.addFigure(new draw2d.shape.icon.Usb(30,30),700,600);
+     canvas.addFigure(new draw2d.shape.icon.Ethernet(30,30),750,600);
+           
+   	 
+   	 ///////////////////////////////////////////////////////////////////// 
+   	 // THIS IS ONLY FOR THE POST-IT
+   	 ///////////////////////////////////////////////////////////////////// 
+
+   	 var msg = new draw2d.shape.note.PostIt("Icons copied from raphaeljs.com");
+   	 canvas.addFigure(msg, 20,20);
+   	 
+   	 $("body").scrollTop(0)
+   	          .scrollLeft(0);
+   	 
+});
+    
+    
+</script>
+
+</head>
+
+<body>
+<div id="gfx_holder" style="width:1500px; height:1500px;-webkit-tap-highlight-color: rgba(0,0,0,0); ">
+</div>
+
+</body>
+</html>

@@ -31,7 +31,7 @@ public class PDChatPeer extends AbstractComponentSynchronizePeer {
 	private static final String PD_CHAT = "PDChat";
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_CHAT, PDUtil.BASE_PATH + "js/PDChat.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(PD_CHAT, "js/PDChat.js"));
 	}
 
 	public PDChatPeer() {

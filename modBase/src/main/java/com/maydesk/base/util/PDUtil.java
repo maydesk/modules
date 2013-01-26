@@ -45,7 +45,6 @@ import com.maydesk.base.PDHibernateFactory;
  */
 public class PDUtil {
 
-	public static final String BASE_PATH = "com/maydesk/base/";
 	public static final String PDF_CONTENT_TYPE = "application/pdf";
 	public static final String XLS_CONTENT_TYPE = "application/xls";
 	public static final String PROPERTY_PATH_FILES = "path.documents";

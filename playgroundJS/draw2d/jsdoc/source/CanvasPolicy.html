@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='draw2d-policy-canvas-CanvasPolicy'>/**
+</span> * @class draw2d.policy.canvas.CanvasPolicy
+ * 
+ *
+ * @author Andreas Herz
+ * @extends draw2d.policy.EditPolicy
+ */
+draw2d.policy.canvas.CanvasPolicy = draw2d.policy.EditPolicy.extend({
+
+    NAME : &quot;draw2d.policy.canvas.CanvasPolicy&quot;,
+    
+<span id='draw2d-policy-canvas-CanvasPolicy-method-constructor'>    /**
+</span>     * @constructor 
+     * Creates a new Router object
+     */
+    init: function(){
+        this._super();
+    },
+    
+    onInstall: function(canvas){
+    },
+    
+    onUninstall: function(canvas){
+    },
+    
+<span id='draw2d-policy-canvas-CanvasPolicy-method-onClick'>    /**
+</span>     * @method
+     * 
+     * @param {draw2d.Canvas} canvas
+     * @param {draw2d.geo.Point} mousePosition
+     * @template
+     */
+    onClick: function(figure, mousePosition){
+    },
+    
+<span id='draw2d-policy-canvas-CanvasPolicy-method-onMouseMove'>    /**
+</span>     * @method
+     * 
+     * @param {draw2d.Canvas} canvas
+     * @param {Number} x the x-coordinate of the mouse event
+     * @param {Number} y the y-coordinate of the mouse event
+     * @template
+     */
+    onMouseMove:function(canvas, x, y){
+
+    },
+    
+<span id='draw2d-policy-canvas-CanvasPolicy-method-snap'>    /**
+</span>     * @method
+     * Adjust the coordinates to the given constraint.
+     * 
+     * @param figure
+     * @param {draw2d.geo.Point} clientPos
+     * @returns {draw2d.geo.Point} the contraint position of th efigure
+     */
+    snap: function(canvas, figure, clientPos){
+        return clientPos;
+    },
+
+<span id='draw2d-policy-canvas-CanvasPolicy-method-onMouseDown'>    /**
+</span>     * @method
+     * 
+     * @param {draw2d.Canvas} canvas
+     * @param {Number} x the x-coordinate of the mouse down event
+     * @param {Number} y the y-coordinate of the mouse down event
+     */
+    onMouseDown:function(canvas, x,y){
+        
+    },
+    
+<span id='draw2d-policy-canvas-CanvasPolicy-method-onMouseDrag'>    /**
+</span>     * @method
+     * 
+     * @param {draw2d.Canvas} canvas
+     * @param {Number} dx The x diff between start of dragging and this event
+     * @param {Number} dy The y diff between start of dragging and this event
+     * @param {Number} dx2 The x diff since the last call of this dragging operation
+     * @param {Number} dy2 The y diff since the last call of this dragging operation
+     * @template
+     */
+    onMouseDrag:function(canvas, dx, dy, dx2, dy2){
+        
+    },
+    
+<span id='draw2d-policy-canvas-CanvasPolicy-method-onMouseUp'>    /**
+</span>     * @method
+     * 
+     * @param {draw2d.Canvas} canvas
+     * @param {Number} x the x-coordinate of the mouse down event
+     * @param {Number} y the y-coordinate of the mouse down event
+     * @template
+     */
+    onMouseUp: function(figure, x, y){
+        
+    }
+    
+});
+</pre>
+</body>
+</html>
