@@ -21,8 +21,7 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
         Echo.Render.registerPeer("MDText", this);
     },
     
-    doLazyLoad: function(canvas, x, y) {
-	    this._canvas = canvas;
+    renderAdd2: function(canvas, x, y) {
      	this.fig = new MyText(this);
      	this.fig.setText("Hello");
     	this.fig.setColor("#dd00ee");

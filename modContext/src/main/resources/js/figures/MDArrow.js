@@ -60,9 +60,7 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
 	fig : null,
     _lblSize: null,
     
-    doLazyLoad: function(canvas, x, y) {
-       	this._canvas = canvas;
-    
+    renderAdd2: function(canvas, x, y) {
 	    this.fig = new MyArrow(this);		
     	this.fig.installEditPolicy(new window.draw2d.policy.figure.GlowSelectionFeedbackPolicy());
 		canvas.addFigure(this.fig);

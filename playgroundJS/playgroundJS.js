@@ -53,7 +53,7 @@ MyDemoApp = Core.extend(Echo.Application, {
 		});
 		
 		
-		content2.add(new MD.MDContext({
+		this.rootComponent.add(new MD.MDContext({
 			title: "My Activity",
 			icon: "img/ampel.png",
 			positionX: "300px",

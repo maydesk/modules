@@ -107,7 +107,7 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 		this._node.style.position = "absolute";	
 		this._node.style.width = "80px";
 		this._node.style.height ="20px";
-		this._node.style.zIndex = 0;
+		this._node.style.zIndex = 1000;
 		this._node.style.cursor = "pointer";
 		this._mainNode.appendChild(this._node);
 		
@@ -136,6 +136,7 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 		this._container.style.overflow = "hidden";
 		this._container.style.width = "0px";
 		this._container.style.height = "20px";
+		this._container.style.zIndex = 1000;
 		Echo.Sync.Border.render("1px dotted #eeeeee", this._container);
 		this._mainNode.appendChild(this._container);
 

@@ -13,7 +13,8 @@ MD.MDAbstractFigure = Core.extend(Echo.Component, {
 MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
 
  	$abstract: true,
- 
+ 	_parent: null,
+ 	
 	$load : function() {
        	Echo.Render.registerPeer("MDAbstractFigure", this);       	
 	},
@@ -22,28 +23,24 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
     },
 	
 	$abstract: {
-		doLazyLoad: function(canvas, x, y) { },
+		renderAdd2: function(canvas, x, y) { },
 	},
 	
-	_canvas: null,
-
-    renderAdd: function(update, parentNode) {    	
+    renderDispose: function(update) {       
     },
     
-	
-    renderDispose: function(update) {       
+    renderAdd: function(update, parent) {
+    	this._parent = parent;
+    	var x = this.component.render("positionX");
+		var y = this.component.render("positionY");
+    	this.renderAdd2(parent._canvas, x, y);
     },
     
     renderUpdate: function(update) {
         return false; // Child elements not supported: safe to return false.
     },
     
-    onClick: function(x, y){
-    	this._canvas.setEditor(this);
-    },
-    
-    doLazyLoad2: function(canvas, x, y) {
-    	this._canvas = canvas;
-	    this.doLazyLoad(canvas, x, y);
+    onClick: function(x, y) {
+    	this._parent.component.setEditor(this);
     }
 });

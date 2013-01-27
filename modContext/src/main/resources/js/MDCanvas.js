@@ -11,7 +11,21 @@ MD.MDCanvas = Core.extend(Echo.Component, {
 	
 	componentType: "MDCanvas",
 	editorRow: new Echo.Row(),
-	toolRow: new Echo.Row()
+	toolRow: new Echo.Row(),
+	_currentTool: null,
+	    
+    setCurrentTool: function(cmpFig) {
+	    this._currentTool = cmpFig;
+    },
+    
+    setEditor: function(figure) {
+		this.editorRow.removeAll();
+		var editor = figure.component.getEditor();
+		if (editor) {
+			this.editorRow.add(editor);					
+		}
+	    Echo.Render.processUpdates(this.peer.client);
+    }    
 });
 
  
@@ -24,12 +38,6 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     _node: null,
     _containerElement: null,
    	_canvas: null,
-    _processMouseClickRef: null,
-    
-    
-    $construct: function() {
-		this._processMouseClickRef = Core.method(this, this._processMouseClick);      
-    },
     
     renderAdd: function(update, parentElement) {
 
@@ -40,8 +48,9 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		backlight.style.top = "25px";
        	backlight.style.width = "100%";
 		backlight.style.height ="100%";
-		backlight.style.opacity = 0.12;
-		backlight.style.background ="white";
+		backlight.style.opacity = 0.8;
+		backlight.style.background ="blue";
+		backlight.style.zIndex = parentElement.style.zIndex;
 		parentElement.appendChild(backlight);
     	
 		//the main node
@@ -51,13 +60,14 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		this._node.style.top = "25px";
        	this._node.style.width = "100%";
 		this._node.style.height ="100%";
+		this._node.style.zIndex = parentElement.style.zIndex + 1;
 		parentElement.appendChild(this._node);
 
     	//the tool row
     	this.component.toolRow.parent = this.component;
     	this.component.toolRow.set("background", "black");
     	this.component.toolRow.set("height", "25");
-    	this.component.toolRow.set("opacity", "0.3");
+    	//this.component.toolRow.set("opacity", "0.3");
     	this.component.editorRow.application = this.component.application;
 		for (var i = this.component.getComponentCount(); i >= 0; i--) {   
 			var child = this.component.getComponent(i);
@@ -70,41 +80,36 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		this.component.toolRow.add(this.component.editorRow);
     	Echo.Render.renderComponentAdd(update, this.component.toolRow, parentElement);
     	
-		Core.Web.Event.add(this._node, "click", this._processMouseClickRef, true)
-		
-        //setTimeout(this._loadStuff(), 2500);
-        
         var componentCount = this.component.getComponentCount();
 		for (var i = 0; i < componentCount; i++) {   
 			var child = this.component.getComponent(i);
 			if (!(child instanceof MD.MDToolEntry)) {
 			  	//Echo.Render.renderComponentAdd(update, child, this._node);
 			}
-	    }	        
+	    }
+	    
+	    //late-loading, otherwise there would pop-up strange errors...
+	   	window.setTimeout(Core.method(this, this._loadCanvas), 800);
+    },
+    
+    _loadCanvas: function() {
+   		this._canvas = new MyCanvas(this);
+		//this._canvas.setZoom(0.5);
+		
+		//remove, just for testing...
+		var startCircle = new window.draw2d.shape.basic.Circle(55);
+		startCircle.setColor("#cd1dcc");
+		this._canvas.addFigure(startCircle, 220, 220);
+	
+		var componentCount = this.component.getComponentCount();
+		for (var i = 0; i < componentCount; i++) { 
+			var child = this.component.getComponent(i);
+			if (!(child instanceof MD.MDToolEntry) && child.peer) {
+				child.peer.doLazyLoad(this._canvas, 50, 50);
+			}
+        }    
     },
 
-    _processMouseClick: function(event) {
-    	if (!this._canvas) {
-	   		this._canvas = new MyCanvas(this._node.id, this.component.editorRow);
-			//this._canvas.setZoom(0.5);
-			
-			//remove, just for testing...
-			var startCircle = new window.draw2d.shape.basic.Circle(55);
-			startCircle.setColor("#cd1dcc");
-			this._canvas.addFigure(startCircle, 220, 220);
-		
-			var componentCount = this.component.getComponentCount();
-			for (var i = 0; i < componentCount; i++) { 
-				var child = this.component.getComponent(i);
-				if (!(child instanceof MD.MDToolEntry) && child.peer) {
-					child.peer.doLazyLoad(this._canvas, 50, 50);
-				}
-	        }		
-			
-	    }
-	    Core.Web.Event.remove(this._node, "click", this._processMouseClickRef, true);
-    },
-	
 	/** @see Echo.Render.ComponentSync#renderDispose */
     renderDispose: function(update) {
         this._node = null;
@@ -112,50 +117,40 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     
     /** @see Echo.Render.ComponentSync#renderUpdate */
     renderUpdate: function(update) {
-	    var addedChildren = update.getAddedChildren();
+		var addedChildren = update.getAddedChildren();
         if (addedChildren) {
 	        for (i = 0; i < addedChildren.length; ++i) {
-				Echo.Render.renderComponentAdd(update, addedChildren[i], this._node);
-				this._canvas._currentTool = addedChildren[i].peer;
+				Echo.Render.renderComponentAdd(update, addedChildren[i], this);
 	        }
 	    }
         return false; // only update Child elements
-    }
+    }       
 });
 
 MyCanvas = draw2d.Canvas.extend({
 
     NAME : "MyCanvas",
    
-    _currentTool: null,
-    _editorRow: null,
+    _peerCanvas: null,
     
-    init : function(canvasId, editorRow) {
-    	this._super(canvasId);
-    	this._editorRow = editorRow;
+    init : function(peerCanvas) {
+		this._peerCanvas = peerCanvas;
+    	this._super(peerCanvas._node.id);
     },
 
     onClick: function(x, y){
-    	if (this._currentTool) {
+    	if (this._peerCanvas.component._currentTool) {
     		//add a new instance of the current tool to the canvas
+		  	var newFig = this._peerCanvas.component._currentTool;
 		   	var x = event.clientX - this.getAbsoluteX();
 		  	var y = event.clientY - this.getAbsoluteY();
-		   	var command = "this._currentTool.doLazyLoad2(this, " + x +", " + y + ");";
-			eval(command);
-		 	
-		 	//this._node.style.cursor = "pointer";
-			this._currentTool = null;
+		  	newFig.set("positionX", x);
+		  	newFig.set("positionY", y);
+		  	this._peerCanvas.component.add(newFig);
+			Echo.Render.processUpdates(this._peerCanvas.client);
+			this._peerCanvas.component._currentTool = null;
 	    }
 	    this._super(x, y);
-    },
-    
-    setEditor: function(figure) {
-		this._editorRow.removeAll();
-		var editor = figure.component.getEditor();
-		if (editor) {
-			this._editorRow.add(editor);					
-		}
-	    Echo.Render.processUpdates(this._editorRow.peer.client);
-    }   
+    } 
 });
 

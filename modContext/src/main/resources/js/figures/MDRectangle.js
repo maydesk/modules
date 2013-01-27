@@ -56,8 +56,7 @@ MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
         Echo.Render.registerPeer("MDRectangle", this);
     },
     
-    doLazyLoad: function(canvas, x, y) {
-    	this._canvas = canvas;
+    renderAdd2: function(canvas, x, y) {
 		this._rectangle = new MyRectangle(this);
 		this._rectangle.setRadius(10);
 		canvas.addFigure(this._rectangle, x, y);

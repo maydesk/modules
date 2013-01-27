@@ -21,8 +21,7 @@ MD.Sync.MDTable = Core.extend(MD.Sync.MDAbstractFigure, {
         Echo.Render.registerPeer("MDTable", this);
     },
     
-    doLazyLoad: function(canvas, x, y) {
-	    this._canvas = canvas;  
+    renderAdd2: function(canvas, x, y) {
 		var table = new MyTable(this);
 		canvas.addFigure(table, x, y);
     }
