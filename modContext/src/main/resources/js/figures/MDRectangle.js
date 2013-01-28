@@ -50,31 +50,14 @@ MD.MDRectangle = Core.extend(MD.MDAbstractFigure, {
  
 MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
     
-    _rectangle: null,
-    
     $load: function() {
         Echo.Render.registerPeer("MDRectangle", this);
     },
     
     renderAdd2: function(canvas, x, y) {
-		this._rectangle = new MyRectangle(this);
-		this._rectangle.setRadius(10);
-		canvas.addFigure(this._rectangle, x, y);
+		var rectangle = new window.draw2d.shape.basic.Rectangle();
+		rectangle.setRadius(10);
+		rectangle.onClick = Core.method(this, this.onClick);
+		canvas.addFigure(rectangle, x, y);
     }
 });
-
-
-MyRectangle = window.draw2d.shape.basic.Rectangle.extend({
-	
-	_parent: null,
-
-   	init: function(parent) {
-        this._super();
-        this._parent = parent;        
-    },
-    
-    onClick: function(x, y) {
-    	this._parent.onClick(x, y);
-    }
-});
-

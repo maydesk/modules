@@ -84,7 +84,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		for (var i = 0; i < componentCount; i++) {   
 			var child = this.component.getComponent(i);
 			if (!(child instanceof MD.MDToolEntry)) {
-			  	//Echo.Render.renderComponentAdd(update, child, this._node);
+			  	Echo.Render.renderComponentAdd(update, child, this);
 			}
 	    }
 	    
@@ -94,20 +94,11 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     
     _loadCanvas: function() {
    		this._canvas = new MyCanvas(this);
-		//this._canvas.setZoom(0.5);
-		
+   				
 		//remove, just for testing...
 		var startCircle = new window.draw2d.shape.basic.Circle(55);
 		startCircle.setColor("#cd1dcc");
-		this._canvas.addFigure(startCircle, 220, 220);
-	
-		var componentCount = this.component.getComponentCount();
-		for (var i = 0; i < componentCount; i++) { 
-			var child = this.component.getComponent(i);
-			if (!(child instanceof MD.MDToolEntry) && child.peer) {
-				child.peer.doLazyLoad(this._canvas, 50, 50);
-			}
-        }    
+		this._canvas.addFigure(startCircle, 220, 220);	
     },
 
 	/** @see Echo.Render.ComponentSync#renderDispose */
@@ -153,4 +144,3 @@ MyCanvas = draw2d.Canvas.extend({
 	    this._super(x, y);
     } 
 });
-

@@ -22,26 +22,12 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
     },
     
     renderAdd2: function(canvas, x, y) {
-     	this.fig = new MyText(this);
-     	this.fig.setText("Hello");
-    	this.fig.setColor("#dd00ee");
-      	this.fig.setFontColor("#dddddd");
-		this.fig.installEditor(new draw2d.ui.LabelInplaceEditor());
-      	canvas.addFigure(this.fig, x, y);    
-    }	
-});
-
-
-MyText = window.draw2d.shape.note.PostIt.extend({
-	
-	_parent: null,
-
-   	init: function(parent) {
-        this._super();
-        this._parent = parent;        
-    },
-    
-    onClick: function(x, y) {
-    	this._parent.onClick(x, y);
+     	var fig = new window.draw2d.shape.note.PostIt();
+     	fig.setText("Hello");
+    	fig.setColor("#dd00ee");
+      	fig.setFontColor("#dddddd");
+		fig.installEditor(new draw2d.ui.LabelInplaceEditor());
+		fig.onClick = Core.method(this, this.onClick);
+      	canvas.addFigure(fig, x, y);    
     }
 });

@@ -38,6 +38,10 @@ MyDemoApp = Core.extend(Echo.Application, {
 		var canvas = new MD.MDCanvas({
 			children: [
 				new MD.MDToolEntry({
+					icon: "img/text16.png",
+					tool: "MD.MDText"
+				}),
+				new MD.MDToolEntry({
 					icon: "img/arrow16.png",
 					tool: "MD.MDArrow"
 				}),
