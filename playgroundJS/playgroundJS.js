@@ -52,6 +52,9 @@ MyDemoApp = Core.extend(Echo.Application, {
 				new MD.MDToolEntry({
 					icon: "img/Icon24Preferences.png",
 					tool: "MD.MDTable"
+				}),
+				new MD.MDRectangle({
+
 				})
 			]
 		});

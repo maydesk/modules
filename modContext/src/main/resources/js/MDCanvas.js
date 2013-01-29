@@ -84,7 +84,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		for (var i = 0; i < componentCount; i++) {   
 			var child = this.component.getComponent(i);
 			if (!(child instanceof MD.MDToolEntry)) {
-			  	//Echo.Render.renderComponentAdd(update, child, this);
+			  	Echo.Render.renderComponentAdd(update, child, this);
 			}
 	    }
 	    

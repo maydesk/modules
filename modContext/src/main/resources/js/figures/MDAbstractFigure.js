@@ -33,7 +33,17 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
     	this._parent = parent;
     	var x = this.component.render("positionX");
 		var y = this.component.render("positionY");
-    	this.renderAdd2(parent._canvas, x, y);
+		
+		if (parent._canvas) {
+			this.renderAdd2(parent._canvas, x, y);
+    	} else {
+    		//wait for canvas to be fully loaded
+	    	var that = this;
+			var doActionDelayed = function() {
+				that.renderAdd2(parent._canvas, x, y);
+	    	};
+	   		window.setTimeout(doActionDelayed, 1000);
+		}    	
     },
     
     renderUpdate: function(update) {
