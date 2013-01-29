@@ -54,7 +54,8 @@ MyDemoApp = Core.extend(Echo.Application, {
 					tool: "MD.MDTable"
 				}),
 				new MD.MDRectangle({
-
+					positionX: 100,
+					positionY: 100
 				})
 			]
 		});
