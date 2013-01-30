@@ -48,9 +48,9 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		backlight.style.top = "25px";
        	backlight.style.width = "100%";
 		backlight.style.height ="100%";
-		backlight.style.opacity = 0.8;
-		backlight.style.background ="blue";
-		backlight.style.zIndex = parentElement.style.zIndex;
+		backlight.style.opacity = 0.9;
+		backlight.style.background ="white";
+		//backlight.style.zIndex = parentElement.style.zIndex;
 		parentElement.appendChild(backlight);
     	
 		//the main node
@@ -60,7 +60,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		this._node.style.top = "25px";
        	this._node.style.width = "100%";
 		this._node.style.height ="100%";
-		this._node.style.zIndex = parentElement.style.zIndex + 1;
+		//this._node.style.zIndex = parentElement.style.zIndex + 1;
 		parentElement.appendChild(this._node);
 
     	//the tool row

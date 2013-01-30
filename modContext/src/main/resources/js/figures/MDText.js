@@ -23,9 +23,11 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
     
     renderAdd2: function(canvas, x, y) {
      	var fig = new window.draw2d.shape.note.PostIt();
-     	fig.setText("Hello");
+     	fig.setText(this.component.render("text", "type here..."));
     	fig.setColor("#dd00ee");
       	fig.setFontColor("#dddddd");
+      	fig.setFontSize(this.component.render("size", 12));
+      	fig.setPadding(8);
 		fig.installEditor(new draw2d.ui.LabelInplaceEditor());
 		fig.onClick = Core.method(this, this.onClick);
       	canvas.addFigure(fig, x, y);    

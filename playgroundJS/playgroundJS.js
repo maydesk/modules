@@ -53,9 +53,17 @@ MyDemoApp = Core.extend(Echo.Application, {
 					icon: "img/Icon24Preferences.png",
 					tool: "MD.MDTable"
 				}),
-				new MD.MDRectangle({
-					positionX: 100,
-					positionY: 100
+				new MD.MDText({
+					positionX: 40,
+					positionY: 20,
+					size: 20,
+					text: "7up Ski & Snowboard Weekend 23/24 January"
+				}),
+				new MD.MDNewsTicker({
+					positionX: 30,
+					positionY: 70,
+					text: "Due to bad weather conditions the event has been canceled!!!",
+					author: "Robert, 2 hours ago"
 				})
 			]
 		});

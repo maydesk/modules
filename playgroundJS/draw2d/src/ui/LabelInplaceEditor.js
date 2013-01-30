@@ -82,7 +82,7 @@ draw2d.ui.LabelInplaceEditor =  draw2d.ui.LabelEditor.extend({
         bb.translate(-1,-1);
         bb.resize(2,2);
         
-        this.html.css({position:"absolute",top: bb.y, left:bb.x, "min-width":bb.w, height:bb.h});
+        this.html.css({zIndex:999,position:"absolute",top: bb.y, left:bb.x, "min-width":bb.w, height:bb.h});
         this.html.fadeIn($.proxy(function(){
             this.html.focus();
         },this));
