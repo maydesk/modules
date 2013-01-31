@@ -57,14 +57,27 @@ MyDemoApp = Core.extend(Echo.Application, {
 					positionX: 40,
 					positionY: 20,
 					size: 20,
-					text: "7up Ski & Snowboard Weekend 23/24 January"
+					text: "7up Ski & Snowboard Weekend 23/24 January",
+					type: "banner"
 				}),
 				new MD.MDNewsTicker({
 					positionX: 30,
 					positionY: 70,
 					text: "Due to bad weather conditions the event has been canceled!!!",
 					author: "Robert, 2 hours ago"
-				})
+				}),
+				new MD.MDText({
+					positionX: 35,
+					positionY: 115,
+					size: 16,
+					text: "Participants",
+					type: "header"
+				}),
+				new MD.MDTable({
+					positionX: 35,
+					positionY: 140
+				}),
+				
 			]
 		});
 		

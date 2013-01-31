@@ -46,11 +46,11 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 		var set = paper.set();
 
 		var rect = paper.rect(0, 0, 400, 30);
-		rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d"});
+		rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d",r:2});
 		set.push(rect);
 
 		var rect = paper.rect(280, 20, 120, 25);
-		rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d",r:5});
+		rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d",r:2});
 		set.push(rect);
 
 		var text = paper.text(8, 14, "UPDATE:");
@@ -63,7 +63,7 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 
 		var text = this.component.render("text");
 		this._tickerText = paper.text(10, 14, text);
-       	this._tickerText.attr({'font-size':14, fill:"#222222", 'text-anchor':"start", 'font-family':"Sans-Serif", 'clip-rect':"140 0 280 300"});
+       	this._tickerText.attr({'font-size':14, fill:"#222222", 'text-anchor':"start", 'font-family':"Sans-Serif", 'clip-rect':"135 0 275 300"});
 		set.push(this._tickerText);
 
 		

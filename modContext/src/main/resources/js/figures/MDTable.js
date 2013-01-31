@@ -25,7 +25,7 @@ MD.Sync.MDTable = Core.extend(MD.Sync.MDAbstractFigure, {
 		var table = new window.draw2d.SetFigure();
 		table.onClick = Core.method(this, this.onClick);
 		table.createSet = Core.method(this, this._createSet);
-        table.setDimension(180, 66);
+        table.setDimension(180, 120);
 		canvas.addFigure(table, x, y);
     },
     
@@ -33,8 +33,8 @@ MD.Sync.MDTable = Core.extend(MD.Sync.MDAbstractFigure, {
 	_createSet: function() {
 		var paper = this._parent._canvas.paper; 
 		var set = paper.set();	
-	   	var names = ["Juan Carlos", "Hector Garcia", "John Travolta"]
-	   	var status = ["OK", "due 3 days!", "OK"]
+	   	var names = ["Juan Carlos", "Hector Garcia", "John Travolta", "Frank Smith", "Tom Weber"]
+	   	var status = ["OK", "due 3 days!", "OK", "OK", "OK"]
 	   	for (var i = 0; i < names.length; i++) {
 			var rect = paper.rect(0, 23 * i, 120, 20);
 			rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d",r:5});

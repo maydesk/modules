@@ -96,9 +96,9 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
    		this._canvas = new MyCanvas(this);
    				
 		//remove, just for testing...
-		var startCircle = new window.draw2d.shape.basic.Circle(55);
-		startCircle.setColor("#cd1dcc");
-		this._canvas.addFigure(startCircle, 220, 220);	
+		//var startCircle = new window.draw2d.shape.basic.Circle(55);
+		//startCircle.setColor("#cd1dcc");
+		//this._canvas.addFigure(startCircle, 220, 220);	
     },
 
 	/** @see Echo.Render.ComponentSync#renderDispose */

@@ -43,6 +43,9 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
         //
         this.fontSize = 12;
         this.fontColor = new draw2d.util.Color("#080808");
+        this.fontWeight = "normal";
+        this.fontFamily =  "sans serif";
+        this.fontStyle = "normal";
         this.padding = 4;
         
         // set the border width
@@ -90,6 +93,9 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
         lattr.y = this.getHeight()/2;
         lattr["text-anchor"] = "start";
         lattr["font-size"] = this.fontSize;
+        lattr["font-weight"] = this.fontWeight;
+        lattr["font-family"] = this.fontFamily;
+        lattr["font-style"] = this.fontStyle;
         lattr.fill = this.fontColor.hash();
         this.svgNodes.attr(lattr);
 
@@ -362,7 +368,44 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
          if(typeof memento.text !=="undefined"){
              this.setText(memento.text);
          }
-     }
+     },
+
+     
+    /**
+     * @method
+     * Set the new font style.
+     * Example: "italic" or "italic, oblique"
+     *
+     * @param {String} family A value as described by the pattern: "all | [ normal | italic | oblique] [, [normal | italic | oblique]]*"
+     **/
+    setFontStyle: function(style) {
+		this.fontStyle = style;
+		this.repaint();
+    },
+
+    /**
+     * @method
+     * Set the new font family.
+     * Example: "fantasy" or "Baskerville, serif"
+     *
+     * @param {String} family A value as described by the pattern: "all | [normal | bold | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900] [, [normal | bold | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900]]"
+     **/
+    setFontFamily: function(family) {
+		this.fontFamily = family;
+		this.repaint();
+    },
+     
+    /**
+     * @method
+     * Set the new font weight.
+     *
+     * @param {String} weight A value as described by the pattern: "all | [normal | bold | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900] [, [normal | bold | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900]]"
+     **/
+    setFontWeight: function(weight) {
+      this.fontWeight = weight;
+      this.repaint();
+    },
+     
 
 });
 
