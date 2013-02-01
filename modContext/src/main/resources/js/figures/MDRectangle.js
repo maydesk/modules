@@ -47,7 +47,7 @@ MD.MDRectangle = Core.extend(MD.MDAbstractFigure, {
 	}    
 });
 
- 
+
 MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
     
     $load: function() {
@@ -55,8 +55,10 @@ MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
     },
     
     renderAdd2: function(canvas, x, y) {
-		var rectangle = new window.draw2d.shape.basic.Rectangle();
-		rectangle.setRadius(10);
+		var w = this.component.render("width");
+		var h = this.component.render("height");
+		var rectangle = new window.draw2d.shape.basic.Rectangle(w, h);
+		rectangle.setRadius(5);
 		rectangle.onClick = Core.method(this, this.onClick);
 		canvas.addFigure(rectangle, x, y);
     }

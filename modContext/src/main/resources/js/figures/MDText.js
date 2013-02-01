@@ -29,17 +29,20 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
 		fig.onClick = Core.method(this, this.onClick);
 		var type = this.component.render("type");
 		if (type == "banner") {
+			if (fig.setFontFamily) fig.setFontFamily("Arial");
 	   		fig.setBackgroundColor("#5b5b5b");        
     	  	fig.setStroke(1);
         	fig.setRadius(5);
-			fig.setPadding(8);
+			fig.setPadding(4);
 	    	fig.setColor("#dd00ee");
     	  	fig.setFontColor("#dddddd");
 		    if (fig.setFontWeight) fig.setFontWeight("bold");    //works currently only in playgroundJS!  	  	
-		} else {
+		} else if (type == "header") {
 			fig.setStroke(0);
 		    if (fig.setFontFamily) fig.setFontFamily("fantasy");   //works currently only in playgroundJS!	 
       		fig.setFontColor("#111111");
+		} else {
+			fig.setStroke(0);
 		}
       	canvas.addFigure(fig, x, y);    
       	

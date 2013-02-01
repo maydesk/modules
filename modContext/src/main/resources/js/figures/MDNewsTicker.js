@@ -63,7 +63,7 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 
 		var text = this.component.render("text");
 		this._tickerText = paper.text(10, 14, text);
-       	this._tickerText.attr({'font-size':14, fill:"#222222", 'text-anchor':"start", 'font-family':"Sans-Serif", 'clip-rect':"135 0 275 300"});
+       	this._tickerText.attr({'font-size':14, fill:"#222222", 'text-anchor':"start", 'font-family':"Sans-Serif", 'clip-rect':"135 0 275 1000"});
 		set.push(this._tickerText);
 
 		

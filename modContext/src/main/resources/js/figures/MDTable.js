@@ -33,27 +33,27 @@ MD.Sync.MDTable = Core.extend(MD.Sync.MDAbstractFigure, {
 	_createSet: function() {
 		var paper = this._parent._canvas.paper; 
 		var set = paper.set();	
-	   	var names = ["Juan Carlos", "Hector Garcia", "John Travolta", "Frank Smith", "Tom Weber"]
-	   	var status = ["OK", "due 3 days!", "OK", "OK", "OK"]
+	   	var names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+	   	var status = ["Spinat-Lasagne", "Broccoli-Auflauf", "T-Bone Steak", "Schnitzel/Pommes", "Salmon + Gratin"]
 	   	for (var i = 0; i < names.length; i++) {
-			var rect = paper.rect(0, 23 * i, 120, 20);
+			var rect = paper.rect(0, 23 * i, 90, 20);
 			rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d",r:5});
 			set.push(rect);
 
-			var rect = paper.rect(125, 23 * i, 70, 20);
+			var rect = paper.rect(95, 23 * i, 110, 20);
 			rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d",r:5});
 			set.push(rect);
 
 			var text = paper.text(8, 9 + 23 * i, names[i]);
 			var lattr = {};
 			lattr["text-anchor"] = "start";
-			lattr["font-size"] = 16;
+			lattr["font-size"] = 14;
 			lattr["font-family"] = "Sans-Serif";
 			lattr.fill = "#eeeeee";			
         	text.attr(lattr);
 			set.push(text);
 			
-			text = paper.text(160, 10 + 23 * i, status[i]);
+			text = paper.text(150, 10 + 23 * i, status[i]);
 			var lattr = {};
 			lattr["font-size"] = 11;
 			lattr["font-family"] = "Sans-Serif";

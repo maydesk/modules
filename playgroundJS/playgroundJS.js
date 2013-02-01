@@ -57,25 +57,119 @@ MyDemoApp = Core.extend(Echo.Application, {
 					positionX: 40,
 					positionY: 20,
 					size: 20,
-					text: "7up Ski & Snowboard Weekend 23/24 January",
+					text: "Welcome to Barco Karlsruhe R&D",
 					type: "banner"
 				}),
 				new MD.MDNewsTicker({
 					positionX: 30,
-					positionY: 70,
-					text: "Due to bad weather conditions the event has been canceled!!!",
+					positionY: 415,
+					text: "Aquariva presentation at AV Fair Amsterdam was a big success!",
 					author: "Robert, 2 hours ago"
 				}),
 				new MD.MDText({
-					positionX: 35,
-					positionY: 115,
+					positionX: 20,
+					positionY: 65,
 					size: 16,
-					text: "Participants",
+					text: "Joke of the day"
+				}),
+				new MD.MDImage({
+					positionX: 10,
+					positionY: 90,
+					src: "img/dilbert.png",
+					width: 260,
+					height: 90
+				}),
+				new MD.MDAvatar({
+					positionX: 310,
+					positionY: 140,
+					src: "img/alex.png",
+					text: "why 'Joke'? - we call that 'Release Planning' ... ;)" 
+				}),
+				new MD.MDArrow({
+					positionX: 270,
+					positionY: 110,
+					width: 50,
+					height: 20,
+					size: 2
+				}),
+				new MD.MDText({
+					positionX: 560,
+					positionY: 10,
+					size: 14,
+					text: "Cantine menu",
 					type: "header"
 				}),
 				new MD.MDTable({
-					positionX: 35,
-					positionY: 140
+					positionX: 475,
+					positionY: 35
+				}),
+				
+				new MD.MDAvatar({
+					positionX: 100,
+					positionY: 300,
+					src: "img/petra.png",
+					text: "I have birthday today! join breakfast at 9 o'clock at the tee kitchen" 
+				}),
+
+				new MD.MDImage({
+					positionX: 150,
+					positionY: 300,
+					src: "http://openclipart.org/image/250px/svg_to_png/14860/nicubunu_Chocolate_birthday_cake.png",
+					width: 80,
+					height: 80
+				}),
+				
+				new MD.MDImage({
+					positionX: 590,
+					positionY: 370,
+					src: "img/barco.png",
+					width: 100,
+					height: 100
+				}),
+
+				new MD.MDText({
+					positionX: 520,
+					positionY: 165,
+					size: 14,
+					text: "Team Activities",
+					type: "banner"
+				}),
+
+				new MD.MDNewsBox({
+					positionX: 440,
+					positionY: 195,
+					width: 120,
+					height: 80,
+					icon: "img/dept_manag.png",
+					title: "Management",
+					text: "Working on the next generation random buzzword generator"
+				}),
+				new MD.MDNewsBox({
+					positionX: 565,
+					positionY: 195,
+					width: 120,
+					height: 80,
+					icon: "img/dept_tech.png",
+					title: "BCMC",
+					text: "Pushing hard for MVD release, targeting mid of February for delivery"
+				}),				
+				new MD.MDNewsBox({
+					positionX: 440,
+					positionY: 280,
+					width: 120,
+					height: 80,
+					icon: "img/dept_sales.png",
+					title: "Sales",
+					text: "We are receiving many pre-orders for 2x2 MVD panels, so lets just get them delivered"
+				}),
+				new MD.MDNewsBox({
+					positionX: 565,
+					positionY: 280,
+					width: 120,
+					height: 80,
+					icon: "img/dept_dev.png",
+					title: "Service",
+					text: "The liquid cooling problem seems to be under control - thanks God!"
 				}),
 				
 			]
@@ -85,10 +179,10 @@ MyDemoApp = Core.extend(Echo.Application, {
 		this.rootComponent.add(new MD.MDContext({
 			title: "My Activity",
 			icon: "img/ampel.png",
-			positionX: "300px",
-			positionY: "130px",
-			height: "400px",
-			width: "500px",			
+			positionX: "60px",
+			positionY: "60px",
+			width: "700px",			
+			height: "520px",
 			children: [
 				canvas
 			]			

@@ -65,22 +65,26 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
     	this.fig.installEditPolicy(new window.draw2d.policy.figure.GlowSelectionFeedbackPolicy());
 		canvas.addFigure(this.fig);
         
-		this.startCircle = new window.draw2d.shape.basic.Circle(14);
-		this.endCircle = new window.draw2d.shape.basic.Circle(14);
+		this.startCircle = new window.draw2d.shape.basic.Circle(6);
+		this.startCircle.setBackgroundColor("ffffff");
+		this.endCircle = new window.draw2d.shape.basic.Circle(6);
+		this.endCircle.setBackgroundColor("ffffff");
 		this.startCircle.attachMoveListener(this);
 		this.endCircle.attachMoveListener(this);
-		canvas.addFigure(this.startCircle, x + 100, y);
-		canvas.addFigure(this.endCircle, x, y + 100);    
+		var w = this.component.render("width");
+		var h = this.component.render("height");
+		canvas.addFigure(this.startCircle, x, y);
+		canvas.addFigure(this.endCircle, x + w, y + h);    
     },
 
 	//listener method for attachMoveListener(...)    
 	onOtherFigureIsMoving : function () {	
   		this.fig.switchX = false;
    		this.fig.switchY = false;
-		var x0 = this.startCircle.getAbsoluteX() + 7 ;
-		var y0 = this.startCircle.getAbsoluteY() + 7;
-		var x1 = this.endCircle.getAbsoluteX() + 7;
-		var y1 = this.endCircle.getAbsoluteY() + 7;
+		var x0 = this.startCircle.getAbsoluteX() + 3 ;
+		var y0 = this.startCircle.getAbsoluteY() + 3;
+		var x1 = this.endCircle.getAbsoluteX() + 3;
+		var y1 = this.endCircle.getAbsoluteY() + 3;
 		if (x0 > x1) {var xn = x0; x0 = x1; x1 = xn; this.fig.switchX = true;}
 		if (y0 > y1) {var yn = y0; y0 = y1; y1 = yn; this.fig.switchY = true;}
 		var xs = x1 - x0;
@@ -127,8 +131,8 @@ MyArrow = window.draw2d.VectorFigure.extend({
 			var w = this.getWidth();
 			var h = this.getHeight();
 	        var length = Math.sqrt(w * w + h * h);
-	        var ax = length * 0.25;  //length of the arrow point 
-	        var ay = length * 0.3;  //height of the arrow point
+	        var ax = this.size * 2; //length of the arrow point 
+	        var ay = this.size * 1.6; //height of the arrow point
 	        var angle = Math.atan(h / w);
 	        
 	        var x0 = this.getAbsoluteX() - (length - w) / 2;

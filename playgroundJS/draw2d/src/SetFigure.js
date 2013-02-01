@@ -71,8 +71,8 @@ draw2d.SetFigure = draw2d.shape.basic.Rectangle.extend({
         }
 
         if (this.originalWidth !== null) {
-        	this.scaleX = this.width / this.originalWidth;
-        	this.scaleY = this.height / this.originalHeight;
+        //XXX	this.scaleX = this.width / this.originalWidth;
+        //XXX	this.scaleY = this.height / this.originalHeight;
         }
         
         if (typeof attributes === "undefined") {
