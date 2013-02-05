@@ -93,10 +93,10 @@ MyDemoApp = Core.extend(Echo.Application, {
 					size: 2
 				}),
 				new MD.MDText({
-					positionX: 560,
+					positionX: 500,
 					positionY: 10,
 					size: 14,
-					text: "Cantine menu",
+					text: "This week at Chez Andrea",
 					type: "header"
 				}),
 				new MD.MDTable({

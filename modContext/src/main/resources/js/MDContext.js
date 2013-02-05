@@ -30,7 +30,7 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 		
 			$construct: function(context) {
 				this._context2 = context;
-				this.runTime = 600;
+				this.runTime = 800;
 			},
 			init: function() { 
 				this._context2._container.style.visibility = "visible";
@@ -133,7 +133,7 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 		this._container.style.position = "absolute";
        	this._container.style.left = "0px";
 		this._container.style.top = "19px";
-		this._container.style.overflow = "hidden";
+		this._container.style.overflow = "hidden";  //scroll";
 		this._container.style.width = "0px";
 		this._container.style.height = "20px";
 		this._container.style.zIndex = 2;

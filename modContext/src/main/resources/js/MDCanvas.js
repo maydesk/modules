@@ -12,6 +12,7 @@ MD.MDCanvas = Core.extend(Echo.Component, {
 	componentType: "MDCanvas",
 	editorRow: new Echo.Row(),
 	toolRow: new Echo.Row(),
+	zoomRow: new Echo.Row(),
 	_currentTool: null,
 	    
     setCurrentTool: function(cmpFig) {
@@ -50,34 +51,52 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		backlight.style.height ="100%";
 		backlight.style.opacity = 0.9;
 		backlight.style.background ="white";
-		//backlight.style.zIndex = parentElement.style.zIndex;
 		parentElement.appendChild(backlight);
     	
 		//the main node
         this._node = document.createElement("div");
         this._node.id = 'canvas_' + this.component.renderId.replace(".", "_");
-		this._node.style.position = "absolute";	
+		this._node.style.position = "absolute";
 		this._node.style.top = "25px";
-       	this._node.style.width = "100%";
-		this._node.style.height ="100%";
-		//this._node.style.zIndex = parentElement.style.zIndex + 1;
+       	this._node.style.width = "250%";
+		this._node.style.height ="250%";
 		parentElement.appendChild(this._node);
 
     	//the tool row
     	this.component.toolRow.parent = this.component;
-    	this.component.toolRow.set("background", "black");
+    	this.component.toolRow.set("background", "blue");
     	this.component.toolRow.set("height", "25");
-    	//this.component.toolRow.set("opacity", "0.3");
+    	this.component.toolRow.set("opacity", "0.7");
     	this.component.editorRow.application = this.component.application;
 		for (var i = this.component.getComponentCount(); i >= 0; i--) {   
 			var child = this.component.getComponent(i);
 			if (child instanceof MD.MDToolEntry) {
+				//FIXME would be better having an own collection for tool entries, onstead of mixing them with regular children...
 				this.component.remove(child);
-				this.component.toolRow.add(child);				
+				this.component.toolRow.add(child);		
 				child.application = this.component.application;				
 			}
 		}
 		this.component.toolRow.add(this.component.editorRow);
+		this.component.toolRow.add(this.component.zoomRow);
+
+		var that = this;
+		var btnZoomDecrease = new Echo.Button();
+		btnZoomDecrease.application = this.component.application;
+		btnZoomDecrease.set("icon", "img/remove.gif");
+		btnZoomDecrease.addListener("action", function() {
+			that._canvas.setZoom(that._canvas.getZoom() / 0.7, true);
+       	});		
+		this.component.toolRow.add(btnZoomDecrease);					
+
+		var btnZoomIncrease = new Echo.Button();
+		btnZoomIncrease.application = this.component.application;
+		btnZoomIncrease.set("icon", "img/add.gif");
+		btnZoomIncrease.addListener("action", function() {
+			that._canvas.setZoom(that._canvas.getZoom() * 0.7, true);
+       	});		
+		this.component.toolRow.add(btnZoomIncrease);					
+    	
     	Echo.Render.renderComponentAdd(update, this.component.toolRow, parentElement);
     	
         var componentCount = this.component.getComponentCount();
@@ -94,6 +113,17 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     
     _loadCanvas: function() {
    		this._canvas = new MyCanvas(this);
+		//this._canvas.setScrollArea("#" + this._node.id);
+		
+		var node = this._node;
+		var MyDragPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
+		    onMouseDrag:function(canvas, dx, dy, dx2, dy2){
+		    	//console.log( (node.style.top + dy2) + " :: " + dy2);
+        		node.style.left = dx + "px";
+        		node.style.top = dy + "px";
+    		}		
+		});		
+		this._canvas.installEditPolicy(new MyDragPolicy());
    				
 		//remove, just for testing...
 		//var startCircle = new window.draw2d.shape.basic.Circle(55);
