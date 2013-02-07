@@ -31,7 +31,6 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
         figTicker.setDimension(400, 45);
 		canvas.addFigure(figTicker, x, y);
 		figTicker.startTimer(100);
-		
     },
     
     _onTimer:function(){

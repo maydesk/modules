@@ -6,31 +6,32 @@ import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
-import com.maydesk.context.widget.MDTable;
+import com.maydesk.context.widget.MDNewsBox;
 
 /**
  * @author Alejandro Salas <br>
  *         Created on Feb 3, 2013
  */
-public class MDTablePeer extends MDAbstractFigurePeer {
+public class MDNewsBoxPeer extends MDAbstractFigurePeer {
 
-	private static final String COMPONENT = MDTable.class.getSimpleName();
+	private static final String COMPONENT = MDNewsBox.class.getSimpleName();
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDTable.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDNewsBox.js"));
 	}
 
-	public MDTablePeer() {
-		addOutputProperty(MDTable.PROPERTY_DATA);
+	public MDNewsBoxPeer() {
+		addOutputProperty(MDNewsBox.PROPERTY_TEXT);
+		addOutputProperty(MDNewsBox.PROPERTY_TITLE);
 	}
-
+	
 	public String getClientComponentType(boolean shortType) {
 		return COMPONENT;
 	}
 
 	@Override
-	public Class<MDTable> getComponentClass() {
-		return MDTable.class;
+	public Class<MDNewsBox> getComponentClass() {
+		return MDNewsBox.class;
 	}
 
 	@Override
@@ -39,14 +40,17 @@ public class MDTablePeer extends MDAbstractFigurePeer {
 		ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
 		serverMessage.addLibrary(COMPONENT);
 	}
-
+	
 	@Override
 	public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
-		if (propertyName.equals(MDTable.PROPERTY_DATA)) {
-			MDTable table = (MDTable) component;
-			if (table.getDataMap() != null) {
-				return table.getDataMap();
-			}
+		MDNewsBox newsBox = (MDNewsBox) component;
+
+		if (propertyName.equals(MDNewsBox.PROPERTY_TEXT)) {
+			return newsBox.getText();
+		}
+		
+		if (propertyName.equals(MDNewsBox.PROPERTY_TITLE)) {
+			return newsBox.getTitle();
 		}
 
 		return super.getOutputProperty(context, component, propertyName, propertyIndex);

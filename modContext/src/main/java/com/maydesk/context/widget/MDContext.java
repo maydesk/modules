@@ -8,9 +8,6 @@ package com.maydesk.context.widget;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.ResourceImageReference;
-import nextapp.echo.app.Row;
-import nextapp.echo.extras.app.MenuBarPane;
-import nextapp.echo.extras.app.menu.DefaultMenuModel;
 
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.config.IPlugTarget;
@@ -118,10 +115,17 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		
 		MDCanvas canvas = new MDCanvas();
 		//XXX work-around for early-loading
-		canvas.add(new MDText());
-		canvas.add(new MDRectangle());
-		canvas.add(new MDArrow());
-		canvas.add(new MDTable());
+//		canvas.add(new MDText());
+//		canvas.add(new MDRectangle());
+//		canvas.add(new MDArrow());
+//		canvas.add(new MDTable());
+		MDAvatar avatar = new MDAvatar();
+		avatar.setImage(new ResourceImageReference("img/silhouette-male.gif"));
+		
+		canvas.add(avatar);
+//		canvas.add(new MDNewsBox());
+//		canvas.add(new MDNewsTicker());
+//		canvas.add(new MDImage());
 		add(canvas);
 
 		MDToolEntry tool = new MDToolEntry();

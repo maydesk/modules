@@ -28,4 +28,20 @@ public abstract class MDAbstractFigure extends Component {
 		set(PROPERTY_POSITION_X, new Extent(posX));
 		set(PROPERTY_POSITION_Y, new Extent(posY));
 	}
+	
+	public int getPositionX() {
+		return (Integer) get(PROPERTY_POSITION_X);
+	}
+	
+	public void setPositionX(int positionX) {
+		set(PROPERTY_POSITION_X, positionX);
+	}
+	
+	public int getPositionY() {
+		return (Integer) get(PROPERTY_POSITION_Y);
+	}
+	
+	public void setPositionY(int positionY) {
+		set(PROPERTY_POSITION_Y, positionY);
+	}
 }
