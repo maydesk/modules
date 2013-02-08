@@ -82,7 +82,7 @@ public abstract class MDAbstractFigurePeer extends Draw2dAbstractPeer {
 			clientUpdateManager.setComponentProperty(component, MDAbstractFigure.PROPERTY_POSITION_X, newValue);
 		} else if (MDAbstractFigure.PROPERTY_POSITION_Y.equals(propertyName)) {
 			clientUpdateManager.setComponentProperty(component, MDAbstractFigure.PROPERTY_POSITION_Y, newValue);
-		}
+		} 
 	}
 	
     /**

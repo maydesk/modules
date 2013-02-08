@@ -11,6 +11,11 @@ MD.MDWebcam = Core.extend(MD.MDAbstractFigure, {
 	$load : function() {
        	Echo.ComponentFactory.registerType("MDWebcam", this);
 	},
+	
+	fireConnectEvent: function() {
+	    this.fireEvent({type: "connect", source: this});
+	},
+	
 	componentType: "MDWebcam"
 });
 
@@ -28,19 +33,29 @@ MD.Sync.MDWebcam = Core.extend(MD.Sync.MDAbstractFigure, {
 
 		var html = "<video width='100%' height='100%' id='video1'/>";
 		infobox.div.html(html);
-
-		function onSuccess(stream) {
-			var videoElement = document.getElementById("video1");
+		
+		var webcamUrl = this.component.render("url");
+		var videoElement = document.getElementById("video1");
+		if (webcamUrl) {
+			alert(webcamUrl);
+			videoElement.src = webcamUrl;
 			videoElement.autoplay = true;
-			var streamSourceURL = webkitURL.createObjectURL(stream);
-			videoElement.src = streamSourceURL;
-			console.log('Streaming from: ' + streamSourceURL);
-		};
-		function onError(err) {
-		    alert("Error, you are running this probably from local file system, try running in an web app container instead!");
-		};
-    	
-	    navigator.webkitGetUserMedia({ video: true, audio: false }, onSuccess, onError);
+		} else {
+			var that = this;		
+			function onSuccess(stream) {
+				videoElement.autoplay = true;
+				var streamSourceURL = webkitURL.createObjectURL(stream);
+				videoElement.src = streamSourceURL;
+				console.log('Streaming from: ' + streamSourceURL);
+				that.component.set('url', streamSourceURL);
+				that.component.fireConnectEvent();
+			};
+			function onError(err) {
+			    alert("Error, you are running this probably from local file system, try running in an web app container instead!");
+			};
+	    	
+		    navigator.webkitGetUserMedia({ video: true, audio: false }, onSuccess, onError);
+		}
     }
 });
 
