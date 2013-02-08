@@ -152,12 +152,18 @@ MyDemoApp = Core.extend(Echo.Application, {
 					width: 120,
 					height: 120
 				}),
+
+				new MD.MDWebcam({
+					positionX: 700,
+					positionY: 540,
+					src: "img/barco.png",
+					width: 180,
+					height: 180
+				}),
 				
 				//About this wall
-				
 				//This wall is intended for exploring new appplication cases
-				//for 
-				
+				//for ...
 				//Hardware is getting more and more commoditized. That is
 				//why Barco needs to focus more on services, system integration
 				//and innovation beyond the product   
