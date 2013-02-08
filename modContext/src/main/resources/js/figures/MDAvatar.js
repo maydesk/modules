@@ -36,17 +36,17 @@ MD.Sync.MDAvatar = Core.extend(MD.Sync.MDAbstractFigure, {
 		var set = paper.set();
 
  		var src = this.component.render("src", "");
-		var image = paper.image(src, 0, 0, 40, 40)
+		var image = paper.image(src, 0, 0, 50, 50)
 		set.push(image);
 
 		var lineBreakText = this._lineBreak(this.component.render("text"));
 		var text = paper.text(0, 0, lineBreakText);
-		set.push(text);
-		
 		var w = text.getBBox().width + 10;
 		var h = text.getBBox().height + 5;
-		text.attr({'x': 25 + w/2, 'y': -20 - h/2});
-		
+		text.attr({'x': 25 + w/2, 'y': -20 - h/2, 'stroke': '#000'});
+		set.push(text);
+
+
 		var p = "M30,0";
 		p += "L35,-20";
 		p += "L25,-20";
@@ -55,8 +55,17 @@ MD.Sync.MDAvatar = Core.extend(MD.Sync.MDAbstractFigure, {
 		p += "L" + (25 + w) + ",-20";
 		p += "L45,-20Z";		
 		var path = paper.path(p);
+		path.attr({stroke: '#ff7', 'fill': '#ff7', 'opacity':0.85});
 		set.push(path);
-
+		
+		var glow = path.glow();
+		glow.attr({'color': "#000", 'stroke': '#ff7', 'opacity':0.3, 'width':5});
+		set.push(glow);
+		
+		var text2 = paper.text(0, 0, lineBreakText);
+		text2.attr({'x': 25 + w/2, 'y': -20 - h/2, 'stroke': 'black'});
+		set.push(text2);
+		
         return set;
     },
     

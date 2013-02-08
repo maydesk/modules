@@ -44,13 +44,18 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 
     	this._containerElement = parentElement;
     	
-        var backlight = document.createElement("div");
+        var backlight = document.createElement("img");
+        
+  		//backlight.src = "http://wakpaper.com/large/Graffiti_wallpapers_216.png";
+  		//backlight.src = "http://img.wallpaperstock.net:81/ubuntu-graffiti-wallpapers_33371_1600x1200.jpg";
+  		backlight.src = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
+  		
 		backlight.style.position = "absolute";	
 		backlight.style.top = "25px";
        	backlight.style.width = "100%";
 		backlight.style.height ="100%";
 		backlight.style.opacity = 0.9;
-		backlight.style.background ="white";
+		//backlight.style.background ="white";
 		parentElement.appendChild(backlight);
     	
 		//the main node
@@ -113,7 +118,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     
     _loadCanvas: function() {
    		this._canvas = new MyCanvas(this);
-		//this._canvas.setScrollArea("#" + this._node.id);
+		this._canvas.setZoom(1.5, false);
 		
 		var node = this._node;
 		var MyDragPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
@@ -123,12 +128,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
         		node.style.top = dy + "px";
     		}		
 		});		
-		this._canvas.installEditPolicy(new MyDragPolicy());
-   				
-		//remove, just for testing...
-		//var startCircle = new window.draw2d.shape.basic.Circle(55);
-		//startCircle.setColor("#cd1dcc");
-		//this._canvas.addFigure(startCircle, 220, 220);	
+		//this._canvas.installEditPolicy(new MyDragPolicy());
     },
 
 	/** @see Echo.Render.ComponentSync#renderDispose */

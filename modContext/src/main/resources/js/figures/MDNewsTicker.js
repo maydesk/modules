@@ -28,7 +28,7 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 		figTicker.onClick = Core.method(this, this.onClick);
 		figTicker.createSet = Core.method(this, this._createSet);
 		figTicker.onTimer = Core.method(this, this._onTimer);
-        figTicker.setDimension(400, 45);
+        figTicker.setDimension(600, 45);
 		canvas.addFigure(figTicker, x, y);
 		figTicker.startTimer(100);
 		
@@ -36,7 +36,7 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
     
     _onTimer:function(){
     	this._counter -= 5;
-    	if (this._counter < -270) this._counter = 350;
+    	if (this._counter < -270) this._counter = 550;
     	this._tickerText.attr({'x':this._counter});
     	//this._tickerText.transform("t-4,0");
     },
@@ -45,32 +45,37 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 		var paper = this._parent._canvas.paper; 
 		var set = paper.set();
 
-		var rect = paper.rect(0, 0, 400, 30);
-		rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d",r:2});
+
+		var rect = paper.rect(0, 0, 600, 30);
+		rect.attr({fill:"#000",stroke:"#000",r:2});
 		set.push(rect);
 
-		var rect = paper.rect(280, 20, 120, 25);
-		rect.attr({fill:"#3d3d6d",stroke:"#3d3d6d",r:2});
-		set.push(rect);
+		var rect2 = paper.rect(480, 20, 120, 25);
+		rect2.attr({fill:"#000",stroke:"000",r:2});
+		set.push(rect2);
 
 		var text = paper.text(8, 14, "UPDATE:");
-       	text.attr({'font-size':20, fill:"#eeeeee", 'text-anchor':"start"});
+       	text.attr({'font-size':20, fill:"#fff", 'text-anchor':"start"});
 		set.push(text);
-
-		var rect2 = paper.rect(100, 3, 290, 24);
-		rect2.attr({fill:"#eeeeee",stroke:"eeeeee"});
-		set.push(rect2);
 
 		var text = this.component.render("text");
 		this._tickerText = paper.text(10, 14, text);
-       	this._tickerText.attr({'font-size':14, fill:"#222222", 'text-anchor':"start", 'font-family':"Sans-Serif", 'clip-rect':"135 0 275 1000"});
+       	this._tickerText.attr({'font-size':14, fill:"#fff", 'text-anchor':"start", 'font-family':"Sans-Serif", 'clip-rect':"135 0 475 1000"});
 		set.push(this._tickerText);
-
 		
 		var author = this.component.render("author");
-		var authorText = paper.text(387, 36, author);
-       	authorText.attr({'font-size':10, fill:"#eeeeee", 'text-anchor':"end"});
+		var authorText = paper.text(587, 36, author);
+       	authorText.attr({'font-size':10, fill:"#fff", 'text-anchor':"end"});
 		set.push(authorText);
+		
+		var glow = rect.glow();
+		glow.attr({'color': "#000", 'stroke': '#ff7', 'opacity':0.3, 'width':5});
+		set.push(glow);
+
+		//var glow2 = rect2.glow();
+		//glow2.attr({'color': "#000", 'stroke': '#ff7', 'opacity':0.3, 'width':3});
+		//set.push(glow2);
+
 			
         return set;
     }    
