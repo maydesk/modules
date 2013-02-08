@@ -14,7 +14,7 @@ import com.maydesk.context.widget.MDImage;
  */
 public class MDImagePeer extends MDAbstractFigurePeer {
 
-	private static final String COMPONENT = MDImage.class.getSimpleName();
+	public static final String COMPONENT = MDImage.class.getSimpleName();
 
 	static {
 		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDImage.js"));

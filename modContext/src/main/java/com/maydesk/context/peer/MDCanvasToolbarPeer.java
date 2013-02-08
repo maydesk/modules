@@ -6,14 +6,14 @@ import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
-import com.maydesk.context.widget.MDText;
+import com.maydesk.context.widget.MDCanvasToolbar;
 
-public class MDTextPeer extends MDAbstractFigurePeer {
+public class MDCanvasToolbarPeer extends MDAbstractFigurePeer {
 
-	public static final String COMPONENT = MDText.class.getSimpleName();
+	private static final String COMPONENT = MDCanvasToolbar.class.getSimpleName();
 
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDText.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/MDCanvasToolbar.js"));
 	}
 	
     public String getClientComponentType(boolean shortType) {
@@ -22,7 +22,7 @@ public class MDTextPeer extends MDAbstractFigurePeer {
     
     @Override
     public Class getComponentClass() {
-        return MDText.class;
+        return MDCanvasToolbar.class;
     }
 
     @Override

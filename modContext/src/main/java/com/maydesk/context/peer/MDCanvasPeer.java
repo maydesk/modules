@@ -37,6 +37,11 @@ public class MDCanvasPeer extends Draw2dAbstractPeer {
 		serverMessage.addLibrary(COMPONENT_NAME);
 		serverMessage.addLibrary("Echo.ArrayContainer");
 		serverMessage.addLibrary("Echo.Button");
+		serverMessage.addLibrary(MDAbstractFigurePeer.COMPONENT);
+		serverMessage.addLibrary(MDRectanglePeer.COMPONENT);
+		serverMessage.addLibrary(MDArrowPeer.COMPONENT);
+		serverMessage.addLibrary(MDTextPeer.COMPONENT);
+		serverMessage.addLibrary(MDImagePeer.COMPONENT);
 	}
 
 	/**

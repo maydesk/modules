@@ -8,6 +8,7 @@ package com.maydesk.context.widget;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.ResourceImageReference;
+import nextapp.echo.app.Row;
 
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.config.IPlugTarget;
@@ -27,9 +28,13 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 	public static final String PROPERTY_TITLE = "title";
 	public static final String PROPERTY_ICON = "icon";
 
-	protected MContext context;
+	
+	public static MDCanvas TEST_SINGLETON_CANVAS;  //just for testing external servlet
+	
+	
+	protected MContext  context;
 
-	public MDContext() {		
+	public MDContext() {
 	}
 
 	public MDContext(MContext context) {
@@ -113,32 +118,38 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		context.setTitle("My Context - click on me!");
 		init2();
 		
-		MDCanvas canvas = new MDCanvas();
+		TEST_SINGLETON_CANVAS = new MDCanvas();
+		add(TEST_SINGLETON_CANVAS);
+		
 		MDAvatar avatar = new MDAvatar();
 		avatar.setImage(new ResourceImageReference("img/silhouette-male.gif"));
-		
-		canvas.add(avatar);
-		add(canvas);
+		avatar.setText("Hello World!");
+		TEST_SINGLETON_CANVAS.add(avatar);
+
+		MDCanvasToolbar toolbar = new MDCanvasToolbar();
+		add(toolbar);
 
 		MDToolEntry tool = new MDToolEntry();
 		tool.setIcon(new ResourceImageReference("img/rectangle16.png"));
 		tool.setTool("MD.MDRectangle");
-		canvas.add(tool);
+		toolbar.add(tool);
 		
 		tool = new MDToolEntry();
 		tool.setIcon(new ResourceImageReference("img/arrow16.png"));
 		tool.setTool("MD.MDArrow");
-		canvas.add(tool);
+		toolbar.add(tool);
 
 		tool = new MDToolEntry();
 		tool.setIcon(new ResourceImageReference("img/table16.png"));
 		tool.setTool("MD.MDTable");
-		canvas.add(tool);
+		toolbar.add(tool);
 
 		tool = new MDToolEntry();
 		tool.setIcon(new ResourceImageReference("img/text16.png"));
 		tool.setTool("MD.MDText");
-		canvas.add(tool);
+		toolbar.add(tool);
 
+		Row editorRow = new Row(); 
+		add(editorRow);
 	}
 }

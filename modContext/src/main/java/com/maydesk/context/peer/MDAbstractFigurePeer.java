@@ -27,7 +27,7 @@ import com.maydesk.context.widget.MDArrow;
  */
 public abstract class MDAbstractFigurePeer extends Draw2dAbstractPeer {
 
-	private static final String COMPONENT = MDAbstractFigure.class.getSimpleName();
+	public static final String COMPONENT = MDAbstractFigure.class.getSimpleName();
 
 	static {
 		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDAbstractFigure.js"));

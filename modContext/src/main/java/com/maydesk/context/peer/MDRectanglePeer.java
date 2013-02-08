@@ -11,7 +11,7 @@ import com.maydesk.context.widget.MDText;
 
 public class MDRectanglePeer extends MDAbstractFigurePeer {
 
-	private static final String COMPONENT = MDRectangle.class.getSimpleName();
+	public static final String COMPONENT = MDRectangle.class.getSimpleName();
 
 	static {
 		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDRectangle.js"));

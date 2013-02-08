@@ -12,7 +12,7 @@ import com.maydesk.context.widget.MDArrow;
 
 public class MDArrowPeer extends MDAbstractFigurePeer {
 
-	private static final String COMPONENT = MDArrow.class.getSimpleName();
+	public static final String COMPONENT = MDArrow.class.getSimpleName();
 
 	static {
 		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDArrow.js"));
