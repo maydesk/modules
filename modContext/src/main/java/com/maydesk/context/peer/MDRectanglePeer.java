@@ -32,4 +32,5 @@ public class MDRectanglePeer extends MDAbstractFigurePeer {
         ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
         serverMessage.addLibrary(COMPONENT);
     }
+    
 }

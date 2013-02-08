@@ -126,6 +126,12 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		avatar.setText("Hello World!");
 		TEST_SINGLETON_CANVAS.add(avatar);
 
+		MDRectangle rect = new MDRectangle();
+		rect.setPositionX(200);
+		rect.setPositionY(200);
+		TEST_SINGLETON_CANVAS.add(rect);
+
+		
 		MDCanvasToolbar toolbar = new MDCanvasToolbar();
 		add(toolbar);
 

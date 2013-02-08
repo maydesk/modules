@@ -123,4 +123,14 @@ public class PDTableModel3<T> extends AbstractTableModel {
 		Translatable title;
 		Format format;
 	}
+	
+	@Override
+	public int getTotalColumnCount() {
+		return getColumnCount();
+	}
+
+	@Override
+	public boolean isColumnVisible(int arg0) {
+		return true;
+	}
 }

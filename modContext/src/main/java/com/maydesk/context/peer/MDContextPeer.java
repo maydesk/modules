@@ -18,6 +18,7 @@ import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
+import nextapp.echo.webcontainer.sync.component.SelectFieldPeer;
 
 public class MDContextPeer extends AbstractComponentSynchronizePeer {
 
@@ -67,6 +68,7 @@ public class MDContextPeer extends AbstractComponentSynchronizePeer {
         serverMessage.addLibrary(CommonService.INSTANCE.getId());
         serverMessage.addLibrary(PDDesktopItemPeer.DESKTOP_ITEM_SERVICE.getId());
         serverMessage.addLibrary(MD_CONTEXT);
+        serverMessage.addLibrary("Echo.ListComponent");
     }
     
     /**

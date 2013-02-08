@@ -60,8 +60,16 @@ MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
 		var w = this.component.render("width");
 		var h = this.component.render("height");
 		this._rectangle = new window.draw2d.shape.basic.Rectangle(w, h);
-		this._rectangle.setRadius(5);
-		this._rectangle.onClick = Core.method(this, this.onClick);
+		this._rectangle.setRadius(5);		
 		canvas.addFigure(this._rectangle, x, y);
+		this.installListeners(this._rectangle);		
+    },
+    
+    renderUpdate: function(update) {
+    	var x = this.component.render("positionX");
+		var y = this.component.render("positionY");
+		this._rectangle.setPosition(x, y);
+		return false; // Child elements not supported: safe to return false.
     }
+    
 });

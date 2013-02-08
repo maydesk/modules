@@ -9,7 +9,6 @@
 package com.maydesk.base;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -18,13 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import nextapp.echo.app.ApplicationInstance;
-import nextapp.echo.app.Color;
 import nextapp.echo.app.Window;
+import nextapp.echo.webcontainer.ApplicationWebSocket;
 import nextapp.echo.webcontainer.WebContainerServlet;
+import nextapp.echo.webcontainer.WebSocketConnectionHandler;
 
-import com.maydesk.base.util.ILookAndFeel;
 import com.maydesk.base.util.KeepAliveThread;
-import com.maydesk.base.util.PDLookAndFeel;
 
 /**
  * Basic Profidesk servlet, provides the key of the session
@@ -38,6 +36,23 @@ public class MDServlet extends WebContainerServlet {
 	public final static String HIBERNATE_FACTORY = "HIBERNATE_FACTORY"; //$NON-NLS-1$
 	public final static String BROWSER_SESSION = "BROWSER_SESSION"; //$NON-NLS-1$
 
+//	static {
+//	      System.setProperty("echo.js.enablecaching", "true"); 
+//	      System.setProperty("echo.allowiecompression", "true"); 
+//	}
+//	
+//	public static final WebSocketConnectionHandler wsHandler = new WebSocketConnectionHandler() {
+//		@Override
+//		public ApplicationWebSocket newApplicationWebSocket(ApplicationInstance applicationInstance) {
+//			return new JettyWebSocket(applicationInstance);
+//		}
+//	};
+//	
+//	public MDServlet() {
+//		setWebSocketConnectionHandler(wsHandler);
+//	}
+	
+	  
 	@Override
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		if (SERVLET_NAME == null) {

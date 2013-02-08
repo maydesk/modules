@@ -102,4 +102,14 @@ public class PDDataGridModel extends AbstractTableModel {
 			dataList.add(tableFactory.createHeaderValue(data));
 		}
 	}
+	
+	@Override
+	public int getTotalColumnCount() {
+		return getColumnCount();
+	}
+
+	@Override
+	public boolean isColumnVisible(int arg0) {
+		return true;
+	}
 }

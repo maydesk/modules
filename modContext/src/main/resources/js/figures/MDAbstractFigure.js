@@ -7,6 +7,11 @@ MD.MDAbstractFigure = Core.extend(Echo.Component, {
 	$abstract: {
 		getEditor: function() { }
 	},
+	
+	fireMoveEvent: function() {
+		console.log('fireMove');
+	    this.fireEvent({type: "move", source: this});
+	}
 });
 
    
@@ -47,10 +52,30 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
     },
     
     renderUpdate: function(update) {
-        return false; // Child elements not supported: safe to return false.
+		return false; // Child elements not supported: safe to return false.
     },
     
     onClick: function(x, y) {
+    	//calls MDContext.setEditor()
     	this._parent.component.parent.setEditor(this);
-    }
+    },
+    
+    onDrag: function(figure) {
+		this.component.set('positionX', figure.getX());
+		this.component.set('positionY', figure.getY());
+  		this.component.fireMoveEvent();
+    },
+    
+    installListeners: function(figure) {
+    	var that = this;
+    	var MyDragDropPolicy = draw2d.policy.figure.DragDropEditPolicy.extend({
+		    onDrag:function(canvas, figure){
+				that.onDrag(figure);
+    		}
+		});
+		figure.installEditPolicy(new MyDragDropPolicy());
+		
+		figure.onClick = Core.method(this, this.onClick);
+	}
+    
 });

@@ -10,13 +10,15 @@ package com.maydesk.context;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.ContentPane;
-import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.Window;
+import nextapp.echo.webcontainer.ApplicationWebSocket;
 import nextapp.echo.webcontainer.WebContainerServlet;
+import nextapp.echo.webcontainer.WebSocketConnectionHandler;
 
-import com.maydesk.context.widget.MDAvatar;
+import com.maydesk.base.JettyWebSocket;
 import com.maydesk.context.widget.MDCanvas;
-import com.maydesk.context.widget.MDToolEntry;
+import com.maydesk.context.widget.MDContext;
+import com.maydesk.context.widget.MDRectangle;
 
 /**
  * 
@@ -24,31 +26,44 @@ import com.maydesk.context.widget.MDToolEntry;
  */
 public class MDServletExternalContext extends WebContainerServlet {
 
+	public static ApplicationInstance TEST_APP_INSTANCE;
+	public static MDRectangle RECTANGLE;
+	public static Window window;
+	
+	
+	public static final WebSocketConnectionHandler wsHandler = new WebSocketConnectionHandler() {
+		@Override
+		public ApplicationWebSocket newApplicationWebSocket(ApplicationInstance applicationInstance) {
+			return new JettyWebSocket(applicationInstance);
+		}
+	};
+	
+	public MDServletExternalContext() {
+		setWebSocketConnectionHandler(wsHandler);
+	}
+	
+
 	@Override
 	public ApplicationInstance newApplicationInstance() {
-		return new ApplicationInstance() {
-
+		TEST_APP_INSTANCE = new ApplicationInstance() {
 			@Override
 			public Window init() {
-				Window w = new Window();
-				w.setTitle("External Context");
+				window = new Window();
+				window.setTitle("External Context");
 				ContentPane pane = new ContentPane();
-				w.setContent(pane);
+				window.setContent(pane);
 				
-				
-				//pane.add(new Label("HELOO WORLD!"));
-				MDCanvas canvas = new MDCanvas();
+				MDCanvas canvas = MDContext.TEST_SINGLETON_CANVAS = new MDCanvas();
 				pane.add(canvas);
 
-				MDAvatar avatar = new MDAvatar();
-				avatar.setImage(new ResourceImageReference("img/silhouette-male.gif"));
-				avatar.setText("Hello World!");
-				avatar.setPositionX(200);
-				avatar.setPositionY(100);
-				canvas.add(avatar);
+				MDRectangle rect = RECTANGLE = new MDRectangle();
+				rect.setPositionX(300);
+				rect.setPositionY(100);
+				canvas.add(rect);
 				
-				return w;
+				return window;
 			}
 		};
+		return TEST_APP_INSTANCE;
 	}
 }

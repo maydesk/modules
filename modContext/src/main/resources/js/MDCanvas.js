@@ -65,14 +65,15 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
    		this._canvas = new MyCanvas(this);
 		this._canvas.setZoom(1.5, false);
 		
-		var node = this._node;
-		var MyDragPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
-		    onMouseDrag:function(canvas, dx, dy, dx2, dy2){
-		    	//console.log( (node.style.top + dy2) + " :: " + dy2);
-        		node.style.left = dx + "px";
-        		node.style.top = dy + "px";
-    		}		
-		});		
+		//for dragging the viewport of a zoomed canvas
+//		var node = this._node;
+//		var MyDragPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
+//		    onMouseDrag:function(canvas, dx, dy, dx2, dy2){
+//				console.log( (node.style.top + dy2) + " :: " + dy2);
+//        		node.style.left = dx + "px";
+//        		node.style.top = dy + "px";
+//    		}
+//		});		
     },
 
 	/** @see Echo.Render.ComponentSync#renderDispose */
@@ -111,6 +112,10 @@ MyCanvas = draw2d.Canvas.extend({
 		  	var y = event.clientY - this.getAbsoluteY();
 		  	newFig.set("positionX", x);
 		  	newFig.set("positionY", y);
+		  	if (this._peerCanvas.client.addComponentListener) {
+		  		//console.log("register listener");
+		  		//this._peerCanvas.client.addComponentListener(newFig, "move");
+		  	}
 		  	this._peerCanvas.component.add(newFig);
 			Echo.Render.processUpdates(this._peerCanvas.client);
 			this._peerCanvas.component._currentTool = null;

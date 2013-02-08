@@ -140,8 +140,6 @@ public class PnlLogin extends ContainerEx  implements IPlugTarget  {
 			}
 		});
 		grid.addFill(btnPassword);
-
-		grid.add(new SelectField(new Object[]{"aaa", "bbbb"}));
 	}
 
 	private void btnRegisterClicked() {

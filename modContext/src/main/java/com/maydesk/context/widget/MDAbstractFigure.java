@@ -9,8 +9,13 @@
 
 package com.maydesk.context.widget;
 
+import java.util.Random;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
+import nextapp.echo.app.TaskQueueHandle;
+
+import com.maydesk.context.MDServletExternalContext;
 
 /**
  * @author chrismay
@@ -19,9 +24,9 @@ public abstract class MDAbstractFigure extends Component {
 
 	public static final String PROPERTY_POSITION_X = "positionX";
 	public static final String PROPERTY_POSITION_Y = "positionY";
+	public static final String ACTION_MOVE = "move";
 
-	public MDAbstractFigure() {
-		
+	public MDAbstractFigure() {		
 	}
 
 	public MDAbstractFigure(int posX, int posY) {
@@ -43,5 +48,30 @@ public abstract class MDAbstractFigure extends Component {
 	
 	public void setPositionY(int positionY) {
 		set(PROPERTY_POSITION_Y, positionY);
+	}
+	
+	static TaskQueueHandle tqh;
+	
+	@Override
+	public void processInput(String inputName, Object inputValue) {
+		if (PROPERTY_POSITION_X.equals(inputName)) {
+			setPositionX(((Extent) inputValue).getValue());
+		} else if (PROPERTY_POSITION_Y.equals(inputName)) {
+			setPositionY(((Extent) inputValue).getValue());
+		}
+
+		//EXPERIMENTAL!
+		if (MDServletExternalContext.TEST_APP_INSTANCE != null) {
+			if (tqh == null) {
+				tqh = MDServletExternalContext.TEST_APP_INSTANCE.createTaskQueue();
+			}
+			MDServletExternalContext.TEST_APP_INSTANCE.enqueueTask(tqh, new Runnable() {			
+				@Override
+				public void run() {
+					MDServletExternalContext.RECTANGLE.setPositionX(getPositionX());
+					MDServletExternalContext.RECTANGLE.setPositionY(getPositionY());
+				}
+			});
+		}
 	}
 }

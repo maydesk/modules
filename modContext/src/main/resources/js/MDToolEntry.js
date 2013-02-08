@@ -24,9 +24,9 @@ PD.Sync.MDToolEntry = Core.extend(Echo.Sync.Button, {
 			//but not visible yet on the canvas
 			//this happens only when the user clicks somewhere inside the canvas
 			var tool = this.component.render("tool");
-			var cmpFig = eval("new " + tool + "();");
+			var component = eval("new " + tool + "();");			
 			var canvas = this.component.parent.render("canvas");
-			canvas.setCurrentTool(cmpFig);
+			canvas.setCurrentTool(component);
         }
 	}    
 });

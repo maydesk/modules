@@ -95,4 +95,14 @@ public abstract class BaseTableModel<T> extends AbstractTableModel {
 
 	protected abstract void initColumnModel();
 
+	@Override
+	public int getTotalColumnCount() {
+		return getColumnCount();
+	}
+
+	@Override
+	public boolean isColumnVisible(int arg0) {
+		return true;
+	}
+
 }

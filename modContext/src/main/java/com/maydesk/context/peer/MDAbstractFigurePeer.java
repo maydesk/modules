@@ -11,6 +11,7 @@ package com.maydesk.context.peer;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
+import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
 import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.ServerMessage;
@@ -18,9 +19,11 @@ import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import com.maydesk.base.util.PDUtil;
+import com.maydesk.base.widgets.PDAvatar;
 import com.maydesk.base.widgets.PDDesktopItem;
 import com.maydesk.context.widget.MDAbstractFigure;
 import com.maydesk.context.widget.MDArrow;
+import com.maydesk.context.widget.MDContext;
 
 /**
  * @author chrismay
@@ -33,6 +36,15 @@ public abstract class MDAbstractFigurePeer extends Draw2dAbstractPeer {
 		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDAbstractFigure.js"));
 	}
 
+	public MDAbstractFigurePeer() {
+		addEvent(new AbstractComponentSynchronizePeer.EventPeer("move", MDAbstractFigure.ACTION_MOVE) {
+			@Override
+			public boolean hasListeners(Context context, Component component) {
+				return true;
+			}
+		});
+	}
+	
 	/**
 	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
 	 */
@@ -56,6 +68,32 @@ public abstract class MDAbstractFigurePeer extends Draw2dAbstractPeer {
 		super.init(context, component);
 		ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
 		serverMessage.addLibrary("MDAbstractFigure");
-
+		
 	}
+	
+	/**
+	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#storeInputProperty(nextapp.echo.app.util.Context,
+	 *      nextapp.echo.app.Component, java.lang.String, int, java.lang.Object)
+	 */
+	@Override
+	public void storeInputProperty(Context context, Component component, String propertyName, int index, Object newValue) {
+		ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
+		if (MDAbstractFigure.PROPERTY_POSITION_X.equals(propertyName)) {
+			clientUpdateManager.setComponentProperty(component, MDAbstractFigure.PROPERTY_POSITION_X, newValue);
+		} else if (MDAbstractFigure.PROPERTY_POSITION_Y.equals(propertyName)) {
+			clientUpdateManager.setComponentProperty(component, MDAbstractFigure.PROPERTY_POSITION_Y, newValue);
+		}
+	}
+	
+    /**
+     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#processEvent(nextapp.echo.app.util.Context, 
+     *      nextapp.echo.app.Component, java.lang.String, java.lang.Object)
+     */
+    @Override
+    public void processEvent(Context context, Component component, String eventType, Object eventData) {
+        ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
+        if (MDAbstractFigure.ACTION_MOVE.equals(eventType)) {
+            clientUpdateManager.setComponentAction(component, MDAbstractFigure.ACTION_MOVE, null);
+        }
+    }
 }
