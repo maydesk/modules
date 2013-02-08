@@ -23,7 +23,6 @@ MD.Sync.MDNewsBox = Core.extend(MD.Sync.MDAbstractFigure, {
 	_height: null,
 	
 	renderAdd2: function(canvas, x, y) {
-	
 		this._figSet = new window.draw2d.SetFigure();
 		this._figSet.onClick = Core.method(this, this.onClick);
 		this._figSet.createSet = Core.method(this, this._createSet);
@@ -51,7 +50,7 @@ MD.Sync.MDNewsBox = Core.extend(MD.Sync.MDAbstractFigure, {
 
  		var icon = this.component.render("icon", "");
  		if (icon) {
-			var image = paper.image(icon, 90, 40, 20, 40);
+			var image = paper.image(Echo.Sync.ImageReference.getUrl(icon), 90, 40, 20, 40);
 			set.push(image);
 		}
 

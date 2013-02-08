@@ -20,7 +20,6 @@ public class MDArrowPeer extends MDAbstractFigurePeer {
 		resources.addPackage(COMPONENT, "img/");
 		resources.add(COMPONENT, "editor/back.gif", ContentType.IMAGE_GIF);
 		resources.add(COMPONENT, "editor/forward.gif", ContentType.IMAGE_GIF);
-
 	}
 	
     public String getClientComponentType(boolean shortType) {
@@ -28,7 +27,7 @@ public class MDArrowPeer extends MDAbstractFigurePeer {
     }
     
     @Override
-    public Class getComponentClass() {
+    public Class<MDArrow> getComponentClass() {
         return MDArrow.class;
     }
 

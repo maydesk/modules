@@ -99,7 +99,6 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
 });
 
 
-
 MyArrow = window.draw2d.VectorFigure.extend({
 
 		_parent: null,
