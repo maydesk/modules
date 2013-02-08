@@ -56,13 +56,13 @@ MyDemoApp = Core.extend(Echo.Application, {
 				new MD.MDText({
 					positionX: 40,
 					positionY: 20,
-					size: 20,
+					size: 40,
 					text: "Welcome to Barco Karlsruhe R&D",
 					type: "banner"
 				}),
 				new MD.MDNewsTicker({
 					positionX: 30,
-					positionY: 415,
+					positionY: 670,
 					text: "Aquariva presentation at AV Fair Amsterdam was a big success!",
 					author: "Robert, 2 hours ago"
 				}),
@@ -92,52 +92,42 @@ MyDemoApp = Core.extend(Echo.Application, {
 					height: 20,
 					size: 2
 				}),
-				new MD.MDText({
-					positionX: 500,
-					positionY: 10,
-					size: 14,
-					text: "This week at Chez Andrea",
-					type: "header"
-				}),
-				new MD.MDTable({
-					positionX: 475,
-					positionY: 35
-				}),
 				
 				new MD.MDAvatar({
-					positionX: 100,
+					positionX: 200,
 					positionY: 300,
 					src: "img/petra.png",
 					text: "I have birthday today! join breakfast at 9 o'clock at the tee kitchen" 
 				}),
 
 				new MD.MDImage({
-					positionX: 150,
+					positionX: 250,
 					positionY: 300,
-					src: "http://openclipart.org/image/250px/svg_to_png/14860/nicubunu_Chocolate_birthday_cake.png",
+					src: "img/birthday.png",
 					width: 80,
 					height: 80
 				}),
-				
-				new MD.MDImage({
-					positionX: 590,
-					positionY: 370,
-					src: "img/barco.png",
-					width: 100,
-					height: 100
-				}),
-
 				new MD.MDText({
-					positionX: 520,
-					positionY: 165,
+					positionX: 850,
+					positionY: 10,
+					size: 14,
+					text: "This week at Chez Andrea",
+					type: "header"
+				}),
+				new MD.MDTable({
+					positionX: 825,
+					positionY: 35
+				}),
+				new MD.MDText({
+					positionX: 860,
+					positionY: 170,
 					size: 14,
 					text: "Team Activities",
 					type: "banner"
 				}),
-
 				new MD.MDNewsBox({
-					positionX: 440,
-					positionY: 195,
+					positionX: 790,
+					positionY: 205,
 					width: 120,
 					height: 80,
 					icon: "img/dept_manag.png",
@@ -145,8 +135,8 @@ MyDemoApp = Core.extend(Echo.Application, {
 					text: "Working on the next generation random buzzword generator"
 				}),
 				new MD.MDNewsBox({
-					positionX: 565,
-					positionY: 195,
+					positionX: 915,
+					positionY: 205,
 					width: 120,
 					height: 80,
 					icon: "img/dept_tech.png",
@@ -154,8 +144,8 @@ MyDemoApp = Core.extend(Echo.Application, {
 					text: "Pushing hard for MVD release, targeting mid of February for delivery"
 				}),				
 				new MD.MDNewsBox({
-					positionX: 440,
-					positionY: 280,
+					positionX: 790,
+					positionY: 290,
 					width: 120,
 					height: 80,
 					icon: "img/dept_sales.png",
@@ -163,14 +153,33 @@ MyDemoApp = Core.extend(Echo.Application, {
 					text: "We are receiving many pre-orders for 2x2 MVD panels, so lets just get them delivered"
 				}),
 				new MD.MDNewsBox({
-					positionX: 565,
-					positionY: 280,
+					positionX: 915,
+					positionY: 290,
 					width: 120,
 					height: 80,
 					icon: "img/dept_dev.png",
 					title: "Service",
 					text: "The liquid cooling problem seems to be under control - thanks God!"
 				}),
+				new MD.MDImage({
+					positionX: 920,
+					positionY: 600,
+					src: "img/barco.png",
+					width: 120,
+					height: 120
+				}),
+				
+				//About this wall
+				
+				//This wall is intended for exploring new appplication cases
+				//for 
+				
+				//Hardware is getting more and more commoditized. That is
+				//why Barco needs to focus more on services, system integration
+				//and innovation beyond the product   
+				
+				
+				
 				
 			]
 		});
