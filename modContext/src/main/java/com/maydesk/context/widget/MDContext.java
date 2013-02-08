@@ -114,18 +114,10 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		init2();
 		
 		MDCanvas canvas = new MDCanvas();
-		//XXX work-around for early-loading
-//		canvas.add(new MDText());
-//		canvas.add(new MDRectangle());
-//		canvas.add(new MDArrow());
-//		canvas.add(new MDTable());
 		MDAvatar avatar = new MDAvatar();
 		avatar.setImage(new ResourceImageReference("img/silhouette-male.gif"));
 		
 		canvas.add(avatar);
-//		canvas.add(new MDNewsBox());
-//		canvas.add(new MDNewsTicker());
-//		canvas.add(new MDImage());
 		add(canvas);
 
 		MDToolEntry tool = new MDToolEntry();

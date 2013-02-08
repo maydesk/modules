@@ -34,11 +34,11 @@ MD.MDRectangle = Core.extend(MD.MDAbstractFigure, {
 
 	 _updateFigure: function(event) {
 		var selectedIndex = event.source.get("selection");
+		//alert(event.source.that.peer);
 		var rectangle = event.source.that.peer._rectangle;
 		var style = MD.MDRectangle._styles[selectedIndex];
 		if (style.color) {
-			var color2 = new draw2d.util.Color(style.color);
-			rectangle.setBackgroundColor(color2);
+			rectangle.setBackgroundColor(new draw2d.util.Color(style.color));
 		} else {
 			//empty rectangle
 			rectangle.setBackgroundColor(null);
@@ -54,12 +54,14 @@ MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
         Echo.Render.registerPeer("MDRectangle", this);
     },
     
+    _rectangle: null,
+    
     renderAdd2: function(canvas, x, y) {
 		var w = this.component.render("width");
 		var h = this.component.render("height");
-		var rectangle = new window.draw2d.shape.basic.Rectangle(w, h);
-		rectangle.setRadius(5);
-		rectangle.onClick = Core.method(this, this.onClick);
-		canvas.addFigure(rectangle, x, y);
+		this._rectangle = new window.draw2d.shape.basic.Rectangle(w, h);
+		this._rectangle.setRadius(5);
+		this._rectangle.onClick = Core.method(this, this.onClick);
+		canvas.addFigure(this._rectangle, x, y);
     }
 });

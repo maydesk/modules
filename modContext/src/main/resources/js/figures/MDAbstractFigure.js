@@ -51,6 +51,6 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
     },
     
     onClick: function(x, y) {
-    	this._parent.component.setEditor(this);
+    	this._parent.component.parent.setEditor(this);
     }
 });

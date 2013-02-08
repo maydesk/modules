@@ -7,6 +7,7 @@ import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
+import nextapp.echo.webcontainer.sync.component.RowPeer;
 
 import org.w3c.dom.Element;
 
@@ -34,6 +35,8 @@ public class MDCanvasPeer extends Draw2dAbstractPeer {
 		super.init(context, component);
 		final ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
 		serverMessage.addLibrary(COMPONENT_NAME);
+		serverMessage.addLibrary("Echo.ArrayContainer");
+		serverMessage.addLibrary("Echo.Button");
 	}
 
 	/**

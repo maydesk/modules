@@ -3,21 +3,31 @@ if (!Core.get(window, ["MD", "Sync"])) {
 }
  
 MD.MDContext = Core.extend(Echo.Component, {
-		$load : function() {
-        	Echo.ComponentFactory.registerType("MDContext", this);
-		},
+	$load : function() {
+       	Echo.ComponentFactory.registerType("MDContext", this);
+	},
 		
-		componentType : "MDContext",
-		
-	    $virtual: {
-			doMouseUp: function(actionType) {
-            	this.fireEvent({
-            		type: "mouseUp", 
-            		source: this, 
-            		actionCommand: this.get("actionCommand")
-            	});
-			}
-    	}
+	componentType : "MDContext",
+	editorRow: null,
+	
+    $virtual: {
+		doMouseUp: function(actionType) {
+           	this.fireEvent({
+           		type: "mouseUp", 
+           		source: this, 
+           		actionCommand: this.get("actionCommand")
+           	});
+		}
+    },
+    
+    setEditor: function(figure) {
+		this.editorRow.removeAll();
+		var editor = figure.component.getEditor();
+		if (editor) {
+			this.editorRow.add(editor);					
+		}
+	    Echo.Render.processUpdates(this.peer.client);
+    }    
 });
  
  
@@ -132,22 +142,35 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
         this._container = document.createElement("div");
 		this._container.style.position = "absolute";
        	this._container.style.left = "0px";
-		this._container.style.top = "19px";
+		this._container.style.top = "20px";
 		this._container.style.overflow = "hidden";  //scroll";
-		this._container.style.width = "0px";
-		this._container.style.height = "20px";
 		this._container.style.zIndex = 2;
 		Echo.Sync.Border.render("1px dotted #eeeeee", this._container);
 		this._mainNode.appendChild(this._container);
 
 		//add child to container
-		var componentCount = this.component.getComponentCount();
-        for (var i = 0; i < componentCount; i++) {     
-            Echo.Render.renderComponentAdd(update, this.component.getComponent(i), this._container);
-        }	
+		var canvas = this.component.getComponent(0);
+		Echo.Render.renderComponentAdd(update, canvas, this._container);
+        	
+		var toolbar = this.component.getComponent(1);
+		toolbar.set("canvas", canvas);
+		Echo.Render.renderComponentAdd(update, toolbar, this._mainNode);
         
+		//the container
+    	var editorDiv = document.createElement("div");
+		editorDiv.style.position = "absolute";
+       	editorDiv.style.left = "100px";
+		editorDiv.style.top = "-5px";
+		editorDiv.style.width = "200px";
+		editorDiv.style.height = "20px";
+		editorDiv.style.background = "#555";
+		Echo.Sync.Border.render("1px dotted #eeeeee", editorDiv);
+		this._mainNode.appendChild(editorDiv);
+		
+		this.component.editorRow = this.component.getComponent(2);
+		Echo.Render.renderComponentAdd(update, this.component.editorRow, editorDiv);
         
-        //remove - just for testing...
+        //XXX remove - just for testing...
         var expander = new MD.Sync.MDContext.ExpandAnimation(this);
 		expander.start();  
     },

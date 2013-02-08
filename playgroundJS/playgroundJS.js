@@ -37,22 +37,6 @@ MyDemoApp = Core.extend(Echo.Application, {
 
 		var canvas = new MD.MDCanvas({
 			children: [
-				new MD.MDToolEntry({
-					icon: "img/text16.png",
-					tool: "MD.MDText"
-				}),
-				new MD.MDToolEntry({
-					icon: "img/arrow16.png",
-					tool: "MD.MDArrow"
-				}),
-				new MD.MDToolEntry({
-					icon: "img/rectangle16.png",
-					tool: "MD.MDRectangle"
-				}),
-				new MD.MDToolEntry({
-					icon: "img/Icon24Preferences.png",
-					tool: "MD.MDTable"
-				}),
 				new MD.MDText({
 					positionX: 40,
 					positionY: 20,
@@ -177,13 +161,29 @@ MyDemoApp = Core.extend(Echo.Application, {
 				//Hardware is getting more and more commoditized. That is
 				//why Barco needs to focus more on services, system integration
 				//and innovation beyond the product   
-				
-				
-				
-				
 			]
 		});
 		
+		var toolbar = new MD.MDCanvasToolbar({
+			children: [
+				new MD.MDToolEntry({
+					icon: "img/text16.png",
+					tool: "MD.MDText"
+				}),
+				new MD.MDToolEntry({
+					icon: "img/arrow16.png",
+					tool: "MD.MDArrow"
+				}),
+				new MD.MDToolEntry({
+					icon: "img/rectangle16.png",
+					tool: "MD.MDRectangle"
+				}),
+				new MD.MDToolEntry({
+					icon: "img/Icon24Preferences.png",
+					tool: "MD.MDTable"
+				}),
+			]
+		});
 		
 		this.rootComponent.add(new MD.MDContext({
 			title: "My Activity",
@@ -193,7 +193,9 @@ MyDemoApp = Core.extend(Echo.Application, {
 			width: "700px",			
 			height: "520px",
 			children: [
-				canvas
+				canvas,
+				toolbar,
+				new Echo.Row()
 			]			
 		}));
 		
