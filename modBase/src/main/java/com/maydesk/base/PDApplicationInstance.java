@@ -37,7 +37,6 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 
 	@Override
 	public Window init() {
-		startPoller();
 		Locale.setDefault(Locale.GERMAN);
 		window = new Window();
 		window.setTitle(getTitle());
@@ -50,29 +49,13 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 	protected abstract String getTitle();
 
 	private List<IMessageListener> messageListeners = new CopyOnWriteArrayList<IMessageListener>();
-//	private TaskQueueHandle tqh;
+	private TaskQueueHandle tqh;
 
-	private void startPoller() {
-//		tqh = ApplicationInstance.getActive().createTaskQueue();
-//		ContainerContext ctx = (ContainerContext) ApplicationInstance.getActive().getContextProperty(ContainerContext.CONTEXT_PROPERTY_NAME);
-//		ctx.setTaskQueueCallbackInterval(tqh, 1000);
-//		startMessagePolling();
-	}
-
-	private void startMessagePolling() {
-//		Runnable r = new Runnable() {
-//			@Override
-//			public void run() {
-//				PDHibernateMasterFactory factory = new PDHibernateMasterFactory();
-//				Session session = factory.getSession();
-//				for (IMessageListener messageListener : messageListeners) {
-//					messageListener.doPoll(session);
-//				}
-//				factory.closeSession();
-//				startMessagePolling();
-//			}
-//		};
-//		ApplicationInstance.getActive().enqueueTask(tqh, r);
+	public void enqueueTask(Runnable r) {
+		if (tqh == null) {
+			tqh = createTaskQueue();
+		}
+		ApplicationInstance.getActive().enqueueTask(tqh, r);
 	}
 
 	public void addListener(IMessageListener messageListener) {
