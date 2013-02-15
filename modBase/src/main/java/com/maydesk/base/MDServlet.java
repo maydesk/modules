@@ -85,7 +85,7 @@ public class MDServlet extends WebContainerServlet {
 	private static boolean initialized = false;
 
 	private void initialize() {
-		KeepAliveThread.startThread();
+		//XXX KeepAliveThread.startThread();
 	}
 
 	@Override

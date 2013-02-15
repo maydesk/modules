@@ -41,12 +41,14 @@ public class WebVideoConversation {
 	}
 	
 	private void sendSDPToRemotes(final String sdp) {
+		System.out.println("receive SDP");
 		for (final Webcam2Receiver remoteWebcam: remoteWebcams.keySet()) {
+			System.out.println("put SDP into queue");
 			PDApplicationInstance appInst = remoteWebcams.get(remoteWebcam);
 			appInst.enqueueTask(new Runnable() {
 				@Override
 				public void run() {
-					System.out.println("send SDP to receiver: " + sdp);
+					System.out.println("send SDP to receiver222: " + sdp);
 					remoteWebcam.setValue(sdp);
 				}
 			});
