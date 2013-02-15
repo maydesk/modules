@@ -7,18 +7,18 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
+import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
+import com.maydesk.base.config.XmlDesktopItem;
 
-public class WebcamSender extends Component implements IPlugTarget {
+public class Webcam2 extends Component implements IPlugTarget {
 	
+	public static final String PROPERTY_IS_SENDER = "isSender";
 	public static final String PROPERTY_VALUE = "value";
-	public static final String ACTION_START_SENDING = "startsending";
-	public static final String ACTION_ON_CANDIDATE = "onCandidate";
-	public static final String ACTION_STOP_SENDING = "stopsending";
+	public static final String ACTION_SEND_MESSAGE = "sendMessage";
 	
 	private List<ActionListener> startListeners = new ArrayList<ActionListener>();
-	private List<ActionListener> candidateListeners = new ArrayList<ActionListener>();
 
 	
 	public String getValue() {
@@ -27,14 +27,10 @@ public class WebcamSender extends Component implements IPlugTarget {
 	
 	@Override
 	public void processInput(String inputName, Object inputValue) {
-		if (ACTION_START_SENDING.equals(inputName)) {
+		if (ACTION_SEND_MESSAGE.equals(inputName)) {
+			System.out.println("receiving " + inputValue);			
 			ActionEvent e = new ActionEvent(this,  inputValue + "");
 			for (ActionListener actionListener : startListeners) {
-				actionListener.actionPerformed(e);
-			}
-		} else if (ACTION_ON_CANDIDATE.equals(inputName)) {
-			ActionEvent e = new ActionEvent(this,  inputValue + "");
-			for (ActionListener actionListener : candidateListeners) {
 				actionListener.actionPerformed(e);
 			}
 		} else if (PROPERTY_VALUE.equals(inputName)) {
@@ -46,18 +42,19 @@ public class WebcamSender extends Component implements IPlugTarget {
 		startListeners.add(actionListener);
 	}
 
-	public void addCandidateListener(ActionListener actionListener) {
-		candidateListeners.add(actionListener);
-	}
-
 	public void setValue(String value) {
 		set(PROPERTY_VALUE, value);		
 	}
 
 	@Override
 	public void initWire(XmlBaseEntry parentWire) {
-		//WebVideoConversation.getInstance().setWebcamLocal(this);
-		
+		boolean isSender = "true".equals(((XmlDesktopItem)parentWire).getValue());
+		if (isSender) {
+			WebVideoConversation.getInstance().setWebcamLocal(this);
+		} else {
+			WebVideoConversation.getInstance().addRemoteViewer(this, PDApplicationInstance.getActivePD());
+		}
+		set(PROPERTY_IS_SENDER, isSender);
 	}
 }
 

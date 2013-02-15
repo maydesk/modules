@@ -172,7 +172,7 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
         
         //XXX remove - just for testing...
         var expander = new MD.Sync.MDContext.ExpandAnimation(this);
-		expander.start();  
+		//expander.start();  
     },
 
 	onDoubleClick: function() {

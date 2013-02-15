@@ -151,16 +151,7 @@ MyDemoApp = Core.extend(Echo.Application, {
 					src: "img/barco.png",
 					width: 120,
 					height: 120
-				}),
-
-				new MD.MDWebcam({
-					positionX: 700,
-					positionY: 540,
-					src: "img/barco.png",
-					width: 180,
-					height: 180
-				}),
-				
+				})				
 				//About this wall
 				//This wall is intended for exploring new appplication cases
 				//for ...
@@ -191,10 +182,10 @@ MyDemoApp = Core.extend(Echo.Application, {
 			]
 		});
 		
-		this.rootComponent.add(new MD.MDContext({
+		var board = new MD.MDContext({
 			title: "My Activity",
 			icon: "img/ampel.png",
-			positionX: "60px",
+			positionX: "290px",
 			positionY: "60px",
 			width: "700px",			
 			height: "520px",
@@ -203,16 +194,9 @@ MyDemoApp = Core.extend(Echo.Application, {
 				toolbar,
 				new Echo.Row()
 			]			
-		}));
-		
-		var shortcut = new PD.PDShortcut({
-			title: "Release 0.3 Info",
-			icon: "img/test10a.png",
-			positionX: "150px",
-			positionY: "110px"
 		});
-		this.rootComponent.add(shortcut);
-
+		this.rootComponent.add(board);
+		
 		var shortcut = new PD.PDShortcut({
 			title: "Shopping list for Marc",
 			icon: "img/test8a.png",
@@ -241,6 +225,10 @@ MyDemoApp = Core.extend(Echo.Application, {
 			positionX: "60px",
 			positionY: "90px",
 		}));
+		
+		var webcam = new MD.MDWebcam2({
+		});
+		this.rootComponent.add(webcam);
 		
     }
 });

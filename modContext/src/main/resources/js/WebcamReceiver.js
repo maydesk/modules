@@ -81,7 +81,9 @@ MD.Sync.WebcamReceiver = Core.extend(MD.Sync.MDAbstractFigure, {
 		function gotRemoteStream(event) {
 			var url = URL.createObjectURL(event.stream);
 			console.log("URL: " + url);
-			that._video.src = url;
+			
+			setTimeout(function() { that._video.src = url; }, 5000);
+			//that._video.src = url;
 		};
 		function gotDescription(desc) {
 		  	that._peerConnection.setLocalDescription(desc);
@@ -90,8 +92,9 @@ MD.Sync.WebcamReceiver = Core.extend(MD.Sync.MDAbstractFigure, {
 		};
 		
 		//var servers = null;
-		var servers = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
-		this._peerConnection = new webkitRTCPeerConnection(servers);
+		var pc_config = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
+    	var pc_constraints = {"optional": [{"DtlsSrtpKeyAgreement": true}]};
+    	that._peerConnection = new webkitRTCPeerConnection(pc_config, pc_constraints);
 		this._peerConnection.onicecandidate = iceCallback;		
 		this._peerConnection.onaddstream = gotRemoteStream;		
 		signalSdp = this.component.render("signalSdp");

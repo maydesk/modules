@@ -22,7 +22,7 @@ public class WebcamReceiver extends MDAbstractFigure {
 	private List<ActionListener> candidateListeners = new ArrayList<ActionListener>();
 	
 	public WebcamReceiver(PDApplicationInstance appInst) {
-		WebVideoConversation.getInstance().addRemoteViewer(this, appInst);
+		//WebVideoConversation.getInstance().addRemoteViewer(this, appInst);
 	}
 
 	public void setSignalSdp(String value) {

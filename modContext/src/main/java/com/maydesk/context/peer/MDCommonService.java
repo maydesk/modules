@@ -1,10 +1,5 @@
 package com.maydesk.context.peer;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 import nextapp.echo.webcontainer.Service;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
@@ -12,6 +7,7 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 public class MDCommonService {
 
 	public static final Service[] SERVICES = {
+	//	JavaScriptService.forResource("draw2d", "js/draw2d/adapter.js"),
 		JavaScriptService.forResource("clazz", "js/draw2d/Class.js"),
 		JavaScriptService.forResource("canvg", "js/draw2d/canvg.js"),
 		JavaScriptService.forResource("json2", "js/draw2d/json2.js"),
@@ -25,7 +21,7 @@ public class MDCommonService {
 		JavaScriptService.forResource("jqcm", "js/draw2d/jquery.contextmenu.js"),
 		JavaScriptService.forResource("jql", "js/draw2d/jquery.layout.js"),
 		JavaScriptService.forResource("raphael", "js/draw2d/raphael.js"),		
-		JavaScriptService.forResource("draw2d", "js/draw2d/draw2d.js")		
+		JavaScriptService.forResource("draw2d", "js/draw2d/draw2d.js")
 	};
 	
 	static {

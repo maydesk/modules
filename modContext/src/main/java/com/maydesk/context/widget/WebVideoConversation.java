@@ -20,14 +20,14 @@ public class WebVideoConversation {
 		return INSTANCE;
 	}
 
-	private WebcamSender localWebcam;	
-	private Hashtable<WebcamReceiver, PDApplicationInstance> remoteWebcams = new Hashtable<WebcamReceiver, PDApplicationInstance>();	
+	private Webcam2 localWebcam;	
+	private Hashtable<Webcam2, PDApplicationInstance> remoteWebcams = new Hashtable<Webcam2, PDApplicationInstance>();	
 
 	private ApplicationInstance localAppInst;	
 	private TaskQueueHandle localTQH;	
 
 	
-	public void setWebcamLocal(WebcamSender webcam) {
+	public void setWebcamLocal(Webcam2 webcam) {
 		localWebcam = webcam;		
 		webcam.addStartListener(new ActionListener() {
 			@Override
@@ -36,80 +36,42 @@ public class WebVideoConversation {
 				sendSDPToRemotes(sdp);
 			}
 		});
-		webcam.addCandidateListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String candidate = e.getActionCommand();
-				sendCandidateToRemotes(candidate);
-			}
-		});
 		localAppInst = ApplicationInstance.getActive();
 		localTQH = localAppInst.createTaskQueue();
 	}
 	
-	public void addRemoteViewer(final WebcamReceiver webcam, PDApplicationInstance appInst) {
-		remoteWebcams.put(webcam, appInst);
-		webcam.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				String desc = ae.getActionCommand();
-				System.out.println("received action from remote: " + desc);
-				sendAcknowledgmentToLocal(desc);
-			}
-		});
-		webcam.addCandidateListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String candidate = e.getActionCommand();
-				sendCandidateToLocal(candidate);
-			}
-		});
-	}
-
-	public void sendCandidateToLocal(final String value) {
-		localAppInst.enqueueTask(localTQH, new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("sending cand to local:" + value);
-				localWebcam.setValue(value);
-			}
-		});
-	}
-
-	public void sendAcknowledgmentToLocal(final String value) {
-		localAppInst.enqueueTask(localTQH, new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("sending ack! to local:" + value);
-				localWebcam.setValue(value);
-			}
-		});
-	}
-	
-	public void sendCandidateToRemotes(final String candidate) {
-		for (final WebcamReceiver remoteWebcam: remoteWebcams.keySet()) {
+	private void sendSDPToRemotes(final String sdp) {
+		for (final Webcam2 remoteWebcam: remoteWebcams.keySet()) {
 			PDApplicationInstance appInst = remoteWebcams.get(remoteWebcam);
 			appInst.enqueueTask(new Runnable() {
 				@Override
 				public void run() {
-					System.out.println("send CAND to remote: " + candidate);
-					remoteWebcam.setSignalCandidate(candidate);
-				}
-			});			
-		}
-	}	
-	
-	public void sendSDPToRemotes(final String sdp) {
-		for (final WebcamReceiver remoteWebcam: remoteWebcams.keySet()) {
-			PDApplicationInstance appInst = remoteWebcams.get(remoteWebcam);
-			System.out.println("enque SDP");
-			appInst.enqueueTask(new Runnable() {
-				@Override
-				public void run() {
-					System.out.println("send SDP to remote: " + sdp);
-					remoteWebcam.setSignalSdp(sdp);
+					System.out.println("send SDP to receiver: " + sdp);
+					remoteWebcam.setValue(sdp);
 				}
 			});
 		};
 	}
+	public void addRemoteViewer(final Webcam2 webcam, PDApplicationInstance appInst) {
+		remoteWebcams.put(webcam, appInst);
+		webcam.addStartListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				String desc = ae.getActionCommand();
+				System.out.println("received action from sender: " + desc);
+				sendAcknowledgmentToLocal(desc);
+			}
+		});
+	}
+
+	private void sendAcknowledgmentToLocal(final String value) {
+		localAppInst.enqueueTask(localTQH, new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("sending ack! to sender:" + value);
+				localWebcam.setValue(value);
+			}
+		});
+	}
+
 }

@@ -83,11 +83,17 @@ MD.Sync.WebcamSender = Core.extend(Echo.Render.ComponentSync, {
 			that._localStream = stream;
 			
 			//var servers = null;
-			var servers = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
-			that._peerConnection = new webkitRTCPeerConnection(servers);
-			that._peerConnection.onicecandidate = iceCallback1;
-			that._peerConnection.addStream(stream);
-			that._peerConnection.createOffer(gotDescription1);
+			var pc_config = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
+    		var pc_constraints = {"optional": [{"DtlsSrtpKeyAgreement": true}]};
+    		try {
+				that._peerConnection = new webkitRTCPeerConnection(pc_config, pc_constraints);
+				that._peerConnection.onicecandidate = iceCallback1;
+				that._peerConnection.addStream(stream);
+				that._peerConnection.createOffer(gotDescription1);
+			} catch (e) {
+      			console.log("Failed to create PeerConnection, exception: " + e.message);
+      			alert("Cannot create RTCPeerConnection object; WebRTC is not supported by this browser.");
+        	}
 		};
 		function iceCallback1(event) {
 			if (!event.candidate) return;
