@@ -21,7 +21,7 @@ public class WebVideoConversation {
 	}
 
 	private Webcam2 localWebcam;	
-	private Hashtable<Webcam2, PDApplicationInstance> remoteWebcams = new Hashtable<Webcam2, PDApplicationInstance>();	
+	private Hashtable<Webcam2Receiver, PDApplicationInstance> remoteWebcams = new Hashtable<Webcam2Receiver, PDApplicationInstance>();	
 
 	private ApplicationInstance localAppInst;	
 	private TaskQueueHandle localTQH;	
@@ -41,7 +41,7 @@ public class WebVideoConversation {
 	}
 	
 	private void sendSDPToRemotes(final String sdp) {
-		for (final Webcam2 remoteWebcam: remoteWebcams.keySet()) {
+		for (final Webcam2Receiver remoteWebcam: remoteWebcams.keySet()) {
 			PDApplicationInstance appInst = remoteWebcams.get(remoteWebcam);
 			appInst.enqueueTask(new Runnable() {
 				@Override
@@ -52,7 +52,7 @@ public class WebVideoConversation {
 			});
 		};
 	}
-	public void addRemoteViewer(final Webcam2 webcam, PDApplicationInstance appInst) {
+	public void addRemoteViewer(final Webcam2Receiver webcam, PDApplicationInstance appInst) {
 		remoteWebcams.put(webcam, appInst);
 		webcam.addStartListener(new ActionListener() {
 			@Override

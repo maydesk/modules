@@ -1,6 +1,5 @@
- 
 if (!Core.get(window, ["MD", "Sync"])) {
-        Core.set(window, ["MD", "Sync"], {});
+	Core.set(window, ["MD", "Sync"], {});
 }
  
 MD.WebcamReceiver = Core.extend(MD.MDAbstractFigure, {
@@ -13,103 +12,55 @@ MD.WebcamReceiver = Core.extend(MD.MDAbstractFigure, {
        	Echo.ComponentFactory.registerType("WebcamReceiver", this);
 	},
 	
-	componentType : "WebcamReceiver",
-	
-	onConnect: function(sdpString) {
-		this.fireEvent({
-        	type: "onConnect", 
-        	source: this,
-        	data: sdpString
-       	});
+	fireConnectEvent: function() {
+	    this.fireEvent({type: "connect", source: this});
 	},
 	
-	onCandidate: function(candidateString) {
-		this.fireEvent({
-        	type: "onCandidate", 
-        	source: this,
-        	data: candidateString
-       	});
-	}
+	componentType: "WebcamReceiver"
 });
- 
+
  
 MD.Sync.WebcamReceiver = Core.extend(MD.Sync.MDAbstractFigure, {
-   
-	$load : function() {
-       	Echo.Render.registerPeer("WebcamReceiver", this);       	
-	},
-	
-	_video: null,
-    _localStream: null,
-    _peerConnection: null,
-    _initalized: false,
-     
-     renderAdd2: function(canvas, x2, y2) {
-     
-     	var videoId = "video_" + Math.floor(Math.random() * (10000));
-     	console.log("videoId: " + videoId);
-     	
-		var infobox = new Infobox(canvas.paper, {x:x2,y:y2, width:150, height:120});
-		var html = "<video width='100%' height='100%' id='" + videoId + "'/>";
-		infobox.div.html(html);
-		this._video = document.getElementById(videoId);
-		this._video.autoplay = true;
-		this._video.src = "http://www.visitmix.com/content/files/HTML5.mp4";		
-    },
-	
-	renderUpdate: function(update) {
-		var signalSdp = update.getUpdatedProperty("signalSdp");
-		if (signalSdp) {
-			this._initalized = true;
-			this._startReceiving();
-		} else if (this._initalized) {
-			signalCandidate = this.component.render("signalCandidate");
-			var signal = JSON.parse(signalCandidate);
-			var x = new RTCIceCandidate(signal.candidate);
-			this._peerConnection.addIceCandidate(x);
-        }        
-        return false;
-    },
-
-  	_startReceiving: function() {
-		var that = this;		
-		function iceCallback(event) {
-			if (!event.candidate) return;
-			var candidateString = JSON.stringify({ "candidate": event.candidate });
-			that.component.onCandidate(candidateString);
-		};
-		function gotRemoteStream(event) {
-			var url = URL.createObjectURL(event.stream);
-			console.log("URL: " + url);
-			
-			setTimeout(function() { that._video.src = url; }, 5000);
-			//that._video.src = url;
-		};
-		function gotDescription(desc) {
-		  	that._peerConnection.setLocalDescription(desc);
-		  	var sdpString = JSON.stringify({ "sdp": desc });
-			that.component.onConnect(sdpString);
-		};
-		
-		//var servers = null;
-		var pc_config = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
-    	var pc_constraints = {"optional": [{"DtlsSrtpKeyAgreement": true}]};
-    	that._peerConnection = new webkitRTCPeerConnection(pc_config, pc_constraints);
-		this._peerConnection.onicecandidate = iceCallback;		
-		this._peerConnection.onaddstream = gotRemoteStream;		
-		signalSdp = this.component.render("signalSdp");
-		var signal = JSON.parse(signalSdp);
-		this._peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp));
-		this._peerConnection.createAnswer(gotDescription);
-    },    
     
-    renderDispose: function(update) {
-    }    
-});
- 
+    $load: function() {
+        Echo.Render.registerPeer("WebcamReceiver", this);
+    },
+    
+    
+    renderAdd2: function(canvas, x2, y2) {
 
- 
- 
+		var infobox = new Infobox(canvas.paper, {x:x2,y:y2, width:150, height:120});
+
+		var html = "<video width='100%' height='100%' id='video1'/>";
+		infobox.div.html(html);
+		
+		var webcamUrl = "http://www.visitmix.com/content/files/HTML5.mp4";	
+		var videoElement = document.getElementById("video1");
+		if (webcamUrl) {
+			alert(webcamUrl);
+			videoElement.src = webcamUrl;
+			videoElement.autoplay = true;
+		} else {
+			var that = this;		
+			function onSuccess(stream) {
+				videoElement.autoplay = true;
+				var streamSourceURL = webkitURL.createObjectURL(stream);
+				videoElement.src = streamSourceURL;
+				console.log('Streaming from: ' + streamSourceURL);
+				that.component.set('url', streamSourceURL);
+				that.component.fireConnectEvent();
+			};
+			function onError(err) {
+			    alert("Error, you are running this probably from local file system, try running in an web app container instead!");
+			};
+	    	
+		    navigator.webkitGetUserMedia({ video: true, audio: false }, onSuccess, onError);
+		}
+    }
+});
+
+
+	
 //borrowed from https://github.com/kreynolds/RaphaelJS-Infobox/blob/master/raphaeljs-infobox.js
 function Infobox(r, options, attrs) {
     options = options || {};
@@ -152,4 +103,4 @@ function Infobox(r, options, attrs) {
   Infobox.prototype.hide = function() {
     this.container.animate({opacity: 0}, 400, ">");
     this.div.fadeOut(200);
-}; 
+};

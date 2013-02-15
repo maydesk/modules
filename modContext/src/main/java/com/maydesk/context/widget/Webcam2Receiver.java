@@ -7,11 +7,12 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
+import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
 import com.maydesk.base.config.XmlDesktopItem;
 
-public class Webcam2 extends Component implements IPlugTarget {
+public class Webcam2Receiver extends Component {
 	
 	public static final String PROPERTY_IS_SENDER = "isSender";
 	public static final String PROPERTY_VALUE = "value";
@@ -19,10 +20,11 @@ public class Webcam2 extends Component implements IPlugTarget {
 	
 	private List<ActionListener> startListeners = new ArrayList<ActionListener>();
 
-	public Webcam2() {
-		WebVideoConversation.getInstance().setWebcamLocal(this);
+	public Webcam2Receiver(PDApplicationInstance appInst) {
+		WebVideoConversation.getInstance().addRemoteViewer(this, appInst);
+		set(PROPERTY_IS_SENDER, false);
 	}
-
+	
 	public String getValue() {
 		return (String)get(PROPERTY_VALUE);
 	}	
@@ -48,10 +50,5 @@ public class Webcam2 extends Component implements IPlugTarget {
 		set(PROPERTY_VALUE, value);		
 	}
 
-	@Override
-	public void initWire(XmlBaseEntry parentWire) {
-		boolean isSender = "true".equals(((XmlDesktopItem)parentWire).getValue());
-		set(PROPERTY_IS_SENDER, isSender);
-	}
 }
 

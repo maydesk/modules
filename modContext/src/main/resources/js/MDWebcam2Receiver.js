@@ -3,14 +3,17 @@ if (!Core.get(window, ["MD", "Sync"])) {
 		Core.set(window, ["MD", "Sync"], {});
 }
  
-MD.MDWebcam2 = Core.extend(Echo.Component, {
-
+MD.MDWebcam2Receiver = Core.extend(MD.MDAbstractFigure, {
 	
-	$load : function() {
-	   	Echo.ComponentFactory.registerType("MDWebcam2", this);
+	getEditor: function() {
+		return null;
 	},
 	
-	componentType : "MDWebcam2",
+	$load : function() {
+	   	Echo.ComponentFactory.registerType("MDWebcam2Receiver", this);
+	},
+	
+	componentType : "MDWebcam2Receiver",
 	
 	sendMessage: function(msgString) {
 		this.fireEvent({
@@ -22,85 +25,36 @@ MD.MDWebcam2 = Core.extend(Echo.Component, {
 });
  
  
-MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
+MD.Sync.MDWebcam2Receiver = Core.extend(MD.Sync.MDAbstractFigure, {
    
 	$load : function() {
-	   	Echo.Render.registerPeer("MDWebcam2", this);	   	
+	   	Echo.Render.registerPeer("MDWebcam2Receiver", this);	   	
 	},
 	
 	_localStream: null,
 	_peerConnection: null,
 	_isSender: false,
 	_remoteVideo: null,
-	_localVideo: null,
-	_miniVideo: null,
 	 
-	renderAdd: function(update, parentElement) {
-		this._isSender = this.component.render("isSender");
+	renderAdd2: function(canvas, x2, y2) {
+     
+     	var videoId = "video_" + Math.floor(Math.random() * (10000));
+     	console.log("videoId: " + videoId);
      	
-		this._container = document.createElement("div");
-		this._container.style.position = "absolute";
-	   	this._container.style.left = this._isSender ? "20px" : "240px";
-		this._container.style.top = "60px";
-	   	this._container.style.width = "200px";
-	   	this._container.style.height = "120px";
-		Echo.Sync.Border.render("1px dotted #eeeeee", this._container);
-		parentElement.appendChild(this._container);
-	
-	   	this._remoteVideo = document.createElement("video");
-	   	this._remoteVideo.style.position = "absolute";
-		this._remoteVideo.style.width = "100%";
-		this._remoteVideo.style.height = "100%";
+		var infobox = new Infobox(canvas.paper, {x:20, y:20, width:200, height:150});
+		var html = "<video width='100%' height='100%' id='" + videoId + "'/>";
+		infobox.div.html(html);
+		this._remoteVideo = document.getElementById(videoId);
 		this._remoteVideo.autoplay = true;
-		this._remoteVideo.style.opacity = "0";
-		this._container.appendChild(this._remoteVideo);
-
-	   	this._miniVideo = document.createElement("video");
-		this._miniVideo.style.position = "absolute";
-		this._miniVideo.style.width = "30%";
-		this._miniVideo.style.height = "30%";
-		this._miniVideo.style.right = "0px";
-		this._miniVideo.style.bottom = "0px";
-		this._miniVideo.autoplay = true;
-		this._miniVideo.muted = true;
-		this._miniVideo.style.opacity = "0";
-		this._container.appendChild(this._miniVideo);
-
-	   	this._localVideo = document.createElement("video");
-		this._localVideo.style.position = "absolute";
-		this._localVideo.style.width = "100%";
-		this._localVideo.style.height = "100%";
-		this._localVideo.style.left = "0px";
-		this._localVideo.autoplay = true;
-		this._localVideo.muted = true;
-		this._container.appendChild(this._localVideo);
-
-		var startDiv = document.createElement("div");
-		startDiv.style.position = "absolute";
-	   	startDiv.style.bottom = "0px";
-		if (this._isSender) {
-			startDiv.style.left = "0px";
-		} else {
-			startDiv.style.right = "0px";
-		}	
-	   	startDiv.style.width = "50px";
-	   	startDiv.style.height = "16px";
-	   	startDiv.style.background = "#bbbbbb";
-		this._container.appendChild(startDiv);
-
-		Core.Web.Event.add(startDiv, "click", Core.method(this, this._startSending), true);
-
-	},
+		this._remoteVideo.src = "http://www.visitmix.com/content/files/HTML5.mp4";	
 	
-	///https://apprtc.appspot.com/?r=21841861
 	
-	_startSending: function() {
 		this.initialize2();
-	},
 
+	},
+	
 	renderUpdate: function(update) {
 		var value = this.component.render("value");
-		console.log("I am " + (this._isSender ? "sender" : "receiver") + " and receive msg");
 		this.processSignalingMessage(value);
 		return false;
 	},
@@ -121,7 +75,8 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	isAudioMuted: false,
 	
 	initialize2: function() {
-		this.doGetUserMedia();
+		//this.doGetUserMedia();
+		this.maybeStart();
 	},
 	
 	
@@ -164,17 +119,13 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	},
 	
 	maybeStart: function() {
-		if (!this.started && this._localStream) {
+		if (!this.started) {
 			console.log("Creating PeerConnection.");
 			this.createPeerConnection();
 			console.log("Adding local stream.");
-			this.pc.addStream(this._localStream);
+//			this.pc.addStream(this._localStream);
 			this.started = true;
 			// Caller initiates offer to peer.
-			if (this._isSender) {
-				console.log("XXdoCallXXXXXXXXXXXXXXXXXXXX");
-				this.doCall();
-			}
 		}
 	},
 	
@@ -218,16 +169,15 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	
 	sendMessage: function(message) {
 		var msgString = JSON.stringify(message);
-		//console.log('C->S: ' + msgString);
 		this.component.sendMessage(msgString);
 	},
 	
 	processSignalingMessage: function(message) {
 		var msg = JSON.parse(message);	
-		console.log("I am sender: " + this._isSender + " and recevied " + msg);	
+		console.log("I am reciever getting " + message);	
 		if (msg.type === 'offer') {
 			// Callee creates PeerConnection
-			if (!this._isSender && !this.started) this.maybeStart();
+			if (!this.started) this.maybeStart();
 			this.pc.setRemoteDescription(new RTCSessionDescription(msg));
 			this.doAnswer();
 		} else if (msg.type === 'answer' && this.started) {
@@ -242,14 +192,7 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	
 	onUserMediaSuccess: function(stream) {
 		console.log("User has granted access to local media.");
-		// Call the polyfill wrapper to attach the media stream to this element.
-		MD.attachMediaStream(this._localVideo, stream);
-		this._localVideo.style.opacity = 1;
-		this._localStream = stream;
-		// Caller creates PeerConnection.
-		if (this._isSender) {
-			this.maybeStart();
-		}	
+		// Call the polyfill wrapper to attach the media stream to this element.		
 	},
 	
 	onUserMediaError: function(error) {
@@ -269,8 +212,7 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	},
 	
 	onRemoteStreamAdded: function(event) {
-		console.log("Remote stream added." + this._miniVideo + " ::: " + this._localVideo); 
-		MD.reattachMediaStream(this._miniVideo, this._localVideo);
+		console.log("Remote stream added."); 
 		MD.attachMediaStream(this._remoteVideo, event.stream);
 		this.remoteStream = event.stream;
 		this.waitForRemoteVideo();  
@@ -313,28 +255,18 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	
 	transitionToActive: function() {
 		this._remoteVideo.style.opacity = 1;
-		this._container.style.webkitTransform = "rotateY(180deg)";
-		that = this;
-		setTimeout(function() { that._localVideo.src = ""; }, 500);
-		setTimeout(function() { that._miniVideo.style.opacity = 1; }, 1000);
-		console.log("onHangup()");
+		//this._container.style.webkitTransform = "rotateY(180deg)";		
 	},
 	
 	transitionToWaiting: function() {
-		this._container.style.webkitTransform = "rotateY(0deg)";
+		//this._container.style.webkitTransform = "rotateY(0deg)";
 		var that = this;
 		setTimeout(function() {
-					 that._localVideo.src = this._miniVideo.src;
-					 that._miniVideo.src = "";
 					 that._remoteVideo.src = "" }, 500);
-		this._miniVideo.style.opacity = 0;
-		this._remoteVideo.style.opacity = 0;
 	},
 	
 	transitionToDone: function() {
-		this._localVideo.style.opacity = 0;
 		this._remoteVideo.style.opacity = 0;
-		this._miniVideo.style.opacity = 0;
 		console.log("You have left the call.");
 	},
 	
@@ -506,3 +438,48 @@ if (navigator.mozGetUserMedia) {
 } else {
   console.log("Browser does not appear to be WebRTC-capable");
 }
+
+
+//borrowed from https://github.com/kreynolds/RaphaelJS-Infobox/blob/master/raphaeljs-infobox.js
+function Infobox(r, options, attrs) {
+    options = options || {};
+    attrs = attrs || {};
+    this.paper = r;
+    this.x = options.x || 0;
+    this.y = options.y || 0;
+    this.width = options.width || this.paper.width;
+    this.height = options.height || this.paper.height;
+    this.rounding = options.rounding || 0;
+    this.show_border = options.with_border || true;
+    this.container = this.paper.rect(this.x, this.y, this.width, this.height, this.rounding).attr(attrs);
+    var container_id = this.container.node.parentNode.parentNode.id;
+    container_id = container_id || this.container.node.parentNode.parentNode.parentNode.id;
+    this.raph_container = jQuery('#' + container_id);
+    
+    if (!this.show_border) { this.container.hide(); }
+    
+    this.div = jQuery('<div style="position: absolute; overflow: auto; left: 0; top: 0; width: 0; height: 0;"></div>').insertAfter(this.raph_container);
+    jQuery(document).bind('ready', this, function(event) { event.data.update(); });
+    jQuery(window).bind('resize', this, function(event) { event.data.update(); });
+  }
+
+  Infobox.prototype.update = function() {
+    var offset = this.raph_container.offset();
+    this.div.css({
+      'top': (this.y + (this.rounding)) + 'px',
+      'left': (this.x + (this.rounding)) + 'px',
+      'height': (this.height - (this.rounding*2) + 'px'),
+      'width': (this.width - (this.rounding*2) + 'px')
+    });
+  }
+  
+  // Note that the fadein/outs for the content div are at double speed. With frequent animations, it gives the best behavior
+  Infobox.prototype.show = function() {
+    this.container.animate({opacity: 1}, 400, ">");
+    this.div.fadeIn(200);
+  }
+
+  Infobox.prototype.hide = function() {
+    this.container.animate({opacity: 0}, 400, ">");
+    this.div.fadeOut(200);
+};

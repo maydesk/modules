@@ -20,6 +20,8 @@ import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.context.widget.MDCanvas;
 import com.maydesk.context.widget.MDContext;
 import com.maydesk.context.widget.MDRectangle;
+import com.maydesk.context.widget.Webcam2;
+import com.maydesk.context.widget.Webcam2Receiver;
 import com.maydesk.context.widget.WebcamReceiver;
 
 /**
@@ -64,10 +66,15 @@ public class MDServletExternalContext extends WebContainerServlet {
 				rect.setPositionY(100);
 				canvas.add(rect);
 
+				Webcam2Receiver webcam2 = new Webcam2Receiver(TEST_APP_INSTANCE);
+				//webcam.setPositionX(10);
+				//webcam.setPositionY(50);
+				canvas.add(webcam2);
+
 				WebcamReceiver webcam = new WebcamReceiver(TEST_APP_INSTANCE);
 				webcam.setPositionX(10);
 				webcam.setPositionY(50);
-				canvas.add(webcam);
+				//canvas.add(webcam);
 
 				return window;
 			}

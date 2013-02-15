@@ -35,7 +35,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
         var backlight = document.createElement("img");
   		//backlight.src = "http://wakpaper.com/large/Graffiti_wallpapers_216.png";
   		//backlight.src = "http://img.wallpaperstock.net:81/ubuntu-graffiti-wallpapers_33371_1600x1200.jpg";
-  		backlight.src = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
+  		//backlight.src = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
   		
 		backlight.style.position = "absolute";	
        	backlight.style.width = "100%";
