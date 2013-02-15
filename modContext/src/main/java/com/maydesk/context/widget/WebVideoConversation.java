@@ -47,8 +47,8 @@ public class WebVideoConversation {
 		localTQH = localAppInst.createTaskQueue();
 	}
 	
-	public void addRemoteViewer(final WebcamReceiver webcam) {
-		remoteWebcams.put(webcam, (PDApplicationInstance)ApplicationInstance.getActive());
+	public void addRemoteViewer(final WebcamReceiver webcam, PDApplicationInstance appInst) {
+		remoteWebcams.put(webcam, appInst);
 		webcam.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {

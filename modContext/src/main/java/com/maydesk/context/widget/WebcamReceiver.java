@@ -7,10 +7,11 @@ import nextapp.echo.app.Component;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
+import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
 
-public class WebcamReceiver extends Component implements IPlugTarget {
+public class WebcamReceiver extends MDAbstractFigure {
 	
 	public static final String PROPERTY_SIGNAL_SDP = "signalSdp";
 	public static final String PROPERTY_SIGNAL_CANDIDATE = "signalCandidate";
@@ -20,6 +21,10 @@ public class WebcamReceiver extends Component implements IPlugTarget {
 	private List<ActionListener> actionListeners = new ArrayList<ActionListener>();
 	private List<ActionListener> candidateListeners = new ArrayList<ActionListener>();
 	
+	public WebcamReceiver(PDApplicationInstance appInst) {
+		WebVideoConversation.getInstance().addRemoteViewer(this, appInst);
+	}
+
 	public void setSignalSdp(String value) {
 		set(PROPERTY_SIGNAL_SDP, value);
 	}
@@ -50,12 +55,6 @@ public class WebcamReceiver extends Component implements IPlugTarget {
 
 	public void addCandidateListener(ActionListener actionListener) {
 		candidateListeners.add(actionListener);
-	}
-
-	@Override
-	public void initWire(XmlBaseEntry parentWire) {
-		WebVideoConversation.getInstance().addRemoteViewer(this);
-
 	}
 }
 

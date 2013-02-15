@@ -28,7 +28,7 @@ public class MDReloadButton extends PDButton implements IPlugTarget {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				PDApplicationInstance appInst = (PDApplicationInstance) ApplicationInstance.getActive();
-				appInst.reset();
+				//XXX appInst.reset();
 			}
 		});		
 	}

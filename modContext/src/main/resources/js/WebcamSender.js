@@ -71,6 +71,8 @@ MD.Sync.WebcamSender = Core.extend(Echo.Render.ComponentSync, {
 
     },
     
+    ///https://apprtc.appspot.com/?r=21841861
+    
     _startSending: function() {
 		function onError(err) {
 		    alert("Error, you are running this probably from local file system, try running in an web app container instead!");
@@ -80,7 +82,8 @@ MD.Sync.WebcamSender = Core.extend(Echo.Render.ComponentSync, {
 			that._video.src = webkitURL.createObjectURL(stream);
 			that._localStream = stream;
 			
-			var servers = null;
+			//var servers = null;
+			var servers = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
 			that._peerConnection = new webkitRTCPeerConnection(servers);
 			that._peerConnection.onicecandidate = iceCallback1;
 			that._peerConnection.addStream(stream);

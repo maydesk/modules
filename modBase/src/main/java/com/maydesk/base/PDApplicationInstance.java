@@ -26,28 +26,6 @@ import com.maydesk.base.util.IMessageListener;
  */
 public abstract class PDApplicationInstance extends ApplicationInstance {
 
-	protected Window window;
-	protected String environment; 
-	protected String project;
-	
-	
-	public void reset() {
-		window.setContent(getDesktop());
-	}
-
-	@Override
-	public Window init() {
-		Locale.setDefault(Locale.GERMAN);
-		window = new Window();
-		window.setTitle(getTitle());
-		window.setContent(getDesktop());
-		return window;
-	}
-
-	protected abstract PDDesktop getDesktop();
-
-	protected abstract String getTitle();
-
 	private List<IMessageListener> messageListeners = new CopyOnWriteArrayList<IMessageListener>();
 	private TaskQueueHandle tqh;
 
@@ -55,7 +33,7 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 		if (tqh == null) {
 			tqh = createTaskQueue();
 		}
-		ApplicationInstance.getActive().enqueueTask(tqh, r);
+		this.enqueueTask(tqh, r);
 	}
 
 	public void addListener(IMessageListener messageListener) {
@@ -65,12 +43,5 @@ public abstract class PDApplicationInstance extends ApplicationInstance {
 	public static PDApplicationInstance getActivePD() {
 		return (PDApplicationInstance) getActive();
 	}
-
-	public String getEnvironment() {
-		return environment;
-	}
 	
-	public String getProject() {
-		return project;
-	}
 }

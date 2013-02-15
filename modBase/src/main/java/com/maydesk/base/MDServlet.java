@@ -35,6 +35,7 @@ public class MDServlet extends WebContainerServlet {
 	private static String SERVLET_NAME = null;
 	public final static String HIBERNATE_FACTORY = "HIBERNATE_FACTORY"; //$NON-NLS-1$
 	public final static String BROWSER_SESSION = "BROWSER_SESSION"; //$NON-NLS-1$
+	private Window window;
 
 //	static {
 //	      System.setProperty("echo.js.enablecaching", "true"); 
@@ -99,23 +100,16 @@ public class MDServlet extends WebContainerServlet {
 
 			@Override
 			public Window init() {
-				environment = getServletContext().getInitParameter("application.environment");
-				project = getServletContext().getInitParameter("application.project");
-				return super.init();
-			}
-
-			@Override
-			protected PDDesktop getDesktop() {
+				//environment = getServletContext().getInitParameter("application.environment");
+				//project = getServletContext().getInitParameter("application.project");
 				Locale.setDefault(Locale.ENGLISH);
 				PDDesktop desktop = new PDDesktop();
 				desktop.initDesktop();
-				return desktop;
-			}
-
-			@Override
-			protected String getTitle() {
-				return "MayDesk";
+				window = new Window();
+				window.setTitle("MayDesk");
+				window.setContent(desktop);
+				return window;
 			}
 		};
-	}
+	}	
 }

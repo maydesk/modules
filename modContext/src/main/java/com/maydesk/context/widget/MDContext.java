@@ -131,11 +131,12 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		rect.setPositionY(200);
 		TEST_SINGLETON_CANVAS.add(rect);
 
-		MDWebcam webcam = new MDWebcam();
-		webcam.setPositionX(10);
-		webcam.setPositionY(50);
-		TEST_SINGLETON_CANVAS.add(webcam);
-		
+//		WebcamReceiver webcam = new WebcamReceiver();
+//		webcam.setPositionX(10);
+//		webcam.setPositionY(50);
+//		TEST_SINGLETON_CANVAS.add(webcam);
+//
+
 		MDCanvasToolbar toolbar = new MDCanvasToolbar();
 		add(toolbar);
 

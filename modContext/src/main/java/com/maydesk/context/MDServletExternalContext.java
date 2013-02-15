@@ -16,10 +16,11 @@ import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.WebSocketConnectionHandler;
 
 import com.maydesk.base.JettyWebSocket;
+import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.context.widget.MDCanvas;
 import com.maydesk.context.widget.MDContext;
 import com.maydesk.context.widget.MDRectangle;
-import com.maydesk.context.widget.MDWebcam;
+import com.maydesk.context.widget.WebcamReceiver;
 
 /**
  * 
@@ -27,7 +28,7 @@ import com.maydesk.context.widget.MDWebcam;
  */
 public class MDServletExternalContext extends WebContainerServlet {
 
-	public static ApplicationInstance TEST_APP_INSTANCE;
+	public static PDApplicationInstance TEST_APP_INSTANCE;
 	public static MDRectangle RECTANGLE;
 	public static Window window;
 	public static String WEBCAM_URL;
@@ -47,7 +48,7 @@ public class MDServletExternalContext extends WebContainerServlet {
 
 	@Override
 	public ApplicationInstance newApplicationInstance() {
-		TEST_APP_INSTANCE = new ApplicationInstance() {
+		TEST_APP_INSTANCE = new PDApplicationInstance() {
 			@Override
 			public Window init() {
 				window = new Window();
@@ -63,12 +64,10 @@ public class MDServletExternalContext extends WebContainerServlet {
 				rect.setPositionY(100);
 				canvas.add(rect);
 
-				MDWebcam webcam = new MDWebcam();
+				WebcamReceiver webcam = new WebcamReceiver(TEST_APP_INSTANCE);
 				webcam.setPositionX(10);
 				webcam.setPositionY(50);
-				webcam.setUrl(WEBCAM_URL);
 				canvas.add(webcam);
-
 
 				return window;
 			}

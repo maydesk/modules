@@ -56,7 +56,7 @@ public class AspectExceptionHandler {
 				// construct the message text
 				String stage = "";
 				if (PDDesktop.getInstance() != null) {
-					stage = PDApplicationInstance.getActivePD().getEnvironment();
+					stage = "Stage1"; //PDApplicationInstance.getActivePD().getEnvironment();
 				}
 
 				String msg = "An error has occurred: \n\n";
