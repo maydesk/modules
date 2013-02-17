@@ -5,7 +5,7 @@ if (!Core.get(window, ["MD", "Sync"])) {
 MD.MDArrow = Core.extend(MD.MDAbstractFigure, {
 
    	_lblSize: 10,
-    
+   	
 	getEditor: function() {
 		var imgLess = this.peer.client.getResourceUrl("MDArrow", "editor/minus2.png");
 		if (!imgLess) imgLess = "img/minus2.png";  //for local testing...
@@ -43,6 +43,8 @@ MD.MDArrow = Core.extend(MD.MDAbstractFigure, {
 		that.peer.fig.size = Math.round(that.peer.fig.size);
 		that._lblSize.set("text", that.peer.fig.size + "px");
 		that.peer.fig.repaint();
+		that.set("size", that.peer.fig.size);
+		that.fireResizeEvent();
 	},
 
 	$load : function() {
@@ -63,24 +65,68 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
     _lblSize: null,
     
     renderAdd2: function(canvas, x, y) {
-	    this.fig = new MyArrow(this);		
+	    this.fig = new MyArrow(this);
     	this.fig.installEditPolicy(new window.draw2d.policy.figure.GlowSelectionFeedbackPolicy());
-		canvas.addFigure(this.fig);
         
 		this.startCircle = new window.draw2d.shape.basic.Circle(6);
+		this.startCircle.setResizeable(false);
 		this.startCircle.setBackgroundColor("ffffff");
 		this.endCircle = new window.draw2d.shape.basic.Circle(6);
+		this.endCircle.setResizeable(false);
 		this.endCircle.setBackgroundColor("ffffff");
 		this.startCircle.attachMoveListener(this);
 		this.endCircle.attachMoveListener(this);
 		var w = this.component.render("width");
+		w = Echo.Sync.Extent.toPixels(w, true);
+		
 		var h = this.component.render("height");
+		h = Echo.Sync.Extent.toPixels(h, false);
+		
 		canvas.addFigure(this.startCircle, x, y);
-		canvas.addFigure(this.endCircle, x + w, y + h);    
+		canvas.addFigure(this.endCircle, x + w, y + h);
+		
+		this.fig.size = this.component.render("size");
+		canvas.addFigure(this.fig);
+		
+		// XXX: MOVE. Attempt at moving the handles along. Kind of works but with weird behavior
+		// this.fig.attachMoveListener(this);
+    },
+    
+    renderUpdate: function(update) {
+    	var x = this.component.render("positionX");
+		var y = this.component.render("positionY");
+		this.fig.setPosition(x, y);
+		this.fig.size = this.component.render("size");
+		
+		x = this.component.render("startPosX", this.startCircle.getX());
+		y = this.component.render("startPosY", this.startCircle.getY());
+		this.startCircle.setPosition(x, y);
+		
+		x = this.component.render("endPosX", this.endCircle.getX());
+		y = this.component.render("endPosY", this.endCircle.getX());
+		this.endCircle.setPosition(x, y);
+		
+		return false; // Child elements not supported: safe to return false.
     },
 
 	//listener method for attachMoveListener(...)    
-	onOtherFigureIsMoving : function () {	
+	onOtherFigureIsMoving : function (figure) {
+	// XXX: MOVE. Attempt at moving the handles along. Kind of works but with weird behavior
+	//		if (figure instanceof MyArrow) {
+	//			if (this.fig.dragging) {
+	//				var w = this.component.render("width");
+	//				var h = this.component.render("height");
+	//				var x = this.fig.getAbsoluteX();
+	//				var y = this.fig.getAbsoluteY();
+	//				
+	//				this.startCircle.setPosition(x - 3, y - 3);
+	//				this.endCircle.setPosition(x + w, y + h);
+	//			}
+	//			return;
+		//			return;
+	//		} else if (this.fig.dragging) {
+	//		}
+		
   		this.fig.switchX = false;
    		this.fig.switchY = false;
 		var x0 = this.startCircle.getAbsoluteX() + 3 ;
@@ -93,6 +139,17 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
 		var ys = y1 - y0;
 		this.fig.setPosition(x0, y0);
 		this.fig.setDimension(xs, ys);
+
+		this.component.setPosition(x0, y0);
+		this.component.set("startPosX", this.startCircle.getX());
+		this.component.set("startPosY", this.startCircle.getY());
+		
+		this.component.set("endPosX", this.endCircle.getX());
+		this.component.set("endPosY", this.endCircle.getY());
+		
+		if (!isNaN(xs) && !isNaN(ys)) {	
+			this.component.setDimension(xs, ys);
+		}
 	},
 	
 	//listener method for attachMoveListener(...)   
@@ -105,6 +162,7 @@ MyArrow = window.draw2d.VectorFigure.extend({
 
 		_parent: null,
 		size: 10,
+		dragging: false,
 
 	   	init: function(parent) {
 		   this._super();
@@ -175,6 +233,19 @@ MyArrow = window.draw2d.VectorFigure.extend({
 			//this.setRotationAngle(angle);
 	        this._super(attributes);
 	},
+	
+	// XXX: MOVE. Attempt at moving the handles along. Kind of works but with weird behavior
+	//	onDragStart: function(relativeX, relativeY) {
+	//		this.dragging = true;
+	//		console.log("dragging");
+	//		
+	//		return true;
+	//	},
+	//	
+	//	onDragEnd: function() {
+	//		this.dragging = false;
+	//		console.log("dragging false");
+	//	},
 	
 	   /**
 	    * @inheritdoc

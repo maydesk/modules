@@ -18,12 +18,7 @@ import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
-import com.maydesk.base.util.PDUtil;
-import com.maydesk.base.widgets.PDAvatar;
-import com.maydesk.base.widgets.PDDesktopItem;
 import com.maydesk.context.widget.MDAbstractFigure;
-import com.maydesk.context.widget.MDArrow;
-import com.maydesk.context.widget.MDContext;
 
 /**
  * @author chrismay
@@ -43,57 +38,60 @@ public abstract class MDAbstractFigurePeer extends Draw2dAbstractPeer {
 				return true;
 			}
 		});
+		addEvent(new AbstractComponentSynchronizePeer.EventPeer(MDAbstractFigure.ACTION_RESIZE, MDAbstractFigure.ACTION_RESIZE) {
+			@Override
+			public boolean hasListeners(Context context, Component component) {
+				return true;
+			}
+		});
 	}
-	
+
 	/**
 	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#getInputPropertyClass(java.lang.String)
 	 */
 	@Override
-	public Class getInputPropertyClass(String propertyName) {
-		if (PDDesktopItem.PROPERTY_POSITION_X.equals(propertyName)) {
+	public Class<?> getInputPropertyClass(String propertyName) {
+		if (MDAbstractFigure.PROPERTY_POSITION_X.equals(propertyName) || MDAbstractFigure.PROPERTY_POSITION_Y.equals(propertyName) || MDAbstractFigure.PROPERTY_WIDTH.equals(propertyName)
+				|| MDAbstractFigure.PROPERTY_HEIGHT.equals(propertyName)) {
 			return Extent.class;
-		} else if (PDDesktopItem.PROPERTY_POSITION_Y.equals(propertyName)) {
-			return Extent.class;
-		} else {
-			return null;
 		}
+
+		return null;
 	};
 
 	/**
-	 * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(nextapp.echo.app.util.Context,
-	 *      Component)
+	 * @see nextapp.echo.webcontainer.ComponentSynchronizePeer#init(nextapp.echo.app.util.Context, Component)
 	 */
 	@Override
 	public void init(Context context, Component component) {
 		super.init(context, component);
 		ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
-		serverMessage.addLibrary("MDAbstractFigure");
-		
+		serverMessage.addLibrary(COMPONENT);
+
 	}
-	
+
 	/**
-	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#storeInputProperty(nextapp.echo.app.util.Context,
-	 *      nextapp.echo.app.Component, java.lang.String, int, java.lang.Object)
+	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#storeInputProperty(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, int, java.lang.Object)
 	 */
 	@Override
 	public void storeInputProperty(Context context, Component component, String propertyName, int index, Object newValue) {
 		ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-		if (MDAbstractFigure.PROPERTY_POSITION_X.equals(propertyName)) {
-			clientUpdateManager.setComponentProperty(component, MDAbstractFigure.PROPERTY_POSITION_X, newValue);
-		} else if (MDAbstractFigure.PROPERTY_POSITION_Y.equals(propertyName)) {
-			clientUpdateManager.setComponentProperty(component, MDAbstractFigure.PROPERTY_POSITION_Y, newValue);
-		} 
+		if (MDAbstractFigure.PROPERTY_WIDTH.equals(propertyName) || MDAbstractFigure.PROPERTY_HEIGHT.equals(propertyName) || MDAbstractFigure.PROPERTY_POSITION_X.equals(propertyName)
+				|| MDAbstractFigure.PROPERTY_POSITION_Y.equals(propertyName)) {
+			clientUpdateManager.setComponentProperty(component, propertyName, newValue);
+		}
+
+		super.storeInputProperty(context, component, propertyName, index, newValue);
 	}
-	
-    /**
-     * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#processEvent(nextapp.echo.app.util.Context, 
-     *      nextapp.echo.app.Component, java.lang.String, java.lang.Object)
-     */
-    @Override
-    public void processEvent(Context context, Component component, String eventType, Object eventData) {
-        ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-        if (MDAbstractFigure.ACTION_MOVE.equals(eventType)) {
-            clientUpdateManager.setComponentAction(component, MDAbstractFigure.ACTION_MOVE, null);
-        }
-    }
+
+	/**
+	 * @see nextapp.echo.webcontainer.AbstractComponentSynchronizePeer#processEvent(nextapp.echo.app.util.Context, nextapp.echo.app.Component, java.lang.String, java.lang.Object)
+	 */
+	@Override
+	public void processEvent(Context context, Component component, String eventType, Object eventData) {
+		ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
+		if (MDAbstractFigure.ACTION_MOVE.equals(eventType) || MDAbstractFigure.ACTION_RESIZE.equals(eventType)) {
+			clientUpdateManager.setComponentAction(component, eventType, null);
+		}
+	}
 }

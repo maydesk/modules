@@ -1,6 +1,5 @@
 package com.maydesk.context.widget;
 
-import nextapp.echo.app.Extent;
 import nextapp.echo.app.ImageReference;
 
 /**
@@ -9,30 +8,12 @@ import nextapp.echo.app.ImageReference;
  */
 public class MDNewsBox extends MDAbstractFigure {
 
-	public static final String PROPERTY_WIDTH = "width";
-	public static final String PROPERTY_HEIGHT = "height";
 	public static final String PROPERTY_TEXT = "text";
 	public static final String PROPERTY_TITLE = "title";
 	public static final String PROPERTY_ICON = "icon";
 	
 	private String text;
 	private String title;
-	
-	public int getWidth() {
-		return (Integer) get(PROPERTY_WIDTH);
-	}
-	
-	public void setWidth(Extent width) {
-		set(PROPERTY_WIDTH, width);
-	}
-	
-	public Extent getHeight() {
-		return (Extent) get(PROPERTY_HEIGHT);
-	}
-	
-	public void setHeight(Extent height) {
-		set(PROPERTY_HEIGHT, height);
-	}
 	
 	public ImageReference getIcon() {
 		return (ImageReference) get(PROPERTY_ICON);

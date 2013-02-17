@@ -11,6 +11,22 @@ MD.MDAbstractFigure = Core.extend(Echo.Component, {
 	fireMoveEvent: function() {
 		console.log('fireMove');
 	    this.fireEvent({type: "move", source: this});
+	},
+
+	fireResizeEvent: function() {
+		console.log('fireResize');
+		this.fireEvent({type: "async_resize", source: this});
+	},
+	
+	setPosition: function(x, y) {
+		this.set("positionX", x);
+		this.set("positionY", y);
+	},
+	
+	setDimension: function(width, height) {
+		this.set("width", width);
+		this.set("height", height);
+		this.fireResizeEvent();
 	}
 });
 
@@ -76,6 +92,5 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
 		figure.installEditPolicy(new MyDragDropPolicy());
 		
 		figure.onClick = Core.method(this, this.onClick);
-	}
-    
+	} 
 });

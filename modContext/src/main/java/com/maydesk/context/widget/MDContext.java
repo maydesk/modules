@@ -5,16 +5,22 @@
  */
 package com.maydesk.context.widget;
 
+import nextapp.echo.app.Button;
+import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
+import nextapp.echo.app.ImageReference;
 import nextapp.echo.app.ResourceImageReference;
 import nextapp.echo.app.Row;
+import nextapp.echo.app.event.ActionEvent;
+import nextapp.echo.app.event.ActionListener;
 
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
 import com.maydesk.base.experimental.IInnerContainer;
 import com.maydesk.base.model.MShortcut;
+import com.maydesk.context.ExternalContextUpdater;
 import com.maydesk.context.MContext;
 
 public class MDContext extends Component implements IInnerContainer, IPlugTarget {
@@ -30,7 +36,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 
 	
 	public static MDCanvas TEST_SINGLETON_CANVAS;  //just for testing external servlet
-	
+	private MDCanvasToolbar TEST_SINGLETON_TOOLBAR;
 	
 	protected MContext  context;
 
@@ -120,6 +126,12 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		init2();
 		
 		TEST_SINGLETON_CANVAS = new MDCanvas();
+		TEST_SINGLETON_CANVAS.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				canvasClicked();
+			}
+		});
 		add(TEST_SINGLETON_CANVAS);
 		
 		MDAvatar avatar = new MDAvatar();
@@ -128,6 +140,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		TEST_SINGLETON_CANVAS.add(avatar);
 
 		MDRectangle rect = new MDRectangle();
+		rect.setId(MDAbstractFigure.getNextId());
 		rect.setPositionX(200);
 		rect.setPositionY(200);
 		TEST_SINGLETON_CANVAS.add(rect);
@@ -136,29 +149,57 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 //		webcam.setPositionX(10);
 //		webcam.setPositionY(50);
 //		TEST_SINGLETON_CANVAS.add(webcam);
-//
-
-		MDCanvasToolbar toolbar = new MDCanvasToolbar();
-		add(toolbar);
-
-		MDToolEntry tool = new MDToolEntry();
-		tool.setIcon(new ResourceImageReference("img/rectangle16.png"));
-		tool.setTool("MD.MDRectangle");
-		toolbar.add(tool);
 		
-		tool = new MDToolEntry();
-		tool.setIcon(new ResourceImageReference("img/arrow16.png"));
-		tool.setTool("MD.MDArrow");
-		toolbar.add(tool);
+		TEST_SINGLETON_TOOLBAR = createToolbar();
+		add(TEST_SINGLETON_TOOLBAR);
 
-		tool = new MDToolEntry();
-		tool.setIcon(new ResourceImageReference("img/table16.png"));
-		tool.setTool("MD.MDTable");
-		toolbar.add(tool);
+		Row editorRow = new Row(); 
+		add(editorRow);
+	}
 
-		tool = new MDToolEntry();
-		tool.setIcon(new ResourceImageReference("img/text16.png"));
-		tool.setTool("MD.MDText");
-		toolbar.add(tool);
+	private void canvasClicked() {
+		final Class<? extends MDAbstractFigure> toolClass = TEST_SINGLETON_TOOLBAR.getSelectedToolClass();
+		if (toolClass == null) {
+			return;
+		}
+		
+		try {
+			final MDAbstractFigure figure = toolClass.newInstance();
+			figure.setId(MDAbstractFigure.getNextId());
+			figure.setPositionX((int) TEST_SINGLETON_CANVAS.getClickX());
+			figure.setPositionY((int) TEST_SINGLETON_CANVAS.getClickY());
+			TEST_SINGLETON_CANVAS.add(figure);
+			TEST_SINGLETON_TOOLBAR.setSelectedToolClass(null);
+
+			ExternalContextUpdater.addFigure(figure);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private MDCanvasToolbar createToolbar() {
+		MDCanvasToolbar toolbar = new MDCanvasToolbar();
+		
+		toolbar.add(createToolbarEntry(toolbar, MDRectangle.class, new ResourceImageReference("img/rectangle16.png")));
+		toolbar.add(createToolbarEntry(toolbar, MDArrow.class, new ResourceImageReference("img/arrow16.png")));
+		toolbar.add(createToolbarEntry(toolbar, MDTable.class, new ResourceImageReference("img/table16.png")));
+		toolbar.add(createToolbarEntry(toolbar, MDText.class, new ResourceImageReference("img/text16.png")));
+		
+		return toolbar;
+	}
+	
+	private Component createToolbarEntry(final MDCanvasToolbar toolbar, final Class<? extends MDAbstractFigure> toolClass, ImageReference icon) {
+		Button btn = new Button(icon);
+		btn.setId(toolClass.getSimpleName());
+
+		btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				toolbar.setSelectedToolClass(toolClass);
+				toolbar.setBackground(Color.CYAN);
+			}
+		});
+		
+		return btn;
 	}
 }

@@ -1,6 +1,8 @@
 package com.maydesk.context.widget;
 
-import nextapp.echo.app.Extent;
+import com.maydesk.context.ExternalContextUpdater;
+
+import nextapp.echo.app.Color;
 
 /**
  * @author Alejandro Salas <br>
@@ -8,22 +10,34 @@ import nextapp.echo.app.Extent;
  */
 public class MDRectangle extends MDAbstractFigure {
 
-	public static final String PROPERTY_WIDTH = "width";
-	public static final String PROPERTY_HEIGHT = "height";
+	public static final String PROPERTY_BORDER = "border";
 
-	public int getWidth() {
-		return (Integer) get(PROPERTY_WIDTH);
+	public static final String ACTION_UPDATE_PROPS = "async_updateProps";
+
+	public MDRectangle() {
+		setBackground(Color.DARKGRAY);
+		setBorder(0);
+	}
+	
+	public int getBorder() {
+		return (Integer) get(PROPERTY_BORDER);
 	}
 
-	public void setWidth(Extent width) {
-		set(PROPERTY_WIDTH, width);
+	public void setBorder(int border) {
+		set(PROPERTY_BORDER, border);
 	}
 
-	public Extent getHeight() {
-		return (Extent) get(PROPERTY_HEIGHT);
-	}
-
-	public void setHeight(Extent height) {
-		set(PROPERTY_HEIGHT, height);
+	@Override
+	public void processInput(String inputName, Object inputValue) {
+		super.processInput(inputName, inputValue);
+		if (PROPERTY_BORDER.equals(inputName)) {
+			setBorder((Integer) inputValue);
+		} else if (PROPERTY_BACKGROUND.equals(inputName)) {
+			setBackground((Color) inputValue);
+		} else if (ACTION_UPDATE_PROPS.equals(inputName)) {
+			// The event is just to invoke the server call.
+		}
+		
+		ExternalContextUpdater.updateRectProps(this);
 	}
 }

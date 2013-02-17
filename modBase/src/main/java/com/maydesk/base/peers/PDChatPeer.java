@@ -17,7 +17,6 @@ import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
-import com.maydesk.base.util.PDUtil;
 import com.maydesk.base.widgets.PDChat;
 
 /**

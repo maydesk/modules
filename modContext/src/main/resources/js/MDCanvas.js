@@ -12,9 +12,13 @@ MD.MDCanvas = Core.extend(Echo.Component, {
 	_currentTool: null,
 	
 	//called from MDToolEntry   
-    setCurrentTool: function(cmpFig) {
-	    this._currentTool = cmpFig;
-    }    
+//    setCurrentTool: function(cmpFig) {
+//	    this._currentTool = cmpFig;
+//    }
+	
+	fireClick: function() {
+	    this.fireEvent({type: "async_click", source: this});
+	}
 });
 
  
@@ -108,18 +112,28 @@ MyCanvas = draw2d.Canvas.extend({
     	this._super(peerCanvas._node.id);
     },
 
-    onClick: function(x, y){
-    	if (this._peerCanvas.component._currentTool) {
-    		//add a new instance of the current tool to the canvas
-		  	var newFig = this._peerCanvas.component._currentTool;
-		   	var x = event.clientX - this.getAbsoluteX();
-		  	var y = event.clientY - this.getAbsoluteY();
-		  	newFig.set("positionX", x);
-		  	newFig.set("positionY", y);
-		  	this._peerCanvas.component.add(newFig);
-			Echo.Render.processUpdates(this._peerCanvas.client);
-			this._peerCanvas.component._currentTool = null;
-	    }
+    onClick: function(x, y) {
+    	
+    	// XXX: FIX. It's going to the server on every click, it could be optimized just to fire it when adding a new element (for now at least).
+    	this._peerCanvas.component.set("clickX", x);
+    	this._peerCanvas.component.set("clickY", y);
+    	this._peerCanvas.component.fireClick(x, y);
+    	
+//    	if (this._peerCanvas.component._currentTool) {
+//    		//add a new instance of the current tool to the canvas
+//		  	var newFig = this._peerCanvas.component._currentTool;
+//		   	var x = event.clientX - this.getAbsoluteX();
+//		  	var y = event.clientY - this.getAbsoluteY();
+//		  	newFig.set("positionX", x);
+//		  	newFig.set("positionY", y);
+//		  	if (this._peerCanvas.client.addComponentListener) {
+//		  		//console.log("register listener");
+//		  		//this._peerCanvas.client.addComponentListener(newFig, "move");
+//		  	}
+//		  	this._peerCanvas.component.add(newFig);
+//			Echo.Render.processUpdates(this._peerCanvas.client);
+//			this._peerCanvas.component._currentTool = null;
+//	    }
 	    this._super(x, y);
-    } 
+    }
 });

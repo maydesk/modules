@@ -15,6 +15,10 @@ MD.MDRectangle = Core.extend(MD.MDAbstractFigure, {
 		]
 	},
 
+	fireUpdatePropEvent: function() {
+	    this.fireEvent({type: "async_updateProps", source: this});
+	},
+	
 	getEditor: function() {
 		var lblStyle = new Echo.Label({
 			foreground: 'white',
@@ -35,16 +39,22 @@ MD.MDRectangle = Core.extend(MD.MDAbstractFigure, {
 	 _updateFigure: function(event) {
 		var selectedIndex = event.source.get("selection");
 		//alert(event.source.that.peer);
-		var rectangle = event.source.that.peer._rectangle;
+		var component = event.source.that;
+		var rectangle = component.peer._rectangle;
 		var style = MD.MDRectangle._styles[selectedIndex];
 		if (style.color) {
 			rectangle.setBackgroundColor(new draw2d.util.Color(style.color));
+			component.set("background", style.color);
 		} else {
 			//empty rectangle
 			rectangle.setBackgroundColor(null);
+			component.set("background", "#transparent");
 		}
 		rectangle.setStroke(style.border);
-	}    
+		component.set("border", style.border);
+		
+		component.fireUpdatePropEvent();
+	}
 });
 
 
@@ -60,15 +70,24 @@ MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
 		var w = this.component.render("width");
 		var h = this.component.render("height");
 		this._rectangle = new window.draw2d.shape.basic.Rectangle(w, h);
-		this._rectangle.setRadius(5);		
+		this._rectangle.setRadius(5);
+		this._rectangle.setBackgroundColor(this.component.render("background"));
+		this._rectangle.setStroke(this.component.render("border"));
+		this.installListeners(this._rectangle);
 		canvas.addFigure(this._rectangle, x, y);
-		this.installListeners(this._rectangle);		
     },
     
     renderUpdate: function(update) {
     	var x = this.component.render("positionX");
 		var y = this.component.render("positionY");
 		this._rectangle.setPosition(x, y);
+		var color = this.component.render("background");
+		if (color === "#transparent" || color === "#-1") {
+			this._rectangle.setBackgroundColor(null);
+		} else {
+			this._rectangle.setBackgroundColor(color);
+		}
+		this._rectangle.setStroke(this.component.render("border"));
 		return false; // Child elements not supported: safe to return false.
     }
     
