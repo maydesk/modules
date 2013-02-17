@@ -109,6 +109,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 
 	@Override
 	public void initWire(XmlBaseEntry parentWire) {
+		
 		this.context = new MContext();
 		context.setPositionX(520);
 		context.setPositionY(150);
@@ -130,7 +131,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		rect.setPositionX(200);
 		rect.setPositionY(200);
 		TEST_SINGLETON_CANVAS.add(rect);
-
+//
 //		WebcamReceiver webcam = new WebcamReceiver();
 //		webcam.setPositionX(10);
 //		webcam.setPositionY(50);
@@ -159,8 +160,5 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		tool.setIcon(new ResourceImageReference("img/text16.png"));
 		tool.setTool("MD.MDText");
 		toolbar.add(tool);
-
-		Row editorRow = new Row(); 
-		add(editorRow);
 	}
 }

@@ -12,18 +12,18 @@ import nextapp.echo.webcontainer.service.JavaScriptService;
 import com.maydesk.base.widgets.PDDesktopItem;
 import com.maydesk.context.widget.MDAbstractFigure;
 import com.maydesk.context.widget.MDText;
-import com.maydesk.context.widget.MDWebcam;
+import com.maydesk.context.widget.MDVideo;
 
-public class MDWebcamPeer extends MDAbstractFigurePeer {
+public class MDVideoPeer extends MDAbstractFigurePeer {
 
-	public static final String COMPONENT = MDWebcam.class.getSimpleName();
+	public static final String COMPONENT = MDVideo.class.getSimpleName();
 	
 	static {
-		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDWebcam.js"));
+		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDVideo.js"));
 	}
 	
-	public MDWebcamPeer() {
-		addEvent(new AbstractComponentSynchronizePeer.EventPeer("connect", MDWebcam.ACTION_CONNECT) {
+	public MDVideoPeer() {
+		addEvent(new AbstractComponentSynchronizePeer.EventPeer("connect", MDVideo.ACTION_CONNECT) {
 			@Override
 			public boolean hasListeners(Context context, Component component) {
 				return true;
@@ -37,7 +37,7 @@ public class MDWebcamPeer extends MDAbstractFigurePeer {
     
     @Override
     public Class getComponentClass() {
-        return MDWebcam.class;
+        return MDVideo.class;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MDWebcamPeer extends MDAbstractFigurePeer {
     
 	@Override
 	public Class getInputPropertyClass(String propertyName) {
-		if (MDWebcam.PROPERTY_URL.equals(propertyName)) {
+		if (MDVideo.PROPERTY_URL.equals(propertyName)) {
 			return String.class;
 		} else {
 			return null;
@@ -59,8 +59,8 @@ public class MDWebcamPeer extends MDAbstractFigurePeer {
 	@Override
 	public void storeInputProperty(Context context, Component component, String propertyName, int index, Object newValue) {
 		ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-		if (MDWebcam.PROPERTY_URL.equals(propertyName)) {
-			clientUpdateManager.setComponentProperty(component, MDWebcam.PROPERTY_URL, newValue);
+		if (MDVideo.PROPERTY_URL.equals(propertyName)) {
+			clientUpdateManager.setComponentProperty(component, MDVideo.PROPERTY_URL, newValue);
 		} else {
 			super.storeInputProperty(context, component, propertyName, index, newValue);
 		}
@@ -69,8 +69,8 @@ public class MDWebcamPeer extends MDAbstractFigurePeer {
     @Override
     public void processEvent(Context context, Component component, String eventType, Object eventData) {
         ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-        if (MDWebcam.ACTION_CONNECT.equals(eventType)) {
-            clientUpdateManager.setComponentAction(component, MDWebcam.ACTION_CONNECT, null);
+        if (MDVideo.ACTION_CONNECT.equals(eventType)) {
+            clientUpdateManager.setComponentAction(component, MDVideo.ACTION_CONNECT, null);
         }
     }
 }

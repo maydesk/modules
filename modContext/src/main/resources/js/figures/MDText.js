@@ -19,7 +19,8 @@ MD.MDText = Core.extend(MD.MDAbstractFigure, {
 		});
 
 		var cboStyle = new Echo.SelectField();			
-		cboStyle.set("items", MD.MDText._styles);
+		cboStyle.set("items", MD.MDText._styles);	
+		cboStyle.set("insets", "-2px");		
 		cboStyle.that = this;
 		cboStyle.addListener("action", this._updateFigure);
 

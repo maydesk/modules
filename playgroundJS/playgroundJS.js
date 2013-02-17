@@ -179,20 +179,19 @@ MyDemoApp = Core.extend(Echo.Application, {
 					icon: "img/Icon24Preferences.png",
 					tool: "MD.MDTable"
 				}),
-			]
+			]	
 		});
 		
 		var board = new MD.MDContext({
 			title: "My Activity",
 			icon: "img/ampel.png",
-			positionX: "290px",
-			positionY: "60px",
+			positionX: "90px",
+			positionY: "40px",
 			width: "700px",			
 			height: "520px",
 			children: [
 				canvas,
-				toolbar,
-				new Echo.Row()
+				toolbar
 			]			
 		});
 		this.rootComponent.add(board);
@@ -225,10 +224,6 @@ MyDemoApp = Core.extend(Echo.Application, {
 			positionX: "60px",
 			positionY: "90px",
 		}));
-		
-		var webcam = new MD.MDWebcam2({
-		});
-		this.rootComponent.add(webcam);
 		
     }
 });

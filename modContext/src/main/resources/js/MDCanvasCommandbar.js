@@ -9,8 +9,45 @@ MD.MDCanvasCommandbar = Core.extend(Echo.Component, {
 	},
 	
 	componentType: "MDCanvasCommandbar",
+
+	_lblZoom: null,
 	
-	
+	$construct: function(canvas) {
+		Echo.Component.call(this);  //call super constructor
+		
+		var row = new Echo.Row();
+		row.set("insets", "3px");
+		row.set("cellSpacing", "6px");		
+		this.add(row);
+
+		var that = this;
+		var btnZoomDecrease = new Echo.Button();
+		var imgLess = null;  //XXX this.peer.client.getResourceUrl("MDArrow", "editor/minus2.png");
+		if (!imgLess) imgLess = "img/minus2.png";  //for local testing...
+		btnZoomDecrease.set("icon", imgLess);
+		btnZoomDecrease.addListener("action", function() {
+			var zoomFactor = canvas.render("zoom", 100);
+			zoomFactor = Math.round(zoomFactor * 0.8);
+			canvas.set("zoom", zoomFactor);
+			that._lblZoom.set("text", zoomFactor + "%"); 
+       	});		
+		row.add(btnZoomDecrease);					
+
+		this._lblZoom = new Echo.Label({text: "Zoom:", foreground: "#fff"});
+		row.add(this._lblZoom);
+
+		var btnZoomIncrease = new Echo.Button();
+		var imgPlus = null;  //XXX this.peer.client.getResourceUrl("MDArrow", "editor/plus2.png");
+		if (!imgPlus) imgPlus = "img/plus2.png";  //for local testing...
+		btnZoomIncrease.set("icon", imgPlus);
+		btnZoomIncrease.addListener("action", function() {
+			var zoomFactor = canvas.render("zoom", 100);
+			zoomFactor = Math.round(zoomFactor / 0.8);
+			canvas.set("zoom", zoomFactor);
+			that._lblZoom.set("text", zoomFactor + "%"); 
+       	});		
+		row.add(btnZoomIncrease);
+    },	
 });
 
  
@@ -23,32 +60,25 @@ MD.Sync.MDCanvasCommandbar = Core.extend(Echo.Render.ComponentSync, {
     _node: null,
     
     renderAdd: function(update, parentElement) {
-
-    	//the tool row
-    	this._node = document.createElement("div");
-    	this._node.style.position = "absolute";	
+    
+    	console.log("X3");
+    
+        this._node = document.createElement("div");
+		this._node.style.position = "absolute";
+       	this._node.style.left = "100px";
+		this._node.style.top = "-7px";
+		this._node.style.width = "100px";
+		this._node.style.height = "22px";
+		this._node.style.background = "#222";
+		this._node.style["-webkit-transition"] = "opacity 2s" 
+		Echo.Sync.Border.render("1px dotted #eeeeee", this._node);
 		parentElement.appendChild(this._node);
-    	
-    	var that = this;
-		var btnZoomDecrease = new Echo.Button();
-		btnZoomDecrease.application = this.component.application;
-		btnZoomDecrease.set("icon", "img/remove.gif");
-		btnZoomDecrease.addListener("action", function() {
-			that._canvas.setZoom(that._canvas.getZoom() / 0.7, true);
-       	});		
-		this.component.toolRow.add(btnZoomDecrease);					
 
-		var btnZoomIncrease = new Echo.Button();
-		btnZoomIncrease.application = this.component.application;
-		btnZoomIncrease.set("icon", "img/add.gif");
-		btnZoomIncrease.addListener("action", function() {
-			that._canvas.setZoom(that._canvas.getZoom() * 0.7, true);
-       	});		
-		this.component.toolRow.add(btnZoomIncrease);					
-    	
+console.log("X4");    
 		for (var i = 0; i < this.component.getComponentCount(); i++) {   
 			Echo.Render.renderComponentAdd(update, this.component.getComponent(i), this._node);
 		}
+		console.log("X5");
     },
     
 	/** @see Echo.Render.ComponentSync#renderDispose */
@@ -58,6 +88,8 @@ MD.Sync.MDCanvasCommandbar = Core.extend(Echo.Render.ComponentSync, {
     
     /** @see Echo.Render.ComponentSync#renderUpdate */
     renderUpdate: function(update) {
+    	var visible = this.component.render("visible", true);
+    	this._node.style.opacity = visible ? 1 : 0; 
         return false; // only update Child elements
     }       
 });

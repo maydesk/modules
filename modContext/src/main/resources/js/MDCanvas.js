@@ -59,7 +59,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 	    }
 	    
 	    //late-loading, otherwise there would pop-up strange errors...
-	   	window.setTimeout(Core.method(this, this._loadCanvas), 800);
+	   window.setTimeout(Core.method(this, this._loadCanvas), 800);
     },
     
     _loadCanvas: function() {
@@ -90,7 +90,10 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 				Echo.Render.renderComponentAdd(update, addedChildren[i], this);
 	        }
 	    }
-        return false; // only update Child elements
+	    
+	    var zoom = this.component.render("zoom", 100);
+	    this._canvas.setZoom(100 / zoom, true);
+        return true;
     }       
 });
 
@@ -113,10 +116,6 @@ MyCanvas = draw2d.Canvas.extend({
 		  	var y = event.clientY - this.getAbsoluteY();
 		  	newFig.set("positionX", x);
 		  	newFig.set("positionY", y);
-		  	if (this._peerCanvas.client.addComponentListener) {
-		  		//console.log("register listener");
-		  		//this._peerCanvas.client.addComponentListener(newFig, "move");
-		  	}
 		  	this._peerCanvas.component.add(newFig);
 			Echo.Render.processUpdates(this._peerCanvas.client);
 			this._peerCanvas.component._currentTool = null;

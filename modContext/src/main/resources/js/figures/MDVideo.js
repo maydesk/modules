@@ -2,30 +2,29 @@ if (!Core.get(window, ["MD", "Sync"])) {
 	Core.set(window, ["MD", "Sync"], {});
 }
  
-MD.WebcamReceiver = Core.extend(MD.MDAbstractFigure, {
+MD.MDVideo = Core.extend(MD.MDAbstractFigure, {
 	
 	getEditor: function() {
 		return null;
 	},
 	
 	$load : function() {
-       	Echo.ComponentFactory.registerType("WebcamReceiver", this);
+       	Echo.ComponentFactory.registerType("MDVideo", this);
 	},
 	
 	fireConnectEvent: function() {
 	    this.fireEvent({type: "connect", source: this});
 	},
 	
-	componentType: "WebcamReceiver"
+	componentType: "MDVideo"
 });
 
  
-MD.Sync.WebcamReceiver = Core.extend(MD.Sync.MDAbstractFigure, {
+MD.Sync.MDVideo = Core.extend(MD.Sync.MDAbstractFigure, {
     
     $load: function() {
-        Echo.Render.registerPeer("WebcamReceiver", this);
-    },
-    
+        Echo.Render.registerPeer("MDVideo", this);
+    },    
     
     renderAdd2: function(canvas, x2, y2) {
 
@@ -34,28 +33,10 @@ MD.Sync.WebcamReceiver = Core.extend(MD.Sync.MDAbstractFigure, {
 		var html = "<video width='100%' height='100%' id='video1'/>";
 		infobox.div.html(html);
 		
-		var webcamUrl = "http://www.visitmix.com/content/files/HTML5.mp4";	
+		var webcamUrl = this.component.render("url");
 		var videoElement = document.getElementById("video1");
-		if (webcamUrl) {
-			alert(webcamUrl);
-			videoElement.src = webcamUrl;
-			videoElement.autoplay = true;
-		} else {
-			var that = this;		
-			function onSuccess(stream) {
-				videoElement.autoplay = true;
-				var streamSourceURL = webkitURL.createObjectURL(stream);
-				videoElement.src = streamSourceURL;
-				console.log('Streaming from: ' + streamSourceURL);
-				that.component.set('url', streamSourceURL);
-				that.component.fireConnectEvent();
-			};
-			function onError(err) {
-			    alert("Error, you are running this probably from local file system, try running in an web app container instead!");
-			};
-	    	
-		    navigator.webkitGetUserMedia({ video: true, audio: false }, onSuccess, onError);
-		}
+		videoElement.src = webcamUrl;
+		videoElement.autoplay = true;
     }
 });
 

@@ -68,6 +68,7 @@ public class MDContextPeer extends AbstractComponentSynchronizePeer {
         serverMessage.addLibrary(CommonService.INSTANCE.getId());
         serverMessage.addLibrary(PDDesktopItemPeer.DESKTOP_ITEM_SERVICE.getId());
         serverMessage.addLibrary(MD_CONTEXT);
+        serverMessage.addLibrary(MDCanvasCommandbarPeer.COMPONENT);
         serverMessage.addLibrary("Echo.ListComponent");
     }
     

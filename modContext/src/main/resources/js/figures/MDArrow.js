@@ -7,7 +7,8 @@ MD.MDArrow = Core.extend(MD.MDAbstractFigure, {
    	_lblSize: 10,
     
 	getEditor: function() {
-		var imgLess = this.peer.client.getResourceUrl("MDArrow", "editor/back.gif");
+		var imgLess = this.peer.client.getResourceUrl("MDArrow", "editor/minus2.png");
+		if (!imgLess) imgLess = "img/minus2.png";  //for local testing...
 		var btnLess = new Echo.Button({
 			icon: imgLess
 		});
@@ -19,7 +20,8 @@ MD.MDArrow = Core.extend(MD.MDAbstractFigure, {
 			text: '10px'
 		});
 
-		var imgMore = this.peer.client.getResourceUrl("MDArrow", "editor/forward.gif");
+		var imgMore = this.peer.client.getResourceUrl("MDArrow", "editor/plus2.png");
+		if (!imgMore) imgMore = "img/plus2.png";  //for local testing...
 		var btnMore = new Echo.Button({
 			icon: imgMore
 		});

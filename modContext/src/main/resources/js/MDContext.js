@@ -3,6 +3,7 @@ if (!Core.get(window, ["MD", "Sync"])) {
 }
  
 MD.MDContext = Core.extend(Echo.Component, {
+
 	$load : function() {
        	Echo.ComponentFactory.registerType("MDContext", this);
 	},
@@ -99,6 +100,9 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 	_expanded: false,
 	_titleBar: null,
 	_mainNode: null,
+	_editorDiv: null,
+    _commandBar: null,
+    _toolbar: null,
     
     /** @see Echo.Render.ComponentSync#renderAdd */
     renderAddImpl: function(update, parentElement) {
@@ -149,43 +153,46 @@ MD.Sync.MDContext = Core.extend(PD.Sync.PDDesktopItem, {
 		this._mainNode.appendChild(this._container);
 
 		//add child to container
-		var canvas = this.component.getComponent(0);
+		var canvas = this.component.getComponent(0);  //MDCanvas
 		Echo.Render.renderComponentAdd(update, canvas, this._container);
         	
-		var toolbar = this.component.getComponent(1);
-		toolbar.set("canvas", canvas);
-		Echo.Render.renderComponentAdd(update, toolbar, this._mainNode);
+		this._toolbar = this.component.getComponent(1);
+		this._toolbar.set("canvas", canvas);
+		Echo.Render.renderComponentAdd(update, this._toolbar, this._mainNode);
+
+		this._commandBar = new MD.MDCanvasCommandbar(canvas);
+		this.component.add(this._commandBar);
+		Echo.Render.renderComponentAdd(update, this._commandBar, this._mainNode);
         
-		//the container
-    	var editorDiv = document.createElement("div");
-		editorDiv.style.position = "absolute";
-       	editorDiv.style.left = "100px";
-		editorDiv.style.top = "-5px";
-		editorDiv.style.width = "200px";
-		editorDiv.style.height = "20px";
-		editorDiv.style.background = "#555";
-		Echo.Sync.Border.render("1px dotted #eeeeee", editorDiv);
-		this._mainNode.appendChild(editorDiv);
+		//the editor container
+    	this._editorDiv = document.createElement("div");
+		this._editorDiv.style.position = "absolute";
+       	this._editorDiv.style.left = "210px";
+		this._editorDiv.style.top = "-9px";
+		this._editorDiv.style.width = "200px";
+		this._editorDiv.style.height = "18px";
+		this._editorDiv.style.background = "#222";
+		this._editorDiv.style.padding = "3px 1px";
+		this._editorDiv.style["-webkit-transition"] = "opacity 2s" 
+		Echo.Sync.Border.render("1px dotted #eeeeee", this._editorDiv);
+		this._mainNode.appendChild(this._editorDiv);
 		
-		this.component.editorRow = this.component.getComponent(2);
-		Echo.Render.renderComponentAdd(update, this.component.editorRow, editorDiv);
+		this.component.editorRow = new Echo.Row();
+		this.component.add(this.component.editorRow);
+		Echo.Render.renderComponentAdd(update, this.component.editorRow, this._editorDiv);
         
         //XXX remove - just for testing...
         var expander = new MD.Sync.MDContext.ExpandAnimation(this);
-		//expander.start();  
+		expander.start();
     },
 
 	onDoubleClick: function() {
-		//work-around...
-		var componentCount = this.component.getComponentCount();
-        for (var i = 0; i < componentCount; i++) {     
-        	if (this.component.getComponent(i).peer.lazyLoadable) {
-				this.component.getComponent(i).peer.doLazyLoad();
-			}
-        }	
-        
-		var expander = new MD.Sync.MDContext.ExpandAnimation(this);
+     	var expander = new MD.Sync.MDContext.ExpandAnimation(this);
 		expander.start();  
+		this._editorDiv.style.opacity = this._expanded ? 0 : 1; 
+		this._commandBar.set("visible", !this._expanded);
+		this._toolbar.set("visible", !this._expanded);
+		Echo.Render.processUpdates(this.client);
 	},
     
     /** @see Echo.Render.ComponentSync#renderDispose */

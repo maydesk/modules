@@ -4,12 +4,12 @@ import com.maydesk.context.MDServletExternalContext;
 
 
 
-public class MDWebcam extends MDAbstractFigure {
+public class MDVideo extends MDAbstractFigure {
 
 	public static final String ACTION_CONNECT = "connect";
 	public static final String PROPERTY_URL = "url";
 
-	public MDWebcam() {
+	public MDVideo() {
 	}
 
 	@Override
