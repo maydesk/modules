@@ -9,15 +9,11 @@ MD.MDCanvas = Core.extend(Echo.Component, {
 	},
 	
 	componentType: "MDCanvas",
+	
 	_currentTool: null,
 	
-	//called from MDToolEntry   
-//    setCurrentTool: function(cmpFig) {
-//	    this._currentTool = cmpFig;
-//    }
-	
 	fireClick: function() {
-	    this.fireEvent({type: "async_click", source: this});
+		this.fireEvent({type: "async_click", source: this});
 	}
 });
 
@@ -68,7 +64,9 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     
     _loadCanvas: function() {
    		this._canvas = new MyCanvas(this);
-		this._canvas.setZoom(1.5, false);
+		
+	    var zoom = this.component.render("zoom", 100);
+	    this._canvas.setZoom(100 / zoom, true);
 		
 		//for dragging the viewport of a zoomed canvas
 //		var node = this._node;
@@ -78,7 +76,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 //        		node.style.left = dx + "px";
 //        		node.style.top = dy + "px";
 //    		}
-//		});		
+//		});	
     },
 
 	/** @see Echo.Render.ComponentSync#renderDispose */
@@ -117,7 +115,7 @@ MyCanvas = draw2d.Canvas.extend({
     	// XXX: FIX. It's going to the server on every click, it could be optimized just to fire it when adding a new element (for now at least).
     	this._peerCanvas.component.set("clickX", x);
     	this._peerCanvas.component.set("clickY", y);
-    	this._peerCanvas.component.fireClick(x, y);
+    	this._peerCanvas.component.fireClick();
     	
 //    	if (this._peerCanvas.component._currentTool) {
 //    		//add a new instance of the current tool to the canvas

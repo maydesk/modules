@@ -33,6 +33,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 	public static final String PROPERTY_ACTION_MOUSE_UP = "mouseUp";
 	public static final String PROPERTY_TITLE = "title";
 	public static final String PROPERTY_ICON = "icon";
+	public static final String PROPERTY_ZOOM = "zoom";
 
 	
 	public static MDCanvas TEST_SINGLETON_CANVAS;  //just for testing external servlet

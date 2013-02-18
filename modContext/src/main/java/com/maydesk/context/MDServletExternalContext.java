@@ -56,8 +56,6 @@ public class MDServletExternalContext extends WebContainerServlet {
 				ContentPane pane = new ContentPane();
 				window.setContent(pane);
 
-				// XXX: Why is TEST_SINGLETON assigned??
-//				MDCanvas canvas = MDContext.TEST_SINGLETON_CANVAS = new MDCanvas();
 				CANVAS = new MDCanvas();
 				pane.add(CANVAS);
 

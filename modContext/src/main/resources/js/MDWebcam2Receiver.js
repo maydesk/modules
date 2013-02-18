@@ -41,16 +41,15 @@ MD.Sync.MDWebcam2Receiver = Core.extend(MD.Sync.MDAbstractFigure, {
      	var videoId = "video_" + Math.floor(Math.random() * (10000));
      	console.log("videoId: " + videoId);
      	
-		var infobox = new Infobox(canvas.paper, {x:20, y:20, width:200, height:150});
-		var html = "<video width='100%' height='100%' id='" + videoId + "'/>";
+		var infobox = new Infobox(canvas.paper, {x:20, y:50, width:200, height:150, rounding:6});
+		var html = "<video width='100%' height='100%' id='" + videoId + "' />";  
 		infobox.div.html(html);
 		this._remoteVideo = document.getElementById(videoId);
 		this._remoteVideo.autoplay = true;
-		this._remoteVideo.src = "http://www.visitmix.com/content/files/HTML5.mp4";	
+		this._remoteVideo.src = ""; //"http://www.visitmix.com/content/files/HTML5.mp4";	
 	
-	
-		this.initialize2();
-
+		this.maybeStart();
+		infobox.update();
 	},
 	
 	renderUpdate: function(update) {
@@ -73,11 +72,6 @@ MD.Sync.MDWebcam2Receiver = Core.extend(MD.Sync.MDAbstractFigure, {
 							'OfferToReceiveVideo':true }},
 	isVideoMuted: false,
 	isAudioMuted: false,
-	
-	initialize2: function() {
-		//this.doGetUserMedia();
-		this.maybeStart();
-	},
 	
 	
 	doGetUserMedia: function() {
@@ -261,12 +255,11 @@ MD.Sync.MDWebcam2Receiver = Core.extend(MD.Sync.MDAbstractFigure, {
 	transitionToWaiting: function() {
 		//this._container.style.webkitTransform = "rotateY(0deg)";
 		var that = this;
-		setTimeout(function() {
-					 that._remoteVideo.src = "" }, 500);
+		setTimeout(function() { that._remoteVideo.src = "" }, 500);
 	},
 	
 	transitionToDone: function() {
-		this._remoteVideo.style.opacity = 0;
+		this._remoteVideo.style.opacity = 0.5;
 		console.log("You have left the call.");
 	},
 	
@@ -474,7 +467,7 @@ function Infobox(r, options, attrs) {
   }
   
   // Note that the fadein/outs for the content div are at double speed. With frequent animations, it gives the best behavior
-  Infobox.prototype.show = function() {
+  Infobox.prototype.show = function() {  
     this.container.animate({opacity: 1}, 400, ">");
     this.div.fadeIn(200);
   }

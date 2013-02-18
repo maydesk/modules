@@ -37,13 +37,6 @@ public class MDCanvasPeer extends Draw2dAbstractPeer {
 		super.init(context, component);
 		final ServerMessage serverMessage = (ServerMessage) context.get(ServerMessage.class);
 		serverMessage.addLibrary(COMPONENT_NAME);
-//		serverMessage.addLibrary("Echo.ArrayContainer");
-//		serverMessage.addLibrary("Echo.Button");
-//		serverMessage.addLibrary(MDAbstractFigurePeer.COMPONENT);
-//		serverMessage.addLibrary(MDCanvasPeer.COMPONENT);
-//		serverMessage.addLibrary(MDArrowPeer.COMPONENT);
-//		serverMessage.addLibrary(MDTextPeer.COMPONENT);
-//		serverMessage.addLibrary(MDImagePeer.COMPONENT);
 	}
 
 	/**
@@ -79,7 +72,6 @@ public class MDCanvasPeer extends Draw2dAbstractPeer {
 			ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
 			clientUpdateManager.setComponentProperty(component, propertyName, newValue);
 		}
-
 		super.storeInputProperty(context, component, propertyName, propertyIndex, newValue);
 	}
 	

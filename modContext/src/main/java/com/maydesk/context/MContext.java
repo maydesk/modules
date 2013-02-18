@@ -86,4 +86,5 @@ public class MContext extends MBase {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 }
