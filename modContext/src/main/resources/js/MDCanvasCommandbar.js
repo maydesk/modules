@@ -22,7 +22,7 @@ MD.MDCanvasCommandbar = Core.extend(Echo.Component, {
 
 		var that = this;
 		var btnZoomDecrease = new Echo.Button();
-		var imgLess = null;  //XXX this.peer.client.getResourceUrl("MDArrow", "editor/minus2.png");
+		var imgLess = "/main?sid=Echo.Resource&pkg=MDCanvasCommandbar&res=editor/minus2.png"; //this.application.client.getResourceUrl("MDArrow", "editor/minus2.png");
 		if (!imgLess) imgLess = "img/minus2.png";  //for local testing...
 		btnZoomDecrease.set("icon", imgLess);
 		btnZoomDecrease.addListener("action", function() {
@@ -37,7 +37,7 @@ MD.MDCanvasCommandbar = Core.extend(Echo.Component, {
 		row.add(this._lblZoom);
 
 		var btnZoomIncrease = new Echo.Button();
-		var imgPlus = null;  //XXX this.peer.client.getResourceUrl("MDArrow", "editor/plus2.png");
+		var imgPlus = "/main?sid=Echo.Resource&pkg=MDCanvasCommandbar&res=editor/plus2.png";  //XXX this.peer.client.getResourceUrl("MDArrow", "editor/plus2.png");
 		if (!imgPlus) imgPlus = "img/plus2.png";  //for local testing...
 		btnZoomIncrease.set("icon", imgPlus);
 		btnZoomIncrease.addListener("action", function() {

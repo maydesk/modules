@@ -7,8 +7,9 @@ MD.MDArrow = Core.extend(MD.MDAbstractFigure, {
    	_lblSize: 10,
    	
 	getEditor: function() {
-		var imgLess = this.peer.client.getResourceUrl("MDArrow", "editor/minus2.png");
+		var imgLess = this.peer.client.getResourceUrl("MDCanvasCommandbar", "editor/minus2.png"); //XXX MDArrow doesnt work?...
 		if (!imgLess) imgLess = "img/minus2.png";  //for local testing...
+		console.log(imgLess);
 		var btnLess = new Echo.Button({
 			icon: imgLess
 		});
@@ -20,7 +21,7 @@ MD.MDArrow = Core.extend(MD.MDAbstractFigure, {
 			text: '10px'
 		});
 
-		var imgMore = this.peer.client.getResourceUrl("MDArrow", "editor/plus2.png");
+		var imgMore = this.peer.client.getResourceUrl("MDCanvasCommandbar", "editor/plus2.png");  //XXX
 		if (!imgMore) imgMore = "img/plus2.png";  //for local testing...
 		var btnMore = new Echo.Button({
 			icon: imgMore
@@ -68,10 +69,10 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
 	    this.fig = new MyArrow(this);
     	this.fig.installEditPolicy(new window.draw2d.policy.figure.GlowSelectionFeedbackPolicy());
         
-		this.startCircle = new window.draw2d.shape.basic.Circle(6);
+		this.startCircle = new window.draw2d.shape.basic.Circle(10);
 		this.startCircle.setResizeable(false);
 		this.startCircle.setBackgroundColor("ffffff");
-		this.endCircle = new window.draw2d.shape.basic.Circle(6);
+		this.endCircle = new window.draw2d.shape.basic.Circle(10);
 		this.endCircle.setResizeable(false);
 		this.endCircle.setBackgroundColor("ffffff");
 		this.startCircle.attachMoveListener(this);

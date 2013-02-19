@@ -2,6 +2,8 @@ package com.maydesk.context.peer;
 
 import nextapp.echo.app.Component;
 import nextapp.echo.app.util.Context;
+import nextapp.echo.webcontainer.ContentType;
+import nextapp.echo.webcontainer.ResourceRegistry;
 import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
@@ -15,6 +17,11 @@ public class MDCanvasCommandbarPeer extends MDAbstractFigurePeer {
 
 	static {
 		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/MDCanvasCommandbar.js"));
+		ResourceRegistry resources = WebContainerServlet.getResourceRegistry();
+		resources.addPackage(COMPONENT, "img/");
+		resources.add(COMPONENT, "editor/minus2.png", ContentType.IMAGE_PNG);
+		resources.add(COMPONENT, "editor/plus2.png", ContentType.IMAGE_PNG);
+
 	}
 	
     public String getClientComponentType(boolean shortType) {

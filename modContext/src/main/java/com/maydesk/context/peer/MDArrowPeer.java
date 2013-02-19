@@ -22,7 +22,7 @@ public class MDArrowPeer extends MDAbstractFigurePeer {
 		resources.add(COMPONENT, "editor/back.gif", ContentType.IMAGE_GIF);
 		resources.add(COMPONENT, "editor/forward.gif", ContentType.IMAGE_GIF);
 		resources.add(COMPONENT, "editor/minus2.png", ContentType.IMAGE_PNG);
-		resources.add(COMPONENT, "editor/plush2.png", ContentType.IMAGE_PNG);
+		resources.add(COMPONENT, "editor/plus2.png", ContentType.IMAGE_PNG);
 	}
 
 	public String getClientComponentType(boolean shortType) {
