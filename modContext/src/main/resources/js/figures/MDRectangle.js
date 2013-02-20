@@ -15,10 +15,6 @@ MD.MDRectangle = Core.extend(MD.MDAbstractFigure, {
 		]
 	},
 
-	fireUpdatePropEvent: function() {
-	    this.fireEvent({type: "async_updateProps", source: this});
-	},
-	
 	getEditor: function() {
 		var lblStyle = new Echo.Label({
 			foreground: 'white',

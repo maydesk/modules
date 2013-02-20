@@ -12,8 +12,6 @@ public class MDRectangle extends MDAbstractFigure {
 
 	public static final String PROPERTY_BORDER = "border";
 
-	public static final String ACTION_UPDATE_PROPS = "async_updateProps";
-
 	public MDRectangle() {
 		setBackground(Color.DARKGRAY);
 		setBorder(0);
@@ -34,8 +32,6 @@ public class MDRectangle extends MDAbstractFigure {
 			setBorder((Integer) inputValue);
 		} else if (PROPERTY_BACKGROUND.equals(inputName)) {
 			setBackground((Color) inputValue);
-		} else if (ACTION_UPDATE_PROPS.equals(inputName)) {
-			// The event is just to invoke the server call.
 		}
 		
 		ExternalContextUpdater.updateRectProps(this);

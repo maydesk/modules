@@ -45,7 +45,7 @@ MD.MDArrow = Core.extend(MD.MDAbstractFigure, {
 		that._lblSize.set("text", that.peer.fig.size + "px");
 		that.peer.fig.repaint();
 		that.set("size", that.peer.fig.size);
-		that.fireResizeEvent();
+		that.fireUpdatePropEvent();
 	},
 
 	$load : function() {

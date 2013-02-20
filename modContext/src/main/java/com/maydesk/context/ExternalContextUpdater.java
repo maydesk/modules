@@ -11,6 +11,7 @@ package com.maydesk.context;
 import com.maydesk.context.widget.MDAbstractFigure;
 import com.maydesk.context.widget.MDArrow;
 import com.maydesk.context.widget.MDRectangle;
+import com.maydesk.context.widget.MDText;
 
 /**
  * @author Alejandro Salas <br>
@@ -68,5 +69,19 @@ public class ExternalContextUpdater {
 				fig.setEndPosY(arrow.getEndPosY());
 			}
 		});
+	}
+
+	public static void updateTextProps(final MDText text) {
+		MDServletExternalContext.runTask(new Runnable() {
+			@Override
+			public void run() {
+				MDText fig = (MDText) MDServletExternalContext.CANVAS.getComponent(text.getId());
+
+				updatePosAndSize(text, fig);
+				fig.setSize(text.getSize());
+				fig.setText(text.getText());
+				fig.setType(text.getType());
+			}
+		});		
 	}
 }

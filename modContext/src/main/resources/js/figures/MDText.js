@@ -36,6 +36,9 @@ MD.MDText = Core.extend(MD.MDAbstractFigure, {
 		var style = MD.MDText._styles[selectedIndex];
 		text.setStroke(style.border);
 		text.setFontColor(style.color);
+		
+		event.source.that.set("type", style.text);
+		event.source.that.fireUpdatePropEvent();
 	},
 	
 	$load : function() {
@@ -57,10 +60,17 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
      	this._text = new window.draw2d.shape.basic.Label();
      	this._text.setText(this.component.render("text", "type here..."));
       	this._text.setFontSize(this.component.render("size", 12));
-      	this._text.installEditor(new draw2d.ui.LabelInplaceEditor());
+      	
+      	var lblEditor = new MD.MDLabelEditor();
+      	lblEditor.addEditListener(this);
+      	this._text.installEditor(lblEditor);
 		this._text.onClick = Core.method(this, this.onClick);
-		var type = this.component.render("type");
-		if (type == "banner") {
+		this.setTypeStyle(this.component.render("type"));
+      	canvas.addFigure(this._text, x, y);      	
+    },
+    
+    setTypeStyle: function(type) {
+    	if (type == "banner") {
 			if (this._text.setFontFamily) this._text.setFontFamily("Arial");
 	   		this._text.setBackgroundColor("#5b5b5b");        
 	    	this._text.setColor("#dd00ee");
@@ -77,6 +87,21 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
 			this._text.setStroke(0);
 			this._text.setFontColor("#ffffff");
 		}
-      	canvas.addFigure(this._text, x, y);      	
+    },
+    
+    renderUpdate: function(update) {
+    	var x = this.component.render("positionX");
+		var y = this.component.render("positionY");
+		this._text.setPosition(x, y);
+		this._text.setText(this.component.render("text"));
+		this._text.setFontSize(this.component.render("size", 12));
+		this.setTypeStyle(this.component.render("type"));
+		
+		return false; // Child elements not supported: safe to return false.
+    },
+    
+    labelEdited: function() {
+    	this.component.set("text", this._text.getText());
+    	this.component.fireUpdatePropEvent();
     }
 });

@@ -38,7 +38,7 @@ public abstract class MDAbstractFigurePeer extends Draw2dAbstractPeer {
 				return true;
 			}
 		});
-		addEvent(new AbstractComponentSynchronizePeer.EventPeer(MDAbstractFigure.ACTION_RESIZE, MDAbstractFigure.ACTION_RESIZE) {
+		addEvent(new AbstractComponentSynchronizePeer.EventPeer(MDAbstractFigure.ACTION_UPDATE_PROPS, MDAbstractFigure.ACTION_UPDATE_PROPS) {
 			@Override
 			public boolean hasListeners(Context context, Component component) {
 				return true;
@@ -90,7 +90,7 @@ public abstract class MDAbstractFigurePeer extends Draw2dAbstractPeer {
 	@Override
 	public void processEvent(Context context, Component component, String eventType, Object eventData) {
 		ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-		if (MDAbstractFigure.ACTION_MOVE.equals(eventType) || MDAbstractFigure.ACTION_RESIZE.equals(eventType)) {
+		if (MDAbstractFigure.ACTION_MOVE.equals(eventType) || MDAbstractFigure.ACTION_UPDATE_PROPS.equals(eventType)) {
 			clientUpdateManager.setComponentAction(component, eventType, null);
 		}
 	}

@@ -13,9 +13,8 @@ MD.MDAbstractFigure = Core.extend(Echo.Component, {
 	    this.fireEvent({type: "move", source: this});
 	},
 
-	fireResizeEvent: function() {
-		console.log('fireResize');
-		this.fireEvent({type: "async_resize", source: this});
+	fireUpdatePropEvent: function() {
+	    this.fireEvent({type: "async_updateProps", source: this});
 	},
 	
 	setPosition: function(x, y) {
@@ -26,7 +25,7 @@ MD.MDAbstractFigure = Core.extend(Echo.Component, {
 	setDimension: function(width, height) {
 		this.set("width", width);
 		this.set("height", height);
-		this.fireResizeEvent();
+		this.fireUpdatePropEvent();
 	}
 });
 

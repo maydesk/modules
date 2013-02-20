@@ -22,7 +22,7 @@ public abstract class MDAbstractFigure extends Component {
 	public static final String PROPERTY_WIDTH = "width";
 	public static final String PROPERTY_HEIGHT = "height";
 	public static final String ACTION_MOVE = "move";
-	public static final String ACTION_RESIZE = "async_resize";
+	public static final String ACTION_UPDATE_PROPS = "async_updateProps";
 	
 	private static int id = 1;
 
@@ -101,7 +101,7 @@ public abstract class MDAbstractFigure extends Component {
 			setWidth((Extent) inputValue);
 		} else if (PROPERTY_HEIGHT.equals(inputName)) {
 			setHeight((Extent) inputValue);
-		} else if (ACTION_RESIZE.equals(inputName)) {
+		} else if (ACTION_UPDATE_PROPS.equals(inputName)) {
 				// The event is just to invoke the server call.
 		}
 		

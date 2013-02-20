@@ -4,7 +4,6 @@ import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.update.ClientUpdateManager;
 import nextapp.echo.app.util.Context;
-import nextapp.echo.webcontainer.AbstractComponentSynchronizePeer;
 import nextapp.echo.webcontainer.ServerMessage;
 import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
@@ -17,15 +16,6 @@ public class MDRectanglePeer extends MDAbstractFigurePeer {
 
 	static {
 		WebContainerServlet.getServiceRegistry().add(JavaScriptService.forResource(COMPONENT, "js/figures/MDRectangle.js"));
-	}
-
-	public MDRectanglePeer() {
-		addEvent(new AbstractComponentSynchronizePeer.EventPeer(MDRectangle.ACTION_UPDATE_PROPS, MDRectangle.ACTION_UPDATE_PROPS) {
-			@Override
-			public boolean hasListeners(Context context, Component component) {
-				return true;
-			}
-		});
 	}
 
 	public String getClientComponentType(boolean shortType) {
