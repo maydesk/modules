@@ -18,18 +18,13 @@ MD.Sync.MDAvatar = Core.extend(MD.Sync.MDAbstractFigure, {
         Echo.Render.registerPeer("MDAvatar", this);
     },
 
-	_figSet: null,
-	
 	renderAdd2: function(canvas, x, y) {
-	
-		this._figSet = new window.draw2d.SetFigure();
-		this._figSet.onClick = Core.method(this, this.onClick);
-		this._figSet.createSet = Core.method(this, this._createSet);
-        this._figSet.setDimension(40, 40);
-		canvas.addFigure(this._figSet, x, y);
+		this._figure = new window.draw2d.SetFigure();
+		this._figure.onClick = Core.method(this, this.onClick);
+		this._figure.createSet = Core.method(this, this._createSet);
+        this._figure.setDimension(40, 40);
+		canvas.addFigure(this._figure, x, y);
     },
-    
-
     
     _createSet: function() {
 		var paper = this._parent._canvas.paper; 

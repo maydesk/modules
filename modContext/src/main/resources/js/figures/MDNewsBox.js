@@ -18,19 +18,18 @@ MD.Sync.MDNewsBox = Core.extend(MD.Sync.MDAbstractFigure, {
         Echo.Render.registerPeer("MDNewsBox", this);
     },
 
-	_figSet: null,
 	_width: null,
 	_height: null,
 	
 	renderAdd2: function(canvas, x, y) {
-		this._figSet = new window.draw2d.SetFigure();
-		this._figSet.onClick = Core.method(this, this.onClick);
-		this._figSet.createSet = Core.method(this, this._createSet);
-		this._figSet.setBackgroundColor("#cccccc");
+		this._figure = new window.draw2d.SetFigure();
+		this._figure.onClick = Core.method(this, this.onClick);
+		this._figure.createSet = Core.method(this, this._createSet);
+		this._figure.setBackgroundColor("#cccccc");
 		this._width = this.component.render("width");
 		this._height = this.component.render("height");
-        this._figSet.setDimension(this._width, this._height);
-		canvas.addFigure(this._figSet, x, y);
+        this._figure.setDimension(this._width, this._height);
+		canvas.addFigure(this._figure, x, y);
     },
     
     _createSet: function() {

@@ -36,7 +36,7 @@ MD.MDRectangle = Core.extend(MD.MDAbstractFigure, {
 		var selectedIndex = event.source.get("selection");
 		//alert(event.source.that.peer);
 		var component = event.source.that;
-		var rectangle = component.peer._rectangle;
+		var rectangle = component.peer._figure;
 		var style = MD.MDRectangle._styles[selectedIndex];
 		if (style.color) {
 			rectangle.setBackgroundColor(new draw2d.util.Color(style.color));
@@ -60,30 +60,27 @@ MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
         Echo.Render.registerPeer("MDRectangle", this);
     },
     
-    _rectangle: null,
-    
     renderAdd2: function(canvas, x, y) {
 		var w = this.component.render("width");
 		var h = this.component.render("height");
-		this._rectangle = new window.draw2d.shape.basic.Rectangle(w, h);
-		this._rectangle.setRadius(5);
-		this._rectangle.setBackgroundColor(this.component.render("background"));
-		this._rectangle.setStroke(this.component.render("border"));
-		this.installListeners(this._rectangle);
-		canvas.addFigure(this._rectangle, x, y);
+		this._figure = new window.draw2d.shape.basic.Rectangle(w, h);
+		this._figure.setRadius(5);
+		this._figure.setBackgroundColor(this.component.render("background"));
+		this._figure.setStroke(this.component.render("border"));
+		this.installListeners(this._figure);
+		canvas.addFigure(this._figure, x, y);
     },
     
     renderUpdate: function(update) {
-    	var x = this.component.render("positionX");
-		var y = this.component.render("positionY");
-		this._rectangle.setPosition(x, y);
+    	MD.Sync.MDAbstractFigure.prototype.renderUpdate.call(this, update);
 		var color = this.component.render("background");
 		if (color === "#transparent" || color === "#-1") {
-			this._rectangle.setBackgroundColor(null);
+			this._figure.setBackgroundColor(null);
 		} else {
-			this._rectangle.setBackgroundColor(color);
+			this._figure.setBackgroundColor(color);
 		}
-		this._rectangle.setStroke(this.component.render("border"));
+		this._figure.setStroke(this.component.render("border"));
+		
 		return false; // Child elements not supported: safe to return false.
     }
     

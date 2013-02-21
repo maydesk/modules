@@ -34,6 +34,11 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
 
  	$abstract: true,
  	_parent: null,
+ 	_commandEventListener: null,
+ 	
+ 	$virtual: {
+ 		_figure: null
+ 	},
  	
 	$load : function() {
        	Echo.Render.registerPeer("MDAbstractFigure", this);       	
@@ -56,17 +61,27 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
 		
 		if (parent._canvas) {
 			this.renderAdd2(parent._canvas, x, y);
+			this._figure._parent = this;
     	} else {
     		//wait for canvas to be fully loaded
 	    	var that = this;
 			var doActionDelayed = function() {
 				that.renderAdd2(parent._canvas, x, y);
+				that._figure._parent = that;
 	    	};
 	   		window.setTimeout(doActionDelayed, 1000);
 		}    	
     },
     
     renderUpdate: function(update) {
+    	var x = this.component.render("positionX");
+		var y = this.component.render("positionY");
+		this._figure.setPosition(x, y);
+		
+		var w = this.component.render("width");
+		var h = this.component.render("height");
+		this._figure.setDimension(w, h);
+    	
 		return false; // Child elements not supported: safe to return false.
     },
     
@@ -89,7 +104,6 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
     		}
 		});
 		figure.installEditPolicy(new MyDragDropPolicy());
-		
 		figure.onClick = Core.method(this, this.onClick);
 	} 
 });

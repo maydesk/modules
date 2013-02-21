@@ -22,17 +22,17 @@ MD.Sync.MDTable = Core.extend(MD.Sync.MDAbstractFigure, {
     },
     
     renderAdd2: function(canvas, x, y) {
-		var table = new window.draw2d.SetFigure();
-		table.onClick = Core.method(this, this.onClick);
+    	this._figure = new window.draw2d.SetFigure();
+		this._figure.onClick = Core.method(this, this.onClick);
 		
 		var clientTestData = false;
 		if (clientTestData) {
-			table.createSet = Core.method(this, this._createTestClientSet());
+			this._figure.createSet = Core.method(this, this._createTestClientSet());
 		} else {
-			table.createSet = Core.method(this, this._createSet);
+			this._figure.createSet = Core.method(this, this._createSet);
 		}
-        table.setDimension(180, 120);
-		canvas.addFigure(table, x, y);
+        this._figure.setDimension(180, 120);
+		canvas.addFigure(this._figure, x, y);
     },
     
     _createSet: function(){
@@ -101,6 +101,3 @@ MD.Sync.MDTable = Core.extend(MD.Sync.MDAbstractFigure, {
         return set;
     }    
 });
-
-
-
