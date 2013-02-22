@@ -20,7 +20,7 @@ public class MDText extends MDAbstractFigure {
 	private Type type = Type.PLAIN;
 
 	public MDText() {
-		setSize(12);
+		setSize(16);
 	}
 	
 	public String getText() {

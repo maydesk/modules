@@ -42,8 +42,8 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		this._node.style.background = 'white';
 		parentElement.appendChild(this._node);
 
-		//Core.Web.Event.add(this._divPosInner, "click", Core.method(this, this._panDown), true);
-		
+		var img = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
+		this._node.style.backgroundImage = "url(" + img + ")";
 			
         var componentCount = this.component.getComponentCount();
 		for (var i = 0; i < componentCount; i++) {   
@@ -55,32 +55,25 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 	   window.setTimeout(Core.method(this, this._loadCanvas), 800);
     },
     
-    yPos: 0,
-
-    _wheel: function() {
-		console.log("wheel");
-    },
-    
     _loadCanvas: function() {
    		this._canvas = new MyCanvas(this);
    		
-   		//this._canvas.paper.rect(0, 0, 1200, 1000).attr({
-		//    fill: "url(http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg)"
-		//});
-	    
-		//credits: http://jsfiddle.net/9zu4U/9/
+   		var zoomable = this.component.render("zoomable", true);
+   		if (!zoomable) return;
+   		
+		//credits to http://jsfiddle.net/9zu4U/9/
 		var paper = this._canvas.paper;
 		var canvas = this._canvas;
 		var viewBoxWidth = paper.width;
 		var viewBoxHeight = paper.height;
 		var canvasID = "#" + this._node.id;
+		var node = this._node;		
 		var startX,startY;
 		var mousedown = false;
 		var dX,dY;
-		var oX = 0, oY = 0;
-		var viewBox = paper.setViewBox(oX, oY, viewBoxWidth, viewBoxHeight);
-		viewBox.X = oX;
-		viewBox.Y = oY;
+		var viewBox = paper.setViewBox(0, 0, viewBoxWidth, viewBoxHeight);
+		viewBox.X = 0;
+		viewBox.Y = 0;
 		
 		
 		/** This is high-level function.
@@ -90,11 +83,11 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		    vBHo = viewBoxHeight;
 		    vBWo = viewBoxWidth;
 		    if (delta < 0) {
-			    viewBoxWidth *= 0.95;
-			    viewBoxHeight*= 0.95;
+			    viewBoxWidth *= 1.05;
+			    viewBoxHeight*= 1.05;
 		    } else {
-		    	viewBoxWidth *= 1.05;
-		    	viewBoxHeight *= 1.05;
+		    	viewBoxWidth *= 0.95;
+		    	viewBoxHeight *= 0.95;
 		    }
 		                    
 			viewBox.X -= (viewBoxWidth - vBWo) / 2;
@@ -102,10 +95,12 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 			paper.setViewBox(viewBox.X,viewBox.Y,viewBoxWidth,viewBoxHeight);
 			
 			var zoom = viewBoxWidth / paper.width ;
-			console.log(zoom);
 			canvas.zoomFactor = zoom;
 			
-			
+		    node.style.backgroundSize = 2 * paper.width / zoom + "px";
+			var posX = (- viewBox.X) / zoom;
+		    var posY = (- viewBox.Y) / zoom;
+			node.style.backgroundPosition = posX + "px " + posY + "px";			
 		}
 		
 		/** Event handler for mouse wheel event.
@@ -144,8 +139,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		
 		window.addEventListener('DOMMouseScroll', wheel, false);
 		window.onmousewheel = document.onmousewheel = wheel;
-		
-		//Pane
+				
 		$(canvasID).mousedown(function(e){
 		    if (paper.getElementByPoint( e.pageX, e.pageY ) != null) {return;}
 		    mousedown = true;
@@ -159,6 +153,10 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		    dX = (startX - e.pageX) * zoom;
 		    dY = (startY - e.pageY) * zoom;
 		    paper.setViewBox(viewBox.X + dX, viewBox.Y + dY, viewBoxWidth, viewBoxHeight);
+		    
+		    var posX = (- viewBox.X -dX) / zoom;
+		    var posY = (- viewBox.Y -dY) / zoom;
+			node.style.backgroundPosition = posX + "px " + posY + "px";
 		})
 		            
 		$(canvasID).mouseup(function(e){
@@ -185,8 +183,28 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 	        }
 	    }
 	    
+		//console.log("xx " + this._canvas.zoomFactor);
+
+	    /*
 	    var zoom = this.component.render("zoom", 50);
 
+		//reset to full view (for now...)
+		zoom = 0.5;
+		var p = this._canvas.paper;
+		p.setViewBox(0, 0, p.width / zoom, p.height / zoom);
+		this._canvas.zoomFactor = 1 / zoom;
+		viewBoxWidth = p.width / zoom;
+		viewBoxHeight = p.height / zoom;
+		
+		this._node.style.backgroundSize = p.width + "px";
+		this._node.style.backgroundPosition = "0px 0px";
+			*/		
+		/*	
+		   node.style.backgroundSize = 2 * paper.width / zoom + "px";
+			var posX = (- viewBox.X) / zoom;
+		    var posY = (- viewBox.Y) / zoom;
+			node.style.backgroundPosition = posX + "px " + posY + "px";	
+		*/
 	    
         return true;
     }    
@@ -233,7 +251,3 @@ MyCanvas = draw2d.Canvas.extend({
 	    this._super(x, y);
     }
 });
-
-
-
-

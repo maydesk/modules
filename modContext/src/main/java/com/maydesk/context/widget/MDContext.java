@@ -133,6 +133,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 				canvasClicked();
 			}
 		});
+		TEST_SINGLETON_CANVAS.setZoomable(true);
 		add(TEST_SINGLETON_CANVAS);
 		
 		MDAvatar avatar = new MDAvatar();

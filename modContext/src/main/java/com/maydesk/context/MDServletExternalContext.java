@@ -57,6 +57,7 @@ public class MDServletExternalContext extends WebContainerServlet {
 				window.setContent(pane);
 
 				CANVAS = new MDCanvas();
+				CANVAS.setZoomable(false);
 				pane.add(CANVAS);
 
 				MDRectangle rect = RECTANGLE = new MDRectangle();
@@ -66,8 +67,8 @@ public class MDServletExternalContext extends WebContainerServlet {
 				CANVAS.add(rect);
 
 				Webcam2Receiver webcam2 = new Webcam2Receiver(TEST_APP_INSTANCE);
-				//webcam.setPositionX(10);
-				//webcam.setPositionY(50);
+				//webcam2.setPositionX(10);
+				//webcam2.setPositionY(50);
 				CANVAS.add(webcam2);
 
 				return window;

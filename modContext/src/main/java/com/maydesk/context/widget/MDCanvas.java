@@ -15,6 +15,7 @@ public class MDCanvas extends Component implements IPlugTarget {
 	public static final String ACTION_LISTENERS_CHANGED_PROPERTY = "actionListeners";
 	public static final String PROPERTY_CLICK_X = "clickX";
 	public static final String PROPERTY_CLICK_Y = "clickY";
+	public static final String PROPERTY_ZOOMABLE = "zoomable";
 
 	/**
 	 * Only to be used to obtain X coordinate of last click
@@ -76,5 +77,8 @@ public class MDCanvas extends Component implements IPlugTarget {
 			setClickY(((Number) inputValue).doubleValue());
 		}
 	}
-
+	
+	public void setZoomable(boolean zoomable) {
+		set(PROPERTY_ZOOMABLE, zoomable);
+	}
 }
