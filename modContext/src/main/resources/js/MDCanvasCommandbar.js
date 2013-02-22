@@ -26,7 +26,7 @@ MD.MDCanvasCommandbar = Core.extend(Echo.Component, {
 		if (!imgLess) imgLess = "img/minus2.png";  //for local testing...
 		btnZoomDecrease.set("icon", imgLess);
 		btnZoomDecrease.addListener("action", function() {
-			var zoomFactor = canvas.render("zoom", 100);
+			var zoomFactor = canvas.render("zoom", 50);
 			zoomFactor = Math.round(zoomFactor * 0.8);
 			canvas.set("zoom", zoomFactor);
 			that._lblZoom.set("text", zoomFactor + "%"); 
@@ -41,7 +41,7 @@ MD.MDCanvasCommandbar = Core.extend(Echo.Component, {
 		if (!imgPlus) imgPlus = "img/plus2.png";  //for local testing...
 		btnZoomIncrease.set("icon", imgPlus);
 		btnZoomIncrease.addListener("action", function() {
-			var zoomFactor = canvas.render("zoom", 100);
+			var zoomFactor = canvas.render("zoom", 50);
 			zoomFactor = Math.round(zoomFactor / 0.8);
 			canvas.set("zoom", zoomFactor);
 			that._lblZoom.set("text", zoomFactor + "%"); 
@@ -60,9 +60,6 @@ MD.Sync.MDCanvasCommandbar = Core.extend(Echo.Render.ComponentSync, {
     _node: null,
     
     renderAdd: function(update, parentElement) {
-    
-    	console.log("X3");
-    
         this._node = document.createElement("div");
 		this._node.style.position = "absolute";
        	this._node.style.left = "100px";
@@ -74,11 +71,9 @@ MD.Sync.MDCanvasCommandbar = Core.extend(Echo.Render.ComponentSync, {
 		Echo.Sync.Border.render("1px dotted #eeeeee", this._node);
 		parentElement.appendChild(this._node);
 
-console.log("X4");    
 		for (var i = 0; i < this.component.getComponentCount(); i++) {   
 			Echo.Render.renderComponentAdd(update, this.component.getComponent(i), this._node);
 		}
-		console.log("X5");
     },
     
 	/** @see Echo.Render.ComponentSync#renderDispose */

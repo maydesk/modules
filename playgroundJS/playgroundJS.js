@@ -36,6 +36,7 @@ MyDemoApp = Core.extend(Echo.Application, {
 		this.rootComponent.add(content2);
 
 		var canvas = new MD.MDCanvas({
+			zoom: 50,
 			children: [
 				new MD.MDText({
 					positionX: 40,

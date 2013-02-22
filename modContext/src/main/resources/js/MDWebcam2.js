@@ -100,7 +100,6 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 
 	renderUpdate: function(update) {
 		var value = this.component.render("value");
-		console.log("I am " + (this._isSender ? "sender" : "receiver") + " and receive msg");
 		this.processSignalingMessage(value);
 		return false;
 	},
@@ -132,8 +131,6 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 			MD.getUserMedia({'audio':true, 'video':constraints}, 
 				Core.method(this, this.onUserMediaSuccess), 
 				Core.method(this, this.onUserMediaError));
-			console.log("Requested access to local media with mediaConstraints:\n" +
-					  "  \"" + JSON.stringify(constraints) + "\"");
 		} catch (e) {
 			alert("getUserMedia() failed. Is this a WebRTC capable browser?");
 			console.log("getUserMedia failed with exception: " + e.message);
@@ -165,14 +162,11 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	
 	maybeStart: function() {
 		if (!this.started && this._localStream) {
-			console.log("Creating PeerConnection.");
 			this.createPeerConnection();
-			console.log("Adding local stream.");
 			this.pc.addStream(this._localStream);
 			this.started = true;
 			// Caller initiates offer to peer.
 			if (this._isSender) {
-				console.log("XXdoCallXXXXXXXXXXXXXXXXXXXX");
 				this.doCall();
 			}
 		}
@@ -218,13 +212,11 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	
 	sendMessage: function(message) {
 		var msgString = JSON.stringify(message);
-		//console.log('C->S: ' + msgString);
 		this.component.sendMessage(msgString);
 	},
 	
 	processSignalingMessage: function(message) {
-		var msg = JSON.parse(message);	
-		console.log("I am sender: " + this._isSender + " and recevied " + msg);	
+		var msg = JSON.parse(message);		
 		if (msg.type === 'offer') {
 			// Callee creates PeerConnection
 			if (!this._isSender && !this.started) this.maybeStart();
@@ -241,7 +233,6 @@ MD.Sync.MDWebcam2 = Core.extend(Echo.Render.ComponentSync, {
 	},
 	
 	onUserMediaSuccess: function(stream) {
-		console.log("User has granted access to local media.");
 		// Call the polyfill wrapper to attach the media stream to this element.
 		MD.attachMediaStream(this._localVideo, stream);
 		this._localVideo.style.opacity = 1;
@@ -461,7 +452,7 @@ if (navigator.mozGetUserMedia) {
     return [];
   };
 } else if (navigator.webkitGetUserMedia) {
-  console.log("This appears to be Chrome");
+//  console.log("This appears to be Chrome");
 
   MD.webrtcDetectedBrowser = "chrome";
 

@@ -421,12 +421,13 @@ draw2d.Canvas = Class.extend(
             this.paper.setViewBox(0, 0, viewBoxWidth, viewBoxHeight);
             
             // BUG: raphael didn't handle setViewBox AND setSize correct
-//            var paintArea =this.html.children(":first");
+            //var paintArea =this.html.children(":first");
+            //alert(paintArea);
 //            this.paper.setSize(this.html.width(), this.html.height());
             
             // didn't work too....   :-(
-//            paintArea.width(this.initialWidth * this.zoomFactor);
-//            paintArea.height(this.initialHeight * this.zoomFactor);
+            //paintArea.width(this.initialWidth * this.zoomFactor);
+            //paintArea.height(this.initialHeight * this.zoomFactor);
         },this);
         
        if(animated){
@@ -466,9 +467,12 @@ draw2d.Canvas = Class.extend(
      * @returns {draw2d.geo.Point} The coordinate in relation to the canvas [0,0] position
      */
     fromDocumentToCanvasCoordinate : function(x, y) {
+
+		//chrismay: fix for zoomed panning    	
+    	var offsetX = this.paper._viewBox[0];var offsetY = this.paper._viewBox[1];
         return new draw2d.geo.Point(
-                (x - this.getAbsoluteX() + this.getScrollLeft())*this.zoomFactor,
-                (y - this.getAbsoluteY() + this.getScrollTop())*this.zoomFactor);
+                (x - this.getAbsoluteX() + this.getScrollLeft())*this.zoomFactor  + offsetX,
+                (y - this.getAbsoluteY() + this.getScrollTop())*this.zoomFactor  + offsetY);
     },
     
     /**
