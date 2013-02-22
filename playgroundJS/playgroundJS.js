@@ -187,8 +187,8 @@ MyDemoApp = Core.extend(Echo.Application, {
 			icon: "img/ampel.png",
 			positionX: "90px",
 			positionY: "40px",
-			width: "700px",			
-			height: "520px",
+			width: "550px",			
+			height: "400px",
 			children: [
 				canvas,
 				toolbar
