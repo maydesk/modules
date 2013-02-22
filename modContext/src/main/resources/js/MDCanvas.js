@@ -27,29 +27,31 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     _node: null,
     _containerElement: null,
    	_canvas: null,
+    _backlight: null,
     
     renderAdd: function(update, parentElement) {
 
     	this._containerElement = parentElement;
     	
-        var backlight = document.createElement("img");
+        this._backlight = document.createElement("img");
   		//backlight.src = "http://wakpaper.com/large/Graffiti_wallpapers_216.png";
   		//backlight.src = "http://img.wallpaperstock.net:81/ubuntu-graffiti-wallpapers_33371_1600x1200.jpg";
-  		backlight.src = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
+  		this._backlight.src = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
   		
-		backlight.style.position = "absolute";	
-       	backlight.style.width = "100%";
-		backlight.style.height ="100%";
-		backlight.style.opacity = 0.7;
-		backlight.style.background = 'white';
-		parentElement.appendChild(backlight);
+		this._backlight.style.position = "absolute";	
+       	this._backlight.style.width = "200%";
+		this._backlight.style.height ="200%";
+		this._backlight.style.opacity = 0.7;
+		this._backlight.style.background = 'white';
+        this._backlight.id = 'backlight_' + this.component.renderId.replace(".", "_");
+		parentElement.appendChild(this._backlight);
     	
 		//the main node
         this._node = document.createElement("div");
         this._node.id = 'canvas_' + this.component.renderId.replace(".", "_");
 		this._node.style.position = "relative";
 		this._node.style.width = "100%";
-		this._node.style.height ="100%";
+		this._node.style.height = "100%";
 		parentElement.appendChild(this._node);
 
         var componentCount = this.component.getComponentCount();
@@ -86,15 +88,23 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     
     /** @see Echo.Render.ComponentSync#renderUpdate */
     renderUpdate: function(update) {
+  		
 		var addedChildren = update.getAddedChildren();
         if (addedChildren) {
 	        for (i = 0; i < addedChildren.length; ++i) {
 				Echo.Render.renderComponentAdd(update, addedChildren[i], this);
 	        }
 	    }
+
 	    
 	    var zoom = this.component.render("zoom", 100);
+	    
+	    this._backlight.style.width = 2 * zoom + "%";
+		this._backlight.style.height = 2 * zoom + "%";
+
 	    this._canvas.setZoom(100 / zoom, true);
+	    this._canvas.paper.setViewBox(100, 0, 200, 200);
+	    
         return true;
     }       
 });
@@ -108,6 +118,7 @@ MyCanvas = draw2d.Canvas.extend({
     init : function(peerCanvas) {
 		this._peerCanvas = peerCanvas;
     	this._super(peerCanvas._node.id);
+    	this.setScrollArea("#" + peerCanvas._backlight.id);
     },
 
     onClick: function(x, y) {
@@ -117,21 +128,6 @@ MyCanvas = draw2d.Canvas.extend({
     	this._peerCanvas.component.set("clickY", y);
     	this._peerCanvas.component.fireClick();
     	
-//    	if (this._peerCanvas.component._currentTool) {
-//    		//add a new instance of the current tool to the canvas
-//		  	var newFig = this._peerCanvas.component._currentTool;
-//		   	var x = event.clientX - this.getAbsoluteX();
-//		  	var y = event.clientY - this.getAbsoluteY();
-//		  	newFig.set("positionX", x);
-//		  	newFig.set("positionY", y);
-//		  	if (this._peerCanvas.client.addComponentListener) {
-//		  		//console.log("register listener");
-//		  		//this._peerCanvas.client.addComponentListener(newFig, "move");
-//		  	}
-//		  	this._peerCanvas.component.add(newFig);
-//			Echo.Render.processUpdates(this._peerCanvas.client);
-//			this._peerCanvas.component._currentTool = null;
-//	    }
 	    this._super(x, y);
     }
 });
