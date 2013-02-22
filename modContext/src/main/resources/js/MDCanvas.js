@@ -118,9 +118,31 @@ MyCanvas = draw2d.Canvas.extend({
     init : function(peerCanvas) {
 		this._peerCanvas = peerCanvas;
     	this._super(peerCanvas._node.id);
+<<<<<<< HEAD
     	this.setScrollArea("#" + peerCanvas._backlight.id);
+=======
+    
+    	this._eventListener = new draw2d.command.CommandStackEventListener();
+    	this._eventListener.stackChanged = Core.method(this, this.stackChanged);
+    	this.getCommandStack().addEventListener(this._eventListener);
+>>>>>>> branch 'master' of https://github.com/maydesk/modules.git
     },
 
+    stackChanged: function(event) {
+    	var command = event.getCommand(); 
+    	if (!command || !(command instanceof draw2d.command.CommandResize)) {
+    		return;
+    	}
+    	
+    	var figure = command.figure;
+    	var component = figure._parent.component;
+    	component.set('positionX', figure.getX());
+		component.set('positionY', figure.getY());
+		component.set('width', figure.getWidth());
+		component.set('height', figure.getHeight());
+    	component.fireUpdatePropEvent();
+    },
+    
     onClick: function(x, y) {
     	
     	// XXX: FIX. It's going to the server on every click, it could be optimized just to fire it when adding a new element (for now at least).

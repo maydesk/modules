@@ -27,9 +27,9 @@ MD.Sync.MDVideo = Core.extend(MD.Sync.MDAbstractFigure, {
     },    
     
     renderAdd2: function(canvas, x2, y2) {
-
 		var infobox = new Infobox(canvas.paper, {x:x2,y:y2, width:150, height:120});
-
+		this._figure = infobox;
+		
 		var html = "<video width='100%' height='100%' id='video1'/>";
 		infobox.div.html(html);
 		

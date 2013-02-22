@@ -32,7 +32,7 @@ MD.MDText = Core.extend(MD.MDAbstractFigure, {
 	
 	 _updateFigure: function(event) {
 		var selectedIndex = event.source.get("selection");
-		var text = event.source.that.peer._text;
+		var text = event.source.that.peer._figure;
 		var style = MD.MDText._styles[selectedIndex];
 		text.setStroke(style.border);
 		text.setFontColor(style.color);
@@ -54,54 +54,51 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
         Echo.Render.registerPeer("MDText", this);
     },
     
-    _text: null,
-    
     renderAdd2: function(canvas, x, y) {
-     	this._text = new window.draw2d.shape.basic.Label();
-     	this._text.setText(this.component.render("text", "type here..."));
-      	this._text.setFontSize(this.component.render("size", 12));
+     	this._figure = new window.draw2d.shape.basic.Label();
+     	this._figure.setText(this.component.render("text", "type here..."));
+      	this._figure.setFontSize(this.component.render("size", 12));
       	
       	var lblEditor = new MD.MDLabelEditor();
       	lblEditor.addEditListener(this);
-      	this._text.installEditor(lblEditor);
-		this._text.onClick = Core.method(this, this.onClick);
+      	this._figure.installEditor(lblEditor);
+		this._figure.onClick = Core.method(this, this.onClick);
 		this.setTypeStyle(this.component.render("type"));
-      	canvas.addFigure(this._text, x, y);      	
+		this.installListeners(this._figure);
+      	canvas.addFigure(this._figure, x, y);      	
     },
     
     setTypeStyle: function(type) {
     	if (type == "banner") {
-			if (this._text.setFontFamily) this._text.setFontFamily("Arial");
-	   		this._text.setBackgroundColor("#5b5b5b");        
-	    	this._text.setColor("#dd00ee");
-    	  	this._text.setFontColor("#dddddd");
-    	  	this._text.setStroke(1);
-        	this._text.setRadius(5);
-			this._text.setPadding(4);
-		    if (this._text.setFontWeight) this._text.setFontWeight("bold");    //works currently only in playgroundJS!  	  	
+			if (this._figure.setFontFamily) this._figure.setFontFamily("Arial");
+	   		this._figure.setBackgroundColor("#5b5b5b");        
+	    	this._figure.setColor("#dd00ee");
+    	  	this._figure.setFontColor("#dddddd");
+    	  	this._figure.setStroke(1);
+        	this._figure.setRadius(5);
+			this._figure.setPadding(4);
+		    if (this._figure.setFontWeight) this._figure.setFontWeight("bold");    //works currently only in playgroundJS!  	  	
 		} else if (type == "header") {
-			this._text.setStroke(0);
-		    if (this._text.setFontFamily) this._text.setFontFamily("fantasy");   //works currently only in playgroundJS!	 
-      		this._text.setFontColor("#111111");
+			this._figure.setStroke(0);
+		    if (this._figure.setFontFamily) this._figure.setFontFamily("fantasy");   //works currently only in playgroundJS!	 
+      		this._figure.setFontColor("#111111");
 		} else {
-			this._text.setStroke(0);
-			this._text.setFontColor("#ffffff");
+			this._figure.setStroke(0);
+			this._figure.setFontColor("#ffffff");
 		}
     },
     
     renderUpdate: function(update) {
-    	var x = this.component.render("positionX");
-		var y = this.component.render("positionY");
-		this._text.setPosition(x, y);
-		this._text.setText(this.component.render("text"));
-		this._text.setFontSize(this.component.render("size", 12));
+    	MD.Sync.MDAbstractFigure.prototype.renderUpdate.call(this, update);
+		this._figure.setText(this.component.render("text", "type here..."));
+		this._figure.setFontSize(this.component.render("size", 12));
 		this.setTypeStyle(this.component.render("type"));
 		
 		return false; // Child elements not supported: safe to return false.
     },
     
     labelEdited: function() {
-    	this.component.set("text", this._text.getText());
+    	this.component.set("text", this._figure.getText());
     	this.component.fireUpdatePropEvent();
     }
 });

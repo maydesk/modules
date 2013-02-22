@@ -24,13 +24,13 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 	_tickerText: null,
         
     renderAdd2: function(canvas, x, y) {
-		var figTicker = new window.draw2d.SetFigure();
-		figTicker.onClick = Core.method(this, this.onClick);
-		figTicker.createSet = Core.method(this, this._createSet);
-		figTicker.onTimer = Core.method(this, this._onTimer);
-		figTicker.setDimension(600, 45);
-		canvas.addFigure(figTicker, x, y);
-		figTicker.startTimer(100);
+		this._figure = new window.draw2d.SetFigure();
+		this._figure.onClick = Core.method(this, this.onClick);
+		this._figure.createSet = Core.method(this, this._createSet);
+		this._figure.onTimer = Core.method(this, this._onTimer);
+		this._figure.setDimension(600, 45);
+		canvas.addFigure(this._figure, x, y);
+		this._figure.startTimer(100);
 		
     },
     

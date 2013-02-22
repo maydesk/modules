@@ -40,11 +40,11 @@ MD.MDArrow = Core.extend(MD.MDAbstractFigure, {
 	_resize: function(event) {
 		var that = event.source.that;
 		var increase = event.source.increase;
-		that.peer.fig.size *= increase ? 1.25 : 0.8;
-		that.peer.fig.size = Math.round(that.peer.fig.size);
-		that._lblSize.set("text", that.peer.fig.size + "px");
-		that.peer.fig.repaint();
-		that.set("size", that.peer.fig.size);
+		that.peer._figure.size *= increase ? 1.25 : 0.8;
+		that.peer._figure.size = Math.round(that.peer._figure.size);
+		that._lblSize.set("text", that.peer._figure.size + "px");
+		that.peer._figure.repaint();
+		that.set("size", that.peer._figure.size);
 		that.fireUpdatePropEvent();
 	},
 
@@ -62,12 +62,11 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
     
     startCircle : null,
 	endCircle : null,
-	fig : null,
     _lblSize: null,
     
     renderAdd2: function(canvas, x, y) {
-	    this.fig = new MyArrow(this);
-    	this.fig.installEditPolicy(new window.draw2d.policy.figure.GlowSelectionFeedbackPolicy());
+	    this._figure = new MyArrow(this);
+    	this._figure.installEditPolicy(new window.draw2d.policy.figure.GlowSelectionFeedbackPolicy());
         
 		this.startCircle = new window.draw2d.shape.basic.Circle(10);
 		this.startCircle.setResizeable(false);
@@ -86,18 +85,16 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
 		canvas.addFigure(this.startCircle, x, y);
 		canvas.addFigure(this.endCircle, x + w, y + h);
 		
-		this.fig.size = this.component.render("size");
-		canvas.addFigure(this.fig);
+		this._figure.size = this.component.render("size");
+		canvas.addFigure(this._figure);
 		
 		// XXX: MOVE. Attempt at moving the handles along. Kind of works but with weird behavior
-		// this.fig.attachMoveListener(this);
+		// this._figure.attachMoveListener(this);
     },
     
     renderUpdate: function(update) {
-    	var x = this.component.render("positionX");
-		var y = this.component.render("positionY");
-		this.fig.setPosition(x, y);
-		this.fig.size = this.component.render("size");
+    	MD.Sync.MDAbstractFigure.prototype.renderUpdate.call(this, update);
+		this._figure.size = this.component.render("size");
 		
 		x = this.component.render("startPosX", this.startCircle.getX());
 		y = this.component.render("startPosY", this.startCircle.getY());
@@ -114,32 +111,32 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
 	onOtherFigureIsMoving : function (figure) {
 	// XXX: MOVE. Attempt at moving the handles along. Kind of works but with weird behavior
 	//		if (figure instanceof MyArrow) {
-	//			if (this.fig.dragging) {
+	//			if (this._figure.dragging) {
 	//				var w = this.component.render("width");
 	//				var h = this.component.render("height");
-	//				var x = this.fig.getAbsoluteX();
-	//				var y = this.fig.getAbsoluteY();
+	//				var x = this._figure.getAbsoluteX();
+	//				var y = this._figure.getAbsoluteY();
 	//				
 	//				this.startCircle.setPosition(x - 3, y - 3);
 	//				this.endCircle.setPosition(x + w, y + h);
 	//			}
 	//			return;
 		//			return;
-	//		} else if (this.fig.dragging) {
+	//		} else if (this._figure.dragging) {
 	//		}
 		
-  		this.fig.switchX = false;
-   		this.fig.switchY = false;
+  		this._figure.switchX = false;
+   		this._figure.switchY = false;
 		var x0 = this.startCircle.getAbsoluteX() + 3 ;
 		var y0 = this.startCircle.getAbsoluteY() + 3;
 		var x1 = this.endCircle.getAbsoluteX() + 3;
 		var y1 = this.endCircle.getAbsoluteY() + 3;
-		if (x0 > x1) {var xn = x0; x0 = x1; x1 = xn; this.fig.switchX = true;}
-		if (y0 > y1) {var yn = y0; y0 = y1; y1 = yn; this.fig.switchY = true;}
+		if (x0 > x1) {var xn = x0; x0 = x1; x1 = xn; this._figure.switchX = true;}
+		if (y0 > y1) {var yn = y0; y0 = y1; y1 = yn; this._figure.switchY = true;}
 		var xs = x1 - x0;
 		var ys = y1 - y0;
-		this.fig.setPosition(x0, y0);
-		this.fig.setDimension(xs, ys);
+		this._figure.setPosition(x0, y0);
+		this._figure.setDimension(xs, ys);
 
 		this.component.setPosition(x0, y0);
 		this.component.set("startPosX", this.startCircle.getX());
