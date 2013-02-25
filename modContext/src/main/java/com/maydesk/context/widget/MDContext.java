@@ -15,6 +15,7 @@ import nextapp.echo.app.Row;
 import nextapp.echo.app.event.ActionEvent;
 import nextapp.echo.app.event.ActionListener;
 
+import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.base.PDHibernateFactory;
 import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
@@ -124,7 +125,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		context.setTitle("My Context - click on me!");
 		init2();
 		
-		final MDCanvas demoCanvas = BoardManager.getInstance().getBoard("demo1", false);
+		final MDCanvas demoCanvas = BoardManager.getInstance().createBoard("demo1", false, PDApplicationInstance.getActivePD());
 		demoCanvas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {

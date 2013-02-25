@@ -28,8 +28,7 @@ import com.maydesk.context.widget.Webcam2Receiver;
  */
 public class MDServletExternalContext extends WebContainerServlet {
 
-	public static PDApplicationInstance TEST_APP_INSTANCE;
-	public static MDCanvas CANVAS;
+	public static PDApplicationInstance TEST_APP_INSTANCE;	
 	public static Window window;
 
 	public static final WebSocketConnectionHandler wsHandler = new WebSocketConnectionHandler() {
@@ -54,30 +53,19 @@ public class MDServletExternalContext extends WebContainerServlet {
 				ContentPane pane = new ContentPane();
 				window.setContent(pane);
 
-				CANVAS = BoardManager.getInstance().getBoard("demo1", true);
-				CANVAS.setZoomable(false);
-				pane.add(CANVAS);
+				MDCanvas board = BoardManager.getInstance().createBoard("demo1", true, TEST_APP_INSTANCE);
+				board.setZoomable(false);
+				pane.add(board);
 
 				Webcam2Receiver webcam2 = new Webcam2Receiver(TEST_APP_INSTANCE);
 				//webcam2.setPositionX(10);
 				//webcam2.setPositionY(50);
-				CANVAS.add(webcam2);
+				board.add(webcam2);
 
 				return window;
 			}
 		};
 		return TEST_APP_INSTANCE;
-	}	
-
-	static TaskQueueHandle tqh;
-	
-	public static void runTask(Runnable runnable) {
-		// XXX: EXPERIMENTAL!
-		if (MDServletExternalContext.TEST_APP_INSTANCE != null) {
-			if (tqh == null) {
-				tqh = MDServletExternalContext.TEST_APP_INSTANCE.createTaskQueue();
-			}
-			MDServletExternalContext.TEST_APP_INSTANCE.enqueueTask(tqh, runnable);
-		}
 	}
+	
 }

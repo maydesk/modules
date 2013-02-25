@@ -2,10 +2,12 @@ package com.maydesk.context;
 
 import java.util.HashMap;
 
+import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 import nextapp.echo.app.ResourceImageReference;
 
+import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.context.widget.MDAbstractFigure;
 import com.maydesk.context.widget.MDAvatar;
 import com.maydesk.context.widget.MDCanvas;
@@ -23,25 +25,32 @@ public class BoardManager {
 		return INSTANCE;
 	}
 	
-	private HashMap<String, MDCanvas> boards = new HashMap<String, MDCanvas>();
+	private HashMap<String, BoardInstances> boards = new HashMap<String, BoardInstances>();
 	
 	private BoardManager(){
 		//private constructor
 		createDemoBoard();
 	}
 	
-	public MDCanvas getBoard(String boardId, boolean clone) {
-		MDCanvas board = boards.get(boardId);
+	public MDCanvas createBoard(String boardId, boolean clone, PDApplicationInstance appInst) {
+		BoardInstances boardInstances = boards.get(boardId);
+		if (boardInstances == null) {
+			boardInstances = new BoardInstances(boardId, new MDCanvas());
+			boards.put(boardId, boardInstances);
+		}
+		MDCanvas original = boardInstances.getOriginal();
 		if (clone) {
+			//create a clone from the original
 			MDCanvas cloneBoard = new MDCanvas();
-			for (Component c : board.getComponents()) {
+			for (Component c : original.getComponents()) {
 				MDAbstractFigure fig = (MDAbstractFigure)c;
 				MDAbstractFigure cloneFig = fig.clone();
 				cloneBoard.add(cloneFig);				
 			}
+			boardInstances.addClone(appInst, cloneBoard);
 			return cloneBoard;
 		}
-		return board;
+		return original;
 	}
 	
 	private static int id = 1;
@@ -54,8 +63,7 @@ public class BoardManager {
 	 * just for demo...
 	 */
 	private void createDemoBoard() {
-		MDCanvas demoCanvas = new MDCanvas();
-		boards.put("demo1", demoCanvas);
+		MDCanvas demoCanvas = createBoard("demo1", false, PDApplicationInstance.getActivePD());
 		
 		MDAvatar avatar = new MDAvatar();
 		avatar.setImage(new ResourceImageReference("img/silhouette-male.gif"));
@@ -84,26 +92,14 @@ public class BoardManager {
 		demoCanvas.add(img);
 	}
 	
-	public void addFigure(final MDAbstractFigure figure) {
-		MDServletExternalContext.runTask(new Runnable() {
-			@Override
-			public void run() {
-				MDAbstractFigure externalFig = figure.clone();
-				externalFig.setId(figure.getId());
-				MDServletExternalContext.CANVAS.add(externalFig);
-			}
-		});
+	public void addFigure(final MDAbstractFigure fig) {
+		BoardInstances boardInstances = boards.get("demo1");
+		boardInstances.addCloneFigure(fig);
 	}
 
 
-	public void updateProps(final MDAbstractFigure fig) {
-		MDServletExternalContext.runTask(new Runnable() {
-			@Override
-			public void run() {
-				MDAbstractFigure figClone = (MDAbstractFigure) MDServletExternalContext.CANVAS.getComponent(fig.getId());
-				if (figClone == null) return;
-				fig.syncClone(figClone);
-			}
-		});
+	public void updateProps(MDAbstractFigure fig) {
+		BoardInstances boardInstances = boards.get("demo1");
+		boardInstances.updateCloneProps(fig);
 	}
 }
