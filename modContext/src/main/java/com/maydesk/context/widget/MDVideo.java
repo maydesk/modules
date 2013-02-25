@@ -16,7 +16,6 @@ public class MDVideo extends MDAbstractFigure {
 	public void processInput(String inputName, Object inputValue) {
 		if (PROPERTY_URL.equals(inputName)) {
 			set(PROPERTY_URL, inputValue);
-			MDServletExternalContext.WEBCAM_URL = (String)inputValue;
 		}
 
 		//EXPERIMENTAL!

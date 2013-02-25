@@ -20,7 +20,7 @@ import com.maydesk.base.config.IPlugTarget;
 import com.maydesk.base.config.XmlBaseEntry;
 import com.maydesk.base.experimental.IInnerContainer;
 import com.maydesk.base.model.MShortcut;
-import com.maydesk.context.ExternalContextUpdater;
+import com.maydesk.context.BoardManager;
 import com.maydesk.context.MContext;
 
 public class MDContext extends Component implements IInnerContainer, IPlugTarget {
@@ -34,9 +34,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 	public static final String PROPERTY_TITLE = "title";
 	public static final String PROPERTY_ICON = "icon";
 	public static final String PROPERTY_ZOOM = "zoom";
-
 	
-	public static MDCanvas TEST_SINGLETON_CANVAS;  //just for testing external servlet
 	private MDCanvasToolbar TEST_SINGLETON_TOOLBAR;
 	
 	protected MContext  context;
@@ -126,33 +124,15 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		context.setTitle("My Context - click on me!");
 		init2();
 		
-		TEST_SINGLETON_CANVAS = new MDCanvas();
-		TEST_SINGLETON_CANVAS.addActionListener(new ActionListener() {
+		final MDCanvas demoCanvas = BoardManager.getInstance().getBoard("demo1", false);
+		demoCanvas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				canvasClicked();
+				canvasClicked(demoCanvas);
 			}
 		});
-		TEST_SINGLETON_CANVAS.setZoomable(true);
-		add(TEST_SINGLETON_CANVAS);
-		
-		MDAvatar avatar = new MDAvatar();
-		avatar.setImage(new ResourceImageReference("img/silhouette-male.gif"));
-		avatar.setText("Hello World!");
-		avatar.setPositionX(220);
-		avatar.setPositionY(260);
-		TEST_SINGLETON_CANVAS.add(avatar);
-
-		MDRectangle rect = new MDRectangle();
-		rect.setId(MDAbstractFigure.getNextId());
-		rect.setPositionX(200);
-		rect.setPositionY(200);
-		TEST_SINGLETON_CANVAS.add(rect);
-//
-//		WebcamReceiver webcam = new WebcamReceiver();
-//		webcam.setPositionX(10);
-//		webcam.setPositionY(50);
-//		TEST_SINGLETON_CANVAS.add(webcam);
+		demoCanvas.setZoomable(true);
+		add(demoCanvas);
 		
 		TEST_SINGLETON_TOOLBAR = createToolbar();
 		add(TEST_SINGLETON_TOOLBAR);
@@ -161,7 +141,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		add(editorRow);
 	}
 
-	private void canvasClicked() {
+	private void canvasClicked(MDCanvas canvas) {
 		final Class<? extends MDAbstractFigure> toolClass = TEST_SINGLETON_TOOLBAR.getSelectedToolClass();
 		if (toolClass == null) {
 			return;
@@ -169,13 +149,13 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		
 		try {
 			final MDAbstractFigure figure = toolClass.newInstance();
-			figure.setId(MDAbstractFigure.getNextId());
-			figure.setPositionX((int) TEST_SINGLETON_CANVAS.getClickX());
-			figure.setPositionY((int) TEST_SINGLETON_CANVAS.getClickY());
-			TEST_SINGLETON_CANVAS.add(figure);
+			figure.setId(BoardManager.getNextId());
+			figure.setPositionX((int) canvas.getClickX());
+			figure.setPositionY((int) canvas.getClickY());
+			canvas.add(figure);
 			TEST_SINGLETON_TOOLBAR.setSelectedToolClass(null);
 
-			ExternalContextUpdater.addFigure(figure);
+			BoardManager.getInstance().addFigure(figure);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

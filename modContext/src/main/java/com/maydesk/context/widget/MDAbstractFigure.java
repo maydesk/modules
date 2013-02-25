@@ -24,11 +24,6 @@ public abstract class MDAbstractFigure extends Component {
 	public static final String ACTION_MOVE = "move";
 	public static final String ACTION_UPDATE_PROPS = "async_updateProps";
 	
-	private static int id = 1;
-
-	public static String getNextId() {
-		return String.valueOf(id++);
-	}
 	
 	public MDAbstractFigure() {
 		this(0, 0);
@@ -81,7 +76,7 @@ public abstract class MDAbstractFigure extends Component {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		clone.setId(getId());
 		clone.setPositionX(getPositionX());
 		clone.setPositionY(getPositionY());
 		clone.setWidth(getWidth());
@@ -102,23 +97,15 @@ public abstract class MDAbstractFigure extends Component {
 		} else if (PROPERTY_HEIGHT.equals(inputName)) {
 			setHeight((Extent) inputValue);
 		} else if (ACTION_UPDATE_PROPS.equals(inputName)) {
-				// The event is just to invoke the server call.
-		}
-		
-		//ExternalContextUpdater.updatePosAndSize(this);
-
-//		// EXPERIMENTAL!
-//		if (MDServletExternalContext.TEST_APP_INSTANCE != null) {
-//			if (tqh == null) {
-//				tqh = MDServletExternalContext.TEST_APP_INSTANCE.createTaskQueue();
-//			}
-//			MDServletExternalContext.TEST_APP_INSTANCE.enqueueTask(tqh, new Runnable() {
-//				@Override
-//				public void run() {
-//					MDServletExternalContext.RECTANGLE.setPositionX(getPositionX());
-//					MDServletExternalContext.RECTANGLE.setPositionY(getPositionY());
-//				}
-//			});
-//		}
+			// The event is just to invoke the server call.
+		}		
+	}
+	
+	public void syncClone(MDAbstractFigure figClone) {
+		figClone.setPositionX(getPositionX());
+		figClone.setPositionY(getPositionY());
+		figClone.setWidth(getWidth());
+		figClone.setHeight(getHeight());
+		figClone.setBackground(getBackground());
 	}
 }

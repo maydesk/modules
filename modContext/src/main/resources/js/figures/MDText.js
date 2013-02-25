@@ -71,9 +71,10 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
 		var f = this._figure;
 		if (style.border) f.setStroke(style.border);
 		f.setFontColor(style.color);
-		if (f.setFontFamily) f.setFontFamily(style.fontFamily);
 		f.setBackgroundColor(style.background);
-		if (f.setFontWeight) f.setFontWeight(style.fontWeight);    //works currently only in playgroundJS!  	  	
+		//hacked properties..
+		if (f.setFontFamily) f.setFontFamily(style.fontFamily);
+		if (f.setFontWeight) f.setFontWeight(style.fontWeight);      	  	
 		if (styleIndex == 1) {
     	  	f.setStroke(4);
         	f.setRadius(15);

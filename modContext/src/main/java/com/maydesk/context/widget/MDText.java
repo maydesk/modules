@@ -1,6 +1,6 @@
 package com.maydesk.context.widget;
 
-import com.maydesk.context.ExternalContextUpdater;
+import com.maydesk.context.BoardManager;
 
 public class MDText extends MDAbstractFigure {
 
@@ -62,6 +62,15 @@ public class MDText extends MDAbstractFigure {
 			setSize((Integer) inputValue);
 		}
 
-		ExternalContextUpdater.updateTextProps(this);
+		BoardManager.getInstance().updateProps(this);
+	}
+	
+	@Override
+	public void syncClone(MDAbstractFigure figClone) {
+		super.syncClone(figClone);
+		MDText textClone = (MDText)figClone;
+		textClone.setSize(getSize());
+		textClone.setText(getText());
+		textClone.setType(getType());
 	}
 }

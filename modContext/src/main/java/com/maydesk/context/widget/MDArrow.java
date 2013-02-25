@@ -2,7 +2,7 @@ package com.maydesk.context.widget;
 
 import nextapp.echo.app.Extent;
 
-import com.maydesk.context.ExternalContextUpdater;
+import com.maydesk.context.BoardManager;
 
 /**
  * @author Alejandro Salas <br>
@@ -81,6 +81,18 @@ public class MDArrow extends MDAbstractFigure {
 			setEndPosY((Integer) inputValue);
 		}
 		
-		ExternalContextUpdater.updateArrowProps(this);
+		BoardManager.getInstance().updateProps(this);
 	}
+	
+	@Override
+	public void syncClone(MDAbstractFigure figClone) {
+		super.syncClone(figClone);
+		MDArrow arrowClone = (MDArrow)figClone;
+		arrowClone.setSize(getSize());
+		arrowClone.setStartPosX(getStartPosX());
+		arrowClone.setStartPosY(getStartPosY());
+		arrowClone.setEndPosX(getEndPosX());
+		arrowClone.setEndPosY(getEndPosY());
+	}
+
 }

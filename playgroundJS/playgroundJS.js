@@ -147,11 +147,11 @@ MyDemoApp = Core.extend(Echo.Application, {
 					text: "The liquid cooling problem seems to be under control - thanks God!"
 				}),
 				new MD.MDImage({
-					positionX: 1800,
-					positionY: 900,
+					positionX: 1711,
+					positionY: 870,
 					src: "img/barco.png",
-					width: 120,
-					height: 120
+					width: 209,
+					height: 210
 				})				
 				//About this wall
 				//This wall is intended for exploring new appplication cases

@@ -1,8 +1,8 @@
 package com.maydesk.context.widget;
 
-import com.maydesk.context.ExternalContextUpdater;
-
 import nextapp.echo.app.Color;
+
+import com.maydesk.context.BoardManager;
 
 /**
  * @author Alejandro Salas <br>
@@ -34,6 +34,13 @@ public class MDRectangle extends MDAbstractFigure {
 			setBackground((Color) inputValue);
 		}
 		
-		ExternalContextUpdater.updateRectProps(this);
+		BoardManager.getInstance().updateProps(this);
+	}
+
+	@Override
+	public void syncClone(MDAbstractFigure figClone) {
+		super.syncClone(figClone);
+		MDRectangle rectClone = (MDRectangle)figClone;
+		rectClone.setBorder(getBorder());
 	}
 }

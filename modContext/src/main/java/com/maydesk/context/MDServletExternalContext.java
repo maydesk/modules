@@ -29,10 +29,8 @@ import com.maydesk.context.widget.Webcam2Receiver;
 public class MDServletExternalContext extends WebContainerServlet {
 
 	public static PDApplicationInstance TEST_APP_INSTANCE;
-	public static MDRectangle RECTANGLE;
 	public static MDCanvas CANVAS;
 	public static Window window;
-	public static String WEBCAM_URL;
 
 	public static final WebSocketConnectionHandler wsHandler = new WebSocketConnectionHandler() {
 		@Override
@@ -56,15 +54,9 @@ public class MDServletExternalContext extends WebContainerServlet {
 				ContentPane pane = new ContentPane();
 				window.setContent(pane);
 
-				CANVAS = new MDCanvas();
+				CANVAS = BoardManager.getInstance().getBoard("demo1", true);
 				CANVAS.setZoomable(false);
 				pane.add(CANVAS);
-
-				MDRectangle rect = RECTANGLE = new MDRectangle();
-				rect.setId("1");
-				rect.setPositionX(300);
-				rect.setPositionY(100);
-				CANVAS.add(rect);
 
 				Webcam2Receiver webcam2 = new Webcam2Receiver(TEST_APP_INSTANCE);
 				//webcam2.setPositionX(10);
