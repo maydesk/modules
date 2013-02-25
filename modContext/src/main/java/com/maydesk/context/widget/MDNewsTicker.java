@@ -31,4 +31,13 @@ public class MDNewsTicker extends MDAbstractFigure {
 		this.author = author;
 		firePropertyChange(PROPERTY_AUTHOR, oldVal, author);
 	}
+	
+	@Override
+	public void syncClone(MDAbstractFigure figClone) {
+		super.syncClone(figClone);
+		
+		MDNewsTicker clone = (MDNewsTicker) figClone;
+		clone.setText(getText());
+		clone.setAuthor(getAuthor());
+	}
 }

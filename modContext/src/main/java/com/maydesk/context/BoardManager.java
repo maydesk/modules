@@ -134,14 +134,6 @@ public class BoardManager {
 		newsTicker.setAuthor("Robert, 2 hours ago");
 		demoCanvas.add(newsTicker);
 		
-				/*
-		{
-			positionX: 30,
-			positionY: 670,
-			text: "Aquariva presentation at AV Fair Amsterdam was a big success!",
-			author: "Robert, 2 hours ago"
-		})*/
-		
 //		MDAvatar avatar = new MDAvatar();
 //		avatar.setImage(new ResourceImageReference("img/silhouette-male.gif"));
 //		avatar.setText("Hello World!");

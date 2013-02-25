@@ -11,13 +11,13 @@ import nextapp.echo.app.ResourceImageReference;
 public class MDImage extends MDAbstractFigure {
 
 	public static final String PROPERTY_SRC = "src";
-	
+
 	private ImageReference image;
-	
+
 	public MDImage() {
 		// Empty
 	}
-	
+
 	public MDImage(int x, int y, int width, int height, String src) {
 		setPositionX(x);
 		setPositionY(y);
@@ -25,14 +25,20 @@ public class MDImage extends MDAbstractFigure {
 		setHeight(new Extent(height));
 		setImage(new ResourceImageReference(src));
 	}
-	
+
 	public ImageReference getImage() {
 		return image;
 	}
-	
+
 	public void setImage(ImageReference image) {
 		ImageReference oldVal = this.image;
 		this.image = image;
 		firePropertyChange(PROPERTY_SRC, oldVal, image);
+	}
+
+	@Override
+	public void syncClone(MDAbstractFigure figClone) {
+		super.syncClone(figClone);
+		((MDImage) figClone).setImage(getImage());
 	}
 }

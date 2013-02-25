@@ -58,4 +58,13 @@ public class MDNewsBox extends MDAbstractFigure {
 		this.title = title;
 		firePropertyChange(PROPERTY_TITLE, oldVal, title);
 	}
+	
+	@Override
+	public void syncClone(MDAbstractFigure figClone) {
+		super.syncClone(figClone);
+		MDNewsBox clone = (MDNewsBox) figClone;
+		clone.setIcon(getIcon());
+		clone.setText(getText());
+		clone.setTitle(getTitle());
+	}
 }
