@@ -22,7 +22,7 @@ public class MDAvatarPeer extends MDAbstractFigurePeer {
 
 	public MDAvatarPeer() {
 		addOutputProperty(MDAvatar.PROPERTY_TEXT);
-		addOutputProperty(MDAvatar.PROPERTY_IMAGE);
+		addOutputProperty(MDAvatar.PROPERTY_SRC);
 	}
 	
 	public String getClientComponentType(boolean shortType) {
@@ -48,7 +48,7 @@ public class MDAvatarPeer extends MDAbstractFigurePeer {
 			return avatar.getText();
 		}
 
-		if (propertyName.equals(MDAvatar.PROPERTY_IMAGE)) {
+		if (propertyName.equals(MDAvatar.PROPERTY_SRC)) {
 			return avatar.getImage();
 		}
 

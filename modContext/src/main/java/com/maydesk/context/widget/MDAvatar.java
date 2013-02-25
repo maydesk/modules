@@ -9,7 +9,7 @@ import nextapp.echo.app.ImageReference;
 public class MDAvatar extends MDAbstractFigure {
 
 	public static final String PROPERTY_TEXT = "text";
-	public static final String PROPERTY_IMAGE = "image";
+	public static final String PROPERTY_SRC = "src";
 	
 	private String text;
 	private ImageReference image;
@@ -31,6 +31,6 @@ public class MDAvatar extends MDAbstractFigure {
 	public void setImage(ImageReference image) {
 		ImageReference oldVal = this.image;
 		this.image = image;
-		firePropertyChange(PROPERTY_IMAGE, oldVal, image);
+		firePropertyChange(PROPERTY_SRC, oldVal, image);
 	}
 }

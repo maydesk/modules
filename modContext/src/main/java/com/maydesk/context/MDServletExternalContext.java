@@ -10,7 +10,6 @@ package com.maydesk.context;
 
 import nextapp.echo.app.ApplicationInstance;
 import nextapp.echo.app.ContentPane;
-import nextapp.echo.app.TaskQueueHandle;
 import nextapp.echo.app.Window;
 import nextapp.echo.webcontainer.ApplicationWebSocket;
 import nextapp.echo.webcontainer.WebContainerServlet;
@@ -19,7 +18,6 @@ import nextapp.echo.webcontainer.WebSocketConnectionHandler;
 import com.maydesk.base.JettyWebSocket;
 import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.context.widget.MDCanvas;
-import com.maydesk.context.widget.MDRectangle;
 import com.maydesk.context.widget.Webcam2Receiver;
 
 /**
@@ -28,7 +26,7 @@ import com.maydesk.context.widget.Webcam2Receiver;
  */
 public class MDServletExternalContext extends WebContainerServlet {
 
-	public static PDApplicationInstance TEST_APP_INSTANCE;	
+	public static PDApplicationInstance TEST_APP_INSTANCE;
 	public static Window window;
 
 	public static final WebSocketConnectionHandler wsHandler = new WebSocketConnectionHandler() {
@@ -58,14 +56,12 @@ public class MDServletExternalContext extends WebContainerServlet {
 				pane.add(board);
 
 				Webcam2Receiver webcam2 = new Webcam2Receiver(TEST_APP_INSTANCE);
-				//webcam2.setPositionX(10);
-				//webcam2.setPositionY(50);
+				// webcam2.setPositionX(10);
+				// webcam2.setPositionY(50);
 				board.add(webcam2);
-
 				return window;
 			}
 		};
 		return TEST_APP_INSTANCE;
 	}
-	
 }

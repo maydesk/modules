@@ -77,10 +77,7 @@ public abstract class MDAbstractFigure extends Component {
 			e.printStackTrace();
 		}
 		clone.setId(getId());
-		clone.setPositionX(getPositionX());
-		clone.setPositionY(getPositionY());
-		clone.setWidth(getWidth());
-		clone.setHeight(getHeight());
+		syncClone(clone);
 		
 		return clone;
 	}

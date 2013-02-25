@@ -2,8 +2,6 @@ package com.maydesk.context;
 
 import java.util.HashMap;
 
-import nextapp.echo.app.ApplicationInstance;
-
 import com.maydesk.base.PDApplicationInstance;
 import com.maydesk.context.widget.MDAbstractFigure;
 import com.maydesk.context.widget.MDCanvas;
@@ -14,7 +12,7 @@ public class BoardInstances {
 	private MDCanvas original;
 	private HashMap<PDApplicationInstance, MDCanvas> clones = new HashMap<PDApplicationInstance, MDCanvas>();
 	
-	public BoardInstances( String id, MDCanvas original) {
+	public BoardInstances(String id, MDCanvas original) {
 		this.id = id;
 		this.original = original;		
 	}

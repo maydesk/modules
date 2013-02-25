@@ -8,17 +8,17 @@ public class MDText extends MDAbstractFigure {
 	public static final String PROPERTY_TYPE = "type";
 	public static final String PROPERTY_SIZE = "size";
 
-	public enum Type {
-		BANNER, HEADER, PLAIN;
-
-		public String toString() {
-			return super.toString().toLowerCase();
-		}
-	}
-
 	private String text;
-	private Type type = Type.PLAIN;
+	private int type = 0;
 
+	public MDText(int x, int y, String text, int type, int size) {
+		setPositionX(x);
+		setPositionY(y);
+		setText(text);
+		setType(type);
+		setSize(size);
+	}
+	
 	public MDText() {
 		setSize(16);
 	}
@@ -33,13 +33,13 @@ public class MDText extends MDAbstractFigure {
 		firePropertyChange(PROPERTY_TEXT, oldVal, this.text);
 	}
 
-	public String getType() {
-		return type.toString().toLowerCase();
+	public int getType() {
+		return type;
 	}
 
-	public void setType(String type) {
-		Type oldVal = this.type;
-		this.type = Type.valueOf(type.toUpperCase());
+	public void setType(int type) {
+		int oldVal = this.type;
+		this.type = type;
 		firePropertyChange(PROPERTY_TYPE, oldVal, this.type);
 	}
 	
@@ -47,8 +47,8 @@ public class MDText extends MDAbstractFigure {
 		return (Integer) get(PROPERTY_SIZE);
 	}
 
-	public void setSize(int width) {
-		set(PROPERTY_SIZE, width);
+	public void setSize(int size) {
+		set(PROPERTY_SIZE, size);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class MDText extends MDAbstractFigure {
 		if (PROPERTY_TEXT.equals(inputName)) {
 			setText(inputValue.toString());
 		} else if (PROPERTY_TYPE.equals(inputName)) {
-			setType(inputValue.toString());
+			setType((Integer) inputValue);
 		} else if (PROPERTY_SIZE.equals(inputName)) {
 			setSize((Integer) inputValue);
 		}

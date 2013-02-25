@@ -21,13 +21,21 @@ public class MDArrow extends MDAbstractFigure {
 		setHeight(new Extent(100));
 		setSize(10);
 	}
+
+	public MDArrow(int x, int y, int width, int height, int size) {
+		setPositionX(x);
+		setPositionY(y);
+		setWidth(new Extent(width));
+		setHeight(new Extent(height));
+		setSize(size);
+	}
 	
 	public int getSize() {
 		return (Integer) get(PROPERTY_SIZE);
 	}
 
-	public void setSize(int width) {
-		set(PROPERTY_SIZE, width);
+	public void setSize(int size) {
+		set(PROPERTY_SIZE, size);
 	}
 	
 	public int getStartPosX() {
@@ -94,5 +102,4 @@ public class MDArrow extends MDAbstractFigure {
 		arrowClone.setEndPosX(getEndPosX());
 		arrowClone.setEndPosY(getEndPosY());
 	}
-
 }

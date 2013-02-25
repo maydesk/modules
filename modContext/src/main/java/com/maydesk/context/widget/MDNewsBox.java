@@ -1,6 +1,8 @@
 package com.maydesk.context.widget;
 
+import nextapp.echo.app.Extent;
 import nextapp.echo.app.ImageReference;
+import nextapp.echo.app.ResourceImageReference;
 
 /**
  * @author Alejandro Salas <br>
@@ -14,6 +16,20 @@ public class MDNewsBox extends MDAbstractFigure {
 	
 	private String text;
 	private String title;
+	
+	public MDNewsBox() {
+		// Empty
+	}
+
+	public MDNewsBox(int x, int y, int width, int height, String icon, String title, String text) {
+		setPositionX(x);
+		setPositionY(y);
+		setWidth(new Extent(width));
+		setHeight(new Extent(height));
+		setIcon(new ResourceImageReference(icon));
+		setTitle(title);
+		setText(text);
+	}
 	
 	public ImageReference getIcon() {
 		return (ImageReference) get(PROPERTY_ICON);

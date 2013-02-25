@@ -21,7 +21,7 @@ public class MDImagePeer extends MDAbstractFigurePeer {
 	}
 
 	public MDImagePeer() {
-		addOutputProperty(MDImage.PROPERTY_IMAGE);
+		addOutputProperty(MDImage.PROPERTY_SRC);
 	}
 	
 	public String getClientComponentType(boolean shortType) {
@@ -44,7 +44,7 @@ public class MDImagePeer extends MDAbstractFigurePeer {
 	public Object getOutputProperty(Context context, Component component, String propertyName, int propertyIndex) {
 		MDImage image = (MDImage) component;
 
-		if (propertyName.equals(MDImage.PROPERTY_IMAGE)) {
+		if (propertyName.equals(MDImage.PROPERTY_SRC)) {
 			return image.getImage();
 		}
 

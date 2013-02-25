@@ -41,9 +41,9 @@ public class MDTextPeer extends MDAbstractFigurePeer {
 	}
 
 	public Class<?> getInputPropertyClass(String propertyName) {
-		if (MDText.PROPERTY_TEXT.equals(propertyName) || MDText.PROPERTY_TYPE.equals(propertyName)) {
+		if (MDText.PROPERTY_TEXT.equals(propertyName)) {
 			return String.class;
-		} else if (MDText.PROPERTY_SIZE.equals(propertyName)) {
+		} else if (MDText.PROPERTY_SIZE.equals(propertyName) || MDText.PROPERTY_TYPE.equals(propertyName)) {
 			return Integer.class;
 		}
 

@@ -31,7 +31,7 @@ MD.Sync.MDAvatar = Core.extend(MD.Sync.MDAbstractFigure, {
 		var set = paper.set();
 
  		var src = this.component.render("src", "");
-		var image = paper.image(src, 0, 0, 50, 50)
+		var image = paper.image(Echo.Sync.ImageReference.getUrl(src), 0, 0, 50, 50)
 		set.push(image);
 
 		var srcText = this.component.render("text");
