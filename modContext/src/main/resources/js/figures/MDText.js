@@ -5,10 +5,10 @@ if (!Core.get(window, ["MD", "Sync"])) {
 MD.MDText = Core.extend(MD.MDAbstractFigure, {
 
 	$static: {
-		_styles: [
-			{text:"banner", color:"#aaaadd", border:2}, 
-			{text:"header", color:"#111111", border:1}, 
-			{text:"plain", color:"#ffffff", border:1} 
+		STYLES: [
+			{text:"plain", color:"#ffffff", border:1}, 
+			{text:"h1", color:"#111111", border:1, background: "#5b5b5b", fontWeight: "bold", fontFamily: "Knewave"}, 
+			{text:"h2", color:"#aaaadd", border:2} 
 		]
 	},
 	
@@ -19,7 +19,7 @@ MD.MDText = Core.extend(MD.MDAbstractFigure, {
 		});
 
 		var cboStyle = new Echo.SelectField();			
-		cboStyle.set("items", MD.MDText._styles);	
+		cboStyle.set("items", MD.MDText.STYLES);	
 		cboStyle.set("insets", "-2px");		
 		cboStyle.that = this;
 		cboStyle.addListener("action", this._updateFigure);
@@ -32,12 +32,8 @@ MD.MDText = Core.extend(MD.MDAbstractFigure, {
 	
 	 _updateFigure: function(event) {
 		var selectedIndex = event.source.get("selection");
-		var text = event.source.that.peer._figure;
-		var style = MD.MDText._styles[selectedIndex];
-		text.setStroke(style.border);
-		text.setFontColor(style.color);
-		
-		event.source.that.set("type", style.text);
+		event.source.that.peer.setTypeStyle(selectedIndex);
+		event.source.that.set("type", selectedIndex);
 		event.source.that.fireUpdatePropEvent();
 	},
 	
@@ -57,34 +53,34 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
     renderAdd2: function(canvas, x, y) {
      	this._figure = new window.draw2d.shape.basic.Label();
      	this._figure.setText(this.component.render("text", "type here..."));
-      	this._figure.setFontSize(this.component.render("size", 12));
+      	this._figure.setFontSize(this.component.render("size", 14));
       	
       	var lblEditor = new MD.MDLabelEditor();
       	lblEditor.addEditListener(this);
       	this._figure.installEditor(lblEditor);
 		this._figure.onClick = Core.method(this, this.onClick);
-		this.setTypeStyle(this.component.render("type"));
+		this.setTypeStyle(this.component.render("type"), 0);
 		this.installListeners(this._figure);
       	canvas.addFigure(this._figure, x, y);      	
     },
     
-    setTypeStyle: function(type) {
-    	if (type == "banner") {
-			if (this._figure.setFontFamily) this._figure.setFontFamily("Arial");
-	   		this._figure.setBackgroundColor("#5b5b5b");        
-	    	this._figure.setColor("#dd00ee");
-    	  	this._figure.setFontColor("#dddddd");
-    	  	this._figure.setStroke(1);
-        	this._figure.setRadius(5);
-			this._figure.setPadding(4);
-		    if (this._figure.setFontWeight) this._figure.setFontWeight("bold");    //works currently only in playgroundJS!  	  	
-		} else if (type == "header") {
-			this._figure.setStroke(0);
-		    if (this._figure.setFontFamily) this._figure.setFontFamily("fantasy");   //works currently only in playgroundJS!	 
-      		this._figure.setFontColor("#111111");
+    setTypeStyle: function(styleIndex) {
+    
+    	if (typeof styleIndex === "undefined") styleIndex = 0;
+		var style = MD.MDText.STYLES[styleIndex];
+		var f = this._figure;
+		if (style.border) f.setStroke(style.border);
+		f.setFontColor(style.color);
+		if (f.setFontFamily) f.setFontFamily(style.fontFamily);
+		f.setBackgroundColor(style.background);
+		if (f.setFontWeight) f.setFontWeight(style.fontWeight);    //works currently only in playgroundJS!  	  	
+		if (styleIndex == 1) {
+    	  	f.setStroke(4);
+        	f.setRadius(15);
+			f.setPadding(6);
 		} else {
-			this._figure.setStroke(0);
-			this._figure.setFontColor("#ffffff");
+			f.setStroke(0);
+			f.setPadding(0);
 		}
     },
     

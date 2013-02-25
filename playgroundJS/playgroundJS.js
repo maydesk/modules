@@ -41,9 +41,9 @@ MyDemoApp = Core.extend(Echo.Application, {
 				new MD.MDText({
 					positionX: 40,
 					positionY: 20,
-					size: 40,
-					text: "Welcome to Barco Karlsruhe R&D",
-					type: "banner"
+					size: 36,
+					text: "Welcome to BARCO Karlsruhe R&D",
+					type: 1
 				}),
 				new MD.MDNewsTicker({
 					positionX: 30,
@@ -97,7 +97,7 @@ MyDemoApp = Core.extend(Echo.Application, {
 					positionY: 10,
 					size: 14,
 					text: "This week at Chez Andrea",
-					type: "header"
+					type: 2
 				}),
 				new MD.MDTable({
 					positionX: 825,
@@ -108,7 +108,7 @@ MyDemoApp = Core.extend(Echo.Application, {
 					positionY: 170,
 					size: 14,
 					text: "Team Activities",
-					type: "banner"
+					type: 2
 				}),
 				new MD.MDNewsBox({
 					positionX: 790,
@@ -147,8 +147,8 @@ MyDemoApp = Core.extend(Echo.Application, {
 					text: "The liquid cooling problem seems to be under control - thanks God!"
 				}),
 				new MD.MDImage({
-					positionX: 920,
-					positionY: 600,
+					positionX: 1800,
+					positionY: 900,
 					src: "img/barco.png",
 					width: 120,
 					height: 120
@@ -188,8 +188,9 @@ MyDemoApp = Core.extend(Echo.Application, {
 			icon: "img/ampel.png",
 			positionX: "90px",
 			positionY: "40px",
-			width: "550px",			
-			height: "400px",
+			width: "640px",			
+			height: "360px",
+			zoom: 0.3333,
 			children: [
 				canvas,
 				toolbar

@@ -1,8 +1,25 @@
 if (!Core.get(window, ["MD", "Sync"])) {
 	Core.set(window, ["MD", "Sync"], {});
 }
+
+WebFontConfig = {
+    google: { families: [ 'Cantarell', 'Knewave' ] }
+};
+(function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+	    '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+	wf.type = 'text/javascript';
+	wf.async = 'true';
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(wf, s);
+	//alert("loaded");
+})();
  
 MD.MDCanvas = Core.extend(Echo.Component, {
+
+	$static: {
+	},
 
 	$load : function() {
        	Echo.ComponentFactory.registerType("MDCanvas", this);
@@ -42,7 +59,10 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		this._node.style.background = 'white';
 		parentElement.appendChild(this._node);
 
-		var img = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
+		//var img = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
+		var img = "http://i.jootix.com/r/Grunge-Sky-grunge-sky-1920x1200.jpg";
+		img = "http://paper-backgrounds.com/textureimages/2012/12/blue-grunge-background-texture-hd.jpg";
+		
 		this._node.style.backgroundImage = "url(" + img + ")";
 			
         var componentCount = this.component.getComponentCount();
@@ -75,6 +95,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		viewBox.X = 0;
 		viewBox.Y = 0;
 		
+		handleWheel("reset");
 		
 		/** This is high-level function.
 		 * It must react to delta being more/less than zero.
@@ -82,22 +103,29 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		function handleWheel(delta) {
 		    vBHo = viewBoxHeight;
 		    vBWo = viewBoxWidth;
-		    if (delta < 0) {
+		    if (delta == "reset") {
+			    viewBox.X = 0;
+				viewBox.Y = 0;
+			    viewBoxWidth *= 3;
+			    viewBoxHeight *= 3;
+		    } else if (delta < 0) {
 			    viewBoxWidth *= 1.05;
-			    viewBoxHeight*= 1.05;
+			    viewBoxHeight *= 1.05;
+			    viewBox.X -= (viewBoxWidth - vBWo) / 2;
+				viewBox.Y -= (viewBoxHeight - vBHo) / 2;          
 		    } else {
 		    	viewBoxWidth *= 0.95;
 		    	viewBoxHeight *= 0.95;
+			    viewBox.X -= (viewBoxWidth - vBWo) / 2;
+				viewBox.Y -= (viewBoxHeight - vBHo) / 2;          
 		    }
-		                    
-			viewBox.X -= (viewBoxWidth - vBWo) / 2;
-			viewBox.Y -= (viewBoxHeight - vBHo) / 2;          
+		    
 			paper.setViewBox(viewBox.X,viewBox.Y,viewBoxWidth,viewBoxHeight);
 			
 			var zoom = viewBoxWidth / paper.width ;
 			canvas.zoomFactor = zoom;
 			
-		    node.style.backgroundSize = 2 * paper.width / zoom + "px";
+		    node.style.backgroundSize = viewBoxWidth / zoom + "px";
 			var posX = (- viewBox.X) / zoom;
 		    var posY = (- viewBox.Y) / zoom;
 			node.style.backgroundPosition = posX + "px " + posY + "px";			
@@ -189,7 +217,6 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 	    var zoom = this.component.render("zoom", 50);
 
 		//reset to full view (for now...)
-		zoom = 0.5;
 		var p = this._canvas.paper;
 		p.setViewBox(0, 0, p.width / zoom, p.height / zoom);
 		this._canvas.zoomFactor = 1 / zoom;
