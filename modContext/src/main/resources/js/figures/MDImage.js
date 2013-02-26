@@ -26,6 +26,7 @@ MD.Sync.MDImage = Core.extend(MD.Sync.MDAbstractFigure, {
  		var width = this.component.render("width", 100);
  		var height = this.component.render("height", 100);
  		this._figure = new window.draw2d.shape.basic.Image(Echo.Sync.ImageReference.getUrl(src), width, height);
+ 		this.installListeners(this._figure);
       	canvas.addFigure(this._figure, x, y);      	
     }
 });

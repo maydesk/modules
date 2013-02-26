@@ -56,7 +56,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		this._node.style.position = "relative";
 		this._node.style.width = "100%";
 		this._node.style.height = "100%";
-		this._node.style.background = 'white';
+		this._node.style.background = 'black';
 		parentElement.appendChild(this._node);
 
 		//var img = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
@@ -64,6 +64,7 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		img = "http://paper-backgrounds.com/textureimages/2012/12/blue-grunge-background-texture-hd.jpg";
 		
 		this._node.style.backgroundImage = "url(" + img + ")";
+		this._node.style.backgroundRepeat = "no-repeat";
 			
         var componentCount = this.component.getComponentCount();
 		for (var i = 0; i < componentCount; i++) {   
@@ -73,6 +74,14 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 	    
 	    //late-loading, otherwise there would pop-up strange errors...
 	   window.setTimeout(Core.method(this, this._loadCanvas), 800);
+    },
+    
+     /** @see Echo.Render.ComponentSync#renderDisplay */
+    renderDisplay: function() {
+	    //resize paper when window resizes
+	    if (!this._canvas) return;
+	    var paper = this._canvas.paper;
+    	paper.setSize(this._node.clientWidth, this._node.clientHeight);
     },
     
     _loadCanvas: function() {
@@ -119,13 +128,13 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 			    viewBox.X -= (viewBoxWidth - vBWo) / 2;
 				viewBox.Y -= (viewBoxHeight - vBHo) / 2;          
 		    }
-		    
 			paper.setViewBox(viewBox.X,viewBox.Y,viewBoxWidth,viewBoxHeight);
 			
 			var zoom = viewBoxWidth / paper.width ;
 			canvas.zoomFactor = zoom;
-			
-		    node.style.backgroundSize = viewBoxWidth / zoom + "px";
+
+			var imageWidth = 1920;	//FIXME make dynamic		
+		    node.style.backgroundSize = imageWidth / zoom + "px"; 
 			var posX = (- viewBox.X) / zoom;
 		    var posY = (- viewBox.Y) / zoom;
 			node.style.backgroundPosition = posX + "px " + posY + "px";			
@@ -180,6 +189,9 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 		    var zoom = viewBoxWidth / paper.width ;
 		    dX = (startX - e.pageX) * zoom;
 		    dY = (startY - e.pageY) * zoom;
+		    
+		    if (isNaN(viewBox.X)) viewBox.X = 0;
+		    if (isNaN(viewBox.Y)) viewBox.Y = 0;
 		    paper.setViewBox(viewBox.X + dX, viewBox.Y + dY, viewBoxWidth, viewBoxHeight);
 		    
 		    var posX = (- viewBox.X -dX) / zoom;
@@ -203,36 +215,12 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
     
     /** @see Echo.Render.ComponentSync#renderUpdate */
     renderUpdate: function(update) {
-  		
 		var addedChildren = update.getAddedChildren();
         if (addedChildren) {
 	        for (i = 0; i < addedChildren.length; ++i) {
 				Echo.Render.renderComponentAdd(update, addedChildren[i], this);
 	        }
 	    }
-	    
-		//console.log("xx " + this._canvas.zoomFactor);
-
-	    /*
-	    var zoom = this.component.render("zoom", 50);
-
-		//reset to full view (for now...)
-		var p = this._canvas.paper;
-		p.setViewBox(0, 0, p.width / zoom, p.height / zoom);
-		this._canvas.zoomFactor = 1 / zoom;
-		viewBoxWidth = p.width / zoom;
-		viewBoxHeight = p.height / zoom;
-		
-		this._node.style.backgroundSize = p.width + "px";
-		this._node.style.backgroundPosition = "0px 0px";
-			*/		
-		/*	
-		   node.style.backgroundSize = 2 * paper.width / zoom + "px";
-			var posX = (- viewBox.X) / zoom;
-		    var posY = (- viewBox.Y) / zoom;
-			node.style.backgroundPosition = posX + "px " + posY + "px";	
-		*/
-	    
         return true;
     }    
 });

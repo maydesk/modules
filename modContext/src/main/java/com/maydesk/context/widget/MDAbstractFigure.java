@@ -9,6 +9,8 @@
 
 package com.maydesk.context.widget;
 
+import com.maydesk.context.BoardManager;
+
 import nextapp.echo.app.Component;
 import nextapp.echo.app.Extent;
 
@@ -95,7 +97,9 @@ public abstract class MDAbstractFigure extends Component {
 			setHeight((Extent) inputValue);
 		} else if (ACTION_UPDATE_PROPS.equals(inputName)) {
 			// The event is just to invoke the server call.
-		}		
+			
+		}
+		BoardManager.getInstance().updateProps(this);
 	}
 	
 	public void syncClone(MDAbstractFigure figClone) {

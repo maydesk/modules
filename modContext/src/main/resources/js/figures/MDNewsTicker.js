@@ -29,6 +29,7 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 		this._figure.createSet = Core.method(this, this._createSet);
 		this._figure.onTimer = Core.method(this, this._onTimer);
 		this._figure.setDimension(600, 45);
+		this.installListeners(this._figure);
 		canvas.addFigure(this._figure, x, y);
 		this._figure.startTimer(100);
 		

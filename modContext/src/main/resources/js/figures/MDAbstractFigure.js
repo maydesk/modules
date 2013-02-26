@@ -9,7 +9,6 @@ MD.MDAbstractFigure = Core.extend(Echo.Component, {
 	},
 	
 	fireMoveEvent: function() {
-		console.log('fireMove');
 	    this.fireEvent({type: "move", source: this});
 	},
 
@@ -84,7 +83,9 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
 		
 		var w = this.component.render("width");
 		var h = this.component.render("height");
-		this._figure.setDimension(w, h);
+		if (!isNaN(w)) {
+			this._figure.setDimension(w, h);
+		}
     	
 		return false; // Child elements not supported: safe to return false.
     },

@@ -124,8 +124,8 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		this.context = new MContext();
 		context.setPositionX(520);
 		context.setPositionY(150);
-		context.setWidth(350);
-		context.setHeight(350);
+		context.setWidth(640);
+		context.setHeight(360);
 		context.setIcon("img/ampel_bus.png");
 		context.setTitle("My Context - click on me!");
 		init2();

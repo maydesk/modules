@@ -19,6 +19,7 @@ import nextapp.echo.webcontainer.WebContainerServlet;
 import nextapp.echo.webcontainer.service.JavaScriptService;
 
 import com.maydesk.context.widget.MDAbstractFigure;
+import com.maydesk.context.widget.MDRectangle;
 
 /**
  * @author chrismay

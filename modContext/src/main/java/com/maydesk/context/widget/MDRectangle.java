@@ -33,8 +33,7 @@ public class MDRectangle extends MDAbstractFigure {
 		} else if (PROPERTY_BACKGROUND.equals(inputName)) {
 			setBackground((Color) inputValue);
 		}
-		
-		BoardManager.getInstance().updateProps(this);
+		super.processInput(inputName, inputValue);
 	}
 
 	@Override

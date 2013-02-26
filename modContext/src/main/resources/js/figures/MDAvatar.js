@@ -1,4 +1,4 @@
-MD.MDAvatar = Core.extend(Echo.Component, {
+MD.MDAvatar = Core.extend(MD.MDAbstractFigure, {
 
 	getEditor: function() {
 		return null;
@@ -23,6 +23,7 @@ MD.Sync.MDAvatar = Core.extend(MD.Sync.MDAbstractFigure, {
 		this._figure.onClick = Core.method(this, this.onClick);
 		this._figure.createSet = Core.method(this, this._createSet);
         this._figure.setDimension(40, 40);
+        this.installListeners(this._figure);
 		canvas.addFigure(this._figure, x, y);
     },
     

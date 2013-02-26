@@ -61,13 +61,4 @@ public class MDRectanglePeer extends MDAbstractFigurePeer {
 
 		super.storeInputProperty(context, component, propertyName, propertyIndex, newValue);
 	}
-
-	@Override
-	public void processEvent(Context context, Component component, String eventType, Object eventData) {
-		super.processEvent(context, component, eventType, eventData);
-		ClientUpdateManager clientUpdateManager = (ClientUpdateManager) context.get(ClientUpdateManager.class);
-		if (MDRectangle.ACTION_UPDATE_PROPS.equals(eventType)) {
-			clientUpdateManager.setComponentAction(component, MDRectangle.ACTION_UPDATE_PROPS, null);
-		}
-	}
 }

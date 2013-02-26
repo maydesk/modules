@@ -61,8 +61,7 @@ public class MDText extends MDAbstractFigure {
 		} else if (PROPERTY_SIZE.equals(inputName)) {
 			setSize((Integer) inputValue);
 		}
-
-		BoardManager.getInstance().updateProps(this);
+		super.processInput(inputName, inputValue);
 	}
 	
 	@Override

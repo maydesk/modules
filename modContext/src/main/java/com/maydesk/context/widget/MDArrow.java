@@ -39,7 +39,8 @@ public class MDArrow extends MDAbstractFigure {
 	}
 	
 	public int getStartPosX() {
-		return (Integer) get(PROPERTY_START_POSITION_X);
+		Integer posX = (Integer) get(PROPERTY_START_POSITION_X);
+		return posX == null ? 0 : posX;
 	}
 
 	public void setStartPosX(int startPosX) {
@@ -47,7 +48,8 @@ public class MDArrow extends MDAbstractFigure {
 	}
 	
 	public int getStartPosY() {
-		return (Integer) get(PROPERTY_START_POSITION_Y);
+		Integer posY = (Integer) get(PROPERTY_START_POSITION_Y);
+		return posY == null ? 0 : posY;
 	}
 	
 	public void setStartPosY(int startPosY) {
@@ -55,7 +57,8 @@ public class MDArrow extends MDAbstractFigure {
 	}
 	
 	public int getEndPosX() {
-		return (Integer) get(PROPERTY_END_POSITION_X);
+		Integer posX = (Integer) get(PROPERTY_END_POSITION_X);
+		return posX == null ? 0 : posX;
 	}
 	
 	public void setEndPosX(int endPosX) {
@@ -63,7 +66,8 @@ public class MDArrow extends MDAbstractFigure {
 	}
 	
 	public int getEndPosY() {
-		return (Integer) get(PROPERTY_END_POSITION_Y);
+		Integer posY = (Integer) get(PROPERTY_END_POSITION_Y);
+		return posY == null ? 0 : posY;
 	}
 	
 	public void setEndPosY(int endPosY) {
@@ -88,8 +92,7 @@ public class MDArrow extends MDAbstractFigure {
 		} else if (PROPERTY_END_POSITION_Y.equals(inputName)) {
 			setEndPosY((Integer) inputValue);
 		}
-		
-		BoardManager.getInstance().updateProps(this);
+		super.processInput(inputName, inputValue);
 	}
 	
 	@Override

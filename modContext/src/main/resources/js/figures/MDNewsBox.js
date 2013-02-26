@@ -1,4 +1,4 @@
-MD.MDNewsBox = Core.extend(Echo.Component, {
+MD.MDNewsBox = Core.extend(MD.MDAbstractFigure, {
 
 	getEditor: function() {
 		return null;
@@ -29,6 +29,7 @@ MD.Sync.MDNewsBox = Core.extend(MD.Sync.MDAbstractFigure, {
 		this._width = this.component.render("width");
 		this._height = this.component.render("height");
         this._figure.setDimension(this._width, this._height);
+        this.installListeners(this._figure);
 		canvas.addFigure(this._figure, x, y);
     },
     
