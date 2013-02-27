@@ -22,13 +22,21 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
     
 	_counter: 0,
 	_tickerText: null,
+	_x: 0,
+	_y: 0,
+	_width: 600,
+	_height: 45,
         
     renderAdd2: function(canvas, x, y) {
+    	this._x = x;
+    	this._y = y;
 		this._figure = new window.draw2d.SetFigure();
 		this._figure.onClick = Core.method(this, this.onClick);
 		this._figure.createSet = Core.method(this, this._createSet);
-		this._figure.onTimer = Core.method(this, this._onTimer);
-		this._figure.setDimension(600, 45);
+		this._figure.onTimer = Core.method(this, this._onTimer);		
+		this._width = this.component.render("width", 600);
+		this._height = this.component.render("height", 45);
+		this._figure.setDimension(this._width, this._height);
 		this.installListeners(this._figure);
 		canvas.addFigure(this._figure, x, y);
 		this._figure.startTimer(100);
@@ -37,7 +45,7 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
     
     _onTimer:function(){
     	this._counter -= 5;
-    	if (this._counter < -270) this._counter = 550;
+    	if (this._counter < -270) this._counter = 750;
     	this._tickerText.attr({'x':this._counter});
     	//this._tickerText.transform("t-4,0");
     },
@@ -46,37 +54,31 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 		var paper = this._parent._canvas.paper; 
 		var set = paper.set();
 
-
-		var rect = paper.rect(0, 0, 600, 30);
+		var w = this._width;
+		var h = this._height;
+		var w1 = 160;  //width of the "UPDATE" text
+		
+		var rect = paper.rect(0, 0, w, h);
 		rect.attr({fill:"#000",stroke:"#000",r:2});
 		set.push(rect);
 
-		var rect2 = paper.rect(480, 20, 120, 25);
-		rect2.attr({fill:"#000",stroke:"000",r:2});
-		set.push(rect2);
-
-		var text = paper.text(8, 14, "UPDATE:");
-       	text.attr({'font-size':20, fill:"#fff", 'text-anchor':"start"});
+		var text = paper.text(10, 20, "UPDATE:");
+       	text.attr({'font-size':30, fill:"#fff", 'text-anchor':"start"});
 		set.push(text);
 
 		var text = this.component.render("text");
-		this._tickerText = paper.text(10, 14, text);
-       	this._tickerText.attr({'font-size':14, fill:"#fff", 'text-anchor':"start", 'font-family':"Sans-Serif", 'clip-rect':"135 0 475 1000"});
+		this._tickerText = paper.text(8, 22, text);
+       	this._tickerText.attr({
+       		'font-size':26, 
+       		fill: "#fff", 
+       		'text-anchor': "start", 
+       		'font-family': "Sans-Serif", 
+       		'clip-rect': (this._x + w1) + " 0 " + (w - w1 - 5) + " 1080"});
 		set.push(this._tickerText);
-		
-		var author = this.component.render("author");
-		var authorText = paper.text(587, 36, author);
-       	authorText.attr({'font-size':10, fill:"#fff", 'text-anchor':"end"});
-		set.push(authorText);
 		
 		var glow = rect.glow();
 		glow.attr({'color': "#000", 'stroke': '#ff7', 'opacity':0.3, 'width':5});
 		set.push(glow);
-
-		//var glow2 = rect2.glow();
-		//glow2.attr({'color': "#000", 'stroke': '#ff7', 'opacity':0.3, 'width':3});
-		//set.push(glow2);
-
 			
         return set;
     }    

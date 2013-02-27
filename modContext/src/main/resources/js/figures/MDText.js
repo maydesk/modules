@@ -7,34 +7,73 @@ MD.MDText = Core.extend(MD.MDAbstractFigure, {
 	$static: {
 		STYLES: [
 			{text:"plain", color:"#ffffff", border:1}, 
-			{text:"h1", color:"#111111", border:1, background: "#5b5b5b", fontWeight: "bold", fontFamily: "Knewave"}, 
-			{text:"h2", color:"#aaaadd", border:2} 
-		]
+			{text:"h1", color:"#ddffff", border:1, fontWeight:"bold", fontFamily: "Syncopate"}, 
+			{text:"h2", color:"#000000", border:2, background: "#dddd66"} 
+		],
+		SIZES: [
+			"10", "12", "14", "16", "20", "24", "32", "48", "64", "80", "120"
+		]		
 	},
 	
 	getEditor: function() {
+		var row = new Echo.Row();
+
 		var lblStyle = new Echo.Label({
 			foreground: 'white',
 			text: 'Style:'
 		});
+		row.add(lblStyle);
 
 		var cboStyle = new Echo.SelectField();			
 		cboStyle.set("items", MD.MDText.STYLES);	
 		cboStyle.set("insets", "-2px");		
 		cboStyle.that = this;
-		cboStyle.addListener("action", this._updateFigure);
-
-		var row = new Echo.Row();
-		row.add(lblStyle);
+		var styleIndex = this.render("type", 0);
+		cboStyle.set("selection", styleIndex);
+		cboStyle.addListener("action", this._updateStyle);
 		row.add(cboStyle);
+
+		var lblSize = new Echo.Label({
+			foreground: 'white',
+			text: 'Size:'
+		});
+		row.add(lblSize);
+
+		var cboSize = new Echo.SelectField();
+		cboSize.set("items", MD.MDText.SIZES);	
+		cboSize.set("insets", "-2px");		
+		cboSize.that = this;
+		cboSize.addListener("action", this._updateSize);
+		row.add(cboSize);
+
+		//find size entry
+		var actualSize = this.render("size", 10);
+		for (var i = 0; i < MD.MDText.SIZES.length; i++) {
+			var size = MD.MDText.SIZES[i];
+			if (actualSize <= size) {
+				cboSize.set("selection", i);
+				break;
+			}		
+		}
+		
 		return row;
 	},
 	
-	 _updateFigure: function(event) {
+	 _updateStyle: function(event) {
 		var selectedIndex = event.source.get("selection");
-		event.source.that.peer.setTypeStyle(selectedIndex);
-		event.source.that.set("type", selectedIndex);
-		event.source.that.fireUpdatePropEvent();
+		var textComponent = event.source.that; 
+		textComponent.peer.setTypeStyle(selectedIndex);
+		textComponent.set("type", selectedIndex);
+		textComponent.fireUpdatePropEvent();
+	},
+
+	 _updateSize: function(event) {
+		var selectedIndex = event.source.get("selection");
+		var textComponent = event.source.that;
+		var size = MD.MDText.SIZES[selectedIndex];
+		console.log(size);
+		textComponent.set("size", size);
+		textComponent.fireUpdatePropEvent();
 	},
 	
 	$load : function() {
@@ -64,8 +103,7 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
       	canvas.addFigure(this._figure, x, y);      	
     },
     
-    setTypeStyle: function(styleIndex) {
-    
+    setTypeStyle: function(styleIndex) {    
     	if (typeof styleIndex === "undefined") styleIndex = 0;
 		var style = MD.MDText.STYLES[styleIndex];
 		var f = this._figure;
@@ -89,8 +127,7 @@ MD.Sync.MDText = Core.extend(MD.Sync.MDAbstractFigure, {
     	MD.Sync.MDAbstractFigure.prototype.renderUpdate.call(this, update);
 		this._figure.setText(this.component.render("text", "type here..."));
 		this._figure.setFontSize(this.component.render("size", 12));
-		this.setTypeStyle(this.component.render("type"));
-		
+		this.setTypeStyle(this.component.render("type"));		
 		return false; // Child elements not supported: safe to return false.
     },
     

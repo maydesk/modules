@@ -3,7 +3,7 @@ if (!Core.get(window, ["MD", "Sync"])) {
 }
 
 WebFontConfig = {
-    google: { families: [ 'Cantarell', 'Knewave' ] }
+    google: { families: [ 'Cantarell', 'Knewave', 'Syncopate' ] }
 };
 (function() {
     var wf = document.createElement('script');
@@ -61,7 +61,8 @@ MD.Sync.MDCanvas = Core.extend(Echo.Render.ComponentSync, {
 
 		//var img = "http://static3.depositphotos.com/1001951/174/i/950/depositphotos_1746717-Graffiti-background.jpg";
 		var img = "http://i.jootix.com/r/Grunge-Sky-grunge-sky-1920x1200.jpg";
-		img = "http://paper-backgrounds.com/textureimages/2012/12/blue-grunge-background-texture-hd.jpg";
+		//img = "http://paper-backgrounds.com/textureimages/2012/12/blue-grunge-background-texture-hd.jpg";
+		img = "http://fc07.deviantart.net/fs28/f/2008/088/d/0/Subway_Map_Wallpaper_by_Envirotechture.jpg";
 		
 		this._node.style.backgroundImage = "url(" + img + ")";
 		this._node.style.backgroundRepeat = "no-repeat";

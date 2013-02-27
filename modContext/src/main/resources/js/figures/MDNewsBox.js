@@ -26,6 +26,7 @@ MD.Sync.MDNewsBox = Core.extend(MD.Sync.MDAbstractFigure, {
 		this._figure.onClick = Core.method(this, this.onClick);
 		this._figure.createSet = Core.method(this, this._createSet);
 		this._figure.setBackgroundColor("#cccccc");
+		this._figure.setAlpha(0.7);
 		this._width = this.component.render("width");
 		this._height = this.component.render("height");
         this._figure.setDimension(this._width, this._height);
@@ -38,19 +39,20 @@ MD.Sync.MDNewsBox = Core.extend(MD.Sync.MDAbstractFigure, {
 		var set = paper.set();
 		
 		var title = this.component.render("title"); 
-		var titleText = paper.text(45, 70, title);
-		titleText.attr({'font-size': 12, 'font-weight': 'bold'});
+		var titleText = paper.text(85, 106, title);
+		titleText.attr({'font-size': 16, 'font-weight': 'bold'});
 		set.push(titleText);
 
 		var lineBreakText = this._lineBreak(this.component.render("text", null));
 		if (lineBreakText) {
-			var text = paper.text(60, 28, lineBreakText);
+			var text = paper.text(90, 48, lineBreakText);
+			text.attr({'font-size': 14});
 			set.push(text);
 		}
 
  		var icon = this.component.render("icon", "");
  		if (icon) {
-			var image = paper.image(Echo.Sync.ImageReference.getUrl(icon), 90, 40, 20, 40);
+			var image = paper.image(Echo.Sync.ImageReference.getUrl(icon), 160, 60, 30, 60);
 			set.push(image);
 		}
 

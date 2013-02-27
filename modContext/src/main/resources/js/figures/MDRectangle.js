@@ -66,6 +66,7 @@ MD.Sync.MDRectangle = Core.extend(MD.Sync.MDAbstractFigure, {
 		this._figure = new window.draw2d.shape.basic.Rectangle(w, h);
 		this._figure.setRadius(5);
 		this._figure.setBackgroundColor(this.component.render("background"));
+		this._figure.setAlpha(this.component.render("alpha", 1));
 		this._figure.setStroke(this.component.render("border"));
 		this.installListeners(this._figure);
 		canvas.addFigure(this._figure, x, y);

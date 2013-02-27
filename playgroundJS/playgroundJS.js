@@ -39,59 +39,154 @@ MyDemoApp = Core.extend(Echo.Application, {
 			zoom: 50,
 			children: [
 				new MD.MDText({
-					positionX: 40,
-					positionY: 20,
-					size: 36,
+					positionX: 30,
+					positionY: 45,
+					size: 20,
+					text: "Receiption",
+					type: 1
+				}),
+				new MD.MDImage({
+					positionX: 30,
+					positionY: 110,
+					src: "http://www.telassistant.com/blog/wp-content/uploads/receptionist_full.jpg",
+					width: 240,
+					height: 226
+				}),
+				new MD.MDText({
+					positionX: 340,
+					positionY: 45,
+					size: 58,
 					text: "Welcome to BARCO Karlsruhe R&D",
 					type: 1
 				}),
+				new MD.MDText({
+					positionX: 20,
+					positionY: 365,
+					size: 32,
+					text: "Press here for info!",
+					type: 2
+				}),
+				
+				new MD.MDImage({
+					positionX: 160,
+					positionY: 490,
+					src: "http://www.broadcastandcablesat.co.in/images/stories/Articles/2009/08/barco_untitled-3.gif",
+					width: 520,
+					height: 392
+				}),
+				
+	
+				
+				
 				new MD.MDNewsTicker({
-					positionX: 30,
-					positionY: 670,
+					positionX: 60,
+					positionY: 970,
+					width: 800,
+					height: 45,
 					text: "Aquariva presentation at AV Fair Amsterdam was a big success!",
 					author: "Robert, 2 hours ago"
 				}),
+				
 				new MD.MDText({
-					positionX: 20,
-					positionY: 65,
-					size: 16,
-					text: "Joke of the day"
+					positionX: 1110,
+					positionY: 190,
+					size: 22,
+					text: "Community Area",
+					type: 1
+				}),				
+				new MD.MDRectangle({
+					positionX: 950,
+					positionY: 250,
+					width: 600,
+					height: 750,
+					background: "#ffffff",
+					alpha: 0.3
+				}),
+				
+				new MD.MDAvatar({
+					positionX: 1200,
+					positionY: 500,
+					src: "img/petra.png",
+					text: "I have birthday today! join breakfast at 9 o'clock at the tee kitchen" 
 				}),
 				new MD.MDImage({
-					positionX: 10,
-					positionY: 90,
+					positionX: 1260,
+					positionY: 510,
+					src: "http://3.bp.blogspot.com/-EmYIhesj4ZQ/UMCFvC-fznI/AAAAAAAACso/wy8ZlXr2U_Y/s1600/birthday+cake+choclate.jpg",
+					width: 140,
+					height: 100
+				}),
+
+				new MD.MDImage({
+					positionX: 1200,
+					positionY: 850,
 					src: "img/dilbert.png",
 					width: 260,
 					height: 90
 				}),
+				new MD.MDArrow({
+					positionX: 1180,
+					positionY: 900,
+					width: -80,
+					height: -50,
+					size: 16
+				}),
 				new MD.MDAvatar({
-					positionX: 310,
-					positionY: 140,
+					positionX: 1050,
+					positionY: 790,
 					src: "img/alex.png",
 					text: "why 'Joke'? - we call that 'Release Planning' ... ;)" 
 				}),
-				new MD.MDArrow({
-					positionX: 270,
-					positionY: 110,
-					width: 50,
-					height: 20,
-					size: 2
+				
+				
+				new MD.MDText({
+					positionX: 1560,
+					positionY: 190,
+					size: 22,
+					text: "What's up at Barco?",
+					type: 1
+				}),				
+				new MD.MDNewsBox({
+					positionX: 1640,
+					positionY: 255,
+					width: 200,
+					height: 120,
+					icon: "img/dept_manag.png",
+					title: "Management",
+					text: "Working on the next generation random buzzword generator"
+				}),
+				new MD.MDNewsBox({
+					positionX: 1640,
+					positionY: 385,
+					width: 200,
+					height: 120,
+					icon: "img/dept_tech.png",
+					title: "Research",
+					text: "Pushing hard for MVD release, targeting mid of February for delivery"
+				}),				
+				new MD.MDNewsBox({
+					positionX: 1640,
+					positionY: 515,
+					width: 200,
+					height: 120,
+					icon: "img/dept_sales.png",
+					title: "Sales",
+					text: "We are receiving many pre-orders for 2x2 MVD panels, so lets just get them delivered"
+				}),
+				new MD.MDNewsBox({
+					positionX: 1640,
+					positionY: 645,
+					width: 200,
+					height: 120,
+					icon: "img/dept_dev.png",
+					title: "Service",
+					text: "The liquid cooling problem seems to be under control - thanks God!"
 				}),
 				
-				new MD.MDAvatar({
-					positionX: 200,
-					positionY: 300,
-					src: "img/petra.png",
-					text: "I have birthday today! join breakfast at 9 o'clock at the tee kitchen" 
-				}),
-
-				new MD.MDImage({
-					positionX: 250,
-					positionY: 300,
-					src: "img/birthday.png",
-					width: 80,
-					height: 80
-				}),
+				
+	
+	
+	
 				new MD.MDText({
 					positionX: 850,
 					positionY: 10,
@@ -103,62 +198,14 @@ MyDemoApp = Core.extend(Echo.Application, {
 					positionX: 825,
 					positionY: 35
 				}),
-				new MD.MDText({
-					positionX: 860,
-					positionY: 170,
-					size: 14,
-					text: "Team Activities",
-					type: 2
-				}),
-				new MD.MDNewsBox({
-					positionX: 790,
-					positionY: 205,
-					width: 120,
-					height: 80,
-					icon: "img/dept_manag.png",
-					title: "Management",
-					text: "Working on the next generation random buzzword generator"
-				}),
-				new MD.MDNewsBox({
-					positionX: 915,
-					positionY: 205,
-					width: 120,
-					height: 80,
-					icon: "img/dept_tech.png",
-					title: "BCMC",
-					text: "Pushing hard for MVD release, targeting mid of February for delivery"
-				}),				
-				new MD.MDNewsBox({
-					positionX: 790,
-					positionY: 290,
-					width: 120,
-					height: 80,
-					icon: "img/dept_sales.png",
-					title: "Sales",
-					text: "We are receiving many pre-orders for 2x2 MVD panels, so lets just get them delivered"
-				}),
-				new MD.MDNewsBox({
-					positionX: 915,
-					positionY: 290,
-					width: 120,
-					height: 80,
-					icon: "img/dept_dev.png",
-					title: "Service",
-					text: "The liquid cooling problem seems to be under control - thanks God!"
-				}),
+
 				new MD.MDImage({
-					positionX: 1711,
-					positionY: 870,
+					positionX: 1701,
+					positionY: 840,
 					src: "img/barco.png",
 					width: 209,
 					height: 210
-				})				
-				//About this wall
-				//This wall is intended for exploring new appplication cases
-				//for ...
-				//Hardware is getting more and more commoditized. That is
-				//why Barco needs to focus more on services, system integration
-				//and innovation beyond the product   
+				})
 			]
 		});
 		
