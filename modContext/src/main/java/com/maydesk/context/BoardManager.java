@@ -70,15 +70,15 @@ public class BoardManager {
 		text.setId(BoardManager.getNextId());
 		demoCanvas.add(text);
 		
-		text = new MDText(20, 65, "Joke of the day", 0, 16);
+		text = new MDText(20, 65, "Joke of the day", 0, 32);
 		text.setId(BoardManager.getNextId());
 		demoCanvas.add(text);
 		
-		MDImage img = new MDImage(10, 90, 260, 90, "img/demo/dilbert.png");
+		MDImage img = new MDImage(10, 90, 520, 180, "img/demo/dilbert.png");
 		img.setId(BoardManager.getNextId());
 		demoCanvas.add(img);
 		
-		MDArrow arrow = new MDArrow(270, 110, 50, 20, 2);
+		MDArrow arrow = new MDArrow(590, 110, 100, 40, 20);
 		arrow.setId(BoardManager.getNextId());
 		demoCanvas.add(arrow);
 		
@@ -134,31 +134,14 @@ public class BoardManager {
 		newsTicker.setAuthor("Robert, 2 hours ago");
 		demoCanvas.add(newsTicker);
 		
-//		MDAvatar avatar = new MDAvatar();
-//		avatar.setImage(new ResourceImageReference("img/silhouette-male.gif"));
-//		avatar.setText("Hello World!");
-//		avatar.setPositionX(220);
-//		avatar.setPositionY(260);
-//		demoCanvas.add(avatar);
-//
-//		MDRectangle rect = new MDRectangle();
-//		rect.setId(getNextId());
-//		rect.setPositionX(200);
-//		rect.setPositionY(200);
-//		demoCanvas.add(rect);
+
 ////
 ////		WebcamReceiver webcam = new WebcamReceiver();
 ////		webcam.setPositionX(10);
 ////		webcam.setPositionY(50);
 ////		TEST_SINGLETON_CANVAS.add(webcam);
 //
-//		MDImage img = new MDImage();
-//		img.setPositionX(1711);
-//		img.setPositionY(870);
-//		img.setImage(new ResourceImageReference("img/barco.png"));
-//		img.setWidth(new Extent(209));
-//		img.setHeight(new Extent(210));
-//		demoCanvas.add(img);
+
 	}
 	
 	public void addFigure(final MDAbstractFigure fig) {

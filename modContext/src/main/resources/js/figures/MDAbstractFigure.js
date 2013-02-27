@@ -14,17 +14,6 @@ MD.MDAbstractFigure = Core.extend(Echo.Component, {
 
 	fireUpdatePropEvent: function() {
 	    this.fireEvent({type: "async_updateProps", source: this});
-	},
-	
-	setPosition: function(x, y) {
-		this.set("positionX", x);
-		this.set("positionY", y);
-	},
-	
-	setDimension: function(width, height) {
-		this.set("width", width);
-		this.set("height", height);
-		this.fireUpdatePropEvent();
 	}
 });
 
@@ -34,6 +23,8 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
  	$abstract: true,
  	_parent: null,
  	_commandEventListener: null,
+ 	_ignoreUpdatesTill: 0,  //time in milliseconds, helps avoiding flickers, 
+ 	
  	
  	$virtual: {
  		_figure: null
@@ -77,6 +68,11 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
     },
     
     renderUpdate: function(update) {
+    	if (this._ignoreUpdatesTill > new Date().getTime()) {
+    		//update is most probably triggered by self, ignore for avoiding flicker
+    		return;
+    	}
+    
     	var x = this.component.render("positionX");
 		var y = this.component.render("positionY");
 		this._figure.setPosition(x, y);
@@ -96,6 +92,7 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
     },
     
     onDrag: function(figure) {
+		this._ignoreUpdatesTill = new Date().getTime() + 1000;
 		this.component.set('positionX', figure.getX());
 		this.component.set('positionY', figure.getY());
   		this.component.fireMoveEvent();

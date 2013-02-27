@@ -138,15 +138,18 @@ MD.Sync.MDArrow = Core.extend(MD.Sync.MDAbstractFigure, {
 		this._figure.setPosition(x0, y0);
 		this._figure.setDimension(xs, ys);
 
-		this.component.setPosition(x0, y0);
+		this.component.set("positionX", x0);
+		this.component.set("positionY", y0);
 		this.component.set("startPosX", this.startCircle.getX());
 		this.component.set("startPosY", this.startCircle.getY());
 		
 		this.component.set("endPosX", this.endCircle.getX());
 		this.component.set("endPosY", this.endCircle.getY());
 		
-		if (!isNaN(xs) && !isNaN(ys)) {	
-			this.component.setDimension(xs, ys);
+		if (!isNaN(xs) && !isNaN(ys)) {
+			this.component.set("width", xs);
+			this.component.set("height", ys);
+			this.component.fireUpdatePropEvent();
 		}
 	},
 	
