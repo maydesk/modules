@@ -79,9 +79,7 @@ MD.Sync.MDAbstractFigure = Core.extend(Echo.Render.ComponentSync, {
 		
 		var w = this.component.render("width");
 		var h = this.component.render("height");
-		if (!isNaN(w)) {
-			this._figure.setDimension(w, h);
-		}
+		this._figure.setDimension(Echo.Sync.Extent.toPixels(w, true), Echo.Sync.Extent.toPixels(h, false));
     	
 		return false; // Child elements not supported: safe to return false.
     },
