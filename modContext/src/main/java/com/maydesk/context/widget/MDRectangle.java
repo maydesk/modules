@@ -11,6 +11,7 @@ import com.maydesk.context.BoardManager;
 public class MDRectangle extends MDAbstractFigure {
 
 	public static final String PROPERTY_BORDER = "border";
+	public static final String PROPERTY_ALPHA = "alpha";
 
 	public MDRectangle() {
 		setBackground(Color.DARKGRAY);
@@ -41,5 +42,15 @@ public class MDRectangle extends MDAbstractFigure {
 		super.syncClone(figClone);
 		MDRectangle rectClone = (MDRectangle)figClone;
 		rectClone.setBorder(getBorder());
+		rectClone.setAlpha(getAlpha());
+	}
+
+	public double getAlpha() {
+		Double d = (Double)get(PROPERTY_ALPHA);
+		return d == null ? 1 : d;
+	}
+	
+	public void setAlpha(double alpha) {
+		set(PROPERTY_ALPHA, alpha);		
 	}
 }

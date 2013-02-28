@@ -24,7 +24,7 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 	_tickerText: null,
 	_x: 0,
 	_y: 0,
-	_width: 600,
+	_width: 800,
 	_height: 45,
         
     renderAdd2: function(canvas, x, y) {
@@ -34,8 +34,8 @@ MD.Sync.MDNewsTicker = Core.extend(MD.Sync.MDAbstractFigure, {
 		this._figure.onClick = Core.method(this, this.onClick);
 		this._figure.createSet = Core.method(this, this._createSet);
 		this._figure.onTimer = Core.method(this, this._onTimer);		
-		this._width = this.component.render("width", 600);
-		this._height = this.component.render("height", 45);
+		//this._width = this.component.render("width", 800);
+		//this._height = this.component.render("height", 45);
 		this._figure.setDimension(this._width, this._height);
 		this.installListeners(this._figure);
 		canvas.addFigure(this._figure, x, y);

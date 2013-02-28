@@ -41,7 +41,7 @@ MD.Sync.MDWebcam2Receiver = Core.extend(MD.Sync.MDAbstractFigure, {
      	var videoId = "video_" + Math.floor(Math.random() * (10000));
      	console.log("videoId: " + videoId);
      	
-		var infobox = new Infobox(canvas.paper, {x:20, y:50, width:200, height:150, rounding:6});
+		var infobox = new Infobox(canvas.paper, {x:20, y:100, width:260, height:213, rounding:6});
 		var html = "<video width='100%' height='100%' id='" + videoId + "' />";  
 		infobox.div.html(html);
 		this._remoteVideo = document.getElementById(videoId);

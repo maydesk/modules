@@ -42,7 +42,7 @@ MyDemoApp = Core.extend(Echo.Application, {
 					positionX: 30,
 					positionY: 45,
 					size: 20,
-					text: "Receiption",
+					text: "Reception",
 					type: 1
 				}),
 				new MD.MDImage({
@@ -74,10 +74,7 @@ MyDemoApp = Core.extend(Echo.Application, {
 					width: 520,
 					height: 392
 				}),
-				
-	
-				
-				
+								
 				new MD.MDNewsTicker({
 					positionX: 60,
 					positionY: 970,

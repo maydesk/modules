@@ -2,7 +2,9 @@ package com.maydesk.context;
 
 import java.util.HashMap;
 
+import nextapp.echo.app.Color;
 import nextapp.echo.app.Component;
+import nextapp.echo.app.Extent;
 import nextapp.echo.app.ResourceImageReference;
 
 import com.maydesk.base.PDApplicationInstance;
@@ -13,6 +15,7 @@ import com.maydesk.context.widget.MDCanvas;
 import com.maydesk.context.widget.MDImage;
 import com.maydesk.context.widget.MDNewsBox;
 import com.maydesk.context.widget.MDNewsTicker;
+import com.maydesk.context.widget.MDRectangle;
 import com.maydesk.context.widget.MDText;
 
 public class BoardManager {
@@ -65,74 +68,101 @@ public class BoardManager {
 	 */
 	private void createDemoBoard() {
 		MDCanvas demoCanvas = createBoard("demo1", false, PDApplicationInstance.getActivePD());
-		
-		MDText text = new MDText(40, 20, "Welcome to Barco Karlsruhe R&D", 1, 40);
+
+		MDText text = new MDText(30, 45, "Reception", 1, 20);
 		text.setId(BoardManager.getNextId());
 		demoCanvas.add(text);
-		
-		text = new MDText(20, 65, "Joke of the day", 0, 32);
-		text.setId(BoardManager.getNextId());
-		demoCanvas.add(text);
-		
-		MDImage img = new MDImage(10, 90, 520, 180, "img/demo/dilbert.png");
+
+		MDImage img = new MDImage(30, 115, 240, 183, "img/demo/receptionist_full.jpg");
 		img.setId(BoardManager.getNextId());
 		demoCanvas.add(img);
 		
-		MDArrow arrow = new MDArrow(590, 110, 100, 40, 20);
-		arrow.setId(BoardManager.getNextId());
-		demoCanvas.add(arrow);
+		text = new MDText(340, 45, "Welcome to Barco Karlsruhe R&D", 1, 58);
+		text.setId(BoardManager.getNextId());
+		demoCanvas.add(text);
+		
+		text = new MDText(20, 335, "Press here for info!", 2, 24);
+		text.setId(BoardManager.getNextId());
+		demoCanvas.add(text);
+		
+		img = new MDImage(160, 490, 520, 362, "img/demo/barco_untitled-3.gif");
+		img.setId(BoardManager.getNextId());
+		demoCanvas.add(img);
+		
+		MDNewsTicker newsTicker = new MDNewsTicker();
+		newsTicker.setId(BoardManager.getNextId());
+		newsTicker.setPositionX(60);
+		newsTicker.setPositionY(970);
+		newsTicker.setText("Aquariva presentation at AV Fair Amsterdam was a big success!");
+		newsTicker.setAuthor("Robert, 2 hours ago");
+		demoCanvas.add(newsTicker);
+		
+		
+		text = new MDText(1110, 190, "Community Area", 1, 22);
+		text.setId(BoardManager.getNextId());
+		demoCanvas.add(text);
+		
+		MDRectangle rect = new MDRectangle();
+		rect.setPositionX(950);
+		rect.setPositionY(250);
+		rect.setWidth(new Extent(600));
+		rect.setHeight(new Extent(750));
+		rect.setBackground(Color.WHITE);
+		rect.setAlpha(0.3);
+		rect.setId(BoardManager.getNextId());
+		demoCanvas.add(rect);
 		
 		MDAvatar avatar = new MDAvatar();
 		avatar.setId(BoardManager.getNextId());
-		avatar.setPositionX(310);
-		avatar.setPositionY(140);
+		avatar.setPositionX(1200);
+		avatar.setPositionY(500);
+		avatar.setText("I have birthday today! join breakfast at 9 o'clock at the tee kitchen");
+		avatar.setImage(new ResourceImageReference("img/demo/petra.png"));
+		demoCanvas.add(avatar);
+
+		img = new MDImage(1260, 510, 140, 100, "img/demo/birthday.jpg");
+		img.setId(BoardManager.getNextId());
+		demoCanvas.add(img);
+		
+		img = new MDImage(1200, 850, 260, 90, "img/demo/dilbert.png");
+		img.setId(BoardManager.getNextId());
+		demoCanvas.add(img);
+		
+		MDArrow arrow = new MDArrow(1180, 900, -80, -50, 16);
+		arrow.setId(BoardManager.getNextId());
+		demoCanvas.add(arrow);
+		
+		avatar = new MDAvatar();
+		avatar.setId(BoardManager.getNextId());
+		avatar.setPositionX(1050);
+		avatar.setPositionY(790);
 		avatar.setText("why 'Joke'? - we call that 'Release Planning' ... ;)");
 		avatar.setImage(new ResourceImageReference("img/demo/alex.png"));
 		demoCanvas.add(avatar);
 		
-		avatar = new MDAvatar();
-		avatar.setId(BoardManager.getNextId());
-		avatar.setPositionX(200);
-		avatar.setPositionY(300);
-		avatar.setText("I have birthday today! join breakfast at 9 o'clock at the tee kitchen");
-		avatar.setImage(new ResourceImageReference("img/demo/petra.png"));
-		demoCanvas.add(avatar);
-		
-		img = new MDImage(250, 300, 80, 80, "img/demo/birthday.png");
-		img.setId(BoardManager.getNextId());
-		demoCanvas.add(img);
-
-		img = new MDImage(1711, 870, 209, 210, "img/demo/barco.png");
-		img.setId(BoardManager.getNextId());
-		demoCanvas.add(img);
-		
-		text = new MDText(860, 170, "Team Activities", 2, 14);
+		text = new MDText(1560, 190, "What's up at Barco?", 1, 22);
 		text.setId(BoardManager.getNextId());
 		demoCanvas.add(text);
-		
-		MDNewsBox newsBox = new MDNewsBox(790, 205, 120, 80, "img/demo/dept_manag.png", "Management", "Working on the next generation random buzzword generator");
+				
+		MDNewsBox newsBox = new MDNewsBox(1640, 255, 200, 120, "img/demo/dept_manag.png", "Management", "Working on the next generation random buzzword generator");
 		newsBox.setId(BoardManager.getNextId());
 		demoCanvas.add(newsBox);
 		
-		newsBox = new MDNewsBox(915, 205, 120, 80, "img/demo/dept_manag.png", "Management", "Pushing hard for MVD release, targeting mid of February for delivery");
+		newsBox = new MDNewsBox(1640, 385, 200, 120, "img/demo/dept_tech.png", "Research", "Pushing hard for MVD release, targeting mid of February for delivery");
 		newsBox.setId(BoardManager.getNextId());
 		demoCanvas.add(newsBox);
 		
-		newsBox = new MDNewsBox(790, 290, 120, 80, "img/demo/dept_sales.png", "Sales", "We are receiving many pre-orders for 2x2 MVD panels, so lets just get them delivered");
+		newsBox = new MDNewsBox(1640, 515, 200, 120, "img/demo/dept_sales.png", "Sales", "We are receiving many pre-orders for 2x2 MVD panels, so lets just get them delivered");
 		newsBox.setId(BoardManager.getNextId());
 		demoCanvas.add(newsBox);
 		
-		newsBox = new MDNewsBox(915, 290, 120, 80, "img/demo/dept_dev.png", "Service", "The liquid cooling problem seems to be under control - thanks God!");
+		newsBox = new MDNewsBox(1640, 645, 200, 120, "img/demo/dept_dev.png", "Service", "The liquid cooling problem seems to be under control - thanks God!");
 		newsBox.setId(BoardManager.getNextId());
 		demoCanvas.add(newsBox);
-
-		MDNewsTicker newsTicker = new MDNewsTicker();
-		newsTicker.setId(BoardManager.getNextId());
-		newsTicker.setPositionX(30);
-		newsTicker.setPositionY(670);
-		newsTicker.setText("Aquariva presentation at AV Fair Amsterdam was a big success!");
-		newsTicker.setAuthor("Robert, 2 hours ago");
-		demoCanvas.add(newsTicker);
+		
+		img = new MDImage(1701, 860, 209, 210, "img/demo/barco.png");
+		img.setId(BoardManager.getNextId());
+		demoCanvas.add(img);
 		
 
 ////

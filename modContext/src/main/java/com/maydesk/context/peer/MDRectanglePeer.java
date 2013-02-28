@@ -43,6 +43,8 @@ public class MDRectanglePeer extends MDAbstractFigurePeer {
 			return Integer.class;
 		} else if (MDRectangle.PROPERTY_BACKGROUND.equals(propertyName)) {
 			return Color.class;
+		} else if (MDRectangle.PROPERTY_ALPHA.equals(propertyName)) {
+			return Double.class;
 		} else {
 			return super.getInputPropertyClass(propertyName);
 		}

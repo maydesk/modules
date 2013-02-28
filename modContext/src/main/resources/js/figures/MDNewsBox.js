@@ -23,13 +23,12 @@ MD.Sync.MDNewsBox = Core.extend(MD.Sync.MDAbstractFigure, {
 	
 	renderAdd2: function(canvas, x, y) {
 		this._figure = new window.draw2d.SetFigure();
-		this._figure.onClick = Core.method(this, this.onClick);
-		this._figure.createSet = Core.method(this, this._createSet);
-		this._figure.setBackgroundColor("#cccccc");
-		this._figure.setAlpha(0.7);
 		this._width = this.component.render("width");
 		this._height = this.component.render("height");
-        this._figure.setDimension(this._width, this._height);
+		this._figure.onClick = Core.method(this, this.onClick);
+		this._figure.createSet = Core.method(this, this._createSet);
+		this._figure.setDimension(this._width, this._height);
+        
         this.installListeners(this._figure);
 		canvas.addFigure(this._figure, x, y);
     },
@@ -38,21 +37,26 @@ MD.Sync.MDNewsBox = Core.extend(MD.Sync.MDAbstractFigure, {
 		var paper = this._parent._canvas.paper; 
 		var set = paper.set();
 		
-		var title = this.component.render("title"); 
-		var titleText = paper.text(85, 106, title);
-		titleText.attr({'font-size': 16, 'font-weight': 'bold'});
-		set.push(titleText);
-
+		var rect = paper.rect(0, 0, this._width, this._height);
+		rect.attr({fill:"#fff",stroke:"#fff",r:8,opacity:0.5 });
+		set.push(rect);
+		
 		var lineBreakText = this._lineBreak(this.component.render("text", null));
 		if (lineBreakText) {
-			var text = paper.text(90, 48, lineBreakText);
-			text.attr({'font-size': 14});
+			var text = paper.text(90, 50, lineBreakText);
+			text.attr({'font-size': 18});
 			set.push(text);
 		}
 
+		var title = this.component.render("title"); 
+		var titleText = paper.text(90, 100, title);
+		titleText.attr({'font-size': 22, 'font-weight': 'bold'});
+		set.push(titleText);
+
+
  		var icon = this.component.render("icon", "");
  		if (icon) {
-			var image = paper.image(Echo.Sync.ImageReference.getUrl(icon), 160, 60, 30, 60);
+			var image = paper.image(Echo.Sync.ImageReference.getUrl(icon), 165, 60, 30, 60);
 			set.push(image);
 		}
 
