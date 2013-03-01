@@ -115,22 +115,22 @@ MyDemoApp = Core.extend(Echo.Application, {
 				}),
 
 				new MD.MDImage({
-					positionX: 1200,
+					positionX: 1000,
 					positionY: 850,
 					src: "img/dilbert.png",
 					width: 260,
 					height: 90
 				}),
 				new MD.MDArrow({
-					positionX: 1180,
+					positionX: 1270,
 					positionY: 900,
-					width: -80,
-					height: -50,
-					size: 16
+					width: 80,
+					height: 50,
+					size: 12
 				}),
 				new MD.MDAvatar({
-					positionX: 1050,
-					positionY: 790,
+					positionX: 1360,
+					positionY: 930,
 					src: "img/alex.png",
 					text: "why 'Joke'? - we call that 'Release Planning' ... ;)" 
 				}),

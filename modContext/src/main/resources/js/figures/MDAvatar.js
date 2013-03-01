@@ -22,7 +22,7 @@ MD.Sync.MDAvatar = Core.extend(MD.Sync.MDAbstractFigure, {
 		this._figure = new window.draw2d.SetFigure();
 		this._figure.onClick = Core.method(this, this.onClick);
 		this._figure.createSet = Core.method(this, this._createSet);
-        this._figure.setDimension(40, 40);
+        this._figure.setDimension(180, 120);
         this.installListeners(this._figure);
 		canvas.addFigure(this._figure, x, y);
     },
@@ -37,13 +37,13 @@ MD.Sync.MDAvatar = Core.extend(MD.Sync.MDAbstractFigure, {
 
 		var srcText = this.component.render("text");
 		if (srcText && srcText != "") {
+			//determine the size of the text
 			var lineBreakText = this._lineBreak(srcText);
 			var text = paper.text(0, 0, lineBreakText);
 			var w = text.getBBox().width + 10;
 			var h = text.getBBox().height + 5;
-			text.attr({'x': 25 + w/2, 'y': -20 - h/2, 'stroke': '#000'});
-			set.push(text);
 	
+			//the bubble
 			var p = "M30,0";
 			p += "L35,-20";
 			p += "L25,-20";
@@ -55,8 +55,9 @@ MD.Sync.MDAvatar = Core.extend(MD.Sync.MDAbstractFigure, {
 			path.attr({stroke: '#ff7', 'fill': '#ff7', 'opacity':0.85});
 			set.push(path);
 			
+			//glowing yellow border
 			var glow = path.glow();
-			glow.attr({'color': "#000", 'stroke': '#ff7', 'opacity':0.3, 'width':5});
+			glow.attr({'color': "#000", 'stroke': '#ff7', 'opacity':0.3, 'width':4});
 			set.push(glow);
 			
 			var text2 = paper.text(0, 0, lineBreakText);

@@ -69,11 +69,11 @@ public class BoardManager {
 	private void createDemoBoard() {
 		MDCanvas demoCanvas = createBoard("demo1", false, PDApplicationInstance.getActivePD());
 
-		MDText text = new MDText(30, 45, "Reception", 1, 20);
+		MDText text = new MDText(30, 60, "Reception", 1, 28);
 		text.setId(BoardManager.getNextId());
 		demoCanvas.add(text);
 
-		MDImage img = new MDImage(30, 115, 240, 183, "img/demo/receptionist_full.jpg");
+		MDImage img = new MDImage(30, 115, 300, 229, "img/demo/receptionist_full.jpg");
 		img.setId(BoardManager.getNextId());
 		demoCanvas.add(img);
 		
@@ -81,7 +81,7 @@ public class BoardManager {
 		text.setId(BoardManager.getNextId());
 		demoCanvas.add(text);
 		
-		text = new MDText(20, 335, "Press here for info!", 2, 24);
+		text = new MDText(20, 355, "Press here to talk!", 2, 24);
 		text.setId(BoardManager.getNextId());
 		demoCanvas.add(text);
 		
@@ -124,18 +124,18 @@ public class BoardManager {
 		img.setId(BoardManager.getNextId());
 		demoCanvas.add(img);
 		
-		img = new MDImage(1200, 850, 260, 90, "img/demo/dilbert.png");
+		img = new MDImage(1000, 850, 260, 90, "img/demo/dilbert.png");
 		img.setId(BoardManager.getNextId());
 		demoCanvas.add(img);
 		
-		MDArrow arrow = new MDArrow(1180, 900, -80, -50, 16);
+		MDArrow arrow = new MDArrow(1270, 900, 80, 50, 16);
 		arrow.setId(BoardManager.getNextId());
 		demoCanvas.add(arrow);
 		
 		avatar = new MDAvatar();
 		avatar.setId(BoardManager.getNextId());
-		avatar.setPositionX(1050);
-		avatar.setPositionY(790);
+		avatar.setPositionX(1360);
+		avatar.setPositionY(930);
 		avatar.setText("why 'Joke'? - we call that 'Release Planning' ... ;)");
 		avatar.setImage(new ResourceImageReference("img/demo/alex.png"));
 		demoCanvas.add(avatar);
