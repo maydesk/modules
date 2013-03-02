@@ -130,7 +130,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 		context.setTitle("My Context - click on me!");
 		init2();
 
-		final MDCanvas demoCanvas = BoardManager.getInstance().createBoard("demo1", false, PDApplicationInstance.getActivePD());
+		final MDCanvas demoCanvas = BoardManager.getInstance().createOrCloneBoard("demo1", PDApplicationInstance.getActivePD());
 		demoCanvas.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
@@ -161,7 +161,7 @@ public class MDContext extends Component implements IInnerContainer, IPlugTarget
 			canvas.add(figure);
 			TEST_SINGLETON_TOOLBAR.setSelectedToolClass(null);
 
-			BoardManager.getInstance().addFigure(figure);
+			BoardManager.getInstance().addFigure(canvas, figure);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

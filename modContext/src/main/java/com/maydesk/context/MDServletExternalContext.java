@@ -51,7 +51,7 @@ public class MDServletExternalContext extends WebContainerServlet {
 				ContentPane pane = new ContentPane();
 				window.setContent(pane);
 
-				MDCanvas board = BoardManager.getInstance().createBoard("demo1", true, TEST_APP_INSTANCE);
+				MDCanvas board = BoardManager.getInstance().createOrCloneBoard("demo1", TEST_APP_INSTANCE);
 				board.setZoomable(false);
 				pane.add(board);
 

@@ -36,25 +36,24 @@ public class BoardManager {
 		createDemoBoard();
 	}
 	
-	public MDCanvas createBoard(String boardId, boolean clone, PDApplicationInstance appInst) {
+	public MDCanvas createOrCloneBoard(String boardId, PDApplicationInstance appInst) {
 		BoardInstances boardInstances = boards.get(boardId);
 		if (boardInstances == null) {
-			boardInstances = new BoardInstances(boardId, new MDCanvas());
+			boardInstances = new BoardInstances(boardId);
 			boards.put(boardId, boardInstances);
 		}
-		MDCanvas original = boardInstances.getOriginal();
-		if (clone) {
-			//create a clone from the original
-			MDCanvas cloneBoard = new MDCanvas();
-			for (Component c : original.getComponents()) {
+		//create a clone from the original
+		MDCanvas board = new MDCanvas();
+		MDCanvas master = boardInstances.getMaster();
+		if (master != null) {
+			for (Component c : master.getComponents()) {
 				MDAbstractFigure fig = (MDAbstractFigure)c;
 				MDAbstractFigure cloneFig = fig.clone();
-				cloneBoard.add(cloneFig);				
+				board.add(cloneFig);				
 			}
-			boardInstances.addClone(appInst, cloneBoard);
-			return cloneBoard;
 		}
-		return original;
+		boardInstances.addClone(appInst, board);
+		return board;
 	}
 	
 	private static int id = 1;
@@ -67,7 +66,7 @@ public class BoardManager {
 	 * just for demo...
 	 */
 	private void createDemoBoard() {
-		MDCanvas demoCanvas = createBoard("demo1", false, PDApplicationInstance.getActivePD());
+		MDCanvas demoCanvas = createOrCloneBoard("demo1", PDApplicationInstance.getActivePD());
 
 		MDText text = new MDText(30, 60, "Reception", 1, 28);
 		text.setId(BoardManager.getNextId());
@@ -174,14 +173,14 @@ public class BoardManager {
 
 	}
 	
-	public void addFigure(final MDAbstractFigure fig) {
+	public void addFigure(MDCanvas canvas, MDAbstractFigure fig) {
 		BoardInstances boardInstances = boards.get("demo1");
-		boardInstances.addCloneFigure(fig);
+		boardInstances.addFigureToOtherInstances(canvas, fig);
 	}
 
 
 	public void updateProps(MDAbstractFigure fig) {
 		BoardInstances boardInstances = boards.get("demo1");
-		boardInstances.updateCloneProps(fig);
+		boardInstances.updateOtherInstances(fig);
 	}
 }
